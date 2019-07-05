@@ -28,26 +28,13 @@ import android.widget.TextView;
 
 import com.genealogy.by.R;
 import com.genealogy.by.activity.PerfectingInformationActivity;
-import com.genealogy.by.entity.Person;
-import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.fragment.shupu.ShuPuFragment;
-import com.genealogy.by.utils.SPHelper;
-import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.view.FamilyTreeView;
-import com.vise.xsnow.http.ViseHttp;
-import com.vise.xsnow.http.callback.ACallback;
-import com.vise.xsnow.http.mode.CacheMode;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseFragment;
-import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
@@ -85,7 +72,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
     public void initView(Bundle savedInstanceState) {
         woziji = mContentView.findViewById(R.id.woziji);
         shupuRadioButton = mContentView.findViewById(R.id.shupuRadioButton);
-        contentShupuView=mContentView.findViewById(R.id.contentShupuView);
+        contentShupuView = mContentView.findViewById(R.id.contentShupuView);
         mFragments = new ArrayList<>(3);
         mFragments.add(ShuPuFragment.newInstance("父系"));
         mFragments.add(ShuPuFragment.newInstance("近亲"));
@@ -105,6 +92,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         };
         setStatusBar();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -112,6 +100,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
                 break;
         }
     }
+
     //layout改变监听
     private void setStatusBar() {
         Window window = mContext.getWindow();
@@ -123,68 +112,47 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         }
         window.getDecorView().setFitsSystemWindows(true);
     }
+
     PopupWindow popupWindow;
+
     private void showPopupWindow(View view) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popup, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1 );//背景图
-        TextView invitation = (TextView) contentView.findViewById(R.id.invitation );
-        TextView relationship = (TextView) contentView.findViewById(R.id.relationship );
-        TextView details = (TextView) contentView.findViewById(R.id.details );
-        TextView core = (TextView) contentView.findViewById(R.id.core );
-        TextView add = (TextView) contentView.findViewById(R.id.add );
-        TextView edit = (TextView) contentView.findViewById(R.id.edit );
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
-            }
+        RelativeLayout ll = contentView.findViewById(R.id.ll1);//背景图
+        TextView invitation = contentView.findViewById(R.id.invitation);
+        TextView relationship = contentView.findViewById(R.id.relationship);
+        TextView details = contentView.findViewById(R.id.details);
+        TextView core = contentView.findViewById(R.id.core);
+        TextView add = contentView.findViewById(R.id.add);
+        TextView edit = contentView.findViewById(R.id.edit);
+        ll.setOnClickListener(view1 -> popupWindow.dismiss());
+        invitation.setOnClickListener(v -> {
+            ToastUtil.show("点击邀请");
+            popup(v);
+            popupWindow.dismiss();
         });
-        invitation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("点击邀请");
-                popup(v);
-                popupWindow.dismiss();
-            }
-        });
-        relationship.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        relationship.setOnClickListener(v -> {
 
-            }
         });
-        details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        details.setOnClickListener(v -> {
 
-            }
         });
-        core.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        core.setOnClickListener(v -> {
 
-            }
         });
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("点击添加");
-                popupWindow.dismiss();
-                showPopupWindowAdd(v);
-            }
+        add.setOnClickListener(v -> {
+            ToastUtil.show("点击添加");
+            popupWindow.dismiss();
+            showPopupWindowAdd(v);
         });
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("点击编辑");
-                popupWindow.dismiss();
-                showPopupWindowEdit(v);
-            }
+        edit.setOnClickListener(v -> {
+            ToastUtil.show("点击编辑");
+            popupWindow.dismiss();
+            showPopupWindowEdit(v);
         });
-         popupWindow = new PopupWindow(contentView,  WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         popupWindow.setOnDismissListener(new popupDismissListener());
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -194,7 +162,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         popupWindow.showAsDropDown(contentView);
     }
 
-    private void showNormalDialog(){
+    private void showNormalDialog() {
         /* @setIcon 设置对话框图标
          * @setTitle 设置对话框标题
          * @setMessage 设置对话框消息提示
@@ -221,39 +189,39 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         normalDialog.show();
     }
 
-    public void popup(View view){
-        if(popupWindow2 == null){
+    public void popup(View view) {
+        if (popupWindow2 == null) {
             initPopup();
         }
-        if(!mIsShowing){
+        if (!mIsShowing) {
 //            params.alpha= 0.3f;
 //            mContext.getWindow().setAttributes(params);
-            popupWindow2.showAtLocation(mContentView.findViewById(R.id.layout_main), Gravity.BOTTOM,0,0);
+            popupWindow2.showAtLocation(mContentView.findViewById(R.id.layout_main), Gravity.BOTTOM, 0, 0);
             mIsShowing = true;
         }
     }
 
     private void initPopup() {
         View pop = View.inflate(mContext, R.layout.keyboard, null);
-        RelativeLayout ll = (RelativeLayout) pop.findViewById(R.id.ll1 );//背景图
+        RelativeLayout ll = (RelativeLayout) pop.findViewById(R.id.ll1);//背景图
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow2.dismiss();
             }
         });
-        popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow2.setTouchable(true);
         popupWindow2.setOutsideTouchable(false);
         popupWindow2.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         mIsShowing = false;
     }
 
-    public void dismiss(View view){
-        if(popupWindow2 != null &&mIsShowing){
+    public void dismiss(View view) {
+        if (popupWindow2 != null && mIsShowing) {
             popupWindow2.dismiss();
             mIsShowing = false;
-            params.alpha= 1f;
+            params.alpha = 1f;
             mContext.getWindow().setAttributes(params);
         }
     }
@@ -263,13 +231,13 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupadd, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1 );//背景图
-        LinearLayout fuqin = (LinearLayout) contentView.findViewById(R.id.ll_fuqin );//父亲
-        LinearLayout muqin = (LinearLayout) contentView.findViewById(R.id.ll_muqin );//母亲
-        LinearLayout peiou = (LinearLayout) contentView.findViewById(R.id.ll_peiou );//配偶
-        LinearLayout erzi = (LinearLayout) contentView.findViewById(R.id.ll_erzi );//儿子
-        LinearLayout nver = (LinearLayout) contentView.findViewById(R.id.ll_nver );//女儿
-        LinearLayout jiedi = (LinearLayout) contentView.findViewById(R.id.ll_jiedi );//姐弟
+        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1);//背景图
+        LinearLayout fuqin = (LinearLayout) contentView.findViewById(R.id.ll_fuqin);//父亲
+        LinearLayout muqin = (LinearLayout) contentView.findViewById(R.id.ll_muqin);//母亲
+        LinearLayout peiou = (LinearLayout) contentView.findViewById(R.id.ll_peiou);//配偶
+        LinearLayout erzi = (LinearLayout) contentView.findViewById(R.id.ll_erzi);//儿子
+        LinearLayout nver = (LinearLayout) contentView.findViewById(R.id.ll_nver);//女儿
+        LinearLayout jiedi = (LinearLayout) contentView.findViewById(R.id.ll_jiedi);//姐弟
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -281,7 +249,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "父亲");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
@@ -290,7 +258,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "母亲");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
@@ -299,7 +267,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "配偶");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
@@ -308,7 +276,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "儿子");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
@@ -317,7 +285,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "女儿");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
@@ -326,11 +294,11 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "兄弟姐妹");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowAdd.dismiss();
             }
         });
-        popupWindowAdd = new PopupWindow(contentView,  WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
+        popupWindowAdd = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
         popupWindowAdd.setOnDismissListener(new popupDismissListener());
@@ -346,14 +314,14 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupedit, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1 );//背景图
-        TextView edit = (TextView) contentView.findViewById(R.id.edit );//编辑
-        TextView delete = (TextView) contentView.findViewById(R.id.delete );//删除
-        TextView cancel = (TextView) contentView.findViewById(R.id.cancel );//取消
+        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1);//背景图
+        TextView edit = (TextView) contentView.findViewById(R.id.edit);//编辑
+        TextView delete = (TextView) contentView.findViewById(R.id.delete);//删除
+        TextView cancel = (TextView) contentView.findViewById(R.id.cancel);//取消
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(popupWindowAdd!=null){
+                if (popupWindowAdd != null) {
                     popupWindowAdd.dismiss();
                 }
             }
@@ -363,7 +331,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("title", "编辑信息");
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                 popupWindowEdit.dismiss();
             }
         });
@@ -380,7 +348,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
                 popupWindowEdit.dismiss();
             }
         });
-        popupWindowEdit = new PopupWindow(contentView,  WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
+        popupWindowEdit = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
         popupWindowEdit.setOnDismissListener(new popupDismissListener());
@@ -390,7 +358,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         popupWindowEdit.showAsDropDown(view);
     }
 
-    private void WhetherDelete(){
+    private void WhetherDelete() {
         /* @setIcon 设置对话框图标
          * @setTitle 设置对话框标题
          * @setMessage 设置对话框消息提示
@@ -415,16 +383,18 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         // 显示
         normalDialog.show();
     }
+
     //背景透明改变
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         mContext.getWindow().setAttributes(lp);
     }
+
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener{
+    class popupDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
@@ -437,7 +407,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
             for (int i = 0; i < group.getChildCount(); i++) {
                 if (group.getChildAt(i).getId() == checkedId) {
                     contentShupuView.setCurrentItem(i);
-                    Log.d("page",i+"");
+                    Log.d("page", i + "");
                     return;
                 }
             }
@@ -447,11 +417,13 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
+
         @Override
         public void onPageSelected(int position) {
             RadioButton radioButton = (RadioButton) shupuRadioButton.getChildAt(position);
             radioButton.setChecked(true);
         }
+
         @Override
         public void onPageScrollStateChanged(int state) {
         }
@@ -460,19 +432,23 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         Fragment currentFragment;
         private List<Fragment> mList;
+
         public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> list) {
             super(fm);
             this.mList = list;
         }
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             currentFragment = (Fragment) object;
             super.setPrimaryItem(container, position, object);
         }
+
         @Override
         public Fragment getItem(int position) {
             return this.mList == null ? null : this.mList.get(position);
         }
+
         @Override
         public int getCount() {
             return this.mList == null ? 0 : this.mList.size();

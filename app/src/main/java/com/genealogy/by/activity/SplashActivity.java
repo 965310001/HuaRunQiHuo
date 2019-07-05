@@ -1,7 +1,5 @@
 package com.genealogy.by.activity;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +13,6 @@ import com.genealogy.by.utils.SPHelper;
 
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.utils.FastUtil;
-import tech.com.commoncore.utils.SPUtil;
-import tech.com.commoncore.widget.NetErrorDialog;
 
 
 public class SplashActivity extends BaseTitleActivity implements Runnable {
@@ -76,22 +72,16 @@ public class SplashActivity extends BaseTitleActivity implements Runnable {
     private void nextJump(int type) {
         type=0;
         if (type == 0) {
-            mContentView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //第一次就进GUIDE 页面
-                    FastUtil.startActivity(mContext, RegisterActivity.class);
-                    SplashActivity.this.finish();
-                }
+            mContentView.postDelayed(() -> {
+                //第一次就进GUIDE 页面
+                FastUtil.startActivity(mContext, RegisterActivity.class);
+                SplashActivity.this.finish();
             }, TIME_DELAY);
         } else if (type == 1) {
-            mContentView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //进入主页
-                    FastUtil.startActivity(mContext, MainActivity.class);
-                    SplashActivity.this.finish();
-                }
+            mContentView.postDelayed(() -> {
+                //进入主页
+                FastUtil.startActivity(mContext, MainActivity.class);
+                SplashActivity.this.finish();
             }, TIME_DELAY);
 
         }

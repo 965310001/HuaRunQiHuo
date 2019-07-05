@@ -1,7 +1,6 @@
 package com.genealogy.by.adapter;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,13 +20,10 @@ public class NewAdapter extends BaseQuickAdapter<TtEntity, BaseViewHolder> {
         helper.setText(R.id.tv_title, item.getTitle()).setText(R.id.tv_author, item.getAuthor());
         ImageView iv = helper.getView(R.id.iv_thumb);
         GlideManager.loadRoundImg(item.getThumb(), iv);
-        helper.setOnClickListener(R.id.lin, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("data", item);
+        helper.setOnClickListener(R.id.lin, view -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("data", item);
 //                FastUtil.startActivity(mContext, NewDetailActivity.class, bundle);
-            }
         });
     }
 }

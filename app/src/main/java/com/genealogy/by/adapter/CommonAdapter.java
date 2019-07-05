@@ -13,13 +13,13 @@ import java.util.List;
  * Created by yetwish on 2015-05-11
  */
 
-public abstract class CommonAdapter<T> extends BaseAdapter{
+public abstract class CommonAdapter<T> extends BaseAdapter {
 
     protected Context mContext;
     protected List<T> mData;
     protected int mLayoutId;
 
-    public CommonAdapter(Context context, List<T> data, int layoutId){
+    public CommonAdapter(Context context, List<T> data, int layoutId) {
         mContext = context;
         mData = data;
         mLayoutId = layoutId;
@@ -42,13 +42,13 @@ public abstract class CommonAdapter<T> extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getHolder(mContext,convertView,mLayoutId,parent,position);
-        convert(holder,position);
+        ViewHolder holder = ViewHolder.getHolder(mContext, convertView, mLayoutId, parent, position);
+        convert(holder, position);
         return holder.getConvertView();
     }
 
     /**
      * get holder convert
      */
-    public abstract void convert(ViewHolder holder,int position);
+    public abstract void convert(ViewHolder holder, int position);
 }

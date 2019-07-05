@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,12 +16,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.utils.TextUtils;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.AddUser;
-import com.genealogy.by.entity.OKgoResponse;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.utils.my.MyGlideEngine;
@@ -35,11 +30,6 @@ import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.lljjcoder.style.citypickerview.CityPickerView;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.Callback;
-import com.lzy.okgo.model.Progress;
-import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -47,22 +37,11 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.manager.GlideManager;
@@ -172,31 +151,25 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             }
         });
         rgCelebrity = findViewById(R.id.rg_celebrity);
-        rgCelebrity.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.rb_celebrity1:
-                        isCelebrity="0";
-                        break;
-                    case R.id.rb_celebrity2:
-                        isCelebrity="1";
-                        break;
-                }
+        rgCelebrity.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch (i){
+                case R.id.rb_celebrity1:
+                    isCelebrity="0";
+                    break;
+                case R.id.rb_celebrity2:
+                    isCelebrity="1";
+                    break;
             }
         });
-        tvRetract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (more){
-                    MoreInformation.setVisibility(View.VISIBLE);
-                    tvRetract.setText("收起详细资料");
-                    more=false;
-                }else{
-                    MoreInformation.setVisibility(View.GONE);
-                    tvRetract.setText("展开详细资料");
-                    more=true;
-                }
+        tvRetract.setOnClickListener(view -> {
+            if (more){
+                MoreInformation.setVisibility(View.VISIBLE);
+                tvRetract.setText("收起详细资料");
+                more=false;
+            }else{
+                MoreInformation.setVisibility(View.GONE);
+                tvRetract.setText("展开详细资料");
+                more=true;
             }
         });
         tvAncestral= findViewById(R.id.tv_ancestral);//祖籍
@@ -208,12 +181,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         tvResidence= findViewById(R.id.tv_residence);//现居地
         spAlive= findViewById(R.id.sp_alive);
         ivJeadPortrait= findViewById(R.id.iv_jeadportrait);//照片
-        ivJeadPortrait.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectePhoto();
-            }
-        });
+        ivJeadPortrait.setOnClickListener(view -> selectePhoto());
         tvPreservation= findViewById(R.id.tv_preservation);//保存
 
         recommender = findViewById(R.id.recommender);
@@ -224,25 +192,10 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             phonenumbe.setVisibility(View.GONE);
             phonenumbe.setVisibility(View.GONE);
         }
-        tvPreservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Submission2(url);
-            }
-        });
+        tvPreservation.setOnClickListener(view -> Submission2(url));
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        tvBirthday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvBirthday,calendar);
-            }
-        });
-        tvTimeDeath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvTimeDeath,calendar);
-            }
-        });
+        tvBirthday.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvBirthday,calendar));
+        tvTimeDeath.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvTimeDeath,calendar));
         Nation();//民族
         Ranking();//排行
         Alive();//是否健在
@@ -251,33 +204,21 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         AcceptInvitation();//是否接受
         getView();//加载剩余控件
         mCityPickerView.init(this);
-        tvArea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type =1;
-                Areapick();
-            }
+        tvArea.setOnClickListener(view -> {
+            type =1;
+            Areapick();
         });
-        tvAreaDeath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type =2;
-                Areapick();
-            }
+        tvAreaDeath.setOnClickListener(view -> {
+            type =2;
+            Areapick();
         });
-        tvAncestral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type =3;
-                Areapick();
-            }
+        tvAncestral.setOnClickListener(view -> {
+            type =3;
+            Areapick();
         });
-        tvOriginArea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type =4;
-                Areapick();
-            }
+        tvOriginArea.setOnClickListener(view -> {
+            type =4;
+            Areapick();
         });
     }
     public void Nation(){
@@ -380,7 +321,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("");
+//                sb.append("");
                 if (province != null) {
                     sb.append(province.getName() + " " );
                 }

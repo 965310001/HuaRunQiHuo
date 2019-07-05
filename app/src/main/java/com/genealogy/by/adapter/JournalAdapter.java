@@ -1,6 +1,5 @@
 package com.genealogy.by.adapter;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,18 +15,15 @@ public class JournalAdapter extends BaseQuickAdapter<Journal, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Journal  item) {
+    protected void convert(BaseViewHolder helper, Journal item) {
         ImageView ivImg = helper.getView(R.id.iv_img);
         GlideManager.loadImg(item.getProfilePhoto(), ivImg);
-        helper.setText(R.id.tv_log, item.getUName()+item.getOperatingType()+item.getBeName()+item.getContent()+"");
+        helper.setText(R.id.tv_log, item.getUName() + item.getOperatingType() + item.getBeName() + item.getContent() + "");
 
-        helper.setOnClickListener(R.id.lin, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        helper.setOnClickListener(R.id.lin, v -> {
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("data", item);
 //                FastUtil.startActivity(mContext, BookDetailActivity.class, bundle);
-            }
         });
     }
 }

@@ -75,7 +75,6 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
         super.onResume();
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

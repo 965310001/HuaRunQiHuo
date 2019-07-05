@@ -1,16 +1,13 @@
 package com.genealogy.by.country;
 
-public class CountrySortModel extends CountryModel
+public class CountrySortModel extends CountryModel {
+    // 显示数据拼音的首字母
+    public String sortLetters;
 
-{
-	// 显示数据拼音的首字母
-	public String sortLetters;
+    public CountrySortToken sortToken = new CountrySortToken();
 
-	public CountrySortToken sortToken = new CountrySortToken();
-
-	public CountrySortModel(String name, String number, String countrySortKey)
-	{
-		super(name, number, countrySortKey);
-	}
+    public CountrySortModel(String name, String number, String countrySortKey) {
+        super(name, number, countrySortKey);
+    }
 
 }

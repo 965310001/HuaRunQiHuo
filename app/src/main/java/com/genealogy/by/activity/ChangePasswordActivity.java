@@ -16,7 +16,6 @@ public class ChangePasswordActivity extends BaseTitleActivity {
     private EditText etNewPassword;
     private EditText etNewPasswordConfirm;
 
-
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText("修改密码");

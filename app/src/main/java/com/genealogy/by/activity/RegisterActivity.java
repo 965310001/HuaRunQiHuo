@@ -64,19 +64,8 @@ public class RegisterActivity extends BaseTitleActivity {
         etPassword = findViewById(R.id.et_password);
 
         tvVerifyCode.setCountDownColor(R.color.C_E48B81, R.color.C_E48B81);
-        tvVerifyCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                senVerifyCode();
-            }
-        });
-        findViewById(R.id.btn_regist).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doRegist();
-            }
-        });
-
+        tvVerifyCode.setOnClickListener(v -> senVerifyCode());
+        findViewById(R.id.btn_regist).setOnClickListener(v -> doRegist());
     }
 
     private void doRegist() {
@@ -227,34 +216,30 @@ public class RegisterActivity extends BaseTitleActivity {
                     try {
                         // call method in SDK
                         EMClient.getInstance().createAccount(username, pwd);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                if (!RegisterActivity.this.isFinishing())
-                                    pd.dismiss();
-                                // save current user
+                        runOnUiThread(() -> {
+                            if (!RegisterActivity.this.isFinishing())
+                                pd.dismiss();
+                            // save current user
 //                                DemoHelper.getInstance().setCurrentUserName(username);
-                                finish();
-                            }
+                            finish();
                         });
                     } catch (final HyphenateException e) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                if (!RegisterActivity.this.isFinishing())
-                                    pd.dismiss();
-                                int errorCode=e.getErrorCode();
-                                if(errorCode== EMError.NETWORK_ERROR){
+                        runOnUiThread(() -> {
+                            if (!RegisterActivity.this.isFinishing())
+                                pd.dismiss();
+                            int errorCode=e.getErrorCode();
+                            if(errorCode== EMError.NETWORK_ERROR){
 //                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
-                                }else if(errorCode == EMError.USER_ALREADY_EXIST){
+                            }else if(errorCode == EMError.USER_ALREADY_EXIST){
 //                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.User_already_exists), Toast.LENGTH_SHORT).show();
-                                }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
+                            }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
 //                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
-                                }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
+                            }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
 //                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
-                                }else if(errorCode == EMError.EXCEED_SERVICE_LIMIT){
+                            }else if(errorCode == EMError.EXCEED_SERVICE_LIMIT){
 //                                    Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register_exceed_service_limit), Toast.LENGTH_SHORT).show();
-                                }else{
+                            }else{
 //                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
-                                }
                             }
                         });
                     }

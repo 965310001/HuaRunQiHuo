@@ -15,6 +15,7 @@ public class DemoFragment extends BaseTitleRefreshLoadFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public BaseQuickAdapter getAdapter() {
         return null;

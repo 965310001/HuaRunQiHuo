@@ -21,8 +21,8 @@ public class SearchAdapter extends CommonAdapter<User> {
     @Override
     public void convert(ViewHolder holder, int position) {
         //Log.d("SearchAdapter",""+ mData.get(position).getIconId());
-        holder.setImageResource(R.id.item_search_iv_icon,mData.get(position).getIconId())
-                .setText(R.id.name,mData.get(position).getName())
-                .setText(R.id.content,mData.get(position).getContent());
+        holder.setImageResource(R.id.item_search_iv_icon, mData.get(position).getIconId())
+                .setText(R.id.name, mData.get(position).getName())
+                .setText(R.id.content, mData.get(position).getContent());
     }
 }

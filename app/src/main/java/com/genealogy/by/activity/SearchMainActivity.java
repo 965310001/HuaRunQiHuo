@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -107,12 +106,9 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
         searchView.setTipsHintAdapter(hintAdapter);
         searchView.setAutoCompleteAdapter(autoCompleteAdapter);
 
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d(TAG,dbData.get(position).toString());
-                Toast.makeText(SearchMainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-            }
+        lvResults.setOnItemClickListener((adapterView, view, position, l) -> {
+            Log.d(TAG, dbData.get(position).toString());
+            Toast.makeText(SearchMainActivity.this, position + "", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -136,24 +132,24 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
     private void getDbData() {
         int size = 50;
         dbData = new ArrayList<>(size);
-        User sb = new User();
+        User sb;
         for (int i = 0; i < size; i++) {
             sb = new User();
-            if(i % 2 == 0){
-                sb.setIconId(R.mipmap.girl);
-                sb.setName("林梦琪" + (i + 1));
-                sb.setContent("女儿");
-                sb.setSex(2);
-            }else{
-                sb.setIconId(R.mipmap.boy);
-                sb.setName("林致杰" + (i + 1));
-                sb.setContent("爸爸");
-                sb.setSex(1);
+            if (i % 2 == 0) {
+                setUser(sb, R.mipmap.girl, "林梦琪" + (i + 1), "女儿", 2);
+            } else {
+                setUser(sb, R.mipmap.boy, "林致杰" + (i + 1), "爸爸", 1);
             }
             dbData.add(sb);
-            sb = null;
         }
-        Log.d("dbData",dbData.toString());
+        Log.d("dbData", dbData.toString());
+    }
+
+    private void setUser(User sb, int girl, String s, String content, int sex) {
+        sb.setIconId(girl);
+        sb.setName(s);
+        sb.setContent(content);
+        sb.setSex(sex);
     }
 
     /**
@@ -182,7 +178,7 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
                 if (dbData.get(i).getName().contains(text.trim())) {
                     autoCompleteData.add(dbData.get(i).getName());
                     count++;
-                }else{
+                } else {
 
                 }
             }
@@ -218,6 +214,7 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
 
     /**
      * 当搜索框 文本改变时 触发的回调 ,更新自动补全数据
+     *
      * @param text
      */
     @Override
