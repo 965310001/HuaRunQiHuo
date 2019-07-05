@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bwh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="编委会"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/editText"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="22dp"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/bianji" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="@dimen/sp_20"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="@dimen/sp_20"
+            android:layout_marginBottom="@dimen/sp_20"
+            android:text="主 编：戴稼红\n\n副主编：戴  超\n\n编 委：戴金才  戴萍萍 戴世富  戴志群  戴建新  戴建明  戴善良\n\n戴亚强  戴继高  戴学兰  戴红兵  戴琦珉  戴芳言  戴   曦\n\n戴江辉  戴   超  戴   炎  戴定边  戴稼红  戴永罗  戴   洵\n\n戴林伟  戴洪亮"
+            android:textColor="@color/black"
+            android:textSize="13dp" />
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

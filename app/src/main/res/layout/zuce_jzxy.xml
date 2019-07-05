@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="家族序言"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/editText"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/bianji" />
+        <TextView
+            android:id="@+id/content"
+            android:layout_below="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:text="戴氏出殷汤之后，国于宋，有谥戴公者。子孙因以为氏。初殷后得者十人，殷氏、汤氏、宋氏、孔氏、华氏、肃氏、林氏、褚氏、皇甫氏、而戴氏其一也。其后戴氏子孙，蕃衍散处郡围，居亳州者以谯国为望：居扬州者以广陵为望：居齐州者以济阴为望。由汉以来，代有文人，大小戴以礼学显，凭以明经显，南渡，若渊若邈若逵各以勋德著。若尚书侍郎济，中书侍郎夔，亦其杰然者也。李唐初兴，胄、至德父子相继名臣。而戴氏益大济后家歙之篁墩，都使扩始迁婺源之桂岩，(唐)天祜中，大尉陶公，雅尚书汪公，英武命帅师讨乱，累著勋绩，没于兵马使，其子寿代领其众，仕后唐，为中书舍人。寿之子安，仕南唐，为光禄大夫，其孙匡宜、匡德、复登明经三传科。汪陶二公牒命手贴暨光禄公诰命俱存。武功文学世济其美亦云盛矣，迄今三百年，家传厚德，代跻上寿家诵户弦，入贤关试礼部者，相踵未艾也，于乎，惟善可以寿后，惟学可以亢宗，父子兄弟尚其勖哉。尝读苏文安先生族谱引，有曰吾所以相视如途人者，其视兄弟也，兄弟其初一人之身也。观吾谱者，孝弟之心，可以油然生矣。善哉、言乎，是谱之所以作也，为吾宗者，因其流之异，溯其源之同，必修吕正献之家法，广范文正之义田，而又由近及远，访岷隐之史学，寻石屏之诗卷，考端明之易说，而且参之名公巨卿以订其异同，则尊祖睦族之谊，得而可垂诸来裔矣。虽未能如朱文公之族谱，苏文安序引之意，亦庶几云尔。\n时 宋开庆元年(公元一二五九年)己未正月十七世孙仲杞述"/>
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="2"
+            android:textColor="@color/black"
+            android:textSize="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

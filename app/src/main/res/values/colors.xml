@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <color name="refreshHeader">#333333</color>
+
+    <color name="C_E48B81">#E48B81</color>
+    <color name="C_DC818A">#DC818A</color>
+    <color name="C_FF2A48">#FF2A48</color>
+    <color name="C_2DA82D">#2DA82D</color>
+    <color name="C_D3606B">#D3606B</color>
+    <color name="C_F47432">#F47432</color>
+
+
+
+    <color name="C_D4D4D4">#D4D4D4</color>
+    <color name="C_333333">#333333</color>
+    <color name="C_3C3C3C">#3C3C3C</color>
+    <color name="C_F7F7F7">#F7F7F7</color>
+    <color name="C_707070">#707070</color>
+    <color name="C_999999">#999999</color>
+    <color name="C_666666">#666666</color>
+    <color name="C_C6C6C6">#C6C6C6</color>
+    <color name="C_616161">#616161</color>
+    <color name="C_AAAAAA">#AAAAAA</color>
+    <color name="C_CCCCCC">#CCCCCC</color>
+    <color name="C_F3F3F1">#F3F3F1</color>
+    <color name="C_D8D6D6">#D8D6D6</color>
+    <color name="C_E8E8E8">#E8E8E8</color>
+    <color name="C_BBBBBB">#BBBBBB</color>
+    <color name="C_DDDDDD">#DDDDDD</color>
+    <color name="C_989898">#989898</color>
+    <color name="C_838383">#838383</color>
+    <color name="C_8A857C">#8A857C</color>
+    <color name="C_292621">#292621</color>
+    <color name="C_B0A99E">#B0A99E</color>
+    <color name="C_F5F5F5">#F5F5F5</color>
+    <color name="C_212121">#212121</color>
+    <color name="C_A0A0A0">#A0A0A0</color>
+    <color name="C_F6F6F6">#F6F6F6</color>
+    <color name="C_585858">#585858</color>
+    <color name="C_B4B4B4">#B4B4B4</color>
+    <color name="C_BEBEBE">#BEBEBE</color>
+    <color name="C_F3F3F3">#F3F3F3</color>
+    <color name="user">#464854</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="huise">#f5f5f5</color>
+    <color name="blue">#0066FF</color>
+    <color name="no_color">#00000000</color>
+    <color name="bg_color">#f9f9f9</color>
+    <color name="bg_color_deep">#94ffdb</color>
+    <color name="black">#000000</color>
+    <color name="text_color">#434343</color>
+    <color name="black_half">#50000000</color>
+    <color name="single_searcg_bg">#8B8682</color>
+    <color name="common_top_bar_blue">#22292c</color>
+    <color name="myred">#eb4f38</color>
+    <color name="darkgray">#cccc</color>
+    <color name="color_white">#ffffff</color>
+    <color name="btn_press_color">#5677fc</color>
+    <color name="btn_pressed_color">#3ca0ec</color>
+    <color name="zupu_red">#ffff4444</color>
+    <color name="zupu_boy">#d8f2fd</color>
+    <color name="zupu_girl">#F9F6F4</color>
+
+</resources>

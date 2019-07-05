@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="大记事"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/bianji" />
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="68dp"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            android:text="先秦时期，戴氏主要在其发祥地豫东一带发展繁衍。到了汉代，戴氏开始有迁居豫南、江浙、山东等地的。三国至南北朝时，戴氏又有迁居安徽、湖北者。如西汉时的戴遵为慎阳（今河南正阳县北）人，戴崇为沛（今江苏沛县）人。\n又如东汉时的戴就为上虞（今属浙江）人，戴宏、戴封均为刚（今山东宁阳县北）人。唐初，戴氏开始入闽。据《元和姓纂》所列当时戴氏聚居点有济北（今山东长清县西南）、谯国（今安徽亳州）、吴兴长城（今浙江长兴）、魏郡斥丘（近河北成安）河东桑泉（今山西临晋）等。清代初年时，广东焦岭县一支戴氏后裔迁往台湾屏东，其后分布于高雄、桃园、新竹等地。\n戴姓是台湾的一个大姓位居第五十二位。主要集中在新竹、嘉义和台南，在台北和南投也有不少。台湾戴姓的始祖是清代雍下年间从福建来的。最初到达现在的苗栗县大甲镇孟春里开基，然后乾隆九年(公元1744年)，以有来自嘉应州的戴姓入垦今苗栗镇；道光二十六年(公元1846年)，则有泉州人戴南仁入垦今新竹县关西镇新富里开垦等等。此后，又有戴氏族人迁往海外。\n"/>
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="19"
+            android:textColor="@color/black"
+            android:textSize="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

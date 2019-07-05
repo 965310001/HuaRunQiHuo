@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.vise.xiaoyaoyou:xsnow-2.1.9">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xsnow-2.1.9.aar/3afdc6c29667b32be704ab51fc66233e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xsnow-2.1.9.aar/3afdc6c29667b32be704ab51fc66233e/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vise.xiaoyaoyou/xsnow/2.1.9/eddffda890c4f11caf74d10aabcaea24f981d8fc/xsnow-2.1.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

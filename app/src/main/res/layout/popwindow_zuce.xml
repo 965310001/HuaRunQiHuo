@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/home"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:drawableLeft="@mipmap/home"
+            android:gravity="center"
+            android:text="返回封面"
+            android:textColor="@color/black" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="40dp"
+            android:background="#22000000" />
+        <TextView
+            android:id="@+id/edit_cover"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:drawableLeft="@mipmap/edit"
+            android:gravity="center"
+            android:text="编辑封面"
+            android:textColor="@color/black" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="79dp"
+            android:background="#22000000" />
+        <TextView
+            android:id="@+id/export_cover"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="80dp"
+            android:background="@color/white"
+            android:drawableLeft="@mipmap/daochu"
+            android:gravity="center"
+            android:text="导出册谱"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+</LinearLayout>

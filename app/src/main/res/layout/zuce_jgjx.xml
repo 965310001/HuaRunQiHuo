@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="家规家训"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/editText"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/bianji" />
+        <TextView
+            android:layout_below="@id/title"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:text="1、手持正义，肩挑道义，君子爱财，取之有道。\n2、与人为善，与邻为友，严己宽人，既往不咎。\n3、学高为师，身正为范，勤学苦练，努力登攀。\n4、举止稳重，言语文明，团结友爱，永夺先进。\n5、宁让人，勿使人让我，宁吃亏，勿使人吃亏。\n6、爱护公物，遵纪守法，造福子民，服务社会。\n7、勤为本，德为先，和为贵，学在前。\n8、尊老敬贤，扶危济困，严以待己，宽以待人。\n9、不做亏心事，不赚昧心钱，心里有盏灯，肚里能撑船。\n"/>
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="4"
+            android:textColor="@color/black"
+            android:textSize="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

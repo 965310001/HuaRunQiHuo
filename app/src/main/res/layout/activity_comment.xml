@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F6F9"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"></include>
+
+
+    <EditText
+        android:id="@+id/et_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_250"
+        android:background="@color/colorWhite"
+        android:gravity="top|left"
+        android:hint="来跟大家分享一下你的看法吧～"
+        android:padding="@dimen/dp_15"
+        android:textColor="@color/C_999999"
+        android:textColorHint="@color/C_999999"
+        android:textSize="@dimen/sp_14" />
+</LinearLayout>

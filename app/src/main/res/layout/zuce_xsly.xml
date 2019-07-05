@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="姓氏来源"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/editText"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="33dp"
+            android:src="@mipmap/bianji" />
+        <TextView
+            android:layout_below="@id/title"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_14"
+            android:text="戴姓来源有三：\n1、 出自子姓，为商汤的后裔，以谥好为氏。据《元和姓纂》及《古今姓氏书辩证》所载，周初，周公旦在平定“管蔡之乱”后，封商朝末代君主帝纣之庶兄子启（子姓）于商的旧都（今河南商丘南），建立宋国。宋国第11位君主（前799年-前766年），史佚其名，死后被谥为戴公。戴公传子宋武公司空（前765年-前748年）其子孙遂以谥号“戴”为氏，是为河南戴氏。\n2、 出自姬姓，以国为氏。据《通志·氏族略》及《左传》所载，春秋时有戴国，为姬姓诸侯国，在今河南民权县东，一说在河南兰考县。隐公十年（前713年）亡于郑国，一说亡于宋国。其族人遂以国名“戴”为氏。\n3、 据《鼠璞》所载，殷氏有改为戴姓的。武王灭商后，有不少殷遗族以国为氏，称殷氏，其后就有改姓戴的。这一支戴氏也是出自河南。"/>
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:text="3"
+            android:textColor="@color/black"
+            android:textSize="10dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

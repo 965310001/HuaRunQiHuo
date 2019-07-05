@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/line1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/huise">
+
+    <RelativeLayout
+        android:id="@+id/relativeTop"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        tools:ignore="MissingConstraints">
+
+        <RadioGroup
+            android:id="@+id/photos_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/family"
+                android:layout_marginLeft="80dp"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt_top_left_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="我的小家"
+                android:textColor="@color/bt_top_radiobutton_color"
+                android:textSize="18dp" />
+
+            <RadioButton
+                android:id="@+id/all_family"
+                android:layout_marginRight="80dp"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt_top_right_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="全族相册"
+                android:textColor="@color/bt_top_radiobutton_color"
+                android:textSize="18dp" />
+        </RadioGroup>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+            <ImageView
+                android:id="@+id/add_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/plus"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.dinuscxj.refresh.RecyclerRefreshLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="70dp">
+        <ListView
+            android:id="@+id/albumsLv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent">
+        </ListView>
+    </com.dinuscxj.refresh.RecyclerRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="70dp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@drawable/photo_demo"/>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="你还没有相册"
+            android:layout_marginTop="-250dp"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="-190dp"
+            android:text="请点击下添加相册按钮或者右上角+号,新建属于家族的第一个祖册。"
+            android:textColor="@color/blue"
+            android:textSize="12dp"/>
+
+        <Button
+            android:id="@+id/add_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-130dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bt_top_center_off"
+            android:text="添加相册" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

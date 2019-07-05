@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.github.AriesHoo.UIWidget:widget-alert-3.2.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/widget-alert-3.2.6.aar/99ce51a024a5e328f8739d039b6ae503/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/widget-alert-3.2.6.aar/99ce51a024a5e328f8739d039b6ae503/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.AriesHoo.UIWidget/widget-alert/3.2.6/d1bfb002ccdb51888a0caa05569acdbf4de6de2c/widget-alert-3.2.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

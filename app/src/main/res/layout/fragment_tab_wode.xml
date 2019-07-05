@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/C_F6F6F6"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/lin_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#464854"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_user"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_83"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:src="@mipmap/icon_user" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_88"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点击登录"
+                        android:textColor="#FFFFFF"
+                        android:textSize="@dimen/dp_17" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:drawableRight="@mipmap/icon_edit_user"
+                        android:drawablePadding="@dimen/dp_7"
+                        android:gravity="center"
+                        android:text="账号:13066334276"
+                        android:textColor="#FFFFFF"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/personal"
+                    android:layout_width="@dimen/dp_105"
+                    android:layout_height="@dimen/dp_21"
+                    android:layout_marginTop="@dimen/dp_101"
+                    android:textColor="#FFFFFF"
+                    android:text="个人主页"
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginLeft="@dimen/dp_19"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_my_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_my_follow"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="入谱申请"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_my_fabulous"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_my_fabulous"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="我的点赞"
+                    android:visibility="gone"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_release"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_my_release"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="私信"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/journal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@color/colorWhite"
+                android:drawableLeft="@mipmap/icon_about_us"
+                android:drawableRight="@mipmap/icon_wode_more"
+                android:drawablePadding="@dimen/dp_8"
+                android:paddingLeft="@dimen/dp_19"
+                android:paddingTop="@dimen/dp_18"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingBottom="@dimen/dp_18"
+                android:text="日志"
+                android:textColor="@color/C_585858"
+                android:textSize="@dimen/sp_15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_message"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="打印"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_24"
+                    android:background="#EEEEEE"/>
+
+                <TextView
+                    android:id="@+id/tv_user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_user_info"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="家族基金"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_setting"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="家族祠堂"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_setting"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="宗亲喜事"
+                    android:textColor="@color/C_585858"
+                    android:textSize="@dimen/sp_15" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_24"
+                    android:background="#EEEEEE"/>
+                <TextView
+                    android:id="@+id/quit"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/dp_18"
+                    android:paddingRight="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:text="退出登录"
+                    android:textColor="#FF3B30"
+                    android:textSize="@dimen/sp_15" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

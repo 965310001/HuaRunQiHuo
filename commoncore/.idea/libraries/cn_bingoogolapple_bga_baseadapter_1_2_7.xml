@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="cn.bingoogolapple:bga-baseadapter-1.2.7">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bga-baseadapter-1.2.7.aar/baa7d31a18430817a417ca6a78f11a8f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bga-baseadapter-1.2.7.aar/baa7d31a18430817a417ca6a78f11a8f/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bingoogolapple/bga-baseadapter/1.2.7/dee0a316b6f9aa0f825c95018656d945eefb255/bga-baseadapter-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
