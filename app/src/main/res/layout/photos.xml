@@ -85,13 +85,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
-
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="70dp"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/photo_demo"/>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

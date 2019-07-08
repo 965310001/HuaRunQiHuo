@@ -75,7 +75,7 @@ public class TabZuCeFragment extends BaseFragment {
     //标题 编辑点击
     private TextView title;
     private ImageView editText;
-    private Intent intent;
+    private Intent intent = new Intent();
     private FamilyBook familyBook;
 
     /**
@@ -255,9 +255,23 @@ public class TabZuCeFragment extends BaseFragment {
         //每个页面的Title数据
         LayoutInflater mLi = LayoutInflater.from(mContext);
         View view = mLi.inflate(R.layout.zuce_cover, null);
-        TextView titlese =view.findViewById(R.id.title);
-        if (!familyBook.getFamilybookName().isEmpty()){
-            titlese.setText(familyBook.getFamilybookName());
+        TextView covertitle = view.findViewById(R.id.covertitle);
+        covertitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //关闭弹窗
+                Intent i = new Intent(getActivity(), EditCoverActivity.class);
+                String  str = String.valueOf(familyBook.getId());
+                i.putExtra("ID",str);
+                i.putExtra("name","");
+                i.putExtra("person","");
+                i.putExtra("time","");
+                i.putExtra("address",address);
+                startActivityForResult(i,0);
+            }
+        });
+        if (familyBook.getFamilybookName()!=null){
+            covertitle.setText(familyBook.getFamilybookName());
         }
         TextView person =view.findViewById(R.id.person);
         if(!familyBook.getSponsor().isEmpty()){
@@ -337,22 +351,23 @@ public class TabZuCeFragment extends BaseFragment {
         view = mLi.inflate(R.layout.zuce_bwh, null);
         TextView content = view.findViewById(R.id.content);
         TextView pageNumber = view.findViewById(R.id.pageNumber);
+        TextView  editorialtitle = view.findViewById(R.id.editorialtitle);
         String contentstr =familyBook.getEditorialCommittee();
         if(contentstr!=null){
             content.setText(contentstr);
         }
         views.add(view);
-        pageNumber.setText((views.size()+1)+"");
+        pageNumber.setText((views.size())+"");
         //点击事件
         editText = view.findViewById(R.id.editText);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_bwh, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",editorialtitle.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
-                intent.putExtra("id",familyBook.getId());
+                intent.putExtra("id",str);
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
             }
@@ -361,6 +376,7 @@ public class TabZuCeFragment extends BaseFragment {
         view = mLi.inflate(R.layout.zuce_jzxy, null);
         TextView prefacecontent = view.findViewById(R.id.content);
         TextView prefacepageNumber = view.findViewById(R.id.pageNumber);
+        TextView prefacetitle = view.findViewById(R.id.prefacetitle);
         if(familyBook.getGenealogyPreface()!=null) {
             prefacecontent.setText(familyBook.getGenealogyPreface());
         }
@@ -372,8 +388,9 @@ public class TabZuCeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_jzxy, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("id",str);
+                intent.putExtra("title",prefacetitle.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
@@ -383,6 +400,7 @@ public class TabZuCeFragment extends BaseFragment {
         view = mLi.inflate(R.layout.zuce_xsly, null);
         TextView sourcecontent = view.findViewById(R.id.content);
         TextView sourcepageNumber = view.findViewById(R.id.pageNumber);
+        TextView sourcetitle = view.findViewById(R.id.sourcetitle);
         if(familyBook.getLastNameSource()!=null){
             sourcecontent.setText(familyBook.getLastNameSource());
         }
@@ -394,8 +412,9 @@ public class TabZuCeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_xsly, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",sourcetitle.getText().toString());
+                intent.putExtra("id",str);
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
@@ -405,6 +424,7 @@ public class TabZuCeFragment extends BaseFragment {
         view = mLi.inflate(R.layout.zuce_jgjx, null);
         TextView rulescontent = view.findViewById(R.id.content);
         TextView rulespageNumber = view.findViewById(R.id.pageNumber);
+        TextView rulestitle = view.findViewById(R.id.rulestitle);
         if(familyBook.getFamilyRule()!=null){
             rulescontent.setText(familyBook.getFamilyRule());
         }
@@ -416,8 +436,9 @@ public class TabZuCeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_jgjx, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",rulestitle.getText().toString());
+                intent.putExtra("id",str);
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
@@ -472,47 +493,54 @@ public class TabZuCeFragment extends BaseFragment {
         /*世系表*/
         view = mLi.inflate(R.layout.zuce_sxb_xq, null);
         views.add(view);
+
         /*人物传*/
         view = mLi.inflate(R.layout.zuce_person, null);
         views.add(view);
         //点击事件
         editText = view.findViewById(R.id.editText);
+        TextView charactertitle = view.findViewById(R.id.charactertitle);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_person, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",charactertitle.getText().toString());
+                intent.putExtra("id",str);
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
             }
         });
+        /*大事记*/
         view = mLi.inflate(R.layout.zuce_bignote, null);
         views.add(view);
-        //点击事件
         editText = view.findViewById(R.id.editText);
+       TextView bignotetitle = view.findViewById(R.id.bignotetitle);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_bignote, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",bignotetitle.getText().toString());
+                intent.putExtra("id",str);
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
                 startActivityForResult(intent,0);
             }
         });
+
         view = mLi.inflate(R.layout.zuce_postscript, null);
         views.add(view);
-        //点击事件
         editText = view.findViewById(R.id.editText);
+        TextView epiloguetitle= view.findViewById(R.id.epiloguetitle);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.zuce_postscript, null);
-                title = view.findViewById(R.id.title);
-                intent.putExtra("title",title.getText().toString());
+                String  str = String.valueOf(familyBook.getId());
+                intent.putExtra("title",epiloguetitle.getText().toString());
+                intent.putExtra("id",str);
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.putExtra("index",familyBook.getId()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
@@ -601,7 +629,6 @@ public class TabZuCeFragment extends BaseFragment {
         views.remove(index);
         views.add(index, view);
         mViewPager.getAdapter().notifyDataSetChanged();
-        // findViewById(getResources().getIdentifier("sysset_button"+(index+1), "id", "com.jzbyapp.suzhou")).requestFocus();
     }
     public void doit(){
         String userId =  SPHelper.getStringSF(mContext,"UserId","");

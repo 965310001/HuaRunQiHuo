@@ -68,7 +68,6 @@ public class PhotosAddActivity extends AppCompatActivity {
                 }
             }
         });
-
         //获取intent 传递参数
         Intent i = getIntent();
         //取到id 暂时没用
@@ -108,7 +107,7 @@ public class PhotosAddActivity extends AppCompatActivity {
         Log.e(TAG, "doit: 参数："+params.toString() );
         JSONObject jsonObject = new JSONObject(params);
         final MediaType JSONS= MediaType.parse("application/json; charset=utf-8");
-        ViseHttp.POST(ApiConstant.album_searchMyAlbum)
+        ViseHttp.POST(ApiConstant.album_create)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setRequestBody(RequestBody.create(JSONS,jsonObject.toString()))

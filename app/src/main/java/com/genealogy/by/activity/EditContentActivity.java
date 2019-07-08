@@ -37,13 +37,14 @@ public class EditContentActivity extends AppCompatActivity {
     private TextView saveText;
     private String index;
     private String id;
+    public String fieldname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_content);
         Intent intent = getIntent();
-        id=intent.getStringExtra("ID");
+        id=intent.getStringExtra("id");
         initView();
         //设置状态栏颜色
         StatusBarCompat.setStatusBarColor(this,toolUtil.hex2Int("#f5f5f5"));
@@ -52,7 +53,6 @@ public class EditContentActivity extends AppCompatActivity {
 
     public void initView(){
         toolUtil = new ToolUtil();
-
         saveText = (TextView)findViewById(R.id.saveText);
         evcontent = (EditText)findViewById(R.id.content);
         back = (ImageView) findViewById(R.id.back);
@@ -77,12 +77,27 @@ public class EditContentActivity extends AppCompatActivity {
         if(name != null){
             title = findViewById(R.id.title);
             title.setText(name);
+            if(name.contains("编委会")){
+                fieldname = "editorialCommittee";
+            }else if(name.contains("家族序言")){
+                fieldname = "genealogyPreface";
+            }else if(name.contains("姓氏来源")){
+                fieldname = "lastNameSource";
+            }else if(name.contains("家规家训")){
+                fieldname = "familyRule";
+            }else if(name.contains("人物传")){
+                fieldname = "characterBiography";
+            }else if(name.contains("大记事")){
+                fieldname = "bigNote";
+            }else if(name.contains("后记")){
+                fieldname = "postscript";
+            }
         }
     }
     public void doit(){
         HashMap<String, String> params = new HashMap<>();
         if(evcontent.getText()!=null&&evcontent.getText().toString().trim().length()!=0){}
-        params.put("editorialCommittee",evcontent.getText().toString() );
+        params.put(fieldname,evcontent.getText().toString() );
         if(id!=null&&id.trim().length()!=0){
             params.put("id", id);
         }else{
@@ -94,9 +109,9 @@ public class EditContentActivity extends AppCompatActivity {
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setRequestBody(RequestBody.create(JSONS,jsonObject.toString()))
-                .request(new ACallback<BaseTResp2<FamilyBook>>() {
+                .request(new ACallback<BaseTResp2>() {
                     @Override
-                    public void onSuccess(BaseTResp2<FamilyBook> data) {
+                    public void onSuccess(BaseTResp2 data) {
                         if(data.status==200){
                             ToastUtil.show(" 请求成功"+data.msg);
                             Intent intent = new Intent();

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.dinuscxj.refresh.RefreshView;
 import com.genealogy.by.R;
@@ -21,7 +22,6 @@ import com.genealogy.by.activity.PhotosAddActivity;
 import com.genealogy.by.adapter.AlbumAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.Album;
-import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.ToolUtil;
 import com.genealogy.by.utils.my.BaseTResp2;
@@ -214,7 +214,7 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                             if(data.data.toString().equals("[]")){
                                 layout.setVisibility(View.GONE);
                             }else{
-
+                                layout.setVisibility(View.GONE);
                             }
                         }else{
                             Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= "+data.msg );

@@ -126,7 +126,6 @@
                     android:layout_height="@dimen/dp_64"
                     android:layout_width="@dimen/dp_36"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/bt_share_selector"
                     android:layout_marginRight="@dimen/dp_39"
                     android:layout_marginTop="@dimen/dp_56"/>
                 <View

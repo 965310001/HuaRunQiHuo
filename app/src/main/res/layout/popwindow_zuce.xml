@@ -18,6 +18,7 @@
             android:layout_height="40dp"
             android:drawableLeft="@mipmap/home"
             android:gravity="center"
+            android:visibility="gone"
             android:text="返回封面"
             android:textColor="@color/black" />
         <View

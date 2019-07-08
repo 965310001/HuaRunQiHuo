@@ -5,22 +5,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@mipmap/fengmian" />
-
+        android:layout_height="match_parent"
+        android:background="@mipmap/fengmian">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right">
 
             <TextView
-                android:id="@+id/title"
-                android:layout_marginTop="@dimen/dp_113"
+                android:id="@+id/covertitle"
+                android:layout_marginTop="@dimen/dp_39"
                 android:layout_width="@dimen/dp_87"
                 android:layout_marginRight="45dp"
                 android:gravity="center"
@@ -42,7 +36,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/dp_284"
+                android:layout_marginTop="@dimen/dp_210"
                 android:layout_marginLeft="@dimen/dp_67"
                 android:layout_height="wrap_content">
                 <TextView
@@ -67,7 +61,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/dp_284"
+                android:layout_marginTop="@dimen/dp_210"
                 android:layout_marginLeft="@dimen/dp_43"
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
@@ -91,22 +85,16 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_14"/>
             </LinearLayout>
-
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <TextView
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_alignParentBottom="true"
+                android:gravity="center"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_14"/>
-        </RelativeLayout>
+                android:textSize="@dimen/sp_14" />
     </RelativeLayout>
 
 </LinearLayout>
