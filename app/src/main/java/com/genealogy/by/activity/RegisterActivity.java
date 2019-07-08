@@ -62,7 +62,6 @@ public class RegisterActivity extends BaseTitleActivity {
         etVarifyCode = findViewById(R.id.et_varify_code);
         tvVerifyCode = findViewById(R.id.tv_verify_code);
         etPassword = findViewById(R.id.et_password);
-
         tvVerifyCode.setCountDownColor(R.color.C_E48B81, R.color.C_E48B81);
         tvVerifyCode.setOnClickListener(v -> senVerifyCode());
         findViewById(R.id.btn_regist).setOnClickListener(v -> doRegist());
