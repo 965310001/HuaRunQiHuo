@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/lluser"
         android:layout_width="@dimen/dp_44"
         android:layout_height="@dimen/dp_128"
         android:gravity="center"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/imgs"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_44"
-            android:background="@mipmap/boy"/>
-        <TextView
-            android:id="@+id/name"
+            android:background="@mipmap/boy" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_name"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_84"
-            android:ems="1"
-            android:gravity="center"
-            android:textSize="@dimen/dp_16"
-            android:text="戴\n德\n伟"/>
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_84"
+                android:ems="1"
+                android:gravity="center"
+                android:text="戴德伟"
+                android:textSize="@dimen/dp_16" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -1,8 +1,9 @@
 package com.genealogy.by.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Person {
+public class Person implements Serializable {
     /**
      * id : 131585
      * gId : 1
@@ -123,6 +124,7 @@ public class Person {
     private String deeds;
     private List<Person> children;
     private List<Person> spouse;
+
     public int getId() {
         return id;
     }

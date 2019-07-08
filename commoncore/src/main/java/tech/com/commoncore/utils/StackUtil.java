@@ -2,7 +2,6 @@ package tech.com.commoncore.utils;
 
 import android.app.Activity;
 
-
 import java.util.Stack;
 
 import tech.com.commoncore.manager.LoggerManager;
@@ -105,7 +104,7 @@ public class StackUtil {
             mActivityStack = new Stack();
         }
         mActivityStack.add(activity);
-        LoggerManager.i(TAG, "push stack activity:" + activity.getClass().getSimpleName());
+//        Log.i(TAG, "push stack activity:" + activity.getClass().getSimpleName());
         return sInstance;
     }
 
@@ -116,14 +115,14 @@ public class StackUtil {
      */
     public StackUtil pop(Activity activity) {
         if (activity != null) {
-            LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
+//            LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
             //只需在activity不在正在关闭状态下进行finish即可
             if (!activity.isFinishing()) {
                 activity.finish();
             }
             if (mActivityStack != null && mActivityStack.contains(activity)) {
                 mActivityStack.remove(activity);
-                LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + mActivityStack.size());
+//                LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + mActivityStack.size());
             }
         }
         return sInstance;

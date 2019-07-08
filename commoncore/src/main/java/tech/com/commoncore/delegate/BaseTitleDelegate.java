@@ -12,7 +12,6 @@ import tech.com.commoncore.R;
 import tech.com.commoncore.app.FastManager;
 import tech.com.commoncore.interf.IBaseTitleView;
 import tech.com.commoncore.interf.TitleBarViewControl;
-import tech.com.commoncore.manager.LoggerManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.StackUtil;
 
@@ -38,7 +37,7 @@ public class BaseTitleDelegate {
         if (mTitleBar == null) {
             return;
         }
-        LoggerManager.i("class:" + cls.getSimpleName());
+//        LoggerManager.i("class:" + cls.getSimpleName());
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
         Drawable mDrawable = FastUtil.getTintDrawable(context.getResources().getDrawable(R.drawable.common_icon_back),
                 context.getResources().getColor(R.color.text_tip));

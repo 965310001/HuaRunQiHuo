@@ -1,10 +1,13 @@
 package com.genealogy.by.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FamilyBook {
+public class FamilyBook implements Serializable {
 
 
     /**
@@ -41,7 +44,8 @@ public class FamilyBook {
     private String editingTime;
     private String editingTimeCN;
     private List<LineageTableBean> lineageTable;
-    private List<String> familyPhoto;
+//    private List<String> familyPhoto;
+
     public int getId() {
         return id;
     }
@@ -51,6 +55,9 @@ public class FamilyBook {
     }
 
     public String getFamilybookName() {
+        if (!TextUtils.isEmpty(familybookName)) {
+            return "";
+        }
         return familybookName;
     }
 
@@ -162,15 +169,15 @@ public class FamilyBook {
         this.lineageTable = lineageTable;
     }
 
-    public List<String> getFamilyPhoto() {
-        return familyPhoto;
-    }
+//    public List<String> getFamilyPhoto() {
+//        return familyPhoto;
+//    }
+//
+//    public void setFamilyPhoto(List<String> familyPhoto) {
+//        this.familyPhoto = familyPhoto;
+//    }
 
-    public void setFamilyPhoto(List<String> familyPhoto) {
-        this.familyPhoto = familyPhoto;
-    }
-
-    public static class LineageTableBean {
+    public static class LineageTableBean implements Serializable {
         /**
          * id :
          * lineage : 1
@@ -198,8 +205,8 @@ public class FamilyBook {
         private String profilePhoto;
         private String family;
         private String introduction;
-        private List<?> spouses;
-        private List<?> parents;
+//        private List<?> spouses;
+//        private List<?> parents;
 
         public static LineageTableBean objectFromData(String str) {
 
@@ -294,20 +301,20 @@ public class FamilyBook {
             this.introduction = introduction;
         }
 
-        public List<?> getSpouses() {
-            return spouses;
-        }
-
-        public void setSpouses(List<?> spouses) {
-            this.spouses = spouses;
-        }
-
-        public List<?> getParents() {
-            return parents;
-        }
-
-        public void setParents(List<?> parents) {
-            this.parents = parents;
-        }
+//        public List<?> getSpouses() {
+//            return spouses;
+//        }
+//
+//        public void setSpouses(List<?> spouses) {
+//            this.spouses = spouses;
+//        }
+//
+//        public List<?> getParents() {
+//            return parents;
+//        }
+//
+//        public void setParents(List<?> parents) {
+//            this.parents = parents;
+//        }
     }
 }

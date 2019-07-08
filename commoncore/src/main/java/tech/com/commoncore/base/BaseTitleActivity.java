@@ -1,7 +1,5 @@
 package tech.com.commoncore.base;
 
-import android.graphics.Color;
-
 import com.aries.ui.view.title.TitleBarView;
 
 import tech.com.commoncore.R;

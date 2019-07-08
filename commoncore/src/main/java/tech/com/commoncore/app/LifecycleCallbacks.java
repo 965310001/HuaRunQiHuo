@@ -48,7 +48,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
 
     @Override
     public void onActivityCreated(final Activity activity, final Bundle savedInstanceState) {
-        LoggerManager.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(activity));
+//        Log.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(activity));
         getControl();
 
         //统一Activity堆栈管理
@@ -78,7 +78,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivityStarted(Activity activity) {
         getControl();
-        LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(activity));
+//        LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(activity));
         setContentViewBackground(FastUtil.getRootView(activity), activity.getClass());
         //设置状态栏
         setStatusBar(activity);
@@ -86,7 +86,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
         setNavigationBar(activity);
         //回调开发者处理
         if (mActivityLifecycleCallbacks != null) {
-            LoggerManager.i(TAG, "mActivityLifecycleCallbacks:回调开发者");
+//            Log.i(TAG, "onActivityStarted:回调开发者");
             mActivityLifecycleCallbacks.onActivityStarted(activity);
         }
     }
@@ -94,7 +94,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivityResumed(Activity activity) {
         getControl();
-        LoggerManager.i(TAG, "onActivityResumed:" + activity.getClass().getSimpleName());
+//        LoggerManager.i(TAG, "onActivityResumed:" + activity.getClass().getSimpleName());
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityResumed(activity);
         }
@@ -103,7 +103,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivityPaused(Activity activity) {
         getControl();
-        LoggerManager.i(TAG, "onActivityPaused:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
+//        LoggerManager.i(TAG, "onActivityPaused:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         //Activity销毁前的时机需要关闭软键盘-在onActivityStopped及onActivityDestroyed生命周期内已无法关闭
         if (activity.isFinishing()) {
             BGAKeyboardUtil.closeKeyboard(activity);
@@ -116,7 +116,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivityStopped(Activity activity) {
         getControl();
-        LoggerManager.i(TAG, "onActivityStopped:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
+//        LoggerManager.i(TAG, "onActivityStopped:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityStopped(activity);
         }
@@ -125,7 +125,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
         getControl();
-        LoggerManager.i(TAG, "onActivitySaveInstanceState:" + activity.getClass().getSimpleName());
+//        LoggerManager.i(TAG, "onActivitySaveInstanceState:" + activity.getClass().getSimpleName());
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivitySaveInstanceState(activity, outState);
         }
@@ -134,7 +134,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
     @Override
     public void onActivityDestroyed(Activity activity) {
         getControl();
-        LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
+//        LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         StackUtil.getInstance().pop(activity);
         //统一注销Fragment生命周期处理
         if (activity instanceof FragmentActivity) {
@@ -191,13 +191,13 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
      * @param activity
      */
     private void setSwipeBack(final Activity activity) {
-        LoggerManager.i(TAG, "设置Activity滑动返回");
+//        Log.i(TAG, "setSwipeBack: 设置Activity滑动返回");
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         final BGASwipeBackHelper swipeBackHelper = new BGASwipeBackHelper(activity, new BGASwipeBackHelper.Delegate() {
             @Override
             public boolean isSupportSwipeBack() {
-                return mSwipeBackControl!=null?mSwipeBackControl.isSwipeBackEnable(activity):true;
+                return mSwipeBackControl != null ? mSwipeBackControl.isSwipeBackEnable(activity) : true;
             }
 
             @Override
@@ -248,7 +248,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
         }
         if (!BaseActivity.class.isAssignableFrom(activity.getClass())) {
             View topView = getTopView(FastUtil.getRootView(activity));
-            LoggerManager.i(TAG, "其它三方库设置状态栏沉浸");
+//            LoggerManager.i(TAG, "其它三方库设置状态栏沉浸");
             StatusViewHelper statusViewHelper = StatusViewHelper.with(activity)
                     .setControlEnable(true)
                     .setPlusStatusViewEnable(false)
@@ -275,7 +275,7 @@ public class LifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbac
         if (key != null) {
             return;
         }
-        LoggerManager.i(TAG, "setNavigationBars:设置虚拟导航栏");
+//        Log.i(TAG, "setNavigationBars:设置虚拟导航栏");
         View bottomView = FastUtil.getRootView(activity);
         //继承FastMainActivity底部View处理
         if (BaseMainActivity.class.isAssignableFrom(activity.getClass())) {

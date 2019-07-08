@@ -1,8 +1,9 @@
 package com.genealogy.by.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BookEdit{
+public class BookEdit implements Serializable {
 
     /**
      * id : 19
@@ -38,7 +39,7 @@ public class BookEdit{
     private String editingTime;
     private String editingTimeCN;
     private List<FamilyBook.LineageTableBean> lineageTable;
-    private List<?> familyPhoto;
+//    private List<String> familyPhoto;
 
 
     public int getId() {
@@ -161,11 +162,11 @@ public class BookEdit{
         this.lineageTable = lineageTable;
     }
 
-    public List<?> getFamilyPhoto() {
-        return familyPhoto;
-    }
-
-    public void setFamilyPhoto(List<?> familyPhoto) {
-        this.familyPhoto = familyPhoto;
-    }
+//    public List<String> getFamilyPhoto() {
+//        return familyPhoto;
+//    }
+//
+//    public void setFamilyPhoto(List<String> familyPhoto) {
+//        this.familyPhoto = familyPhoto;
+//    }
 }

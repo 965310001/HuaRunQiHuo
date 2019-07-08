@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.genealogy.by.R;
 import com.genealogy.by.entity.BookEdit;
-import com.genealogy.by.entity.FamilyBook;
-import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.ToolUtil;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.githang.statusbar.StatusBarCompat;

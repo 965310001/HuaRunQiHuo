@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -22,7 +21,6 @@ import butterknife.Unbinder;
 import tech.com.commoncore.app.FastManager;
 import tech.com.commoncore.interf.IBaseRefreshLoadView;
 import tech.com.commoncore.interf.IBaseView;
-import tech.com.commoncore.manager.LoggerManager;
 import tech.com.commoncore.manager.RxJavaManager;
 import tech.com.commoncore.retrofit.FastObserver;
 
@@ -61,7 +59,7 @@ public abstract class BaseFragment extends RxFragment implements IBaseView {
         if (manager != null && manager.getFragments() != null) {
             size = manager.getFragments().size();
         }
-        LoggerManager.i(TAG, TAG + ";FragmentManager承载Fragment数量:" + size);
+//        Log.i(TAG, "FragmentManager承载Fragment数量:" + size);
         return size <= 1;
     }
 
@@ -98,9 +96,9 @@ public abstract class BaseFragment extends RxFragment implements IBaseView {
                 onVisibleChanged(true);
             }
         }
-        LoggerManager.i(TAG, TAG + ";mIsVisibleChanged:" + mIsVisibleChanged
-                + ";getUserVisibleHint:" + getUserVisibleHint()
-                + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
+//        Log.i(TAG, ";mIsVisibleChanged:" + mIsVisibleChanged
+//                + ";getUserVisibleHint:" + getUserVisibleHint()
+//                + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
         return mContentView;
     }
 
@@ -161,7 +159,7 @@ public abstract class BaseFragment extends RxFragment implements IBaseView {
      * @param isVisibleToUser
      */
     protected void onVisibleChanged(final boolean isVisibleToUser) {
-        LoggerManager.i(TAG, "isVisibleToUser:" + isVisibleToUser);
+//        LoggerManager.i(TAG, "isVisibleToUser:" + isVisibleToUser);
         mIsVisibleChanged = true;
         if (isVisibleToUser) {
             //避免因视图未加载子类刷新UI抛出异常

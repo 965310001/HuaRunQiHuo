@@ -2,9 +2,9 @@ package com.genealogy.by.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.MainActivity;
@@ -40,7 +40,7 @@ public class SplashActivity extends BaseTitleActivity implements Runnable {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        if (!StatusBarUtil.isSupportStatusBarFontChange()) {
+        if (RomUtil.isEMUI() && !StatusBarUtil.isSupportStatusBarFontChange()) {
             //隐藏状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
@@ -48,21 +48,19 @@ public class SplashActivity extends BaseTitleActivity implements Runnable {
         doit();
 
     }
+
     //自动登录
-    void doit(){
-        String userId =  SPHelper.getStringSF(mContext,"UserId",null);
-        String gid = SPHelper.getStringSF(mContext,"GId",null);
-        String phone = SPHelper.getStringSF(mContext,"Phone",null);
-        if(userId!=null&&gid!=null&&phone!=null){
+    void doit() {
+        String userId = SPHelper.getStringSF(mContext, "UserId", null);
+        String gid = SPHelper.getStringSF(mContext, "GId", null);
+        String phone = SPHelper.getStringSF(mContext, "Phone", null);
+        if (userId != null && gid != null && phone != null) {
             FastUtil.startActivity(mContext, MainActivity.class);
-            Log.e(TAG, "SplashActivity: 进主界面" );
-            SplashActivity.this.finish();
-        }else{
+        } else {
             FastUtil.startActivity(mContext, RegisterActivity.class);
-            Log.e(TAG, "SplashActivity: 进登录界面" );
-            SplashActivity.this.finish();
         }
-}
+        SplashActivity.this.finish();
+    }
 
     /**
      * 跳转统一延迟处理.
@@ -70,7 +68,7 @@ public class SplashActivity extends BaseTitleActivity implements Runnable {
      * @param type 0:guide页面; 1:主页; 其他:webview
      */
     private void nextJump(int type) {
-        type=0;
+        type = 0;
         if (type == 0) {
             mContentView.postDelayed(() -> {
                 //第一次就进GUIDE 页面
@@ -87,6 +85,7 @@ public class SplashActivity extends BaseTitleActivity implements Runnable {
         }
 
     }
+
     @Override
     public void run() {
         FastUtil.startActivity(mContext, MainActivity.class);

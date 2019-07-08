@@ -231,13 +231,13 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupadd, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1);//背景图
-        LinearLayout fuqin = (LinearLayout) contentView.findViewById(R.id.ll_fuqin);//父亲
-        LinearLayout muqin = (LinearLayout) contentView.findViewById(R.id.ll_muqin);//母亲
-        LinearLayout peiou = (LinearLayout) contentView.findViewById(R.id.ll_peiou);//配偶
-        LinearLayout erzi = (LinearLayout) contentView.findViewById(R.id.ll_erzi);//儿子
-        LinearLayout nver = (LinearLayout) contentView.findViewById(R.id.ll_nver);//女儿
-        LinearLayout jiedi = (LinearLayout) contentView.findViewById(R.id.ll_jiedi);//姐弟
+        RelativeLayout ll =  contentView.findViewById(R.id.ll1);//背景图
+        LinearLayout fuqin =  contentView.findViewById(R.id.ll_fuqin);//父亲
+        LinearLayout muqin =  contentView.findViewById(R.id.ll_muqin);//母亲
+        LinearLayout peiou =  contentView.findViewById(R.id.ll_peiou);//配偶
+        LinearLayout erzi =  contentView.findViewById(R.id.ll_erzi);//儿子
+        LinearLayout nver =  contentView.findViewById(R.id.ll_nver);//女儿
+        LinearLayout jiedi =  contentView.findViewById(R.id.ll_jiedi);//姐弟
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,10 +314,10 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupedit, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = (RelativeLayout) contentView.findViewById(R.id.ll1);//背景图
-        TextView edit = (TextView) contentView.findViewById(R.id.edit);//编辑
-        TextView delete = (TextView) contentView.findViewById(R.id.delete);//删除
-        TextView cancel = (TextView) contentView.findViewById(R.id.cancel);//取消
+        RelativeLayout ll =  contentView.findViewById(R.id.ll1);//背景图
+        TextView edit =  contentView.findViewById(R.id.edit);//编辑
+        TextView delete =  contentView.findViewById(R.id.delete);//删除
+        TextView cancel =  contentView.findViewById(R.id.cancel);//取消
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.genealogy.by.entity.FutureInternatinal;
@@ -57,7 +56,7 @@ public class MainActivity extends BaseActivity {
     private String[] mTitles = {"树谱", "族册", "相册", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.icon_shouye, R.mipmap.icon_hq,
-            R.mipmap.icon_quanzi,R.mipmap.icon_wode
+            R.mipmap.icon_quanzi, R.mipmap.icon_wode
     };
     private int[] mIconSelectIds = {
             R.mipmap.icon_shouye_s, R.mipmap.icon_hq_s,
@@ -70,8 +69,9 @@ public class MainActivity extends BaseActivity {
     private ToolUtil toolUtil;
     private List<Fragment> mFragments;
     private FragmentPagerAdapter mAdapter;
-    public String  userId ="";
-    public String  gId ="";
+    public String userId = "";
+    public String gId = "";
+
     @Override
     public int getContentLayout() {
         return R.layout.activity_main;
@@ -80,10 +80,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorWhite));
-        mainTab = (CommonTabLayout) mContentView.findViewById(R.id.main_tab);
-        Intent intent= getIntent();
-        userId=intent.getStringExtra("userId");
-        gId=intent.getStringExtra("gId");
+        mainTab = mContentView.findViewById(R.id.main_tab);
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        gId = intent.getStringExtra("gId");
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new FutureInternatinal.TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
@@ -127,7 +127,10 @@ public class MainActivity extends BaseActivity {
         // register listener
         mViewPager.addOnPageChangeListener(mPageChangeListener);
         mTabRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
+
+//        initData();
     }
+
 
     /**
      * 切换fragment
@@ -192,6 +195,7 @@ public class MainActivity extends BaseActivity {
             mTransaction.show(mainZuCeFragment);
         }
     }
+
     private void showNewFragment() {
         if (mainPhotosFragment == null) {
             mainPhotosFragment = PhotosFragment.newInstance();
@@ -291,7 +295,7 @@ public class MainActivity extends BaseActivity {
             for (int i = 0; i < group.getChildCount(); i++) {
                 if (group.getChildAt(i).getId() == checkedId) {
                     mViewPager.setCurrentItem(i);
-                    Log.d("page",i+"");
+                    Log.d("page", i + "");
                     return;
                 }
             }

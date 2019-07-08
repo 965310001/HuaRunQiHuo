@@ -182,7 +182,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         Drawable mDrawable = FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.common_icon_back),
                 ContextCompat.getColor(mContext, R.color.colorLoadMoreProgress));
         //是否支持状态栏白色
-        boolean isSupport = StatusBarUtil.isSupportStatusBarFontChange();
+        boolean isSupport = false;
+        if (RomUtil.isEMUI()) {
+            isSupport = StatusBarUtil.isSupportStatusBarFontChange();
+        }
         boolean isActivity = Activity.class.isAssignableFrom(cls);
         Activity activity = StackUtil.getInstance().getActivity(cls);
         //设置TitleBarView 所有TextView颜色
@@ -478,13 +481,13 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
             @Override
             public void onFragmentResumed(FragmentManager fm, Fragment f) {
                 super.onFragmentResumed(fm, f);
-                LoggerManager.i(TAG, "onFragmentResumed:统计Fragment:" + f.getClass().getSimpleName());
+//                Log.i(TAG, "onFragmentResumed:统计Fragment:" + f.getClass().getSimpleName());
             }
 
             @Override
             public void onFragmentPaused(FragmentManager fm, Fragment f) {
                 super.onFragmentPaused(fm, f);
-                LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:" + f.getClass().getSimpleName());
+//                Log.i(TAG, "onFragmentPaused:统计Fragment:" + f.getClass().getSimpleName());
             }
         };
     }
@@ -500,7 +503,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         int page = httpRequestControl.getCurrentPage();
         int size = httpRequestControl.getPageSize();
 
-        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";class:" + httpRequestControl.getRequestClass());
+//        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";class:" + httpRequestControl.getRequestClass());
         if (smartRefreshLayout != null) {
             smartRefreshLayout.finishRefresh();
         }
