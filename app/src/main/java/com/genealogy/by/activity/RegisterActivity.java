@@ -103,6 +103,9 @@ public class RegisterActivity extends BaseTitleActivity {
                             SPHelper.setStringSF(mContext,"UserId",data.data.getUserId());
                             FastUtil.startActivity(mContext, MainActivity.class,bundle);
                         }else if(data.status==202){
+                            SPHelper.setStringSF(mContext,"GId", String.valueOf(data.data.getGId()));
+                            SPHelper.setStringSF(mContext,"Phone",phone);
+                            SPHelper.setStringSF(mContext,"UserId",data.data.getUserId());
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("title", "无");
                             FastUtil.startActivity(mContext, PerfectingInformationActivity.class,bundle);
