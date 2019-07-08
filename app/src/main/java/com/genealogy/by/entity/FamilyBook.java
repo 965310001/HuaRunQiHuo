@@ -41,7 +41,7 @@ public class FamilyBook {
     private String editingTime;
     private String editingTimeCN;
     private List<LineageTableBean> lineageTable;
-    private List<?> familyPhoto;
+    private List<String> familyPhoto;
     public int getId() {
         return id;
     }
@@ -162,11 +162,11 @@ public class FamilyBook {
         this.lineageTable = lineageTable;
     }
 
-    public List<?> getFamilyPhoto() {
+    public List<String> getFamilyPhoto() {
         return familyPhoto;
     }
 
-    public void setFamilyPhoto(List<?> familyPhoto) {
+    public void setFamilyPhoto(List<String> familyPhoto) {
         this.familyPhoto = familyPhoto;
     }
 

@@ -56,12 +56,11 @@
                         android:gravity="right">
 
                         <TextView
-                            android:id="@+id/savePhotos"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
                             android:gravity="right"
-                            android:text="确定"
+                            android:text=""
                             android:textColor="@android:color/holo_red_light"
                             android:textSize="20sp" />
                     </RelativeLayout>
@@ -72,12 +71,14 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="相册标题"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"/>
+                    android:layout_width="@dimen/dp_75"
+                    android:layout_height="@dimen/dp_23"
+                    android:text="标题"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/dp_16"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:textColor="#666666"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -87,51 +88,64 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="@dimen/dp_50"
                     android:background="#22000000" />
                 <EditText
                     android:id="@+id/photo_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_height="@dimen/dp_23"
+                    android:layout_marginRight="@dimen/dp_39"
+                    android:layout_marginLeft="@dimen/dp_106"
+                    android:layout_marginTop="@dimen/dp_13"
                     android:background="@null"
                     android:hint="输入相册标题"
-                    android:textSize="15dp"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/dp_16"
                     />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="80dp"
-                    android:background="#22000000" />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="相册描述"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="90dp"
-                    android:textColor="@color/black"/>
+                    android:layout_width="@dimen/dp_75"
+                    android:layout_height="@dimen/dp_23"
+                    android:text="共享"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/dp_16"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_70"
+                    android:textColor="#666666"/>
 
-                <EditText
-                    android:layout_height="120dp"
+                <TextView
+                    android:layout_height="@dimen/dp_23"
                     android:id="@+id/photo_description"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="120dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:minLines="5"
-                    android:gravity="top"
-                    android:paddingLeft="5dp"
-                    android:hint="输入相册描述..."
-                    android:background="@drawable/edit_frame"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_106"
+                    android:layout_marginTop="@dimen/dp_70"
+                    android:hint="共享到亲戚相册"
+                    android:textColor="#666666"
                     android:textSize="15dp"/>
-
+                <Switch
+                    android:id="@+id/shareswitch"
+                    android:layout_height="@dimen/dp_64"
+                    android:layout_width="@dimen/dp_36"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bt_share_selector"
+                    android:layout_marginRight="@dimen/dp_39"
+                    android:layout_marginTop="@dimen/dp_56"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="250dp"
                     android:background="#22000000" />
+                <TextView
+                    android:layout_height="@dimen/dp_47"
+                    android:id="@+id/savePhotos"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dp_257"
+                    android:text="完成创建"
+                    android:background="@drawable/bg__rectangle_read"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/dp_18"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

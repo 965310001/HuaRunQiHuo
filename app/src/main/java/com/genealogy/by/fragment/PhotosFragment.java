@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,23 @@ import com.genealogy.by.activity.PhotosAddActivity;
 import com.genealogy.by.adapter.AlbumAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.Album;
+import com.genealogy.by.entity.FamilyBook;
+import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.ToolUtil;
+import com.genealogy.by.utils.my.BaseTResp2;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
+import com.vise.xsnow.http.mode.CacheMode;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import tech.com.commoncore.constant.ApiConstant;
+import tech.com.commoncore.utils.ToastUtil;
 
 
 /**
@@ -31,8 +46,6 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class PhotosFragment extends Fragment implements onClickAlbumItem {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
     private String TAG = "PhotosFragment";
     private Button addPhotos;
     private ImageView addImage;
@@ -50,7 +63,6 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     }
 
     public PhotosFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -66,12 +78,12 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        doit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.photos, container, false);
         return rootView;
     }
@@ -80,7 +92,7 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         toolUtil = new ToolUtil();
-        mPhotosRadio = (RadioGroup) getActivity().findViewById(R.id.photos_radio);
+        mPhotosRadio =  getActivity().findViewById(R.id.photos_radio);
         mPhotosRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -93,17 +105,14 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
         });
 
         albums = new ArrayList<Album>();
-        addImage = (ImageView) getActivity().findViewById(R.id.add_image);
-        addPhotos = (Button) getActivity().findViewById(R.id.add_photos);
-        messageRelativeLayout = (RelativeLayout)getActivity().findViewById(R.id.message);
-        albumsLv = (ListView)getActivity().findViewById(R.id.albumsLv);
-        layout = (RecyclerRefreshLayout) getActivity().findViewById(R.id.layout);
-
-        initData();
-
+        addImage =  getActivity().findViewById(R.id.add_image);
+        addPhotos =  getActivity().findViewById(R.id.add_photos);
+        messageRelativeLayout = getActivity().findViewById(R.id.message);
+        albumsLv = getActivity().findViewById(R.id.albumsLv);
+        layout = getActivity().findViewById(R.id.layout);
         //下拉刷新
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                (int) toolUtil.dip2px(getActivity(), 40), (int) toolUtil.dip2px(getActivity(), 40));
+                toolUtil.dip2px(getActivity(), 40), (int) toolUtil.dip2px(getActivity(), 40));
         layout.setRefreshView(new RefreshView(getActivity()), layoutParams);//RefreshViewEg为下拉刷新控件中的自定义头部类，详细用法参考此控件用法
         layout.setRefreshStyle(RecyclerRefreshLayout.RefreshStyle.NORMAL);
 
@@ -146,26 +155,6 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
         });
 
     }
-
-    public void initData(){
-        Album album = new Album();
-        album.setText("旅游照");
-        album.setContent("很好看");
-        album.setId(1);
-        albums.add(album);
-        album = new Album();
-        album.setText("风景");
-        album.setContent("很好看");
-        album.setId(2);
-        albums.add(album);
-        album = new Album();
-        album.setText("美女");
-        album.setContent("很好看");
-        album.setId(3);
-        albums.add(album);
-
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -197,15 +186,47 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                     //相册集没了显示 提示信息
                     if(albums.size() == 0){
                         messageRelativeLayout.setVisibility(View.VISIBLE);
-                        //albumsLv.setVisibility(View.VISIBLE);
                         layout.setVisibility(View.GONE);
                     }
-
                     //更新list view视图
                     adapter.refresh(albums);
                     break;
             }
         }
+    }
+
+    public void doit(){
+        String userId =  SPHelper.getStringSF(getContext(),"UserId","");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userId", userId);
+        Log.e(TAG, "doit: 参数："+params.toString() );
+        JSONObject jsonObject = new JSONObject(params);
+        final MediaType JSONS= MediaType.parse("application/json; charset=utf-8");
+        ViseHttp.POST(ApiConstant.album_searchMyAlbum)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .cacheMode(CacheMode.FIRST_REMOTE)
+                .setRequestBody(RequestBody.create(JSONS,jsonObject.toString()))
+                .request(new ACallback<BaseTResp2>() {
+                    @Override
+                    public void onSuccess(BaseTResp2 data) {
+                        if(data.status==200){
+                            Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= "+data.msg );
+                            if(data.data.toString().equals("[]")){
+                                layout.setVisibility(View.GONE);
+                            }else{
+
+                            }
+                        }else{
+                            Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= "+data.msg );
+                            ToastUtil.show("请求失败 "+data.msg);
+                        }
+                    }
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show("失败: "+errMsg);
+                        Log.e(TAG, "errMsg: "+errMsg +"errCode:  "+errCode);
+                    }
+                });
     }
 
 }

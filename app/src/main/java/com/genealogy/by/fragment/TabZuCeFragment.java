@@ -101,8 +101,8 @@ public class TabZuCeFragment extends BaseFragment {
         //滑动册谱派系
         mViewPager = (ViewPager)mContentView.findViewById(R.id.contentView);
         //搜索 其他
-        searchButton = (TextView) mContentView.findViewById(R.id.zuce_search);
-        aboutButton = (TextView) mContentView.findViewById(R.id.zuce_about);
+        searchButton =  mContentView.findViewById(R.id.zuce_search);
+        aboutButton =  mContentView.findViewById(R.id.zuce_about);
         //水平滚动条
         seekBar = (SeekBar) mContentView.findViewById(R.id.seekBar);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -244,9 +244,9 @@ public class TabZuCeFragment extends BaseFragment {
     }
 
     public void initPopwindowView(View view){
-        homeTextView = (TextView) view.findViewById(R.id.home);
-        editCoverTextView = (TextView) view.findViewById(R.id.edit_cover);
-        exportCoverTextView = (TextView) view.findViewById(R.id.export_cover);
+        homeTextView =  view.findViewById(R.id.home);
+        editCoverTextView =  view.findViewById(R.id.edit_cover);
+        exportCoverTextView =  view.findViewById(R.id.export_cover);
     }
 
 
@@ -337,7 +337,7 @@ public class TabZuCeFragment extends BaseFragment {
         view = mLi.inflate(R.layout.zuce_bwh, null);
         TextView content = view.findViewById(R.id.content);
         TextView pageNumber = view.findViewById(R.id.pageNumber);
-         String contentstr =familyBook.getEditorialCommittee();
+        String contentstr =familyBook.getEditorialCommittee();
         if(contentstr!=null){
             content.setText(contentstr);
         }
@@ -376,7 +376,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("title",title.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
         /*姓氏来源*/
@@ -398,7 +398,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("title",title.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
         /*族规家训*/
@@ -420,7 +420,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("title",title.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
         /*家族照封面*/
@@ -485,7 +485,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("title",title.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
         view = mLi.inflate(R.layout.zuce_bignote, null);
@@ -500,7 +500,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("title",title.getText().toString());
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
         view = mLi.inflate(R.layout.zuce_postscript, null);
@@ -516,7 +516,7 @@ public class TabZuCeFragment extends BaseFragment {
                 intent.putExtra("index",mViewPager.getCurrentItem()+"");
                 intent.putExtra("index",familyBook.getId()+"");
                 intent.setClass(getActivity(), EditContentActivity.class);
-               startActivityForResult(intent,0);
+                startActivityForResult(intent,0);
             }
         });
 
@@ -594,7 +594,6 @@ public class TabZuCeFragment extends BaseFragment {
      * 更换pager的方法
      * @param view   新的pager
      * @param index  第几页
-     *
      * 示例：updateViewPagerItem(fragment2_parentctrl_changepwd,1);
      */
     private void updateViewPagerItem(View view,int index){
@@ -637,7 +636,7 @@ public class TabZuCeFragment extends BaseFragment {
                     }
                 });
     }
-   public  void doOnClick(View view){
+    public  void doOnClick(View view){
         RelativeLayout ll1 =view.findViewById(R.id.ll1);
         ll1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -669,7 +668,9 @@ public class TabZuCeFragment extends BaseFragment {
     }
     public void dosetdata(View view){
         familyBook =SPHelper.getDeviceData(mContext,"familyBook");
-//        List<FamilyPhoto> FamilyPhotos=familyBook.getFamilyPhoto();
+        if(familyBook!=null){
+            List<String> urls = familyBook.getFamilyPhoto();
 
+        }
     }
 }

@@ -27,13 +27,17 @@ public class ApiConstant {
     public static final String familyBook = "familyBook/search";//查询族册
     public static final String familyBook_edit = "familyBook/edit";//编辑族册
     public static final String familyBook_uploadImg = "familyBook/uploadImg";//家族照上传
-    public static final String familyBook_delImg = "familyBook/uploadImg";//删除家族照
-    public static final String familyBook_editImg = "familyBook/uploadImg";//录入简介-家族照重新上传
-    public static final String album_searchMyAlbum = "familyBook/uploadImg";//我的相册
-    public static final String album_searchFamilyAlbum = "familyBook/uploadImg";//家族相册
-    public static final String album_create = "familyBook/uploadImg";//创建相册
-    public static final String album_edit = "familyBook/uploadImg";//修改相册
-    public static final String album_del = "familyBook/uploadImg";//删除相册
-    public static final String log_search = "log/search";//删除相册
+    public static final String familyBook_delImg = "familyBook/delImg";//删除家族照
+    public static final String familyBook_editImg = "familyBook/editImg";//录入简介-家族照重新上传
+
+    public static final String album_searchMyAlbum = "album/searchMyAlbum";//我的相册
+    public static final String album_searchFamilyAlbum = "album/searchFamilyAlbum";//家族相册
+    public static final String album_create = "album/create";//创建相册
+    public static final String album_edit = "album/edit";//修改相册
+    public static final String album_del = "album/del";//删除相册
+    public static final String album_uploadImgs = "album/uploadImgs";//图片上传
+    public static final String album_delImgs = "album/delImgs";//删除照片
+
+    public static final String log_search = "log/search";//日志
 
 }

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,10 +19,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.utils.TextUtils;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.AddUser;
+import com.genealogy.by.entity.OKgoResponse;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.utils.my.MyGlideEngine;
@@ -30,6 +35,11 @@ import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.style.citylist.Toast.ToastUtils;
 import com.lljjcoder.style.citypickerview.CityPickerView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -37,11 +47,22 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.manager.GlideManager;
@@ -58,9 +79,9 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             ,tvMailbox,tvLink,tvAreaBury,tvAreaBuryBetailed,tvLifeYear,tvHeight,tvHereditaryDiseases,evPhone_number,evSurname;
     CityPickerView mCityPickerView = new CityPickerView();
     public RadioGroup rgGender ,rgCelebrity;
-    private String defaultProvinceName = "江苏";
-    private String defaultCityName = "常州";
-    private String defaultDistrict = "新北区";
+    private String defaultProvinceName = "广东";
+    private String defaultCityName = "广州";
+    private String defaultDistrict = "天河区";
     private boolean isProvinceCyclic = true;
     private boolean isCityCyclic = true;
     private boolean isDistrictCyclic = true;
@@ -151,25 +172,31 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             }
         });
         rgCelebrity = findViewById(R.id.rg_celebrity);
-        rgCelebrity.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch (i){
-                case R.id.rb_celebrity1:
-                    isCelebrity="0";
-                    break;
-                case R.id.rb_celebrity2:
-                    isCelebrity="1";
-                    break;
+        rgCelebrity.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rb_celebrity1:
+                        isCelebrity="0";
+                        break;
+                    case R.id.rb_celebrity2:
+                        isCelebrity="1";
+                        break;
+                }
             }
         });
-        tvRetract.setOnClickListener(view -> {
-            if (more){
-                MoreInformation.setVisibility(View.VISIBLE);
-                tvRetract.setText("收起详细资料");
-                more=false;
-            }else{
-                MoreInformation.setVisibility(View.GONE);
-                tvRetract.setText("展开详细资料");
-                more=true;
+        tvRetract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (more){
+                    MoreInformation.setVisibility(View.VISIBLE);
+                    tvRetract.setText("收起详细资料");
+                    more=false;
+                }else{
+                    MoreInformation.setVisibility(View.GONE);
+                    tvRetract.setText("展开详细资料");
+                    more=true;
+                }
             }
         });
         tvAncestral= findViewById(R.id.tv_ancestral);//祖籍
@@ -181,7 +208,12 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         tvResidence= findViewById(R.id.tv_residence);//现居地
         spAlive= findViewById(R.id.sp_alive);
         ivJeadPortrait= findViewById(R.id.iv_jeadportrait);//照片
-        ivJeadPortrait.setOnClickListener(view -> selectePhoto());
+        ivJeadPortrait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectePhoto();
+            }
+        });
         tvPreservation= findViewById(R.id.tv_preservation);//保存
 
         recommender = findViewById(R.id.recommender);
@@ -192,10 +224,25 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             phonenumbe.setVisibility(View.GONE);
             phonenumbe.setVisibility(View.GONE);
         }
-        tvPreservation.setOnClickListener(view -> Submission2(url));
+        tvPreservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Submission2(url);
+            }
+        });
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        tvBirthday.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvBirthday,calendar));
-        tvTimeDeath.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvTimeDeath,calendar));
+        tvBirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvBirthday,calendar);
+            }
+        });
+        tvTimeDeath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(PerfectingInformationActivity.this,R.color.colorPrimary,tvTimeDeath,calendar);
+            }
+        });
         Nation();//民族
         Ranking();//排行
         Alive();//是否健在
@@ -204,26 +251,38 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         AcceptInvitation();//是否接受
         getView();//加载剩余控件
         mCityPickerView.init(this);
-        tvArea.setOnClickListener(view -> {
-            type =1;
-            Areapick();
+        tvArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type =1;
+                Areapick();
+            }
         });
-        tvAreaDeath.setOnClickListener(view -> {
-            type =2;
-            Areapick();
+        tvAreaDeath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type =2;
+                Areapick();
+            }
         });
-        tvAncestral.setOnClickListener(view -> {
-            type =3;
-            Areapick();
+        tvAncestral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type =3;
+                Areapick();
+            }
         });
-        tvOriginArea.setOnClickListener(view -> {
-            type =4;
-            Areapick();
+        tvOriginArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type =4;
+                Areapick();
+            }
         });
     }
     public void Nation(){
         //将可选内容与ArrayAdapter连接起来
-         ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_04, android.R.layout.simple_spinner_item);
+        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_04, android.R.layout.simple_spinner_item);
         //设置下拉列表的风格
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //将adapter2 添加到spinner中
@@ -321,7 +380,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 StringBuilder sb = new StringBuilder();
-//                sb.append("");
+                sb.append("");
                 if (province != null) {
                     sb.append(province.getName() + " " );
                 }
@@ -487,8 +546,12 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         TimeDeath = TimeDeath.replace("月","-");
         TimeDeath = TimeDeath.replace("日","");
         addUser = new AddUser();
-        addUser.setId(Integer.parseInt(Userid));
-        addUser.setgId(Integer.parseInt(Gid));
+        if(Userid!=null){
+            addUser.setId(Integer.parseInt(Userid));
+        }
+        if(Gid!=null){
+            addUser.setgId(Integer.parseInt(Gid));
+        }
         addUser.setSurname(surname);
         addUser.setName(name);
         addUser.setPhone(phone);
@@ -532,68 +595,68 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         if(relationship_type!=0){
             doit();
         }else{
-        ViseHttp.POST(url)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                .cacheMode(CacheMode.FIRST_REMOTE)
-                .addForm("id", SPHelper.getStringSF(this,"UserId"))
-                .addForm("surname",surname)//姓
-                .addForm("name",name)//名
-                .addForm("sex",sex)//性别
-                .addForm("birthday",Birthday)//生日
-                .addForm("imgs",file)//头像图片
-                .addForm("phone",phone)//手机号码
-                .addForm("health", String.valueOf(health))//健在(0:健在 1:过世)
-                .addForm("height",height)//身高
-                .addForm("bloodGroup",bloodGroup)//血型
-                .addForm("ancestralHome",ancestralHome)//籍贯
-                .addForm("currentResidence",currentResidence)//聚集地
-                .addForm("wordGeneration",wordGeneration)//字辈
-                .addForm("school",school)//学校
-                .addForm("isCelebrity", String.valueOf(iscelebrity))//是否名人(0:是 1:不是)
-                .addForm("education",education)//学历
-                .addForm("email",tvMailbox.getText().toString())//邮箱
-                .addForm("unit",tvCompany.getText().toString())//单位
-                .addForm("position",tvPosition.getText().toString())//职务
-                .addForm("mark",evMark.getText().toString())//标记
-                .addForm("ranking", String.valueOf(runking))//排行
-                .addForm("commonName",evCommonNames.getText().toString())//常用名
-                .addForm("remark",evIntroduce.getText().toString())//备注
-                .addForm("geneticDisease",tvHereditaryDiseases.getText().toString())//遗传病
-                .addForm("word",evWord.getText().toString())//字
-                .addForm("number",evNumber.getText().toString())//号
-                .addForm("designation",evDesignation.getText().toString())//谥号
-                .addForm("noun",evNoun.getText().toString())//名讳
-                .addForm("usedName",evUsedName.getText().toString())//曾用名
-                .addForm("minName",evAlias.getText().toString())//小名
-                .addForm("birthArea",tvArea.getText().toString())//出生区域
-                .addForm("birthPlace",null)//出生地
-                .addForm("deathTime",TimeDeath)//去世时间
-                .addForm("dieAddress",tvAreaDeath.getText().toString())//死亡地点
-                .addForm("buriedArea",tvAreaBury.getText().toString())//葬于区域
-                .addForm("deathPlace",tvAreaBuryBetailed.getText().toString())//葬于区域（详细地点）
-                .addForm("yearOfLife",tvLifeYear.getText().toString())//寿年
-                .addForm("nationality",spNation.getSelectedItem().toString())//民族
-                .addForm("moveOut",tvOriginArea.getText().toString())//迁出至
-                .addForm("industry",tvIndustry.getText().toString())//行业
-                .addForm("url",tvLink.getText().toString())//外部连接
-                .addForm("idCard",evId_number.getText().toString())//身份证
-                .request(new ACallback<BaseTResp2>() {
-                    @Override
-                    public void onSuccess(BaseTResp2 data) {
-                        if(data.status==200){
-                            ToastUtil.show("提交成功: "+data.msg);
-                            FastUtil.startActivity(mContext, MainActivity.class);
-                            PerfectingInformationActivity.this.finish();
-                        }else{
-                            Log.e(TAG, "onSuccess:msg = "+data.msg+",status= "+data.status );
+            ViseHttp.POST(url)
+                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .cacheMode(CacheMode.FIRST_REMOTE)
+                    .addForm("id", SPHelper.getStringSF(this,"UserId"))
+                    .addForm("surname",surname)//姓
+                    .addForm("name",name)//名
+                    .addForm("sex",sex)//性别
+                    .addForm("birthday",Birthday)//生日
+                    .addForm("imgs",file)//头像图片
+                    .addForm("phone",phone)//手机号码
+                    .addForm("health", String.valueOf(health))//健在(0:健在 1:过世)
+                    .addForm("height",height)//身高
+                    .addForm("bloodGroup",bloodGroup)//血型
+                    .addForm("ancestralHome",ancestralHome)//籍贯
+                    .addForm("currentResidence",currentResidence)//聚集地
+                    .addForm("wordGeneration",wordGeneration)//字辈
+                    .addForm("school",school)//学校
+                    .addForm("isCelebrity", String.valueOf(iscelebrity))//是否名人(0:是 1:不是)
+                    .addForm("education",education)//学历
+                    .addForm("email",tvMailbox.getText().toString())//邮箱
+                    .addForm("unit",tvCompany.getText().toString())//单位
+                    .addForm("position",tvPosition.getText().toString())//职务
+                    .addForm("mark",evMark.getText().toString())//标记
+                    .addForm("ranking", String.valueOf(runking))//排行
+                    .addForm("commonName",evCommonNames.getText().toString())//常用名
+                    .addForm("remark",evIntroduce.getText().toString())//备注
+                    .addForm("geneticDisease",tvHereditaryDiseases.getText().toString())//遗传病
+                    .addForm("word",evWord.getText().toString())//字
+                    .addForm("number",evNumber.getText().toString())//号
+                    .addForm("designation",evDesignation.getText().toString())//谥号
+                    .addForm("noun",evNoun.getText().toString())//名讳
+                    .addForm("usedName",evUsedName.getText().toString())//曾用名
+                    .addForm("minName",evAlias.getText().toString())//小名
+                    .addForm("birthArea",tvArea.getText().toString())//出生区域
+                    .addForm("birthPlace",null)//出生地
+                    .addForm("deathTime",TimeDeath)//去世时间
+                    .addForm("dieAddress",tvAreaDeath.getText().toString())//死亡地点
+                    .addForm("buriedArea",tvAreaBury.getText().toString())//葬于区域
+                    .addForm("deathPlace",tvAreaBuryBetailed.getText().toString())//葬于区域（详细地点）
+                    .addForm("yearOfLife",tvLifeYear.getText().toString())//寿年
+                    .addForm("nationality",spNation.getSelectedItem().toString())//民族
+                    .addForm("moveOut",tvOriginArea.getText().toString())//迁出至
+                    .addForm("industry",tvIndustry.getText().toString())//行业
+                    .addForm("url",tvLink.getText().toString())//外部连接
+                    .addForm("idCard",evId_number.getText().toString())//身份证
+                    .request(new ACallback<BaseTResp2>() {
+                        @Override
+                        public void onSuccess(BaseTResp2 data) {
+                            if(data.status==200){
+                                ToastUtil.show("提交成功: "+data.msg);
+                                FastUtil.startActivity(mContext, MainActivity.class);
+                                PerfectingInformationActivity.this.finish();
+                            }else{
+                                Log.e(TAG, "onSuccess:msg = "+data.msg+",status= "+data.status );
+                            }
                         }
-                    }
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("注册失败: "+errMsg+"，errCode: "+errCode);
-                        Log.e(TAG, "onFail:errMsg = "+errMsg+",errCode: "+errCode );
-                    }
-                });
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            ToastUtil.show("注册失败: "+errMsg+"，errCode: "+errCode);
+                            Log.e(TAG, "onFail:errMsg = "+errMsg+",errCode: "+errCode );
+                        }
+                    });
         }
     }
     public void doit(){
