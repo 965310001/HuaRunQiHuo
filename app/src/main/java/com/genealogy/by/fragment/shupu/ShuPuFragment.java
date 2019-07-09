@@ -618,7 +618,6 @@ public class ShuPuFragment extends Fragment {
         mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
             @Override
             public void onFamilySelect(FamilyMember family) {
-
             }
 
             @Override

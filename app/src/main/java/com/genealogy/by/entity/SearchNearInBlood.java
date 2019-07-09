@@ -7,8 +7,8 @@ public class SearchNearInBlood implements Serializable {
 
     private Integer id;
     private Integer gId;//族谱ID
-    //    private Integer fatherId;//父亲ID
-//    private Integer motherId;//母亲ID
+    private Object fatherId;//父亲ID
+    //    private Integer motherId;//母亲ID
     //    private Integer inviteId;
     private String account;
     private String spouseId;
@@ -84,13 +84,13 @@ public class SearchNearInBlood implements Serializable {
         this.gId = gId;
     }
 
-//    public Integer getFatherId() {
-//        return fatherId;
-//    }
-//
-//    public void setFatherId(Integer fatherId) {
-//        this.fatherId = fatherId;
-//    }
+    public Object getFatherId() {
+        return fatherId;
+    }
+
+    public void setFatherId(Object fatherId) {
+        this.fatherId = fatherId;
+    }
 
 //    public Integer getMotherId() {
 //        return motherId;
@@ -404,7 +404,7 @@ public class SearchNearInBlood implements Serializable {
 //        this.yearOfLife = yearOfLife;
 //    }
 
-//    public String getNationality() {
+    //    public String getNationality() {
 //        return nationality;
 //    }
 //
