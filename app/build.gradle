@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.mob.sdk'
 android {
     compileSdkVersion 27
     sourceSets {
@@ -13,9 +13,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-
         flavorDimensions "default"
-
         multiDexEnabled true
 
         ndk {
@@ -34,6 +32,19 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+    MobSDK {
+        appKey "2b7e9c88a9f7a"
+        appSecret "1456dac36dd8ad059bd448ac866f0f09"
+        ShareSDK {
+            //平台配置信息
+            devInfo {
+                Wechat {
+                    appId "wx98d852025911626b"
+                    appSecret "4d98b5e1fa65759038ba774eb39b6378"
+                }
+            }
+        }
     }
 }
 

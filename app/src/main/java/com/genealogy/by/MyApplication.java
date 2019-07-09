@@ -12,6 +12,7 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.mob.MobSDK;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.LogcatTree;
 import com.vise.xsnow.http.ViseHttp;
@@ -42,6 +43,7 @@ public class MyApplication extends BaseApplication {
     @Override
     public void init() {
         application = this;
+        MobSDK.init(this);//分享
         EMOptions();
         initLog();
         initNet();
