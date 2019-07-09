@@ -25,11 +25,13 @@ import com.genealogy.by.R;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
 import com.genealogy.by.db.User;
-import com.genealogy.by.entity.Children;
 import com.genealogy.by.entity.SearchNearInBlood;
-import com.genealogy.by.entity.Spouse;
+import com.genealogy.by.interfaces.OnFamilySelectListener;
+import com.genealogy.by.model.FamilyMember;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
+import com.genealogy.by.view.FamilyTreeView2;
+import com.genealogy.by.view.FamilyTreeView3;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -60,6 +62,9 @@ public class ShuPuFragment extends Fragment {
     private View rootView;
     public boolean flg = true;
 
+    private String param1;
+
+
     public static ShuPuFragment newInstance(String param1) {
         ShuPuFragment fragment = new ShuPuFragment();
         Bundle bundle = new Bundle();
@@ -68,11 +73,14 @@ public class ShuPuFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mContext = getActivity();
+        param1 = getArguments().getString("param1");
+        Log.i(TAG, "onCreate: " + param1);
     }
 
     @Override
@@ -478,10 +486,10 @@ public class ShuPuFragment extends Fragment {
         user.setUserid(data.getId() + "");
         user.setGid(data.getGId() + "");
         AddView(rootView, user);
-        List<Children> childrens = data.getChildrens();
+        List<SearchNearInBlood> childrens = data.getChildrens();
         if (null != childrens && childrens.size() > 0) {
             for (int i = 0; i < childrens.size(); i++) {
-                Children children = childrens.get(i);
+                SearchNearInBlood children = childrens.get(i);
                 if (children.getName() != null) {
                     user.setName(children.getName());
                 } else {
@@ -494,10 +502,10 @@ public class ShuPuFragment extends Fragment {
                     user.setProfilePhoto("");
                 }
                 AddView(rootView, user);
-                ForChildrensGo(children.getchildren());
-                if (null != children.getspouse()) {
-                    if (children.getspouse().size() > 0) {
-                        Spouse spouses = children.getspouse().get(i);
+                ForChildrensGo(children.getChildrens());
+                if (null != children.getSpouses()) {
+                    if (children.getSpouses().size() > 0) {
+                        SearchNearInBlood spouses = children.getSpouses().get(i);
                         if (spouses.getName() != null) {
                             user.setName(spouses.getName());
                         } else {
@@ -516,10 +524,10 @@ public class ShuPuFragment extends Fragment {
                 }
             }
         }
-        List<Spouse> spouses = data.getSpouses();
+        List<SearchNearInBlood> spouses = data.getSpouses();
         if (null != spouses && spouses.size() != 0) {
             for (int i = 0; i < spouses.size(); i++) {
-                Spouse spouse = spouses.get(i);
+                SearchNearInBlood spouse = spouses.get(i);
                 if (spouse.getName() != null) {
                     user.setName(spouse.getName());
                 } else {
@@ -538,19 +546,20 @@ public class ShuPuFragment extends Fragment {
         }
     }
 
-    public void ForChildrensGo(List<Children> data) {
+    public void ForChildrensGo(List<SearchNearInBlood> data) {
         if (null != data) {
             for (int i = 0; i < data.size(); i++) {
                 user.setName(data.get(i).getName());
                 user.setSex(data.get(i).getSex());
                 user.setProfilePhoto(data.get(i).getProfilePhoto());
                 AddView(rootView, user);
-                if (data.get(i).getchildren().size() > 0) {
-                    ForChildrensGo((List<Children>) data.get(i));
+                if (data.get(i).getChildrens().size() > 0) {
+//                    ForChildrensGo((List<Children>) data.get(i));
+                    ForChildrensGo(data);
                 }
-                if (data.get(i).getspouse().size() != 0) {
-                    for (int f = 0; f < data.get(i).getspouse().size(); f++) {
-                        Spouse spouses = data.get(i).getspouse().get(f);
+                if (data.get(i).getSpouses().size() != 0) {
+                    for (int f = 0; f < data.get(i).getSpouses().size(); f++) {
+                        SearchNearInBlood spouses = data.get(i).getSpouses().get(f);
                         if (spouses.getName() != null) {
                             user.setName(spouses.getName());
                         } else {
@@ -585,7 +594,10 @@ public class ShuPuFragment extends Fragment {
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
                         if (data.status == 200) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-                            godata(data.data);
+//                            godata(data.data);
+                            initView();
+                            convertData(data.data);
+
                             Log.e(TAG, "onSuccess: data = " + data.toString());
                         } else {
                             Log.e(TAG, "onSuccess: data = " + data.msg);
@@ -598,6 +610,30 @@ public class ShuPuFragment extends Fragment {
                         Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
                     }
                 });
+    }
+
+    /*转换数据*/
+    private void convertData(SearchNearInBlood data) {
+        mFtvTree.setFamilyMember(data);
+        mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
+            @Override
+            public void onFamilySelect(FamilyMember family) {
+
+            }
+
+            @Override
+            public void onFamilySelect(SearchNearInBlood family) {
+                Log.i(TAG, "onFamilySelect: " + family.toString());
+            }
+        });
+    }
+
+    private FamilyTreeView3 mFtvTree;
+    private FamilyTreeView2 mFtvTree2;
+
+    private void initView() {
+        mFtvTree = rootView.findViewById(R.id.ftv_tree);
+        mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);
     }
 
 

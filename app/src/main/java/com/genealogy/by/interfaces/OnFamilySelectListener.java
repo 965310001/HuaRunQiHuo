@@ -1,6 +1,7 @@
 package com.genealogy.by.interfaces;
 
 
+import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.model.FamilyMember;
 
 /**
@@ -9,4 +10,7 @@ import com.genealogy.by.model.FamilyMember;
 
 public interface OnFamilySelectListener {
     void onFamilySelect(FamilyMember family);
+
+    void onFamilySelect(SearchNearInBlood family);
+
 }

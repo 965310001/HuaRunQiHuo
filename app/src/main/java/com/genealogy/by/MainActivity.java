@@ -91,12 +91,13 @@ public class MainActivity extends BaseActivity {
         mainTab.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+                Log.i(TAG, "onTabSelect: " + position);
                 switchToFragment(position);
             }
 
             @Override
             public void onTabReselect(int position) {
-
+                Log.i(TAG, "onTabSelect: " + position);
             }
         });
 
@@ -105,9 +106,10 @@ public class MainActivity extends BaseActivity {
         //如果是从崩溃中恢复，还需要加载之前的缓存
         if (savedInstanceState != null) {
             restoreFragment(savedInstanceState);
-        } else {
-            switchToFragment(0);
         }
+//        else {
+//            switchToFragment(0);
+//        }
         switchToFragment(0);
 
         toolUtil = new ToolUtil();

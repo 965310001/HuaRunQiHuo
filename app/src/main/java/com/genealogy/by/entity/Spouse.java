@@ -1,8 +1,5 @@
 package com.genealogy.by.entity;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -70,7 +67,7 @@ public class Spouse implements Serializable {
      */
     private Integer id;
     private Integer gId;
-//    private Integer fatherId;
+    //    private Integer fatherId;
 //    private Integer motherId;
 //    private Integer inviteId;
 //    private String account;
@@ -79,7 +76,7 @@ public class Spouse implements Serializable {
     private String name;
     private Integer sex;
     private String profilePhoto;
-//    private String birthday;
+    //    private String birthday;
 //    private String phone;
 //    private String password;
 //    private Integer health;
@@ -168,7 +165,7 @@ public class Spouse implements Serializable {
 //        this.inviteId = inviteId;
 //    }
 
-//    public String getAccount() {
+    //    public String getAccount() {
 //        return account;
 //    }
 //
@@ -193,17 +190,6 @@ public class Spouse implements Serializable {
 //    }
 //
     public String getName() {
-        if (!TextUtils.isEmpty(name)) {
-            String[] names = name.split("");
-            StringBuffer sb = new StringBuffer();
-            for (String s : names) {
-                if (!TextUtils.isEmpty(s)) {
-                    sb.append(s + "\n");
-                }
-            }
-            name = sb.toString().substring(0, sb.toString().length() - 1);
-            Log.i("TAG", "getName: "+name);
-        }
         return name;
     }
 

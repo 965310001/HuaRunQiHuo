@@ -6,10 +6,10 @@ import java.util.List;
 public class SearchNearInBlood implements Serializable {
 
     private Integer id;
-    private Integer gId;
-//    private Integer fatherId;
-//    private Integer motherId;
-//    private Integer inviteId;
+    private Integer gId;//族谱ID
+    //    private Integer fatherId;//父亲ID
+//    private Integer motherId;//母亲ID
+    //    private Integer inviteId;
     private String account;
     private String spouseId;
     private String surname;
@@ -18,8 +18,8 @@ public class SearchNearInBlood implements Serializable {
     private String profilePhoto;
     private String phone;
     private String password;
-//    private Integer health;
-//    private Double height;
+//    private Integer health;//健在(0:健在 1:过世)
+    //    private Double height;
 //    private String bloodGroup;
 //    private String ancestralHome;
 //    private String currentResidence;
@@ -54,17 +54,19 @@ public class SearchNearInBlood implements Serializable {
 //    private String genealogyImage;
 //    private String idCard;
 //    private String latestUpdatetime;
-//    private Integer branch;
-//    private String remark;
+//    private Integer branch;//分支 0:始祖 1:始迁祖 2:本支祖 3:分支祖
+
+    //    private String remark;
 //    private Integer oldId;
-//    private String nickName;
-//    private String relationship;
+    private String nickName;
+    private String relationship;
 //    private String geneticDisease;
-//    private Integer isReghx;
-//    private String birthday;
+//    private Integer isReghx;//是否已经注册环信 0:否 1:是
+
+    //    private String birthday;
 //    private String deeds;
-    private List<Children> childrens;
-    private List<Spouse> spouses;
+    private List<SearchNearInBlood> childrens;
+    private List<SearchNearInBlood> spouses;
 
     public Integer getId() {
         return id;
@@ -131,17 +133,6 @@ public class SearchNearInBlood implements Serializable {
     }
 
     public String getName() {
-//        if (!TextUtils.isEmpty(name)) {
-//            String[] names = name.split("");
-//            StringBuffer sb = new StringBuffer();
-//            for (String s : names) {
-//                if (!TextUtils.isEmpty(s)) {
-//                    sb.append(s + "\n");
-//                }
-//            }
-//            name = sb.toString().substring(0, sb.toString().length() - 1);
-//            Log.i("TAG", "getName: "+name);
-//        }
         return name;
     }
 
@@ -501,22 +492,22 @@ public class SearchNearInBlood implements Serializable {
 //        this.oldId = oldId;
 //    }
 //
-//    public String getNickName() {
-//        return nickName;
-//    }
-//
-//    public void setNickName(String nickName) {
-//        this.nickName = nickName;
-//    }
-//
-//    public String getRelationship() {
-//        return relationship;
-//    }
-//
-//    public void setRelationship(String relationship) {
-//        this.relationship = relationship;
-//    }
-//
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
+
 //    public String getGeneticDisease() {
 //        return geneticDisease;
 //    }
@@ -541,19 +532,19 @@ public class SearchNearInBlood implements Serializable {
 //        this.deeds = deeds;
 //    }
 
-    public List<Children> getChildrens() {
+    public List<SearchNearInBlood> getChildrens() {
         return childrens;
     }
 
-    public void setChildrens(List<Children> childrens) {
+    public void setChildrens(List<SearchNearInBlood> childrens) {
         this.childrens = childrens;
     }
 
-    public List<Spouse> getSpouses() {
+    public List<SearchNearInBlood> getSpouses() {
         return spouses;
     }
 
-    public void setSpouses(List<Spouse> spouses) {
+    public void setSpouses(List<SearchNearInBlood> spouses) {
         this.spouses = spouses;
     }
 }

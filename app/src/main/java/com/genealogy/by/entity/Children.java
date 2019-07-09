@@ -124,8 +124,8 @@ public class Children implements Serializable {
 //    private String relationship;
 //    private String geneticDisease;
 //    private String deeds;
-    private List<Children> children;
-    private List<Spouse> spouse;
+    private List<Children> childrens;
+    private List<Spouse> spouses;
 
     public int getId() {
         return id;
@@ -594,19 +594,19 @@ public class Children implements Serializable {
 //        this.deeds = deeds;
 //    }
 
-    public List<Children> getchildren() {
-        return children;
+    public List<Children> getChildrens() {
+        return childrens;
     }
 
-    public void setchildren(List<Children> children) {
-        this.children = children;
+    public void setChildrens(List<Children> childrens) {
+        this.childrens = childrens;
     }
 
-    public List<Spouse> getspouse() {
-        return spouse;
+    public List<Spouse> getSpouses() {
+        return spouses;
     }
 
-    public void setspouse(List<Spouse> spouse) {
-        this.spouse = spouse;
+    public void setSpouses(List<Spouse> spouses) {
+        this.spouses = spouses;
     }
 }

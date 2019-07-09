@@ -17,7 +17,6 @@
             android:layout_height="@dimen/dp_44"
             android:background="@mipmap/boy" />
 
-
         <RelativeLayout
             android:id="@+id/rl_name"
             android:layout_width="match_parent"

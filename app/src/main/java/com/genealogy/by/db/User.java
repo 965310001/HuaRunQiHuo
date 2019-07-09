@@ -1,5 +1,9 @@
 package com.genealogy.by.db;
 
+import com.genealogy.by.entity.SearchNearInBlood;
+
+import java.util.List;
+
 public class User {
 
     private int iconId;
@@ -11,20 +15,35 @@ public class User {
     private String profilePhoto;
     private String userid;
     private String gid;
-    public User(){
+
+    private Integer fatherId;//父亲ID
+    private Integer motherId;//母亲ID
+//    private String spouseId;//配偶ID
+
+    private List<SearchNearInBlood> childrens; //儿女
+
+    private List<SearchNearInBlood> spouses;//配偶
+
+    private boolean isSelect = false;//是否选中
+
+
+
+
+    public User() {
     }
 
     public User(int iconId, String name, String content, int sex,
-                int generation,String profilePhoto,String userid,String gid) {
+                int generation, String profilePhoto, String userid, String gid) {
         this.iconId = iconId;
         this.name = name;
         this.content = content;
         this.sex = sex;
         this.generation = generation;
-        this.profilePhoto=profilePhoto;
-        this.userid=userid;
-        this.gid=gid;
+        this.profilePhoto = profilePhoto;
+        this.userid = userid;
+        this.gid = gid;
     }
+
     public String getProfilePhoto() {
         return profilePhoto;
     }
@@ -32,6 +51,7 @@ public class User {
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
+
     public void setGeneration(int generation) {
         this.generation = generation;
     }
@@ -64,11 +84,11 @@ public class User {
         this.content = content;
     }
 
-    public int getSex(){
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(int sex){
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
@@ -87,22 +107,44 @@ public class User {
     public void setGid(String gid) {
         this.gid = gid;
     }
-    public String getSplitName(){
+
+    public String getSplitName() {
         String str = "";
-        for(int i = 0;i < name.length();i++){
-            if(name.length() == 2){
-                if(i == 1){
-                    str += "\n" + name.substring(i,i+1) + "\n";
-                }else{
-                    str +=  name.substring(i,i+1) + "\n";
+        for (int i = 0; i < name.length(); i++) {
+            if (name.length() == 2) {
+                if (i == 1) {
+                    str += "\n" + name.substring(i, i + 1) + "\n";
+                } else {
+                    str += name.substring(i, i + 1) + "\n";
                 }
-            }else{
-                str += name.substring(i,i+1) + "\n";
+            } else {
+                str += name.substring(i, i + 1) + "\n";
             }
         }
         return str;
     }
-    @Override
+
+    public List<SearchNearInBlood> getChildrens() {
+        return childrens;
+    }
+
+    public void setChildrens(List<SearchNearInBlood> childrens) {
+        this.childrens = childrens;
+    }
+
+    public List<SearchNearInBlood> getSpouses() {
+        return spouses;
+    }
+
+    public void setSpouses(List<SearchNearInBlood> spouses) {
+        this.spouses = spouses;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
+    /* @Override
     public String toString() {
         return "User{" +
                 "iconId=" + iconId +
@@ -112,5 +154,5 @@ public class User {
                 ", generation=" + generation +
                 '}';
     }
-
+*/
 }

@@ -8,14 +8,15 @@
     <com.genealogy.by.view.GestureView
         android:id="@+id/powerFullLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/shupu_table"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical" />
     </com.genealogy.by.view.GestureView>
 
     <LinearLayout
@@ -23,7 +24,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.genealogy.by.view.FamilyTreeView
+        <com.genealogy.by.view.FamilyTreeView3
             android:id="@+id/ftv_tree"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
