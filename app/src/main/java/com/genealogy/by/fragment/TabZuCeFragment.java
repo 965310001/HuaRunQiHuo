@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -435,6 +436,8 @@ public class TabZuCeFragment extends BaseFragment {
         });
         /*家族照封面*/
         view = mLi.inflate(R.layout.zuce_jzz, null);
+
+
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz1, null);

@@ -44,7 +44,7 @@ public class FamilyBook implements Serializable {
     private String editingTime;
     private String editingTimeCN;
     private List<LineageTableBean> lineageTable;
-//    private List<String> familyPhoto;
+    private List<FamilyPhoto> familyPhoto;
 
     public int getId() {
         return id;
@@ -169,13 +169,13 @@ public class FamilyBook implements Serializable {
         this.lineageTable = lineageTable;
     }
 
-//    public List<String> getFamilyPhoto() {
-//        return familyPhoto;
-//    }
-//
-//    public void setFamilyPhoto(List<String> familyPhoto) {
-//        this.familyPhoto = familyPhoto;
-//    }
+    public List<FamilyPhoto> getFamilyPhoto() {
+        return familyPhoto;
+    }
+
+    public void setFamilyPhoto(List<FamilyPhoto> familyPhoto) {
+        this.familyPhoto = familyPhoto;
+    }
 
     public static class LineageTableBean implements Serializable {
         /**
@@ -205,8 +205,8 @@ public class FamilyBook implements Serializable {
         private String profilePhoto;
         private String family;
         private String introduction;
-//        private List<?> spouses;
-//        private List<?> parents;
+        private List<SearchNearInBlood> spouses;
+        private List<String> parents;
 
         public static LineageTableBean objectFromData(String str) {
 
@@ -301,20 +301,20 @@ public class FamilyBook implements Serializable {
             this.introduction = introduction;
         }
 
-//        public List<?> getSpouses() {
-//            return spouses;
-//        }
-//
-//        public void setSpouses(List<?> spouses) {
-//            this.spouses = spouses;
-//        }
-//
-//        public List<?> getParents() {
-//            return parents;
-//        }
-//
-//        public void setParents(List<?> parents) {
-//            this.parents = parents;
-//        }
+        public List<SearchNearInBlood> getSpouses() {
+            return spouses;
+        }
+
+        public void setSpouses(List<SearchNearInBlood> spouses) {
+            this.spouses = spouses;
+        }
+
+        public List<String> getParents() {
+            return parents;
+        }
+
+        public void setParents(List<String> parents) {
+            this.parents = parents;
+        }
     }
 }
