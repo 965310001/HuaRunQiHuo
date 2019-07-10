@@ -22,9 +22,11 @@ import android.widget.TextView;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.EditContentActivity;
 import com.genealogy.by.activity.EditCoverActivity;
+import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.ReleasePictureActivity;
 import com.genealogy.by.activity.SearchMainActivity;
 import com.genealogy.by.entity.FamilyBook;
+import com.genealogy.by.entity.FamilyPhoto;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.vise.xsnow.http.ViseHttp;
@@ -41,6 +43,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseFragment;
 import tech.com.commoncore.constant.ApiConstant;
+import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
@@ -57,7 +60,7 @@ public class TabZuCeFragment extends BaseFragment {
     private TextView homeTextView;
     private TextView editCoverTextView;
     private TextView exportCoverTextView;
-
+    PopupWindow popupWindowEdit;
     //传送参数
     private int curUpdatePager;
     private final ArrayList<View> views = new ArrayList<View>();
@@ -436,52 +439,57 @@ public class TabZuCeFragment extends BaseFragment {
         });
         /*家族照封面*/
         view = mLi.inflate(R.layout.zuce_jzz, null);
-
-
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz1, null);
         doOnClick(view);
+        dosetdata(view,0,1,2,3);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz2, null);
         doOnClick(view);
+        dosetdata(view,4,5,6,7);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz3, null);
         doOnClick(view);
+        dosetdata(view,8,9,10,11);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz4, null);
         doOnClick(view);
+        dosetdata(view,12,13,14,15);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz5, null);
         doOnClick(view);
+        dosetdata(view,16,17,18,19);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz6, null);
         doOnClick(view);
+        dosetdata(view,20,21,22,23);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz7, null);
         doOnClick(view);
+        dosetdata(view,24,25,26,27);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz8, null);
         doOnClick(view);
+        dosetdata(view,28,29,30,31);
         views.add(view);
         /*家族照*/
         view = mLi.inflate(R.layout.zuce_jzz9, null);
         doOnClick(view);
+        dosetdata(view,32,33,34,35);
         views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz10, null);
-        doOnClick(view);
-        views.add(view);
+
         /*世系表*/
         view = mLi.inflate(R.layout.zuce_sxb, null);
         views.add(view);
+
         /*世系表*/
         view = mLi.inflate(R.layout.zuce_sxb_xq, null);
         views.add(view);
@@ -623,7 +631,6 @@ public class TabZuCeFragment extends BaseFragment {
         views.remove(index);
         views.add(index, view);
         mViewPager.getAdapter().notifyDataSetChanged();
-        // findViewById(getResources().getIdentifier("sysset_button"+(index+1), "id", "com.jzbyapp.suzhou")).requestFocus();
     }
 
     public void doit() {
@@ -662,23 +669,229 @@ public class TabZuCeFragment extends BaseFragment {
     }
 
     public void doOnClick(View view) {
-        RelativeLayout ll1 = view.findViewById(R.id.ll1);
-        ll1.setOnClickListener(view1 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
-        RelativeLayout ll2 = view.findViewById(R.id.ll2);
-        ll2.setOnClickListener(view12 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
-        RelativeLayout ll3 = view.findViewById(R.id.ll3);
-        ll3.setOnClickListener(view13 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
-        RelativeLayout ll4 = view.findViewById(R.id.ll4);
-        ll4.setOnClickListener(view14 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
+        TextView image1 = view.findViewById(R.id.image1);
+        image1.setOnClickListener(view1 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
+        TextView image2 = view.findViewById(R.id.image2);
+        image2.setOnClickListener(view12 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
+        TextView image3 = view.findViewById(R.id.image3);
+        image3.setOnClickListener(view13 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
+        TextView image4 = view.findViewById(R.id.image4);
+        image4.setOnClickListener(view14 -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class));
+    }
+    public void dosetdata(View view,int idx1,int idx2,int idx3,int idx4) {
+        TextView text1=view.findViewById(R.id.text1);
+        TextView text2=view.findViewById(R.id.text2);
+        TextView text3=view.findViewById(R.id.text3);
+        TextView text4=view.findViewById(R.id.text4);
+        TextView tv_1=view.findViewById(R.id.tv_1);
+        TextView tv_2=view.findViewById(R.id.tv_2);
+        TextView tv_3=view.findViewById(R.id.tv_3);
+        TextView tv_4=view.findViewById(R.id.tv_4);
+        TextView image1=view.findViewById(R.id.image1);
+        TextView image2=view.findViewById(R.id.image2);
+        TextView image3=view.findViewById(R.id.image3);
+        TextView image4=view.findViewById(R.id.image4);
+        ImageView iv_1 =view.findViewById(R.id.iv_1);
+        ImageView iv_2 =view.findViewById(R.id.iv_2);
+        ImageView iv_3 =view.findViewById(R.id.iv_3);
+        ImageView iv_4 =view.findViewById(R.id.iv_4);
+        if(familyBook.getFamilyPhoto().size()>idx1){
+            String url_1=familyBook.getFamilyPhoto().get(idx1).getUrl();
+            if(familyBook.getFamilyPhoto().get(idx1).getIntroduction()!=null){
+//                text1.setText(familyBook.getFamilyPhoto().get(idx1).getIntroduction());
+            }
+            image1.setVisibility(View.GONE);
+            tv_1.setVisibility(View.GONE);
+            iv_1.setVisibility(View.VISIBLE);
+            GlideManager.loadImg(url_1, iv_1);
+            iv_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(4).getId());
+                }
+            });
+        }else{
+            image1.setVisibility(View.VISIBLE);
+            tv_1.setVisibility(View.VISIBLE);
+            iv_1.setVisibility(View.GONE);
+            image1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,0,0);
+                }
+            });
+        }
+        if(familyBook.getFamilyPhoto().size()>idx2){
+            String url_1=familyBook.getFamilyPhoto().get(idx2).getUrl();
+            if(familyBook.getFamilyPhoto().get(idx1).getIntroduction()!=null){
+//                text2.setText(familyBook.getFamilyPhoto().get(idx1).getIntroduction());
+            }
+            image2.setVisibility(View.GONE);
+            tv_2.setVisibility(View.GONE);
+            iv_2.setVisibility(View.VISIBLE);
+            GlideManager.loadImg(url_1, iv_2);
+            iv_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx2).getId());
+                }
+            });
+        }else{
+            image2.setVisibility(View.VISIBLE);
+            tv_2.setVisibility(View.VISIBLE);
+            iv_2.setVisibility(View.GONE);
+            image2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,0,0);
+                }
+            });
+        }
+        if(familyBook.getFamilyPhoto().size()>idx3){
+            String url_1=familyBook.getFamilyPhoto().get(idx3).getUrl();
+            if(familyBook.getFamilyPhoto().get(idx1).getIntroduction()!=null){
+//                text3.setText(familyBook.getFamilyPhoto().get(idx1).getIntroduction());
+            }
+            image3.setVisibility(View.GONE);
+            tv_3.setVisibility(View.GONE);
+            iv_3.setVisibility(View.VISIBLE);
+            GlideManager.loadImg(url_1, iv_3);
+            iv_3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx3).getId());
+                }
+            });
+        }else{
+            image3.setVisibility(View.VISIBLE);
+            tv_3.setVisibility(View.VISIBLE);
+            iv_3.setVisibility(View.GONE);
+            image3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,0,0);
+                }
+            });
+        }
+        if(familyBook.getFamilyPhoto().size()>idx4){
+            String url_1=familyBook.getFamilyPhoto().get(idx4).getUrl();
+            if(familyBook.getFamilyPhoto().get(idx1).getIntroduction()!=null){
+//                text4.setText(familyBook.getFamilyPhoto().get(idx1).getIntroduction());
+            }
+            image4.setVisibility(View.GONE);
+            tv_4.setVisibility(View.GONE);
+            iv_4.setVisibility(View.VISIBLE);
+            GlideManager.loadImg(url_1, iv_4);
+            iv_4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx4).getId());
+                }
+            });
+        }else{
+            image1.setVisibility(View.VISIBLE);
+            tv_4.setVisibility(View.VISIBLE);
+            iv_4.setVisibility(View.GONE);
+            image4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupWindowEdit(view,0,0);
+                }
+            });
+        }
     }
 
-
-    public void dosetdata(View view) {
-//        familyBook = SPHelper.getDeviceData(mContext, "familyBook");
-//        List<FamilyPhoto> FamilyPhotos=familyBook.getFamilyPhoto();
-        familyBook = SPHelper.getDeviceData(mContext, "familyBook");
-        if (familyBook != null) {
-//            List<String> urls = familyBook.getFamilyPhoto();
+    private void showPopupWindowEdit(View view,int aog,int id) {
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(mContext).inflate(
+                R.layout.activity_popupzcedit, null);
+        // 设置按钮的点击事件
+        RelativeLayout ll =  contentView.findViewById(R.id.ll1);//背景图
+        TextView edit =  contentView.findViewById(R.id.edit);//上传
+        TextView input =  contentView.findViewById(R.id.input);//录入
+        TextView delete =  contentView.findViewById(R.id.delete);//删除
+        TextView cancel =  contentView.findViewById(R.id.cancel);//取消
+        if(aog==0){
+            input.setVisibility(View.GONE);
+            delete.setVisibility(View.GONE);
+        }else {
+            input.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.VISIBLE);
         }
+        ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindowEdit.dismiss();
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type", "上传");
+                FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
+            }
+        });
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type", "录入");
+                bundle.putSerializable("id", id);
+                FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDoit(id);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowEdit.dismiss();
+            }
+        });
+        popupWindowEdit = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindowEdit.setOnDismissListener(new popuDismissListener());
+        popupWindowEdit.setBackgroundDrawable(new BitmapDrawable());
+        popupWindowEdit.setOutsideTouchable(true);
+        // 设置好参数之后再show
+        popupWindowEdit.showAsDropDown(view);
+    }
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     */
+    class  popuDismissListener implements  PopupWindow.OnDismissListener{
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+
+    public void deleteDoit(int id ){
+        ViseHttp.GET(ApiConstant.familyBook_delImg)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .cacheMode(CacheMode.FIRST_REMOTE)
+                .addParam("id", String.valueOf(id))
+                .request(new ACallback<BaseTResp2>() {
+                    @Override
+                    public void onSuccess(BaseTResp2 data) {
+                        if (data.status == 200) {
+                            Log.e(TAG, "onSuccess: 照片删除成功  msg= " + data.msg);
+                        } else {
+                            Log.e(TAG, "onSuccess:  照片删除失败  msg= " + data.msg);
+                            ToastUtil.show("请求失败 " + data.msg);
+                        }
+                    }
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show("失败: " + errMsg);
+                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                    }
+                });
     }
 }

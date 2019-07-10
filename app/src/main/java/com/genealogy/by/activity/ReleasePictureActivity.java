@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
+import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.entity.PhoneLogin;
 import com.genealogy.by.entity.PhoneUser;
 import com.genealogy.by.utils.SPHelper;
@@ -51,18 +52,30 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     PictureSelectorHelper helper;
     EditText etText;
     String imgs;
-
+    int id=0;
+    String Imgid="";
+    String type="";
     @Override
     public void setTitleBar(TitleBarView titleBar) {
+        Intent intent =getIntent();
+        Imgid = intent.getStringExtra("id");
+        type = intent.getStringExtra("type");
         titleBar.setTitleMainText("发布图片").setRightTextColor(getResources().getColor(R.color.C_F47432)).setRightText("发布").setOnRightTextClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DataUtils.isEmpty(etText.getText())) {
-                    ToastUtil.show("请输入评论内容");
-                    return;
+                if(type.contains("录入")){
+                    if (DataUtils.isEmpty(etText.getText())) {
+                        ToastUtil.show("请输入评论内容");
+                        return;
+                    }
+                    imgs = "";
+                    InputDoit(helper.getPictureList(), 0);
+                }else{
+                    imgs = "";
+                    upLoadPic(helper.getPictureList(), 0);
                 }
-                imgs = "";
-                upLoadPic(helper.getPictureList(), 0);
+
+
             }
         });
     }
@@ -73,6 +86,8 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     }
     @Override
     public void initView(Bundle savedInstanceState) {
+        FamilyBook familyBook =SPHelper.getDeviceData(mContext,"familyBook");
+        id = familyBook.getId();
         etText = mContentView.findViewById(R.id.et_text);
         recyclerView = mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
@@ -86,7 +101,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         ViseHttp.POST(ApiConstant.familyBook_uploadImg)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .addForm("id",SPHelper.getStringSF(this,"GId"))//族册ID
+                .addParam("id", String.valueOf(id))//族册ID
                 .addForm("imgs",file)//图片
                 .request(new ACallback<BaseTResp2>() {
                     @Override
@@ -111,5 +126,29 @@ public class ReleasePictureActivity extends BaseTitleActivity {
             ArrayList<String> result = (ArrayList<String>) Matisse.obtainPathResult(data);
             helper.setActivityResult(result);
         }
+    }
+    public void InputDoit(final List<String> urls,int id ){
+        ViseHttp.POST(ApiConstant.familyBook_editImg)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .cacheMode(CacheMode.FIRST_REMOTE)
+                .addParam("id", String.valueOf(id))
+                .addForm("imgs", file)
+                .addParam("introduction", etText.getText().toString())
+                .request(new ACallback<BaseTResp2>() {
+                    @Override
+                    public void onSuccess(BaseTResp2 data) {
+                        if (data.status == 200) {
+                            Log.e(TAG, "onSuccess: 照片删除成功  msg= " + data.msg);
+                        } else {
+                            Log.e(TAG, "onSuccess:  照片删除失败  msg= " + data.msg);
+                            ToastUtil.show("请求失败 " + data.msg);
+                        }
+                    }
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show("失败: " + errMsg);
+                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                    }
+                });
     }
 }

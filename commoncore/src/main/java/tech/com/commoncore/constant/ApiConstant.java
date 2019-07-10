@@ -8,7 +8,6 @@ package tech.com.commoncore.constant;
 public class ApiConstant {
 
     public static final String BASE_URL_ZP= "http://39.98.47.107:9005/";
-    public static final String Account_login = "user/login";//登录
     public static final String Account_Send_messages = "user/sendPhoneMessage";//发送注册或登录短信(获取验证码)
     public static final String Account_register = "user/phoneLogin";//短信登录或注册登陆
     public static final String UerfectUserDetail = "user/perfectUserDetail";//完善个人信息
@@ -18,7 +17,6 @@ public class ApiConstant {
     public static final String inviteUser = " user/inviteUser";//邀请加入
     public static final String setAsCenter = "user/setAsCenter";//设为中心，父系列表
     public static final String addUsers = "user/addUser";//添加关系
-
     public static final String searchUserDeatil = "user/searchUserDeatil";//查看详情
     public static final String getRelationshipChain = "user/getRelationshipChain";//查看关系链
     public static final String addDeeds = "deeds/addDeeds";//添加事迹
@@ -37,7 +35,5 @@ public class ApiConstant {
     public static final String album_del = "album/del";//删除相册
     public static final String album_uploadImgs = "album/uploadImgs";//图片上传
     public static final String album_delImgs = "album/delImgs";//删除照片
-
     public static final String log_search = "log/search";//日志
-
 }
