@@ -75,7 +75,7 @@ public class FamilyTreeView4 extends ViewGroup {
 //    private View mFatherView;//父亲View
 //    private View mMotherView;//母亲View
     private List<View> mBrothersView;//兄弟姐妹View
-//    private View mPaternalGrandFatherView;//爷爷View
+    //    private View mPaternalGrandFatherView;//爷爷View
 //    private View mPaternalGrandMotherView;//奶奶View
 //    private View mMaternalGrandFatherView;//外公View
 //    private View mMaternalGrandMotherView;//外婆View
@@ -355,7 +355,6 @@ public class FamilyTreeView4 extends ViewGroup {
 //    }
 
     private void initView() {
-        // TODO: 2019/7/10 我的view 
         View view = createFamilyView(mFamilyMember);
         mFamilyMember.setmMineView(view);
 
@@ -377,9 +376,7 @@ public class FamilyTreeView4 extends ViewGroup {
         Log.i(TAG, "initView: " + mFamilyMember);
         /************************************** end *************************************/
 
-
 //        if (mMySpouse != null) {
-//            // TODO: 2019/7/9 配偶的添加
 //            for (SearchNearInBlood searchNearInBlood : mMySpouse) {
 //                Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
 //                mSpouseView.add(createFamilyView(searchNearInBlood));
@@ -448,7 +445,6 @@ public class FamilyTreeView4 extends ViewGroup {
 //                final List<SearchNearInBlood> childSpouse = family.getSpouses();
 //                if (childSpouse != null && childSpouse.size() > 0) {
 //                    for (SearchNearInBlood searchNearInBlood : childSpouse) {
-//                        // TODO: 2019/7/9 子配偶
 //                        Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
 //                        mChildSpouseView.add(createFamilyView(searchNearInBlood));
 //                    }
@@ -609,17 +605,18 @@ public class FamilyTreeView4 extends ViewGroup {
 //                setGrandParentFrame(mFMGrandFatherView, mFMGrandMotherView, fosterMotherLeft, grandParentTop);
 //            }
 
-            if (mBrothersView != null && mBrothersView.size() > 0) {
-                final int brotherCount = mBrothersView.size();
-                for (int i = 0; i < brotherCount; i++) {
-                    final View brotherView = mBrothersView.get(i);
-                    setChildViewFrame(brotherView,
-                            mineLeft - (i + 1) * (mItemWidthPX + mSpacePX),
-                            mineTop,
-                            mItemWidthPX, mItemHeightPX);
-                }
-            }
+//            if (mBrothersView != null && mBrothersView.size() > 0) {
+//                final int brotherCount = mBrothersView.size();
+//                for (int i = 0; i < brotherCount; i++) {
+//                    final View brotherView = mBrothersView.get(i);
+//                    setChildViewFrame(brotherView,
+//                            mineLeft - (i + 1) * (mItemWidthPX + mSpacePX),
+//                            mineTop,
+//                            mItemWidthPX, mItemHeightPX);
+//                }
+//            }
 
+            // TODO: 2019/7/10 子view 的摆放位置
             if (mChildrenView != null && mChildrenView.size() > 0) {
                 final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
                 int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;

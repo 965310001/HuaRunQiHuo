@@ -72,7 +72,6 @@ public class MainsActivity extends Activity {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if(null != lineLayout.findViewById(10001)){
                     lineLayout.removeView(showText);
                 }else{
