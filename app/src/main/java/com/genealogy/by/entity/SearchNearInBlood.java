@@ -1,6 +1,9 @@
 package com.genealogy.by.entity;
 
+import android.view.View;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchNearInBlood implements Serializable {
@@ -67,6 +70,53 @@ public class SearchNearInBlood implements Serializable {
 //    private String deeds;
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
+
+
+    private View mMineView;//我
+    private List<View> mMySpouse;//配偶
+    private List<View> mMyChildren;//子女
+
+    public View getmMineView() {
+        return mMineView;
+    }
+
+    public void setmMineView(View mMineView) {
+        this.mMineView = mMineView;
+    }
+
+    public List<View> getmMySpouse() {
+        return mMySpouse;
+    }
+
+    public void setmMySpouse(List<View> mMySpouse) {
+        this.mMySpouse = mMySpouse;
+    }
+
+    public List<View> getmMyChildren() {
+        return mMyChildren;
+    }
+
+    public void setmMyChildren(List<View> mMyChildren) {
+        this.mMyChildren = mMyChildren;
+    }
+
+    public void addChildren(View view) {
+        if (null == this.mMyChildren) {
+            this.mMyChildren = new ArrayList<>();
+        }
+        if (null != view) {
+            this.mMyChildren.add(view);
+        }
+    }
+
+    public void addSpouses(View view) {
+        if (null == this.mMySpouse) {
+            this.mMySpouse = new ArrayList<>();
+        }
+        if (null != view) {
+            this.mMySpouse.add(view);
+        }
+    }
 
     public Integer getId() {
         return id;
@@ -547,5 +597,7 @@ public class SearchNearInBlood implements Serializable {
     public void setSpouses(List<SearchNearInBlood> spouses) {
         this.spouses = spouses;
     }
+
+
 }
 

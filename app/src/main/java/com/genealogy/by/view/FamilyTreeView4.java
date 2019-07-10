@@ -30,8 +30,8 @@ import tech.com.commoncore.utils.SPHelper;
  * 家谱树自定义ViewGroup
  */
 
-public class FamilyTreeView3 extends ViewGroup {
-    private static final String TAG = "FamilyTreeView3";
+public class FamilyTreeView4 extends ViewGroup {
+    private static final String TAG = "FamilyTreeView4";
 
     private static final int MAX_HEIGHT_DP = 590;//最大高度为590dp
     private static final int SPACE_WIDTH_DP = 20;//间距为20dp
@@ -61,33 +61,33 @@ public class FamilyTreeView3 extends ViewGroup {
     private int mShowHeightPX;//在屏幕所占的高度
 
     private SearchNearInBlood mFamilyMember;//我的
-    private List<SearchNearInBlood> mMySpouse;//我的配偶
-    private SearchNearInBlood mMyFather;//父亲
-    private SearchNearInBlood mMyMother;//母亲
+    //    private List<SearchNearInBlood> mMySpouse;//我的配偶
+//    private SearchNearInBlood mMyFather;//父亲
+//    private SearchNearInBlood mMyMother;//母亲
     private List<SearchNearInBlood> mMyBrothers;//兄弟姐妹
     private List<SearchNearInBlood> mMyChildren;//子女
-    private SearchNearInBlood mMyFosterFather;//养父
-    private SearchNearInBlood mMyFosterMother;//养母
+//    private SearchNearInBlood mMyFosterFather;//养父
+//    private SearchNearInBlood mMyFosterMother;//养母
 
     private View mMineView;//我的View
     //    private View mSpouseView;//配偶View
-    private List<View> mSpouseView;//配偶View
-    private View mFatherView;//父亲View
-    private View mMotherView;//母亲View
+//    private List<View> mSpouseView;//配偶View
+//    private View mFatherView;//父亲View
+//    private View mMotherView;//母亲View
     private List<View> mBrothersView;//兄弟姐妹View
-    private View mPaternalGrandFatherView;//爷爷View
-    private View mPaternalGrandMotherView;//奶奶View
-    private View mMaternalGrandFatherView;//外公View
-    private View mMaternalGrandMotherView;//外婆View
+//    private View mPaternalGrandFatherView;//爷爷View
+//    private View mPaternalGrandMotherView;//奶奶View
+//    private View mMaternalGrandFatherView;//外公View
+//    private View mMaternalGrandMotherView;//外婆View
     private List<View> mChildrenView;//子女View
     private List<View> mChildSpouseView;//子女配偶View
     private List<View> mGrandChildrenView;//孙子女View
-    private View mFosterFatherView;//养父View
-    private View mFosterMotherView;//养母View
-    private View mFPGrandFatherView;//养祖父View
-    private View mFPGrandMotherView;//养祖母View
-    private View mFMGrandFatherView;//养外公View
-    private View mFMGrandMotherView;//养外婆View
+//    private View mFosterFatherView;//养父View
+//    private View mFosterMotherView;//养母View
+//    private View mFPGrandFatherView;//养祖父View
+//    private View mFPGrandMotherView;//养祖母View
+//    private View mFMGrandFatherView;//养外公View
+//    private View mFMGrandMotherView;//养外婆View
 
     private int mGrandChildrenMaxWidth;//孙子女所占总长度
 
@@ -107,15 +107,15 @@ public class FamilyTreeView3 extends ViewGroup {
     private int mCurrentScrollX = 0;//当前滚动位置
     private int mCurrentScrollY = 0;//当前滚动位置
 
-    public FamilyTreeView3(Context context) {
+    public FamilyTreeView4(Context context) {
         this(context, null, 0);
     }
 
-    public FamilyTreeView3(Context context, AttributeSet attrs) {
+    public FamilyTreeView4(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FamilyTreeView3(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FamilyTreeView4(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         mScreenWidth = DisplayUtil.getScreenWidth();
@@ -142,30 +142,30 @@ public class FamilyTreeView3 extends ViewGroup {
     private void recycleAllView() {
         removeAllViews();
         mMineView = null;
-        mSpouseView = null;
-        mFatherView = null;
-        mMotherView = null;
-        mPaternalGrandFatherView = null;
-        mPaternalGrandMotherView = null;
-        mMaternalGrandFatherView = null;
-        mMaternalGrandMotherView = null;
-        mFosterFatherView = null;
-        mFosterMotherView = null;
-        mFPGrandFatherView = null;
-        mFPGrandMotherView = null;
-        mFMGrandFatherView = null;
-        mFMGrandMotherView = null;
+//        mSpouseView = null;
+//        mFatherView = null;
+//        mMotherView = null;
+//        mPaternalGrandFatherView = null;
+//        mPaternalGrandMotherView = null;
+//        mMaternalGrandFatherView = null;
+//        mMaternalGrandMotherView = null;
+//        mFosterFatherView = null;
+//        mFosterMotherView = null;
+//        mFPGrandFatherView = null;
+//        mFPGrandMotherView = null;
+//        mFMGrandFatherView = null;
+//        mFMGrandMotherView = null;
 
         if (mBrothersView != null) {
             mBrothersView.clear();
         } else {
             mBrothersView = new ArrayList<>();
         }
-        if (mSpouseView != null) {
-            mSpouseView.clear();
-        } else {
-            mSpouseView = new ArrayList<>();
-        }
+//        if (mSpouseView != null) {
+//            mSpouseView.clear();
+//        } else {
+//            mSpouseView = new ArrayList<>();
+//        }
         if (mChildrenView != null) {
             mChildrenView.clear();
         } else {
@@ -182,9 +182,9 @@ public class FamilyTreeView3 extends ViewGroup {
             mGrandChildrenView = new ArrayList<>();
         }
 
-        mMySpouse = null;
-        mMyFather = null;
-        mMyMother = null;
+//        mMySpouse = null;
+//        mMyFather = null;
+//        mMyMother = null;
         if (mMyBrothers != null) {
             mMyBrothers.clear();
             mMyBrothers = null;
@@ -214,18 +214,20 @@ public class FamilyTreeView3 extends ViewGroup {
 
     private void initData(SearchNearInBlood familyMember) {
         Log.i(TAG, "initData: " + SPHelper.getStringSF(getContext(), "UserId"));
-        for (SearchNearInBlood children : familyMember.getChildrens()) {
-            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
-                this.mFamilyMember = children;
-                this.mMySpouse = children.getSpouses();
-                this.mMyChildren = children.getChildrens();
-                this.mMyBrothers = familyMember.getChildrens();
+        this.mFamilyMember = familyMember;
 
-                this.mMyFather = familyMember;
-                this.mMyMother = familyMember.getSpouses().get(0);
-                break;
-            }
-        }
+//        for (SearchNearInBlood children : familyMember.getChildrens()) {
+//            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
+//                this.mFamilyMember = children;
+//                this.mMySpouse = children.getSpouses();
+//                this.mMyChildren = children.getChildrens();
+//                this.mMyBrothers = familyMember.getChildrens();
+//
+//                this.mMyFather = familyMember;
+//                this.mMyMother = familyMember.getSpouses().get(0);
+//                break;
+//            }
+//        }
 
 
 //        this.mFamilyMember = familyMember;
@@ -248,7 +250,7 @@ public class FamilyTreeView3 extends ViewGroup {
                 ITEM_WIDTH_DP//第五代最大宽度
         };
 
-        if (mMySpouse != null) {
+        if (mFamilyMember.getmMySpouse() != null) {
             widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
         }
         if (mMyBrothers != null && mMyBrothers.size() > 1) {
@@ -300,95 +302,165 @@ public class FamilyTreeView3 extends ViewGroup {
         mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
     }
 
+    /*子*/
+//    View createFamilyView(List<SearchNearInBlood> mFamilyMember) {
+//        View view = null;
+//        if (null != mFamilyMember && mFamilyMember.size() > 0) {
+//            for (SearchNearInBlood children : mFamilyMember) {
+//                Log.i(TAG, "createFamilyView: " + children.getNickName());
+//                children.setmMineView(view = createFamilyView(children));
+//                children.addSpouses(createFamilyViewSpouses(children.getSpouses()));/*儿子的配偶*/
+//            }
+//        }
+//        return view;
+//    }
+
+    /*子*/
+    void createFamilyView(SearchNearInBlood mFamilyMember, List<SearchNearInBlood> mMyBrothers, boolean isChildren) {
+        if (null != mFamilyMember) {
+            View view;
+            for (SearchNearInBlood children : mMyBrothers) {
+                children.setmMineView(view = createFamilyView(children));
+                if (isChildren) {
+                    mFamilyMember.addChildren(view);
+                    createFamilyView(children, children.getChildrens(), isChildren);
+                } else {
+                    mFamilyMember.addSpouses(view);
+                    createFamilyView(children, children.getSpouses(), isChildren);
+                }
+            }
+        }
+//        View view = null;
+//        if (null != mFamilyMember && mFamilyMember.size() > 0) {
+//            for (SearchNearInBlood children : mFamilyMember) {
+//                Log.i(TAG, "createFamilyView: " + children.getNickName());
+//                children.setmMineView(view = createFamilyView(children));
+//                children.addSpouses(createFamilyViewSpouses(children.getSpouses()));/*儿子的配偶*/
+//            }
+//        }
+//        return view;
+    }
+
+    /*配偶*/
+//    View createFamilyViewSpouses(List<SearchNearInBlood> mFamilyMember) {
+//        View view = null;
+//        if (null != mFamilyMember && mFamilyMember.size() > 0) {
+//            for (SearchNearInBlood children : mFamilyMember) {
+//                Log.i(TAG, "createFamilyView: " + children.getNickName());
+//                children.setmMineView(view = createFamilyView(children));
+//                children.addChildren(createFamilyView(children.getChildrens()));
+//            }
+//        }
+//        return view;
+//    }
+
     private void initView() {
+        // TODO: 2019/7/10 我的view 
+        View view = createFamilyView(mFamilyMember);
+        mFamilyMember.setmMineView(view);
 
-        mMineView = createFamilyView(mFamilyMember);
-        if (mMySpouse != null) {
-            // TODO: 2019/7/9 配偶的添加
-            for (SearchNearInBlood searchNearInBlood : mMySpouse) {
-                Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
-                mSpouseView.add(createFamilyView(searchNearInBlood));
-            }
+        mMineView = view;
+
+        for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
+            Log.i(TAG, "initView: " + children.getNickName());
+            children.setmMineView(view = createFamilyView(children));
+            mFamilyMember.addChildren(view);
+            createFamilyView(children, children.getChildrens(), true);
+            createFamilyView(children, children.getSpouses(), false);
         }
-
-        if (mMyFather != null) {
-            mFatherView = createFamilyView(mMyFather);
-//            final SearchNearInBlood myPaternalGrandFather = mMyFather.getFather();
-//            final SearchNearInBlood myPaternalGrandMother = mMyFather.getMother();
-//            if (myPaternalGrandFather != null) {
-//                mPaternalGrandFatherView = createFamilyView(myPaternalGrandFather);
-//            }
-//            if (myPaternalGrandMother != null) {
-//                mPaternalGrandMotherView = createFamilyView(myPaternalGrandMother);
-//            }
-
+        for (SearchNearInBlood spouse : mFamilyMember.getSpouses()) {
+            Log.i(TAG, "initView: " + spouse.getNickName());
+            spouse.setmMineView(view = createFamilyView(spouse));
+            mFamilyMember.addSpouses(view);
+            createFamilyView(spouse, spouse.getChildrens(), true);
         }
-        if (mMyMother != null) {
-            mMotherView = createFamilyView(mMyMother);
-//            final SearchNearInBlood myMaternalGrandFather = mMyMother.getFather();
-//            final SearchNearInBlood myMaternalGrandMother = mMyMother.getMother();
+        Log.i(TAG, "initView: " + mFamilyMember);
+        /************************************** end *************************************/
+
+
+//        if (mMySpouse != null) {
+//            // TODO: 2019/7/9 配偶的添加
+//            for (SearchNearInBlood searchNearInBlood : mMySpouse) {
+//                Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
+//                mSpouseView.add(createFamilyView(searchNearInBlood));
+//            }
+//        }
 //
-//            if (myMaternalGrandFather != null) {
-//                mMaternalGrandFatherView = createFamilyView(myMaternalGrandFather);
-//            }
-//            if (myMaternalGrandMother != null) {
-//                mMaternalGrandMotherView = createFamilyView(myMaternalGrandMother);
-//            }
-        }
+//        if (mMyFather != null) {
+//            mFatherView = createFamilyView(mMyFather);
+////            final SearchNearInBlood myPaternalGrandFather = mMyFather.getFather();
+////            final SearchNearInBlood myPaternalGrandMother = mMyFather.getMother();
+////            if (myPaternalGrandFather != null) {
+////                mPaternalGrandFatherView = createFamilyView(myPaternalGrandFather);
+////            }
+////            if (myPaternalGrandMother != null) {
+////                mPaternalGrandMotherView = createFamilyView(myPaternalGrandMother);
+////            }
+//
+//        }
+//        if (mMyMother != null) {
+//            mMotherView = createFamilyView(mMyMother);
+////            final SearchNearInBlood myMaternalGrandFather = mMyMother.getFather();
+////            final SearchNearInBlood myMaternalGrandMother = mMyMother.getMother();
+////
+////            if (myMaternalGrandFather != null) {
+////                mMaternalGrandFatherView = createFamilyView(myMaternalGrandFather);
+////            }
+////            if (myMaternalGrandMother != null) {
+////                mMaternalGrandMotherView = createFamilyView(myMaternalGrandMother);
+////            }
+//        }
 
-        if (mMyFosterFather != null) {
-            mFosterFatherView = createFamilyView(mMyFosterFather);
-//            final SearchNearInBlood myFPGrandFather = mMyFosterFather.getFather();
-//            final SearchNearInBlood myFPGrandMother = mMyFosterFather.getMother();
-//            if (myFPGrandFather != null) {
-//                mFPGrandFatherView = createFamilyView(myFPGrandFather);
+//        if (mMyFosterFather != null) {
+//            mFosterFatherView = createFamilyView(mMyFosterFather);
+////            final SearchNearInBlood myFPGrandFather = mMyFosterFather.getFather();
+////            final SearchNearInBlood myFPGrandMother = mMyFosterFather.getMother();
+////            if (myFPGrandFather != null) {
+////                mFPGrandFatherView = createFamilyView(myFPGrandFather);
+////            }
+////            if (myFPGrandMother != null) {
+////                mFPGrandMotherView = createFamilyView(myFPGrandMother);
+////            }
+//        }
+//        if (mMyFosterMother != null) {
+//            mFosterMotherView = createFamilyView(mMyFosterMother);
+////            final SearchNearInBlood myFMGrandFather = mMyFosterMother.getFather();
+////            final SearchNearInBlood myFMGrandMother = mMyFosterMother.getMother();
+//
+////            if (myFMGrandFather != null) {
+////                mFMGrandFatherView = createFamilyView(myFMGrandFather);
+////            }
+////            if (myFMGrandMother != null) {
+////                mFMGrandMotherView = createFamilyView(myFMGrandMother);
+////            }
+//        }
+
+//        mBrothersView.clear();
+//        if (mMyBrothers != null) {
+//            for (SearchNearInBlood family : mMyBrothers) {
+//                mBrothersView.add(createFamilyView(family));
 //            }
-//            if (myFPGrandMother != null) {
-//                mFPGrandMotherView = createFamilyView(myFPGrandMother);
+//        }
+//        mChildrenView.clear();
+//        if (mMyChildren != null) {
+//            for (SearchNearInBlood family : mMyChildren) {
+//                mChildrenView.add(createFamilyView(family));
+//                final List<SearchNearInBlood> childSpouse = family.getSpouses();
+//                if (childSpouse != null && childSpouse.size() > 0) {
+//                    for (SearchNearInBlood searchNearInBlood : childSpouse) {
+//                        // TODO: 2019/7/9 子配偶
+//                        Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
+//                        mChildSpouseView.add(createFamilyView(searchNearInBlood));
+//                    }
+//                }
+//                final List<SearchNearInBlood> grandChildrens = family.getChildrens();
+//                if (grandChildrens != null && grandChildrens.size() > 0) {
+//                    for (SearchNearInBlood childFamily : grandChildrens) {
+//                        mGrandChildrenView.add(createFamilyView(childFamily));
+//                    }
+//                }
 //            }
-        }
-        if (mMyFosterMother != null) {
-            mFosterMotherView = createFamilyView(mMyFosterMother);
-//            final SearchNearInBlood myFMGrandFather = mMyFosterMother.getFather();
-//            final SearchNearInBlood myFMGrandMother = mMyFosterMother.getMother();
-
-//            if (myFMGrandFather != null) {
-//                mFMGrandFatherView = createFamilyView(myFMGrandFather);
-//            }
-//            if (myFMGrandMother != null) {
-//                mFMGrandMotherView = createFamilyView(myFMGrandMother);
-//            }
-        }
-
-        mBrothersView.clear();
-        if (mMyBrothers != null) {
-            for (SearchNearInBlood family : mMyBrothers) {
-                mBrothersView.add(createFamilyView(family));
-            }
-        }
-
-        mChildrenView.clear();
-        if (mMyChildren != null) {
-            for (SearchNearInBlood family : mMyChildren) {
-                mChildrenView.add(createFamilyView(family));
-                final List<SearchNearInBlood> childSpouse = family.getSpouses();
-                if (childSpouse != null && childSpouse.size() > 0) {
-                    for (SearchNearInBlood searchNearInBlood : childSpouse) {
-                        // TODO: 2019/7/9 子配偶
-                        Log.i(TAG, "initView: " + searchNearInBlood.getNickName());
-                        mChildSpouseView.add(createFamilyView(searchNearInBlood));
-                    }
-                }
-
-                final List<SearchNearInBlood> grandChildrens = family.getChildrens();
-
-                if (grandChildrens != null && grandChildrens.size() > 0) {
-                    for (SearchNearInBlood childFamily : grandChildrens) {
-                        mGrandChildrenView.add(createFamilyView(childFamily));
-                    }
-                }
-            }
-        }
+//        }
     }
 
     private View createFamilyView(SearchNearInBlood family) {
@@ -479,13 +551,14 @@ public class FamilyTreeView3 extends ViewGroup {
 
             setChildViewFrame(mMineView, mineLeft, mineTop, mItemWidthPX, mItemHeightPX);
 
-            if (mSpouseView != null) {
+            List<View> views = mFamilyMember.getmMySpouse();
+            if (views != null) {
                 // TODO: 2019/7/9 配偶循环
-                if (mSpouseView != null && mSpouseView.size() > 0) {
-                    final int brotherCount = mSpouseView.size();
+                if (views != null && views.size() > 0) {
+                    final int brotherCount = views.size();
                     Log.i(TAG, "onLayout配偶：" + brotherCount);
                     for (int i = 0; i < brotherCount; i++) {
-                        setChildViewFrame(mSpouseView.get(i),
+                        setChildViewFrame(views.get(i),
                                 mineLeft + (i + 1) * (mItemWidthPX + mSpacePX),
                                 mineTop,
                                 mItemWidthPX, mItemHeightPX);
@@ -504,37 +577,37 @@ public class FamilyTreeView3 extends ViewGroup {
             int fatherLeft = mineLeft;
             int motherLeft = mineLeft;
 
-            if (haveEitherFosterParent() && haveEitherParent()) {
-                fosterFatherLeft -= (mItemWidthPX + mSpacePX) * 2;
-                fosterMotherLeft -= (mItemWidthPX + mSpacePX) * 2;
-                fatherLeft += (mItemWidthPX + mSpacePX) * 2;
-                motherLeft += (mItemWidthPX + mSpacePX) * 2;
-            }
-            if (haveBothFosterParent()) {
-                fosterFatherLeft -= mItemWidthPX + mSpacePX;
-                fosterMotherLeft += mItemWidthPX + mSpacePX;
-            }
-            if (haveBothParent()) {
-                fatherLeft -= mItemWidthPX + mSpacePX;
-                motherLeft += mItemWidthPX + mSpacePX;
-            }
+//            if (haveEitherFosterParent() && haveEitherParent()) {
+//                fosterFatherLeft -= (mItemWidthPX + mSpacePX) * 2;
+//                fosterMotherLeft -= (mItemWidthPX + mSpacePX) * 2;
+//                fatherLeft += (mItemWidthPX + mSpacePX) * 2;
+//                motherLeft += (mItemWidthPX + mSpacePX) * 2;
+//            }
+//            if (haveBothFosterParent()) {
+//                fosterFatherLeft -= mItemWidthPX + mSpacePX;
+//                fosterMotherLeft += mItemWidthPX + mSpacePX;
+//            }
+//            if (haveBothParent()) {
+//                fatherLeft -= mItemWidthPX + mSpacePX;
+//                motherLeft += mItemWidthPX + mSpacePX;
+//            }
 
-            if (mFatherView != null) {
-                setChildViewFrame(mFatherView, fatherLeft, parentTop, mItemWidthPX, mItemHeightPX);
-                setGrandParentFrame(mPaternalGrandFatherView, mPaternalGrandMotherView, fatherLeft, grandParentTop);
-            }
-            if (mMotherView != null) {
-                setChildViewFrame(mMotherView, motherLeft, parentTop, mItemWidthPX, mItemHeightPX);
-                setGrandParentFrame(mMaternalGrandFatherView, mMaternalGrandMotherView, motherLeft, grandParentTop);
-            }
-            if (mFosterFatherView != null) {
-                setChildViewFrame(mFosterFatherView, fosterFatherLeft, parentTop, mItemWidthPX, mItemHeightPX);
-                setGrandParentFrame(mFPGrandFatherView, mFPGrandMotherView, fosterFatherLeft, grandParentTop);
-            }
-            if (mFosterMotherView != null) {
-                setChildViewFrame(mFosterMotherView, fosterMotherLeft, parentTop, mItemWidthPX, mItemHeightPX);
-                setGrandParentFrame(mFMGrandFatherView, mFMGrandMotherView, fosterMotherLeft, grandParentTop);
-            }
+//            if (mFatherView != null) {
+//                setChildViewFrame(mFatherView, fatherLeft, parentTop, mItemWidthPX, mItemHeightPX);
+//                setGrandParentFrame(mPaternalGrandFatherView, mPaternalGrandMotherView, fatherLeft, grandParentTop);
+//            }
+//            if (mMotherView != null) {
+//                setChildViewFrame(mMotherView, motherLeft, parentTop, mItemWidthPX, mItemHeightPX);
+//                setGrandParentFrame(mMaternalGrandFatherView, mMaternalGrandMotherView, motherLeft, grandParentTop);
+//            }
+//            if (mFosterFatherView != null) {
+//                setChildViewFrame(mFosterFatherView, fosterFatherLeft, parentTop, mItemWidthPX, mItemHeightPX);
+//                setGrandParentFrame(mFPGrandFatherView, mFPGrandMotherView, fosterFatherLeft, grandParentTop);
+//            }
+//            if (mFosterMotherView != null) {
+//                setChildViewFrame(mFosterMotherView, fosterMotherLeft, parentTop, mItemWidthPX, mItemHeightPX);
+//                setGrandParentFrame(mFMGrandFatherView, mFMGrandMotherView, fosterMotherLeft, grandParentTop);
+//            }
 
             if (mBrothersView != null && mBrothersView.size() > 0) {
                 final int brotherCount = mBrothersView.size();
@@ -637,8 +710,9 @@ public class FamilyTreeView3 extends ViewGroup {
 
     private void drawSpouseLine(Canvas canvas) {
         // TODO: 2019/7/9 配偶划线
-        if (mSpouseView != null) {
-            for (View view : mSpouseView) {
+        List<View> views = mFamilyMember.getmMySpouse();
+        if (views != null) {
+            for (View view : views) {
                 final int horizontalLineStartX = (int) mMineView.getX() + mItemWidthPX / 2;
                 final int horizontalLineStopX = (int) view.getX() + mItemWidthPX / 2;
                 final int horizontalLineY = (int) view.getY() + mItemWidthPX / 2;
@@ -666,76 +740,76 @@ public class FamilyTreeView3 extends ViewGroup {
 
         final int horizontalLineY = mineY - mSpacePX;
 
-        if (haveEitherFosterParent() || haveEitherParent()) {
-            final int verticalLineX = mineX + mItemWidthPX / 2;
-            mPath.reset();
-            mPath.moveTo(verticalLineX, horizontalLineY);
-            mPath.lineTo(verticalLineX, mineY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (haveEitherFosterParent() && haveEitherParent()) {
-            fosterParentCenterX = mineX - (mItemWidthPX + mSpacePX) * 2 + mItemWidthPX / 2;
-            parentCenterX = mineX + (mItemWidthPX + mSpacePX) * 2 + mItemWidthPX / 2;
-
-            mPath.reset();
-            mPath.moveTo(fosterParentCenterX, horizontalLineY);
-            mPath.lineTo(parentCenterX, horizontalLineY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (haveEitherFosterParent()) {
-            int verticalLineEndY = horizontalLineY;
-            if (mFosterFatherView != null) {
-                verticalLineEndY = (int) mFosterFatherView.getY() + mItemWidthPX / 2;
-            } else if (mFosterMotherView != null) {
-                verticalLineEndY = (int) mFosterMotherView.getY() + mItemWidthPX / 2;
-            }
-            mPath.reset();
-            mPath.moveTo(fosterParentCenterX, horizontalLineY);
-            mPath.lineTo(fosterParentCenterX, verticalLineEndY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (haveBothFosterParent()) {
-            final int lineStartX = (int) mFosterFatherView.getX() + mItemWidthPX / 2;
-            final int lineEndX = (int) mFosterMotherView.getX() + mItemWidthPX / 2;
-            final int lineY = (int) mFosterFatherView.getY() + mItemWidthPX / 2;
-            mPath.reset();
-            mPath.moveTo(lineStartX, lineY);
-            mPath.lineTo(lineEndX, lineY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (haveEitherParent()) {
-            int verticalLineEndY = horizontalLineY;
-            if (mFatherView != null) {
-                verticalLineEndY = (int) mFatherView.getY() + mItemWidthPX / 2;
-            } else if (mMotherView != null) {
-                verticalLineEndY = (int) mMotherView.getY() + mItemWidthPX / 2;
-            }
-            mPath.reset();
-            mPath.moveTo(parentCenterX, horizontalLineY);
-            mPath.lineTo(parentCenterX, verticalLineEndY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (haveBothParent()) {
-            final int lineStartX = (int) mFatherView.getX() + mItemWidthPX / 2;
-            final int lineEndX = (int) mMotherView.getX() + mItemWidthPX / 2;
-            final int lineY = (int) mFatherView.getY() + mItemWidthPX / 2;
-            mPath.reset();
-            mPath.moveTo(lineStartX, lineY);
-            mPath.lineTo(lineEndX, lineY);
-            canvas.drawPath(mPath, mPaint);
-        }
-        if (mFPGrandFatherView != null || mFPGrandMotherView != null) {
-            drawGrandParentLine(canvas, mFosterFatherView, mFPGrandFatherView, mFPGrandMotherView);
-        }
-        if (mFMGrandFatherView != null || mFMGrandMotherView != null) {
-            drawGrandParentLine(canvas, mFosterMotherView, mFMGrandFatherView, mFMGrandMotherView);
-        }
-        if (mPaternalGrandFatherView != null || mPaternalGrandMotherView != null) {
-            drawGrandParentLine(canvas, mFatherView, mPaternalGrandFatherView, mPaternalGrandMotherView);
-        }
-        if (mMaternalGrandFatherView != null || mMaternalGrandMotherView != null) {
-            drawGrandParentLine(canvas, mMotherView, mMaternalGrandFatherView, mMaternalGrandMotherView);
-        }
+//        if (haveEitherFosterParent() || haveEitherParent()) {
+//            final int verticalLineX = mineX + mItemWidthPX / 2;
+//            mPath.reset();
+//            mPath.moveTo(verticalLineX, horizontalLineY);
+//            mPath.lineTo(verticalLineX, mineY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (haveEitherFosterParent() && haveEitherParent()) {
+//            fosterParentCenterX = mineX - (mItemWidthPX + mSpacePX) * 2 + mItemWidthPX / 2;
+//            parentCenterX = mineX + (mItemWidthPX + mSpacePX) * 2 + mItemWidthPX / 2;
+//
+//            mPath.reset();
+//            mPath.moveTo(fosterParentCenterX, horizontalLineY);
+//            mPath.lineTo(parentCenterX, horizontalLineY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (haveEitherFosterParent()) {
+//            int verticalLineEndY = horizontalLineY;
+//            if (mFosterFatherView != null) {
+//                verticalLineEndY = (int) mFosterFatherView.getY() + mItemWidthPX / 2;
+//            } else if (mFosterMotherView != null) {
+//                verticalLineEndY = (int) mFosterMotherView.getY() + mItemWidthPX / 2;
+//            }
+//            mPath.reset();
+//            mPath.moveTo(fosterParentCenterX, horizontalLineY);
+//            mPath.lineTo(fosterParentCenterX, verticalLineEndY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (haveBothFosterParent()) {
+//            final int lineStartX = (int) mFosterFatherView.getX() + mItemWidthPX / 2;
+//            final int lineEndX = (int) mFosterMotherView.getX() + mItemWidthPX / 2;
+//            final int lineY = (int) mFosterFatherView.getY() + mItemWidthPX / 2;
+//            mPath.reset();
+//            mPath.moveTo(lineStartX, lineY);
+//            mPath.lineTo(lineEndX, lineY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (haveEitherParent()) {
+//            int verticalLineEndY = horizontalLineY;
+//            if (mFatherView != null) {
+//                verticalLineEndY = (int) mFatherView.getY() + mItemWidthPX / 2;
+//            } else if (mMotherView != null) {
+//                verticalLineEndY = (int) mMotherView.getY() + mItemWidthPX / 2;
+//            }
+//            mPath.reset();
+//            mPath.moveTo(parentCenterX, horizontalLineY);
+//            mPath.lineTo(parentCenterX, verticalLineEndY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (haveBothParent()) {
+//            final int lineStartX = (int) mFatherView.getX() + mItemWidthPX / 2;
+//            final int lineEndX = (int) mMotherView.getX() + mItemWidthPX / 2;
+//            final int lineY = (int) mFatherView.getY() + mItemWidthPX / 2;
+//            mPath.reset();
+//            mPath.moveTo(lineStartX, lineY);
+//            mPath.lineTo(lineEndX, lineY);
+//            canvas.drawPath(mPath, mPaint);
+//        }
+//        if (mFPGrandFatherView != null || mFPGrandMotherView != null) {
+//            drawGrandParentLine(canvas, mFosterFatherView, mFPGrandFatherView, mFPGrandMotherView);
+//        }
+//        if (mFMGrandFatherView != null || mFMGrandMotherView != null) {
+//            drawGrandParentLine(canvas, mFosterMotherView, mFMGrandFatherView, mFMGrandMotherView);
+//        }
+//        if (mPaternalGrandFatherView != null || mPaternalGrandMotherView != null) {
+//            drawGrandParentLine(canvas, mFatherView, mPaternalGrandFatherView, mPaternalGrandMotherView);
+//        }
+//        if (mMaternalGrandFatherView != null || mMaternalGrandMotherView != null) {
+//            drawGrandParentLine(canvas, mMotherView, mMaternalGrandFatherView, mMaternalGrandMotherView);
+//        }
     }
 
     private void drawGrandParentLine(Canvas canvas, View parentView, View grandFatherView, View grandMotherView) {
@@ -876,25 +950,25 @@ public class FamilyTreeView3 extends ViewGroup {
         this.mOnFamilySelectListener = onFamilySelectListener;
     }
 
-    //是否有父母其中一个
-    private boolean haveEitherParent() {
-        return mFatherView != null || mMotherView != null;
-    }
-
-    //是否父母都存在
-    private boolean haveBothParent() {
-        return mFatherView != null && mMotherView != null;
-    }
-
-    //是否有养父母其中一个
-    private boolean haveEitherFosterParent() {
-        return mFosterFatherView != null || mFosterMotherView != null;
-    }
-
-    //是否养父母都存在
-    private boolean haveBothFosterParent() {
-        return mFosterFatherView != null && mFosterMotherView != null;
-    }
+//    //是否有父母其中一个
+//    private boolean haveEitherParent() {
+//        return mFatherView != null || mMotherView != null;
+//    }
+//
+//    //是否父母都存在
+//    private boolean haveBothParent() {
+//        return mFatherView != null && mMotherView != null;
+//    }
+//
+//    //是否有养父母其中一个
+//    private boolean haveEitherFosterParent() {
+//        return mFosterFatherView != null || mFosterMotherView != null;
+//    }
+//
+//    //是否养父母都存在
+//    private boolean haveBothFosterParent() {
+//        return mFosterFatherView != null && mFosterMotherView != null;
+//    }
 
     private OnClickListener click = new OnClickListener() {
         @Override

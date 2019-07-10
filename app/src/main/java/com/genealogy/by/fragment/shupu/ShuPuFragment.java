@@ -31,7 +31,7 @@ import com.genealogy.by.model.FamilyMember;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.view.FamilyTreeView2;
-import com.genealogy.by.view.FamilyTreeView3;
+import com.genealogy.by.view.FamilyTreeView4;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -627,7 +627,7 @@ public class ShuPuFragment extends Fragment {
         });
     }
 
-    private FamilyTreeView3 mFtvTree;
+    private FamilyTreeView4 mFtvTree;
     private FamilyTreeView2 mFtvTree2;
 
     private void initView() {
