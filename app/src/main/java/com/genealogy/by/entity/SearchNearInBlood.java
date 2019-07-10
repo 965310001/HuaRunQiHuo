@@ -71,7 +71,6 @@ public class SearchNearInBlood implements Serializable {
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
 
-
     private View mMineView;//我
     private List<View> mMySpouse;//配偶
     private List<View> mMyChildren;//子女
