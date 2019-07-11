@@ -18,7 +18,7 @@ public class SearchNearInBlood implements Serializable {
     private String surname;
     private String name;
     private Integer sex;
-    private String profilePhoto;
+    private String profilePhoto;/*头像*/
     private String phone;
     private String password;
 //    private Integer health;//健在(0:健在 1:过世)
@@ -71,49 +71,50 @@ public class SearchNearInBlood implements Serializable {
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
 
-    private View mMineView;//我
-    private List<View> mMySpouse;//配偶
-    private List<View> mMyChildren;//子女
 
-    public View getmMineView() {
+    private View mMineView;//我
+    private List<View> mSpouse;//配偶
+    private List<View> mChildren;//子女
+
+    public View getMineView() {
         return mMineView;
     }
 
-    public void setmMineView(View mMineView) {
+    public void setMineView(View mMineView) {
         this.mMineView = mMineView;
     }
 
-    public List<View> getmMySpouse() {
-        return mMySpouse;
+    public List<View> getSpouse() {
+        return mSpouse;
     }
 
-    public void setmMySpouse(List<View> mMySpouse) {
-        this.mMySpouse = mMySpouse;
+    public void setSpouse(List<View> mMySpouse) {
+        this.mSpouse = mMySpouse;
     }
 
-    public List<View> getmMyChildren() {
-        return mMyChildren;
+    public List<View> getChildren() {
+        return mChildren;
     }
 
-    public void setmMyChildren(List<View> mMyChildren) {
-        this.mMyChildren = mMyChildren;
+    public void setChildren(List<View> mMyChildren) {
+        this.mChildren = mMyChildren;
     }
 
     public void addChildren(View view) {
-        if (null == this.mMyChildren) {
-            this.mMyChildren = new ArrayList<>();
+        if (null == this.mChildren) {
+            this.mChildren = new ArrayList<>();
         }
         if (null != view) {
-            this.mMyChildren.add(view);
+            this.mChildren.add(view);
         }
     }
 
     public void addSpouses(View view) {
-        if (null == this.mMySpouse) {
-            this.mMySpouse = new ArrayList<>();
+        if (null == this.mSpouse) {
+            this.mSpouse = new ArrayList<>();
         }
         if (null != view) {
-            this.mMySpouse.add(view);
+            this.mSpouse.add(view);
         }
     }
 
@@ -596,7 +597,5 @@ public class SearchNearInBlood implements Serializable {
     public void setSpouses(List<SearchNearInBlood> spouses) {
         this.spouses = spouses;
     }
-
-
 }
 
