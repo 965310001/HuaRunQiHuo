@@ -74,7 +74,7 @@ public class TabHomeFragent extends BaseFragment implements View.OnClickListener
         shupuRadioButton = mContentView.findViewById(R.id.shupuRadioButton);
         contentShupuView = mContentView.findViewById(R.id.contentShupuView);
         mFragments = new ArrayList<>(3);
-        mFragments.add(ShuPuFragment.newInstance("父系"));
+//        mFragments.add(ShuPuFragment.newInstance("父系"));
         mFragments.add(ShuPuFragment.newInstance("近亲"));
 //        mFragments.add(ShuPuAllFragment.newInstance("全部"));
         mAdapter = new MyFragmentPagerAdapter(getChildFragmentManager(), mFragments);

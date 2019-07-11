@@ -612,9 +612,30 @@ public class ShuPuFragment extends Fragment {
                 });
     }
 
+    void con(List<SearchNearInBlood> data) {
+        for (SearchNearInBlood children : data) {
+            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
+                mFtvTree.setFamilyMember(children);
+                break;
+            }
+            con(children.getChildrens());
+            con(children.getSpouses());
+        }
+    }
+
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
-        mFtvTree.setFamilyMember(data);
+//        SPHelper.getStringSF(getContext(), "UserId");
+        for (SearchNearInBlood children : data.getChildrens()) {
+            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
+                mFtvTree.setFamilyMember(data);
+                break;
+            }
+            con(children.getChildrens());
+            con(children.getSpouses());
+        }
+
+//        mFtvTree.setFamilyMember(data);
         mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
             @Override
             public void onFamilySelect(FamilyMember family) {

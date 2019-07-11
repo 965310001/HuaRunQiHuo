@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_bg_white"
     android:gravity="center"
-    android:minWidth="@dimen/dp_80"
+    android:minWidth="60dp"
+    android:minHeight="90dp"
     android:orientation="vertical">
 
     <ImageView
