@@ -626,16 +626,16 @@ public class ShuPuFragment extends Fragment {
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
 //        SPHelper.getStringSF(getContext(), "UserId");
-        for (SearchNearInBlood children : data.getChildrens()) {
-            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
-                mFtvTree.setFamilyMember(data);
-                break;
-            }
-            con(children.getChildrens());
-            con(children.getSpouses());
-        }
+//        for (SearchNearInBlood children : data.getChildrens()) {
+//            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
+//                mFtvTree.setFamilyMember(data);
+//                break;
+//            }
+//            con(children.getChildrens());
+//            con(children.getSpouses());
+//        }
 
-//        mFtvTree.setFamilyMember(data);
+        mFtvTree.setFamilyMember(data);
         mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
             @Override
             public void onFamilySelect(FamilyMember family) {
@@ -643,7 +643,7 @@ public class ShuPuFragment extends Fragment {
 
             @Override
             public void onFamilySelect(SearchNearInBlood family) {
-                Log.i(TAG, "onFamilySelect: " + family.toString());
+                Log.i(TAG, String.format("onFamilySelect: %s %s", family.getNickName(), family.getRelationship()));
             }
         });
     }
@@ -674,6 +674,7 @@ public class ShuPuFragment extends Fragment {
         }
         name.setText(user.getName());
         table.addView(contentView);
+
     }
 
     private void setItemUser(RelativeLayout rlName, TextView imgs, TextView name, int imageId, int colorId) {

@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +24,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.security.MessageDigest;
+
+import tech.com.commoncore.base.BaseApplication;
 
 
 /**
@@ -123,7 +124,7 @@ public class GlideManager {
      * @param placeholder
      */
     public static void loadImg(Object obj, ImageView iv, Drawable placeholder) {
-        Glide.with(iv.getContext()).load(obj).apply(getRequestOptions()
+        Glide.with(BaseApplication.getInstance()).load(obj).apply(getRequestOptions()
                 .error(placeholder)
                 .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -133,7 +134,7 @@ public class GlideManager {
 
 
     public static void loadImg(Object obj, ImageView iv, int placeholderResource) {
-        Drawable drawable = getDrawable(iv.getContext(), placeholderResource);
+        Drawable drawable = getDrawable(BaseApplication.getInstance(), placeholderResource);
         loadImg(obj, iv, drawable != null ? drawable : sCommonPlaceholderDrawable);
     }
 

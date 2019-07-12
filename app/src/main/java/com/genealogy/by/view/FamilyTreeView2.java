@@ -413,7 +413,8 @@ public class FamilyTreeView2 extends ViewGroup {
 
             if (mSpouseView != null) {
                 setChildViewFrame(mSpouseView,
-                        mineLeft + mItemWidthPX + mSpacePX, mineTop,
+                        mineLeft + mItemWidthPX + mSpacePX,
+                        mineTop,
                         mItemWidthPX, mItemHeightPX);
             }
 
@@ -461,6 +462,7 @@ public class FamilyTreeView2 extends ViewGroup {
                 setGrandParentFrame(mFMGrandFatherView, mFMGrandMotherView, fosterMotherLeft, grandParentTop);
             }
 
+            //兄弟
             if (mBrothersView != null && mBrothersView.size() > 0) {
                 final int brotherCount = mBrothersView.size();
                 for (int i = 0; i < brotherCount; i++) {
@@ -472,6 +474,7 @@ public class FamilyTreeView2 extends ViewGroup {
                 }
             }
 
+            //儿子
             if (mChildrenView != null && mChildrenView.size() > 0) {
                 final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
                 int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
