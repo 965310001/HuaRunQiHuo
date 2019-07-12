@@ -14,7 +14,7 @@
                 android:id="@+id/year"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
-                android:background="@drawable/bg__item_read"/>
+                android:background="@drawable/bg_item_read"/>
             <TextView
                 android:layout_below="@id/year"
                 android:layout_width="@dimen/dp_2"

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.genealogy.by.activity.EditCoverActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.ReleasePictureActivity;
 import com.genealogy.by.activity.SearchMainActivity;
+import com.genealogy.by.adapter.LineagekAdapter;
 import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.entity.FamilyPhoto;
 import com.genealogy.by.utils.SPHelper;
@@ -74,6 +76,7 @@ public class TabZuCeFragment extends BaseFragment {
     private ImageView editText;
     private Intent intent;
     private FamilyBook familyBook;
+    LineagekAdapter lineagekAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -182,6 +185,7 @@ public class TabZuCeFragment extends BaseFragment {
 
             }
         });
+        lineagekAdapter = new LineagekAdapter(R.layout.item_lineagek);
         doit();
     }
 
@@ -272,6 +276,10 @@ public class TabZuCeFragment extends BaseFragment {
         }
         views.add(view);
         view = mLi.inflate(R.layout.zuce_directory, null);
+        android.support.v7.widget.RecyclerView lineage = view.findViewById(R.id.lineage);
+        lineage.setLayoutManager(new LinearLayoutManager(mContext));
+        lineage.setAdapter(lineagekAdapter);
+
         TextView committee = view.findViewById(R.id.committee);
         TextView preface = view.findViewById(R.id.preface);
         TextView source = view.findViewById(R.id.source);
@@ -553,38 +561,31 @@ public class TabZuCeFragment extends BaseFragment {
         titles.add("tab1");
 
         PagerAdapter mPagerAdapter = new PagerAdapter() {
-
             @Override
             public boolean isViewFromObject(View arg0, Object arg1) {
                 return arg0 == arg1;
             }
-
             @Override
             public int getCount() {
                 return views.size();
             }
-
             @Override
             public void destroyItem(View container, int position, Object object) {
                 ((ViewPager) container).removeView(views.get(position));
             }
-
             @Override
             public CharSequence getPageTitle(int position) {
                 return titles.get(position);
             }
-
             @Override
             public Object instantiateItem(View container, int position) {
                 views.get(position).setTag(position);
                 ((ViewPager) container).addView(views.get(position));
                 return views.get(position);
             }
-
             @Override
             public void startUpdate(View arg0) {
             }
-
             @Override
             public int getItemPosition(Object object) {
                 View view = (View) object;
@@ -652,6 +653,20 @@ public class TabZuCeFragment extends BaseFragment {
                         if (data.status == 200) {
                             Log.e(TAG, "onSuccess: 族册查询请求成功  msg= " + data.msg);
                             familyBook = data.data;
+                            List<String> list = new ArrayList();
+                            for (int i = 0; i <data.data.getLineageTable().size() ; i++) {
+                                list.add(String.valueOf(data.data.getLineageTable().get(i).getLineage()));
+                            }
+                            for (int i = 0; i <list.size() ; i++) {
+                                for (int j = list.size() - 1 ; j > i; j--)  //内循环是 外循环一次比较的次数
+                                {
+                                    if (list.get(i) == list.get(j))
+                                    {
+                                        list.remove(j);
+                                    }
+                                }
+                            }
+                            lineagekAdapter .setNewData(list);
                             initFuxiViewPager();
                             SPHelper.saveDeviceData(mContext, "familyBook", familyBook);
                         } else {
