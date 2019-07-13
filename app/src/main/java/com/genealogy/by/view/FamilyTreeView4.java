@@ -177,30 +177,59 @@ public class FamilyTreeView4 extends ViewGroup {
         mUid = SPHelper.getStringSF(getContext(), "UserId");
     }
 
+    final int[] widthDP = {
+            830,//第一代最大宽度
+//                720,//第二代最大宽度
+            830,
+//                ITEM_WIDTH_DP,//第三代最大宽度
+//                ITEM_WIDTH_DP,//第四代最大宽度
+//                ITEM_WIDTH_DP//第五代最大宽度
+            830,
+            830,
+            830
+    };
+
     private void initWidthAndHeight() {
-        final int[] widthDP = {
-                830,//第一代最大宽度
-                720,//第二代最大宽度
-                ITEM_WIDTH_DP,//第三代最大宽度
-                ITEM_WIDTH_DP,//第四代最大宽度
-                ITEM_WIDTH_DP//第五代最大宽度
-        };
+//        final int[] widthDP = {
+//                1000,//第一代最大宽度
+////                720,//第二代最大宽度
+//                10000,
+////                ITEM_WIDTH_DP,//第三代最大宽度
+////                ITEM_WIDTH_DP,//第四代最大宽度
+////                ITEM_WIDTH_DP//第五代最大宽度
+//                1000,
+//                1000,
+//                1000
+//        };
 
-        if (mFamilyMember.getSpouse() != null) {
-            widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
-        }
+//        if (mFamilyMember.getSpouse() != null) {
+//            widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
+//        }
+//
+//        if (null != mFamilyMember.getChildrens() && mFamilyMember.getChildrens().size() > 0) {
+//            widthDP[2] = ITEM_WIDTH_DP + (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mFamilyMember.getChildrens().size() * 2;
+//        }
 
-        if (null != mFamilyMember.getChildrens() && mFamilyMember.getChildrens().size() > 0) {
-            widthDP[2] = ITEM_WIDTH_DP + (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mFamilyMember.getChildrens().size() * 2;
-        }
-        mMyChildren = mFamilyMember.getChildrens();
+        initWidthAndHeight(mFamilyMember.getChildrens());
+
+//        mMaxWidthPX = mScreenWidth;
+//        for (int width : widthDP) {
+//            final int widthPX = DisplayUtil.dip2px(width);
+//            if (widthPX > mMaxWidthPX) {
+//                mMaxWidthPX = widthPX;
+//            }
+//        }
+//
+//        mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
+    }
+
+    private void initWidthAndHeight(List<SearchNearInBlood> mMyChildren) {
         if (mMyChildren != null) {
             widthDP[3] += (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mMyChildren.size();
             widthDP[4] = 0;
             for (int i = 0; i < mMyChildren.size(); i++) {
                 final SearchNearInBlood child = mMyChildren.get(i);
                 final List<SearchNearInBlood> grandChildrenList = child.getChildrens();
-
                 final int grandchildMaxWidthDP;
                 if (grandChildrenList != null && grandChildrenList.size() > 0) {
                     final int grandchildCount = grandChildrenList.size();
@@ -222,10 +251,13 @@ public class FamilyTreeView4 extends ViewGroup {
                         grandchildMaxWidthDP = ITEM_WIDTH_DP + SPACE_WIDTH_DP;
                     }
                 }
+
                 widthDP[4] += grandchildMaxWidthDP;
             }
             widthDP[4] -= SPACE_WIDTH_DP;
             mGrandChildrenMaxWidth = DisplayUtil.dip2px(widthDP[4]);
+
+            Log.i(TAG, "initWidthAndHeight: " + mGrandChildrenMaxWidth);
         }
 
         mMaxWidthPX = mScreenWidth;
@@ -238,6 +270,7 @@ public class FamilyTreeView4 extends ViewGroup {
 
         mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
     }
+
 
     /*子*/
     void createFamilyView(SearchNearInBlood mFamilyMember, List<SearchNearInBlood> childes, boolean isChild) {
@@ -293,12 +326,12 @@ public class FamilyTreeView4 extends ViewGroup {
             mFamilyMember.addSpouses(view);
             createFamilyView(spouse, spouse.getChildrens(), true);
         }
-        Log.i(TAG, "initView: " + mFamilyMember);
+//        Log.i(TAG, "initView: " + mFamilyMember);
         /************************************** end *************************************/
     }
 
     private View createFamilyView(SearchNearInBlood family) {
-        Log.i(TAG, family.getNickName() + " " + family.getRelationship());
+//        Log.i(TAG, family.getNickName() + " " + family.getRelationship());
 
         final View familyView = LayoutInflater.from(getContext()).inflate(R.layout.item_family, this, false);
         familyView.getLayoutParams().width = mItemWidthPX;
@@ -345,7 +378,6 @@ public class FamilyTreeView4 extends ViewGroup {
             tvName.setBackgroundResource(R.color.bg_color_deep);
         }
 
-
         Glide.with(MyApplication.getInstance())
                 .load(mFamilyMember.getProfilePhoto())
                 .apply(new RequestOptions().error(1 == family.getSex() ? R.mipmap.muqin : R.mipmap.fuqin))
@@ -355,7 +387,6 @@ public class FamilyTreeView4 extends ViewGroup {
         this.addView(familyView);
         return familyView;
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -403,8 +434,8 @@ public class FamilyTreeView4 extends ViewGroup {
                                 mineTop,
                                 mItemWidthPX, mItemHeightPX);
 
-                        childrenLayout(mineLeft, mineTop, mFamilyMember.getSpouses().get(i).getSpouses(),
-                                mFamilyMember.getSpouses().get(i).getSpouse());
+//                        childrenLayout(mineLeft, mineTop, mFamilyMember.getSpouses().get(i).getSpouses(),
+//                                mFamilyMember.getSpouses().get(i).getSpouse());
                     }
                 }
             }
@@ -418,6 +449,9 @@ public class FamilyTreeView4 extends ViewGroup {
                                 List<SearchNearInBlood> childes, List<View> childrenView) {
         if (null != childes && childes.size() > 0 &&
                 childrenView != null && childrenView.size() > 0) {
+
+//            initWidthAndHeight(childes);
+
             final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
             int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
             final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
@@ -425,7 +459,10 @@ public class FamilyTreeView4 extends ViewGroup {
             final int childCount = childrenView.size();
 
             for (int i = 0; i < childCount; i++) {
-                final View myChildView = childrenView.get(i);
+                final View myChildView = childrenView.get(i);//每一个儿子
+                for (SearchNearInBlood childe : childes) {
+                    initWidthAndHeight(childe.getChildrens());
+                }
                 if (null != myChildView) {
                     final SearchNearInBlood myChild = childes.get(i);
                     Log.i(TAG, "childrenLayout: " + myChild.getNickName() + " " + myChild.getRelationship());
@@ -449,7 +486,14 @@ public class FamilyTreeView4 extends ViewGroup {
 //                                for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
 //                                    Log.i(TAG, "onLayout: " + (mineLeft - (children.getChildrens().size() + children.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2));
 //                                }
-                                Log.i(TAG, "childrenLayout: " + (mineLeft - (myChild.getChildrens().size() + myChild.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2));
+//                                Log.i(TAG, "childrenLayout: " + (mineLeft - (myChild.getChildrens().size() + myChild.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2));
+
+
+//                                if (searchNearInBlood.getChildrens().size() > 0) {
+//                                    initWidthAndHeight(searchNearInBlood.getChildrens());
+//                                }
+
+//                                initWidthAndHeight(searchNearInBlood.getChildrens());
 
                                 childrenLayout(
                                         grandChildrenLeft,
@@ -458,6 +502,9 @@ public class FamilyTreeView4 extends ViewGroup {
 //                                        (int) grandChildView.getX() + (j + 1) * (mItemWidthPX + mSpacePX),
                                         grandChildrenTop, searchNearInBlood.getChildrens(),
                                         searchNearInBlood.getChildren());
+
+
+//                                initWidthAndHeight(searchNearInBlood.getChildrens());
                                 /*子配偶*/
 //                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
 //                                        childLeft + (2 * j + 2) * (mItemWidthPX + mSpacePX),
@@ -465,9 +512,11 @@ public class FamilyTreeView4 extends ViewGroup {
 //                                        searchNearInBlood.getSpouse());
                                 grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
 //                                        childLeft + (2 * j + 2) * (mItemWidthPX + mSpacePX),
-                                        grandChildrenLeft-(mItemWidthPX + mSpacePX),
+                                        grandChildrenLeft - (mItemWidthPX + mSpacePX),
                                         grandChildrenLeft, searchNearInBlood.getSpouses(),
                                         searchNearInBlood.getSpouse());
+
+//                                initWidthAndHeight(searchNearInBlood.getChildrens());
 //                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
 //                                        grandChildrenLeft,
 //                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
@@ -483,12 +532,12 @@ public class FamilyTreeView4 extends ViewGroup {
                             childLeft = grandChildrenLeft;
                             grandChildrenLeft += mSpacePX + mItemWidthPX;
                         }
-                        setChildViewFrame(myChildView, childLeft, childTop, mItemWidthPX, mItemHeightPX);
-
-                        // TODO: 2019/7/9 子配偶位置设置
-                        grandChildrenLeft = childrenSpouseLayout(childTop, childLeft, grandChildrenLeft, myChild.getSpouses(),
-                                myChild.getSpouse());
                     }
+                    setChildViewFrame(myChildView, childLeft, childTop, mItemWidthPX, mItemHeightPX);
+
+                    // TODO: 2019/7/9 子配偶位置设置
+                    grandChildrenLeft = childrenSpouseLayout(childTop, childLeft, grandChildrenLeft, myChild.getSpouses(),
+                            myChild.getSpouse());
                 }
             }
         }

@@ -2,14 +2,12 @@ package com.genealogy.by.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.View;
 
 import com.litesuits.orm.db.annotation.Ignore;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.enums.AssignType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
  */
 
 @Table("FamilyMember")
-public class FamilyMember implements Parcelable {
+public class FamilyMember2 implements Parcelable {
 
     @PrimaryKey(AssignType.BY_MYSELF)
     private String memberId;//人员ID
@@ -33,71 +31,19 @@ public class FamilyMember implements Parcelable {
     private String fathersId;//养父ID
 
     @Ignore
-    private FamilyMember spouse;//配偶
-    private List<FamilyMember> spouse2;
+    private FamilyMember2 spouse;//配偶
     @Ignore
-    private FamilyMember fosterFather;//养父
+    private FamilyMember2 fosterFather;//养父
     @Ignore
-    private FamilyMember fosterMother;//养母
+    private FamilyMember2 fosterMother;//养母
     @Ignore
-    private FamilyMember father;//父亲
+    private FamilyMember2 father;//父亲
     @Ignore
-    private FamilyMember mother;//母亲
+    private FamilyMember2 mother;//母亲
     @Ignore
-    private List<FamilyMember> brothers;//兄弟姐妹
+    private List<FamilyMember2> brothers;//兄弟姐妹
     @Ignore
-    private List<FamilyMember> children;//儿女
-
-    @Ignore
-    private List<View> mChildrenView;//子女View
-
-    @Ignore
-    private List<View> mSpouseView;//配偶View
-
-    private View mMineView;
-
-    public View getMineView() {
-        return mMineView;
-    }
-
-    public void setMineView(View mMineView) {
-        this.mMineView = mMineView;
-    }
-
-    public List<View> getChildrenView() {
-        return mChildrenView;
-    }
-
-    public void setChildrenView(List<View> mChildrenView) {
-        this.mChildrenView = mChildrenView;
-    }
-
-    public List<View> getSpouseView() {
-        return mSpouseView;
-    }
-
-    public void setSpouseView(List<View> mSpouseView) {
-        this.mSpouseView = mSpouseView;
-    }
-
-    public void addSpouse(View view) {
-        if (null == mSpouseView) {
-            this.mSpouseView = new ArrayList<>();
-        }
-        if (view != null) {
-            this.mSpouseView.add(view);
-        }
-    }
-
-    public void addChild(View view) {
-        if (null == mChildrenView) {
-            this.mChildrenView = new ArrayList<>();
-        }
-        if (view != null) {
-            this.mChildrenView.add(view);
-        }
-    }
-
+    private List<FamilyMember2> children;//儿女
     @Ignore
     private boolean isSelect = false;//是否选中
 
@@ -118,7 +64,7 @@ public class FamilyMember implements Parcelable {
         dest.writeString(this.spouseId);
         dest.writeString(this.mothersId);
         dest.writeString(this.fathersId);
-        dest.writeTypedList(this.spouse2);
+        dest.writeParcelable(this.spouse, flags);
         dest.writeParcelable(this.fosterFather, flags);
         dest.writeParcelable(this.fosterMother, flags);
         dest.writeParcelable(this.father, flags);
@@ -128,10 +74,10 @@ public class FamilyMember implements Parcelable {
         dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
     }
 
-    public FamilyMember() {
+    public FamilyMember2() {
     }
 
-    protected FamilyMember(Parcel in) {
+    protected FamilyMember2(Parcel in) {
         this.memberId = in.readString();
         this.memberName = in.readString();
         this.call = in.readString();
@@ -141,25 +87,25 @@ public class FamilyMember implements Parcelable {
         this.spouseId = in.readString();
         this.mothersId = in.readString();
         this.fathersId = in.readString();
-        this.spouse = in.readParcelable(FamilyMember.class.getClassLoader());
-        this.fosterFather = in.readParcelable(FamilyMember.class.getClassLoader());
-        this.fosterMother = in.readParcelable(FamilyMember.class.getClassLoader());
-        this.father = in.readParcelable(FamilyMember.class.getClassLoader());
-        this.mother = in.readParcelable(FamilyMember.class.getClassLoader());
-        this.brothers = in.createTypedArrayList(FamilyMember.CREATOR);
-        this.children = in.createTypedArrayList(FamilyMember.CREATOR);
+        this.spouse = in.readParcelable(FamilyMember2.class.getClassLoader());
+        this.fosterFather = in.readParcelable(FamilyMember2.class.getClassLoader());
+        this.fosterMother = in.readParcelable(FamilyMember2.class.getClassLoader());
+        this.father = in.readParcelable(FamilyMember2.class.getClassLoader());
+        this.mother = in.readParcelable(FamilyMember2.class.getClassLoader());
+        this.brothers = in.createTypedArrayList(FamilyMember2.CREATOR);
+        this.children = in.createTypedArrayList(FamilyMember2.CREATOR);
         this.isSelect = in.readByte() != 0;
     }
 
-    public static final Creator<FamilyMember> CREATOR = new Creator<FamilyMember>() {
+    public static final Creator<FamilyMember2> CREATOR = new Creator<FamilyMember2>() {
         @Override
-        public FamilyMember createFromParcel(Parcel source) {
-            return new FamilyMember(source);
+        public FamilyMember2 createFromParcel(Parcel source) {
+            return new FamilyMember2(source);
         }
 
         @Override
-        public FamilyMember[] newArray(int size) {
-            return new FamilyMember[size];
+        public FamilyMember2[] newArray(int size) {
+            return new FamilyMember2[size];
         }
     };
 
@@ -235,68 +181,59 @@ public class FamilyMember implements Parcelable {
         this.fathersId = fathersId;
     }
 
-    public FamilyMember getSpouse() {
+    public FamilyMember2 getSpouse() {
         return spouse;
     }
 
-    public List<FamilyMember> getSpouse2() {
-        return spouse2;
-    }
-
-    public void setSpouse(FamilyMember spouse) {
+    public void setSpouse(FamilyMember2 spouse) {
         this.spouse = spouse;
     }
 
-    public void setSpouse2(List<FamilyMember> spouse) {
-        this.spouse2 = spouse;
-    }
-
-
-    public FamilyMember getFosterFather() {
+    public FamilyMember2 getFosterFather() {
         return fosterFather;
     }
 
-    public void setFosterFather(FamilyMember fosterFather) {
+    public void setFosterFather(FamilyMember2 fosterFather) {
         this.fosterFather = fosterFather;
     }
 
-    public FamilyMember getFosterMother() {
+    public FamilyMember2 getFosterMother() {
         return fosterMother;
     }
 
-    public void setFosterMother(FamilyMember fosterMother) {
+    public void setFosterMother(FamilyMember2 fosterMother) {
         this.fosterMother = fosterMother;
     }
 
-    public FamilyMember getFather() {
+    public FamilyMember2 getFather() {
         return father;
     }
 
-    public void setFather(FamilyMember father) {
+    public void setFather(FamilyMember2 father) {
         this.father = father;
     }
 
-    public FamilyMember getMother() {
+    public FamilyMember2 getMother() {
         return mother;
     }
 
-    public void setMother(FamilyMember mother) {
+    public void setMother(FamilyMember2 mother) {
         this.mother = mother;
     }
 
-    public List<FamilyMember> getBrothers() {
+    public List<FamilyMember2> getBrothers() {
         return brothers;
     }
 
-    public void setBrothers(List<FamilyMember> brothers) {
+    public void setBrothers(List<FamilyMember2> brothers) {
         this.brothers = brothers;
     }
 
-    public List<FamilyMember> getChildren() {
+    public List<FamilyMember2> getChildren() {
         return children;
     }
 
-    public void setChildren(List<FamilyMember> children) {
+    public void setChildren(List<FamilyMember2> children) {
         this.children = children;
     }
 

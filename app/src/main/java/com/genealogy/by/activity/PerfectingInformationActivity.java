@@ -148,13 +148,9 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         });
         tvRetract.setOnClickListener(view -> {
             if (more) {
-                MoreInformation.setVisibility(View.VISIBLE);
-                tvRetract.setText("收起详细资料");
-                more = false;
+                setRetract(View.VISIBLE, "收起详细资料", false);
             } else {
-                MoreInformation.setVisibility(View.GONE);
-                tvRetract.setText("展开详细资料");
-                more = true;
+                setRetract(View.GONE, "展开详细资料", true);
             }
         });
         tvAncestral = findViewById(R.id.tv_ancestral);//祖籍
@@ -172,7 +168,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         recommender = findViewById(R.id.recommender);
         phonenumbe = findViewById(R.id.phonenumbe);
         acceptance = findViewById(R.id.acceptance);
-        if (!title.contains("无")) {
+        if (!TextUtils.isEmpty(title) && !title.contains("无")) {
             recommender.setVisibility(View.GONE);
             phonenumbe.setVisibility(View.GONE);
             phonenumbe.setVisibility(View.GONE);
@@ -207,70 +203,72 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         });
     }
 
-    public void Nation() {
-        //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_04, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    private void setRetract(int visible, String content, boolean isMore) {
+        MoreInformation.setVisibility(visible);
+        tvRetract.setText(content);
+        more = isMore;
+    }
+
+    private void Nation() {
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_04);
         //将adapter2 添加到spinner中
         spNation.setAdapter(adapter);
         //设置默认值
         spNation.setVisibility(View.VISIBLE);
     }
 
-    public void Ranking() {
+
+    private void Ranking() {
         //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_03, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_03);
         //将adapter2 添加到spinner中
         spRanking.setAdapter(adapter);
         //设置默认值
         spRanking.setVisibility(View.VISIBLE);
     }
 
-    public void Alive() {
+    private void Alive() {
         //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_02, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_02);
         //将adapter2 添加到spinner中
         spAlive.setAdapter(adapter);
         //设置默认值
         spAlive.setVisibility(View.VISIBLE);
     }
 
-    public void Education() {
+    private void Education() {
         //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_05, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_05);
         //将adapter2 添加到spinner中
         spEducation.setAdapter(adapter);
         //设置默认值
         spEducation.setVisibility(View.VISIBLE);
     }
 
-    public void BloodType() {
+    private void BloodType() {
         //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_06, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_06);
         //将adapter2 添加到spinner中
         spBloodType.setAdapter(adapter);
         //设置默认值
         spBloodType.setVisibility(View.VISIBLE);
     }
 
-    public void AcceptInvitation() {
+    private void AcceptInvitation() {
         //将可选内容与ArrayAdapter连接起来
-        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.plantes_02, android.R.layout.simple_spinner_item);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<?> adapter = getArrayAdapter(R.array.plantes_02);
         //将adapter2 添加到spinner中
         spAcceptInvitation.setAdapter(adapter);
         //设置默认值
         spAcceptInvitation.setVisibility(View.VISIBLE);
+    }
+
+    private ArrayAdapter<?> getArrayAdapter(int layoutId) {
+        //将可选内容与ArrayAdapter连接起来
+        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, layoutId, android.R.layout.simple_spinner_item);
+        //设置下拉列表的风格
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
     }
 
     /**
@@ -312,7 +310,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("");
                 if (province != null) {
                     sb.append(province.getName() + " ");
                 }
@@ -324,14 +321,30 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 if (district != null) {
                     sb.append(district.getName() + " ");
                 }
-                if (type == 1) {
-                    tvArea.setText("" + sb.toString());
-                } else if (type == 2) {
-                    tvAreaDeath.setText("" + sb.toString());
-                } else if (type == 3) {
-                    tvAncestral.setText("" + sb.toString());
-                } else if (type == 4) {
-                    tvOriginArea.setText("" + sb.toString());
+
+//                if (type == 1) {
+//                    tvArea.setText("" + sb.toString());
+//                } else if (type == 2) {
+//                    tvAreaDeath.setText("" + sb.toString());
+//                } else if (type == 3) {
+//                    tvAncestral.setText("" + sb.toString());
+//                } else if (type == 4) {
+//                    tvOriginArea.setText("" + sb.toString());
+//                }
+
+                switch (type) {
+                    case 1:
+                        tvArea.setText("" + sb.toString());
+                        break;
+                    case 2:
+                        tvAreaDeath.setText("" + sb.toString());
+                        break;
+                    case 3:
+                        tvAncestral.setText("" + sb.toString());
+                        break;
+                    case 4:
+                        tvOriginArea.setText("" + sb.toString());
+                        break;
                 }
             }
 
