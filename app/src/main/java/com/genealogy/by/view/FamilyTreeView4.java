@@ -433,9 +433,6 @@ public class FamilyTreeView4 extends ViewGroup {
                                 mineLeft + (i + 1) * (mItemWidthPX + mSpacePX),
                                 mineTop,
                                 mItemWidthPX, mItemHeightPX);
-
-//                        childrenLayout(mineLeft, mineTop, mFamilyMember.getSpouses().get(i).getSpouses(),
-//                                mFamilyMember.getSpouses().get(i).getSpouse());
                     }
                 }
             }
@@ -450,22 +447,15 @@ public class FamilyTreeView4 extends ViewGroup {
         if (null != childes && childes.size() > 0 &&
                 childrenView != null && childrenView.size() > 0) {
 
-//            initWidthAndHeight(childes);
-
             final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
             int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
             final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
             int grandChildrenLeft = childLeft;
             final int childCount = childrenView.size();
-
             for (int i = 0; i < childCount; i++) {
                 final View myChildView = childrenView.get(i);//每一个儿子
-                for (SearchNearInBlood childe : childes) {
-                    initWidthAndHeight(childe.getChildrens());
-                }
                 if (null != myChildView) {
                     final SearchNearInBlood myChild = childes.get(i);
-                    Log.i(TAG, "childrenLayout: " + myChild.getNickName() + " " + myChild.getRelationship());
                     if (null != myChild) {
                         final List<SearchNearInBlood> mChildes = myChild.getChildrens();
                         if (mChildes != null && mChildes.size() > 0) {
@@ -474,58 +464,26 @@ public class FamilyTreeView4 extends ViewGroup {
 
                             List<View> chideViews = myChild.getChildren();
                             SearchNearInBlood searchNearInBlood;
-                            for (int j = 0; j < chideViews.size(); j++) {
+                            for (int j = 0; j < chideViews.size(); j++) {//孙子
                                 final View grandChildView = chideViews.get(j);
                                 setChildViewFrame(grandChildView, grandChildrenLeft,
                                         grandChildrenTop, mItemWidthPX, mItemHeightPX);
                                 endGrandChildLeft = grandChildrenLeft;
                                 grandChildrenLeft += mItemWidthPX + mSpacePX;
-
                                 searchNearInBlood = mChildes.get(j);
-                                /*子*/
-//                                for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
-//                                    Log.i(TAG, "onLayout: " + (mineLeft - (children.getChildrens().size() + children.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2));
-//                                }
-//                                Log.i(TAG, "childrenLayout: " + (mineLeft - (myChild.getChildrens().size() + myChild.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2));
-
-
-//                                if (searchNearInBlood.getChildrens().size() > 0) {
-//                                    initWidthAndHeight(searchNearInBlood.getChildrens());
-//                                }
-
-//                                initWidthAndHeight(searchNearInBlood.getChildrens());
-
+                                /*孙子*/
                                 childrenLayout(
                                         grandChildrenLeft,
-//                                        (mineLeft - (myChild.getChildrens().size() + myChild.getSpouses().size()) * (mItemWidthPX + mSpacePX) / 2),
-//                                        childLeft + (j + 1) * (mItemWidthPX + mSpacePX),
-//                                        (int) grandChildView.getX() + (j + 1) * (mItemWidthPX + mSpacePX),
                                         grandChildrenTop, searchNearInBlood.getChildrens(),
                                         searchNearInBlood.getChildren());
-
-
-//                                initWidthAndHeight(searchNearInBlood.getChildrens());
-                                /*子配偶*/
-//                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-//                                        childLeft + (2 * j + 2) * (mItemWidthPX + mSpacePX),
-//                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
-//                                        searchNearInBlood.getSpouse());
+                                /*孙媳*/
                                 grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-//                                        childLeft + (2 * j + 2) * (mItemWidthPX + mSpacePX),
                                         grandChildrenLeft - (mItemWidthPX + mSpacePX),
+//                                        grandChildrenLeft,
                                         grandChildrenLeft, searchNearInBlood.getSpouses(),
                                         searchNearInBlood.getSpouse());
 
-//                                initWidthAndHeight(searchNearInBlood.getChildrens());
-//                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-//                                        grandChildrenLeft,
-//                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
-//                                        searchNearInBlood.getSpouse());
-//                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-//                                        childLeft,
-//                                        grandChildrenLeft,
-//                                        searchNearInBlood.getSpouses(),
-//                                        searchNearInBlood.getSpouse());
+                                grandChildrenLeft += mItemWidthPX + mSpacePX;
                             }
                             childLeft = (endGrandChildLeft - startGrandChildLeft) / 2 + startGrandChildLeft;
                         } else {
