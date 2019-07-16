@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
+import com.genealogy.by.db.User;
 import com.genealogy.by.entity.AddUser;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
@@ -77,12 +78,19 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
     public String Userid = "";
     public String Gid = "";
 
+    User user;
+
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         intent = getIntent();
         title = intent.getStringExtra("title");
         Userid = intent.getStringExtra("Userid");
         Gid = intent.getStringExtra("Gid");
+
+        if (intent.hasExtra("user")) {
+            user = (User) intent.getSerializableExtra("user");
+        }
+
         if (!TextUtils.isEmpty(title)) {
             if (title.contains("无")) {
                 setTitleAndType(titleBar, 0, ApiConstant.UerfectUserDetail, "完善您的个人信息");
@@ -201,6 +209,38 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             type = 4;
             Areapick();
         });
+        initData();
+    }
+
+    private void initData() {
+        if (null != user) {
+            evSurname.setText(user.getSurname());
+            evName.setText(user.getName());
+            switch (user.getSex()) {
+                case 0:
+                    setSexChecked(true, false);
+                    break;
+                case 1:
+                    setSexChecked(false, true);
+                    break;
+            }
+            evAlias.setText(user.getMinName());
+            user.getRanking();//排行
+            user.getNationality();/*名族*/
+            user.getIsCelebrity();/*名人 是否名人(0:是 1:不是)*/
+            user.getDesignation();//designation
+
+            evNoun.setText(user.getNoun());
+            evUsedName.setText(user.getUsedName());
+            evWord.setText(user.getWord());
+            evNumber.setText(user.getNumber());
+            evTelephone.setText(user.getPhone());
+        }
+    }
+
+    private void setSexChecked(boolean isBox, boolean isGirly) {
+        rb_gender1.setChecked(isBox);
+        rb_gender2.setChecked(isGirly);
     }
 
     private void setRetract(int visible, String content, boolean isMore) {

@@ -55,6 +55,7 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
         if(id==null||id.trim().length()==0){
             id= SPHelper.getStringSF(mContext,"UserId");
         }
+
         loadComment();
         ivImg = findViewById(R.id.portrait);
         adddeeds = findViewById(R.id.adddeeds);
@@ -95,7 +96,6 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
                     .request(new ACallback<BaseTResp2<PersonalHome>>() {
                         @Override
                         public void onSuccess(BaseTResp2<PersonalHome> data) {
-                            ToastUtil.show("请求成功");
                             setdata(data.data);
                             List<Deed> list = new ArrayList();
                             for (int i = 0; i < data.data.getDeeds().size(); i++) {

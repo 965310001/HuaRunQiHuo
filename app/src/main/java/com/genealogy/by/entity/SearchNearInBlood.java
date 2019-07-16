@@ -8,7 +8,8 @@ import java.util.List;
 
 public class SearchNearInBlood implements Serializable {
 
-    private Integer id;
+
+    private long id;
     private Integer gId;//族谱ID
     private Object fatherId;//父亲ID
     //    private Integer motherId;//母亲ID
@@ -17,43 +18,43 @@ public class SearchNearInBlood implements Serializable {
     private String spouseId;
     private String surname;
     private String name;
-    private Integer sex;
+    private int sex;
     private String profilePhoto;/*头像*/
     private String phone;
     private String password;
-//    private Integer health;//健在(0:健在 1:过世)
+    //    private Integer health;//健在(0:健在 1:过世)
     //    private Double height;
-//    private String bloodGroup;
-//    private String ancestralHome;
-//    private String currentResidence;
-//    private String wordGeneration;
-//    private String school;
-//    private String education;
-//    private String email;
-//    private String unit;
-//    private String position;
-//    private String mark;
-//    private Integer createTime;
-//    private Integer ranking;
-//    private String commonName;
-//    private String word;
-//    private String number;
-//    private String designation;
-//    private String noun;
-//    private String usedName;
-//    private String minName;
-//    private String birthArea;
-//    private String birthPlace;
-//    private String deathTime;
-//    private String dieAddress;
-//    private String buriedArea;
-//    private String deathPlace;
+    private String bloodGroup;
+    private String ancestralHome;
+    private String currentResidence;
+    private String wordGeneration;
+    private String school;
+    private String education;
+    private String email;
+    private String unit;
+    private String position;
+    private String mark;
+    //    private Integer createTime;
+    private Object ranking;
+    private String commonName;
+    private String word;
+    private String number;
+    private String designation;
+    private String noun;
+    private String usedName;
+    private String minName;
+    private String birthArea;
+    private String birthPlace;
+    private String deathTime;
+    private String dieAddress;
+    private String buriedArea;
+    private String deathPlace;
 //    private Integer yearOfLife;
-//    private String nationality;
+    private String nationality;
+    private int isCelebrity;
 //    private String moveOut;
 //    private String industry;
 //    private String url;
-//    private Integer isCelebrity;
 //    private String genealogyImage;
 //    private String idCard;
 //    private String latestUpdatetime;
@@ -66,8 +67,8 @@ public class SearchNearInBlood implements Serializable {
 //    private String geneticDisease;
 //    private Integer isReghx;//是否已经注册环信 0:否 1:是
 
-    //    private String birthday;
-//    private String deeds;
+    private String birthday;
+    //    private String deeds;
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
 
@@ -75,6 +76,9 @@ public class SearchNearInBlood implements Serializable {
     private View mMineView;//我
     private List<View> mSpouse;//配偶
     private List<View> mChildren;//子女
+    private List<GenerationBean> generation;
+
+    private SearchNearInBlood user;
 
     public View getMineView() {
         return mMineView;
@@ -118,11 +122,11 @@ public class SearchNearInBlood implements Serializable {
         }
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -206,13 +210,13 @@ public class SearchNearInBlood implements Serializable {
         this.profilePhoto = profilePhoto;
     }
 
-//    public String getBirthday() {
-//        return birthday;
-//    }
-//
-//    public void setBirthday(String birthday) {
-//        this.birthday = birthday;
-//    }
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public String getPhone() {
         return phone;
@@ -246,85 +250,87 @@ public class SearchNearInBlood implements Serializable {
 //        this.height = height;
 //    }
 
-//    public String getBloodGroup() {
-//        return bloodGroup;
-//    }
-//
-//    public void setBloodGroup(String bloodGroup) {
-//        this.bloodGroup = bloodGroup;
-//    }
-//
-//    public String getAncestralHome() {
-//        return ancestralHome;
-//    }
-//
-//    public void setAncestralHome(String ancestralHome) {
-//        this.ancestralHome = ancestralHome;
-//    }
-//
-//    public String getCurrentResidence() {
-//        return currentResidence;
-//    }
-//
-//    public void setCurrentResidence(String currentResidence) {
-//        this.currentResidence = currentResidence;
-//    }
-//
-//    public String getWordGeneration() {
-//        return wordGeneration;
-//    }
-//
-//    public void setWordGeneration(String wordGeneration) {
-//        this.wordGeneration = wordGeneration;
-//    }
-//
-//    public String getSchool() {
-//        return school;
-//    }
-//
-//    public void setSchool(String school) {
-//        this.school = school;
-//    }
-//
-//    public String getEducation() {
-//        return education;
-//    }
-//
-//    public void setEducation(String education) {
-//        this.education = education;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public String getUnit() {
-//        return unit;
-//    }
-//
-//    public void setUnit(String unit) {
-//        this.unit = unit;
-//    }
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
 
-//    public String getPosition() {
-//        return position;
-//    }
-//
-//    public void setPosition(String position) {
-//        this.position = position;
-//    }
-//
-//    public String getMark() {
-//        return mark;
-//    }
-//
-//    public void setMark(String mark) {
-//        this.mark = mark;
-//    }
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
+    public String getAncestralHome() {
+        return ancestralHome;
+    }
+
+    public void setAncestralHome(String ancestralHome) {
+        this.ancestralHome = ancestralHome;
+    }
+
+    public String getCurrentResidence() {
+        return currentResidence;
+    }
+
+    public void setCurrentResidence(String currentResidence) {
+        this.currentResidence = currentResidence;
+    }
+
+    public String getWordGeneration() {
+        return wordGeneration;
+    }
+
+    public void setWordGeneration(String wordGeneration) {
+        this.wordGeneration = wordGeneration;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    //
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    //
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
 
 //    public Integer getCreateTime() {
 //        return createTime;
@@ -334,117 +340,117 @@ public class SearchNearInBlood implements Serializable {
 //        this.createTime = createTime;
 //    }
 
-//    public Integer getRanking() {
-//        return ranking;
-//    }
-//
-//    public void setRanking(Integer ranking) {
-//        this.ranking = ranking;
-//    }
+    public Object getRanking() {
+        return ranking;
+    }
 
-//    public String getCommonName() {
-//        return commonName;
-//    }
-//
-//    public void setCommonName(String commonName) {
-//        this.commonName = commonName;
-//    }
-//
-//    public String getWord() {
-//        return word;
-//    }
-//
-//    public void setWord(String word) {
-//        this.word = word;
-//    }
+    public void setRanking(Object ranking) {
+        this.ranking = ranking;
+    }
 
-//    public String getNumber() {
-//        return number;
-//    }
-//
-//    public void setNumber(String number) {
-//        this.number = number;
-//    }
-//
-//    public String getDesignation() {
-//        return designation;
-//    }
-//
-//    public void setDesignation(String designation) {
-//        this.designation = designation;
-//    }
-//
-//    public String getNoun() {
-//        return noun;
-//    }
-//
-//    public void setNoun(String noun) {
-//        this.noun = noun;
-//    }
-//
-//    public String getUsedName() {
-//        return usedName;
-//    }
-//
-//    public void setUsedName(String usedName) {
-//        this.usedName = usedName;
-//    }
+    public String getCommonName() {
+        return commonName;
+    }
 
-//    public String getMinName() {
-//        return minName;
-//    }
-//
-//    public void setMinName(String minName) {
-//        this.minName = minName;
-//    }
-//
-//    public String getBirthArea() {
-//        return birthArea;
-//    }
-//
-//    public void setBirthArea(String birthArea) {
-//        this.birthArea = birthArea;
-//    }
-//
-//    public String getBirthPlace() {
-//        return birthPlace;
-//    }
-//
-//    public void setBirthPlace(String birthPlace) {
-//        this.birthPlace = birthPlace;
-//    }
-//
-//    public String getDeathTime() {
-//        return deathTime;
-//    }
-//
-//    public void setDeathTime(String deathTime) {
-//        this.deathTime = deathTime;
-//    }
-//
-//    public String getDieAddress() {
-//        return dieAddress;
-//    }
-//
-//    public void setDieAddress(String dieAddress) {
-//        this.dieAddress = dieAddress;
-//    }
-//
-//    public String getBuriedArea() {
-//        return buriedArea;
-//    }
-//
-//    public void setBuriedArea(String buriedArea) {
-//        this.buriedArea = buriedArea;
-//    }
-//
-//    public String getDeathPlace() {
-//        return deathPlace;
-//    }
-//
-//    public void setDeathPlace(String deathPlace) {
-//        this.deathPlace = deathPlace;
-//    }
+    public void setCommonName(String commonName) {
+        this.commonName = commonName;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getNoun() {
+        return noun;
+    }
+
+    public void setNoun(String noun) {
+        this.noun = noun;
+    }
+
+    public String getUsedName() {
+        return usedName;
+    }
+
+    public void setUsedName(String usedName) {
+        this.usedName = usedName;
+    }
+
+    public String getMinName() {
+        return minName;
+    }
+
+    public void setMinName(String minName) {
+        this.minName = minName;
+    }
+
+    public String getBirthArea() {
+        return birthArea;
+    }
+
+    public void setBirthArea(String birthArea) {
+        this.birthArea = birthArea;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    public String getDeathTime() {
+        return deathTime;
+    }
+
+    public void setDeathTime(String deathTime) {
+        this.deathTime = deathTime;
+    }
+
+    public String getDieAddress() {
+        return dieAddress;
+    }
+
+    public void setDieAddress(String dieAddress) {
+        this.dieAddress = dieAddress;
+    }
+
+    public String getBuriedArea() {
+        return buriedArea;
+    }
+
+    public void setBuriedArea(String buriedArea) {
+        this.buriedArea = buriedArea;
+    }
+
+    public String getDeathPlace() {
+        return deathPlace;
+    }
+
+    public void setDeathPlace(String deathPlace) {
+        this.deathPlace = deathPlace;
+    }
 
 //    public Integer getYearOfLife() {
 //        return yearOfLife;
@@ -486,13 +492,13 @@ public class SearchNearInBlood implements Serializable {
 //        this.url = url;
 //    }
 //
-//    public Integer getIsCelebrity() {
-//        return isCelebrity;
-//    }
-//
-//    public void setIsCelebrity(Integer isCelebrity) {
-//        this.isCelebrity = isCelebrity;
-//    }
+    public int getIsCelebrity() {
+        return isCelebrity;
+    }
+
+    public void setIsCelebrity(int isCelebrity) {
+        this.isCelebrity = isCelebrity;
+    }
 //
 //    public String getGenealogyImage() {
 //        return genealogyImage;
@@ -596,6 +602,49 @@ public class SearchNearInBlood implements Serializable {
 
     public void setSpouses(List<SearchNearInBlood> spouses) {
         this.spouses = spouses;
+    }
+
+
+    public static class GenerationBean implements Serializable {
+        /**
+         * men : 1
+         * women : 2
+         */
+
+        private int men;
+        private int women;
+
+        public int getMen() {
+            return men;
+        }
+
+        public void setMen(int men) {
+            this.men = men;
+        }
+
+        public int getWomen() {
+            return women;
+        }
+
+        public void setWomen(int women) {
+            this.women = women;
+        }
+    }
+
+    public List<GenerationBean> getGeneration() {
+        return generation;
+    }
+
+    public void setGeneration(List<GenerationBean> generation) {
+        this.generation = generation;
+    }
+
+    public SearchNearInBlood getUser() {
+        return user;
+    }
+
+    public void setUser(SearchNearInBlood user) {
+        this.user = user;
     }
 }
 

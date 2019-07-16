@@ -30,8 +30,9 @@ import com.genealogy.by.interfaces.OnFamilySelectListener;
 import com.genealogy.by.model.FamilyMember;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
-import com.genealogy.by.view.FamilyTreeView2;
 import com.genealogy.by.view.FamilyTreeView4;
+import com.genealogy.by.view.FamilyTreeView6;
+import com.genealogy.by.view.FamilyTreeView7;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -44,6 +45,7 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import tech.com.commoncore.base.BaseApplication;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
@@ -64,7 +66,6 @@ public class ShuPuFragment extends Fragment {
 
     private String param1;
 
-
     public static ShuPuFragment newInstance(String param1) {
         ShuPuFragment fragment = new ShuPuFragment();
         Bundle bundle = new Bundle();
@@ -72,7 +73,6 @@ public class ShuPuFragment extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,9 +86,58 @@ public class ShuPuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        switch (param1) {
+            case "父系":
+//                doit2();
+                break;
+
+            case "近亲":
+//                doit();
+                break;
+
+            case "全部":
+//                doit3();
+                break;
+        }
         doit();
         rootView = inflater.inflate(R.layout.shupu_fuxi, container, false);
         return rootView;
+    }
+
+    private void doit3() {
+
+    }
+
+    //父
+    private void doit2() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("gId", SPHelper.getStringSF(mContext, "GId"));
+        params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
+        JSONObject jsonObject = new JSONObject(params);
+        final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
+        ViseHttp.POST(ApiConstant.setAsCenter)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .cacheMode(CacheMode.FIRST_REMOTE)
+                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
+                    @Override
+                    public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
+                        if (data.status == 200) {
+                            SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
+                            initView();
+                            convertData(data.data);
+                            Log.e(TAG, "onSuccess: data = " + data.toString());
+                        } else {
+                            ToastUtil.show(data.msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show(errMsg);
+                        Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                    }
+                });
     }
 
     @Override
@@ -137,8 +186,10 @@ public class ShuPuFragment extends Fragment {
         });
         details.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString("userId", "");
-            FastUtil.startActivity(mContext, PersonalHomePageActivity.class);
+            bundle.putString("userId", user.getUserid());
+            FastUtil.startActivity(mContext, PersonalHomePageActivity.class, bundle);
+
+            popupWindow.dismiss();
         });
         core.setOnClickListener(v -> {
 
@@ -149,9 +200,9 @@ public class ShuPuFragment extends Fragment {
             showPopupWindowAdd(v, user);
         });
         edit.setOnClickListener(v -> {
-            ToastUtil.show("点击编辑");
+//            ToastUtil.show("点击编辑");
             popupWindow.dismiss();
-            showPopupWindowEdit(v);
+            showPopupWindowEdit(v, user);
         });
         popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
@@ -170,12 +221,13 @@ public class ShuPuFragment extends Fragment {
         }
     }
 
+    // TODO: 2019/7/16 弹窗
     private void showPopupWindowAdd(View view, User user) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.activity_popupadd, null);
         // 设置按钮的点击事件
-        RelativeLayout ll = contentView.findViewById(R.id.ll1);//背景图
+        LinearLayout ll = contentView.findViewById(R.id.ll1);//背景图
         LinearLayout fuqin = contentView.findViewById(R.id.ll_fuqin);//父亲
         LinearLayout muqin = contentView.findViewById(R.id.ll_muqin);//母亲
         LinearLayout peiou = contentView.findViewById(R.id.ll_peiou);//配偶
@@ -242,7 +294,7 @@ public class ShuPuFragment extends Fragment {
         popupWindowAdd.showAsDropDown(view);
     }
 
-    private void showPopupWindowEdit(View view) {
+    private void showPopupWindowEdit(View view, User user) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupedit, null);
@@ -259,6 +311,7 @@ public class ShuPuFragment extends Fragment {
         edit.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "编辑信息");
+            bundle.putSerializable("user", user);
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowEdit.dismiss();
         });
@@ -299,8 +352,8 @@ public class ShuPuFragment extends Fragment {
 
     public void popup(View view, User user) {
         if (popupWindow2 == null) {
-            initPopup(user);
         }
+        initPopup(user);
         if (!mIsShowing) {
             popupWindow2.showAtLocation(rootView.findViewById(R.id.line1), Gravity.BOTTOM, 0, 0);
             mIsShowing = true;
@@ -311,88 +364,111 @@ public class ShuPuFragment extends Fragment {
         View pop = View.inflate(mContext, R.layout.keyboard, null);
         List<String> str = new ArrayList<>();
         EditText evinput = pop.findViewById(R.id.evinput);//背景图
-        evinput.setGravity(Gravity.END);
         TextView cancel = pop.findViewById(R.id.tv_cancel);//
         TextView tv1 = pop.findViewById(R.id.tv1);
         LinearLayout numberkey = pop.findViewById(R.id.numberkey);
         TextView dismiss = pop.findViewById(R.id.dismiss);
 
+        TextView tvName = pop.findViewById(R.id.tv_name);
+        tvName.setText(String.format("请输入\"%s\"的手机号码", user.getName()));
         dismiss.setOnClickListener(view -> {
-            if (flg) {
-                numberkey.setVisibility(View.GONE);
-                flg = false;
-            } else {
-                numberkey.setVisibility(View.VISIBLE);
-                flg = true;
-            }
+//            if (flg) {
+//                numberkey.setVisibility(View.GONE);
+//                flg = false;
+//            } else {
+//                numberkey.setVisibility(View.VISIBLE);
+//                flg = true;
+//            }
 
+            popupWindow2.dismiss();
+            mIsShowing = false;
+            evinput.setText("");
         });
         tv1.setOnClickListener(view -> {
             str.add("1");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv2 = pop.findViewById(R.id.tv2);
         tv2.setOnClickListener(view -> {
             str.add("2");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv3 = pop.findViewById(R.id.tv3);
         tv3.setOnClickListener(view -> {
             str.add("3");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv4 = pop.findViewById(R.id.tv4);
         tv4.setOnClickListener(view -> {
             str.add("4");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv5 = pop.findViewById(R.id.tv5);
         tv5.setOnClickListener(view -> {
             str.add("5");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv6 = pop.findViewById(R.id.tv6);
         tv6.setOnClickListener(view -> {
             str.add("6");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv7 = pop.findViewById(R.id.tv7);
         tv7.setOnClickListener(view -> {
             str.add("7");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv8 = pop.findViewById(R.id.tv8);
         tv8.setOnClickListener(view -> {
             str.add("8");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv9 = pop.findViewById(R.id.tv9);
         tv9.setOnClickListener(view -> {
             str.add("9");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv0 = pop.findViewById(R.id.tv0);
         tv0.setOnClickListener(view -> {
             str.add("0");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView tv10 = pop.findViewById(R.id.tv10);
         tv10.setOnClickListener(view -> {
             str.add(".");
             evinput.setText(ListToString(str));
+            setSelection(evinput);
         });
         TextView shanchu = pop.findViewById(R.id.shanchu);
         shanchu.setOnClickListener(view -> {
-
-            str.remove(str.size() - 1);
-            evinput.setText(ListToString(str));
+            if (null != str && str.size() > 0) {
+                str.remove(str.size() - 1);
+                evinput.setText(ListToString(str));
+                setSelection(evinput);
+            }
         });
         TextView queding = pop.findViewById(R.id.queding);
         queding.setOnClickListener(view -> {
             invitationDoit(ListToString(str), user.getUserid());
             popupWindow2.dismiss();
+            mIsShowing = false;
+            evinput.setText("");
         });
-        cancel.setOnClickListener(view -> popupWindow2.dismiss());
+        cancel.setOnClickListener(view -> {
+            popupWindow2.dismiss();
+            mIsShowing = false;
+            evinput.setText("");
+        });
         TextView invitation = pop.findViewById(R.id.invitation);
         invitation.setOnClickListener(view -> invitationDoit(str.toString(), user.getUserid()));
         popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -400,6 +476,10 @@ public class ShuPuFragment extends Fragment {
         popupWindow2.setOutsideTouchable(false);
         popupWindow2.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         mIsShowing = false;
+    }
+
+    void setSelection(EditText evinput) {
+        evinput.setSelection(evinput.getText().toString().trim().length());
     }
 
     private void showNormalDialog() {
@@ -422,6 +502,7 @@ public class ShuPuFragment extends Fragment {
         normalDialog.show();
     }
 
+    // TODO: 2019/7/16 邀请
     public void invitationDoit(String phone, String inviteesId) {
         phone = phone.replace(",", "");
         phone = phone.replace("[", "");
@@ -612,47 +693,78 @@ public class ShuPuFragment extends Fragment {
                 });
     }
 
-    void con(List<SearchNearInBlood> data) {
-        for (SearchNearInBlood children : data) {
-            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
-                mFtvTree.setFamilyMember(children);
-                break;
-            }
-            con(children.getChildrens());
-            con(children.getSpouses());
-        }
-    }
 
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
-//        SPHelper.getStringSF(getContext(), "UserId");
-//        for (SearchNearInBlood children : data.getChildrens()) {
-//            if (children.getId().toString().equals(SPHelper.getStringSF(getContext(), "UserId"))) {
-//                mFtvTree.setFamilyMember(data);
-//                break;
-//            }
-//            con(children.getChildrens());
-//            con(children.getSpouses());
-//        }
+        param1 = "近亲";
+        switch (param1) {
+            case "父系":
+                mFtvTree.setVisibility(View.GONE);
+                mFtvTree1.setVisibility(View.VISIBLE);
+                mFtvTree2.setVisibility(View.GONE);
+                mFtvTree1.setFamilyMember(data);
+                Log.i(TAG, "convertData: " + data);
+                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
+                    @Override
+                    public void onFamilySelect(FamilyMember family) {
+                    }
 
-        mFtvTree.setFamilyMember(data);
-        mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
-            @Override
-            public void onFamilySelect(FamilyMember family) {
-            }
+                    @Override
+                    public void onFamilySelect(SearchNearInBlood family) {
+                        User user = new User();
+                        user.setGid(SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+                        user.setUserid(SPHelper.getStringSF(BaseApplication.getInstance(), "UserId"));
+                        showPopupWindow(family.getMineView(), user);
+                    }
+                });
+                break;
 
-            @Override
-            public void onFamilySelect(SearchNearInBlood family) {
-                Log.i(TAG, String.format("onFamilySelect: %s %s", family.getNickName(), family.getRelationship()));
-            }
-        });
+            case "近亲":
+                mFtvTree.setVisibility(View.VISIBLE);
+                mFtvTree1.setVisibility(View.GONE);
+                mFtvTree2.setVisibility(View.GONE);
+                mFtvTree.setFamilyMember(data);
+                mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
+                    @Override
+                    public void onFamilySelect(FamilyMember family) {
+                    }
+
+                    @Override
+                    public void onFamilySelect(SearchNearInBlood family) {
+                        User user = new User(family.getId() + "",
+                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+                        user.setSex(family.getSex());
+                        user.setSurname(family.getSurname());
+                        user.setName(family.getName());
+                        user.setBirthArea(family.getBirthArea());
+                        user.setBirthPlace(family.getBirthPlace());
+                        user.setEmail(family.getEmail());
+                        user.setWord(family.getWord());
+                        user.setUsedName(family.getUsedName());
+                        user.setIsCelebrity(family.getIsCelebrity());
+                        user.setNumber(family.getNumber());
+                        user.setNoun(family.getNoun());
+                        user.setPhone(family.getPhone());
+                        showPopupWindow(family.getMineView(), user);
+                    }
+                });
+                break;
+
+            case "全部":
+                mFtvTree.setVisibility(View.GONE);
+                mFtvTree1.setVisibility(View.GONE);
+                mFtvTree2.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
-    private FamilyTreeView4 mFtvTree;
-    private FamilyTreeView2 mFtvTree2;
+    private FamilyTreeView4 mFtvTree;//近亲
+    private FamilyTreeView6 mFtvTree1;//父系
+    private FamilyTreeView7 mFtvTree2;//全部
 
     private void initView() {
         mFtvTree = rootView.findViewById(R.id.ftv_tree);
+        mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);
         mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);
     }
 

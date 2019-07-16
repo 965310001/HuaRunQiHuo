@@ -315,16 +315,22 @@ public class FamilyTreeView4 extends ViewGroup {
 
         mMineView = view;
 
-        for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
-            children.setMineView(view = createFamilyView(children));
-            mFamilyMember.addChildren(view);
-            createFamilyView(children, children.getSpouses(), false);
-            createFamilyView(children, children.getChildrens(), true);
+        List<SearchNearInBlood> childes = mFamilyMember.getChildrens();
+        if (null != childes && childes.size() > 0) {
+            for (SearchNearInBlood children : childes) {
+                children.setMineView(view = createFamilyView(children));
+                mFamilyMember.addChildren(view);
+                createFamilyView(children, children.getSpouses(), false);
+                createFamilyView(children, children.getChildrens(), true);
+            }
         }
-        for (SearchNearInBlood spouse : mFamilyMember.getSpouses()) {
-            spouse.setMineView(view = createFamilyView(spouse));
-            mFamilyMember.addSpouses(view);
-            createFamilyView(spouse, spouse.getChildrens(), true);
+        List<SearchNearInBlood> spouses = mFamilyMember.getSpouses();
+        if (null != spouses && spouses.size() > 0) {
+            for (SearchNearInBlood spouse : spouses) {
+                spouse.setMineView(view = createFamilyView(spouse));
+                mFamilyMember.addSpouses(view);
+                createFamilyView(spouse, spouse.getChildrens(), true);
+            }
         }
 //        Log.i(TAG, "initView: " + mFamilyMember);
         /************************************** end *************************************/
@@ -374,7 +380,7 @@ public class FamilyTreeView4 extends ViewGroup {
             tvName.setBackgroundResource(R.color.user);
         }
 
-        if (family.getId().toString().equals(mUid)) {
+        if (family.getId() == Integer.parseInt(mUid)) {
             tvName.setBackgroundResource(R.color.bg_color_deep);
         }
 

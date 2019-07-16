@@ -28,9 +28,17 @@
             android:id="@+id/ftv_tree"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff" />
+            android:background="#ffffff"
+            android:visibility="gone" />
 
-        <com.genealogy.by.view.FamilyTreeView2
+        <com.genealogy.by.view.FamilyTreeView6
+            android:id="@+id/ftv_tree1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:visibility="gone" />
+
+        <com.genealogy.by.view.FamilyTreeView7
             android:id="@+id/ftv_tree2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

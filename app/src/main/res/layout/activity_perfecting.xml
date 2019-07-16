@@ -48,7 +48,7 @@
                         android:layout_height="23dp"
                         android:background="@null"
                         android:hint="请填写您的姓氏"
-                        android:textColor="#ffcccccc"
+                        android:textColorHint="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -71,7 +71,7 @@
                         android:layout_height="23dp"
                         android:background="@null"
                         android:hint="请填写您的名称"
-                        android:textColor="#ffcccccc"
+                        android:textColorHint="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -97,7 +97,7 @@
                     android:layout_height="23dp"
                     android:background="@null"
                     android:hint="别名、小名、外号等"
-                    android:textColor="#ffcccccc"
+                    android:textColorHint="#ffcccccc"
                     android:textSize="16sp" />
             </LinearLayout>
 
