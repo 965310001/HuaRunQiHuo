@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
+import com.genealogy.by.activity.RelationshipChainActivity;
 import com.genealogy.by.db.User;
 import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.interfaces.OnFamilySelectListener;
@@ -105,7 +107,12 @@ public class ShuPuFragment extends Fragment {
     }
 
     private void doit3() {
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        doit();
     }
 
     //父
@@ -166,6 +173,8 @@ public class ShuPuFragment extends Fragment {
         getActivity().getWindow().setAttributes(lp);
     }
 
+    String middleId;/*中心Id*/
+
     private void showPopupWindow(View view, User user) {
         View contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.activity_popup, null);
@@ -182,20 +191,89 @@ public class ShuPuFragment extends Fragment {
             popupWindow.dismiss();
         });
         relationship.setOnClickListener(v -> {
+            //关系链条
+            if (TextUtils.isEmpty(middleId)) {
+                middleId = SPHelper.getStringSF(mContext, "UserId");
+            }
+            HashMap<String, String> params = new HashMap<>();
+            params.put("gId", user.getGid());
+            params.put("userId", middleId);
+            params.put("heId", user.getUserid());
+            JSONObject jsonObject = new JSONObject(params);
+            ViseHttp.POST(ApiConstant.getRelationshipChain)
+                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .cacheMode(CacheMode.FIRST_REMOTE)
+                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
+                    .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
+                        @Override
+                        public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
+                            if (data.status == 200) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("data", data.data);
+                                FastUtil.startActivity(mContext, RelationshipChainActivity.class, bundle);
+                                popupWindow.dismiss();
 
+//                                SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
+//                            godata(data.data);
+//                                initView();
+//                                convertData(data.data);
+//                                popupWindow.dismiss();
+//                                Log.e(TAG, "onSuccess: data = " + data.toString());
+                            } else {
+//                                Log.e(TAG, "onSuccess: data = " + data.msg);
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            ToastUtil.show("onFail:errMsg=" + errMsg);
+                            Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                        }
+                    });
         });
         details.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("userId", user.getUserid());
             FastUtil.startActivity(mContext, PersonalHomePageActivity.class, bundle);
-
             popupWindow.dismiss();
         });
-        core.setOnClickListener(v -> {
 
+        /*设为中心*/
+        core.setOnClickListener(v -> {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("gId", user.getGid());
+            middleId = user.getUserid();
+            params.put("userId", middleId);
+            JSONObject jsonObject = new JSONObject(params);
+            final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
+            ViseHttp.POST(ApiConstant.searchNearInBlood)
+                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .cacheMode(CacheMode.FIRST_REMOTE)
+                    .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                    .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
+                        @Override
+                        public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
+                            if (data.status == 200) {
+                                SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
+//                            godata(data.data);
+                                initView();
+                                convertData(data.data);
+                                popupWindow.dismiss();
+                                Log.e(TAG, "onSuccess: data = " + data.toString());
+                            } else {
+                                Log.e(TAG, "onSuccess: data = " + data.msg);
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            ToastUtil.show("onFail:errMsg=" + errMsg);
+                            Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                        }
+                    });
         });
         add.setOnClickListener(v -> {
-            ToastUtil.show("点击添加");
+//            ToastUtil.show("点击添加");
             popupWindow.dismiss();
             showPopupWindowAdd(v, user);
         });
@@ -316,7 +394,7 @@ public class ShuPuFragment extends Fragment {
             popupWindowEdit.dismiss();
         });
         delete.setOnClickListener(v -> {
-            WhetherDelete();
+            WhetherDelete(user);
             popupWindowEdit.dismiss();
         });
         cancel.setOnClickListener(v -> popupWindowEdit.dismiss());
@@ -330,7 +408,7 @@ public class ShuPuFragment extends Fragment {
         popupWindowEdit.showAsDropDown(view);
     }
 
-    private void WhetherDelete() {
+    private void WhetherDelete(User user) {
         /* @setIcon 设置对话框图标
          * @setTitle 设置对话框标题
          * @setMessage 设置对话框消息提示
@@ -341,7 +419,25 @@ public class ShuPuFragment extends Fragment {
         normalDialog.setTitle("您确定要删除嘛？");
         normalDialog.setPositiveButton("确定",
                 (dialog, which) -> {
+                    ViseHttp.GET(ApiConstant.delUser)
+                            .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                            .cacheMode(CacheMode.FIRST_REMOTE)
+                            .addParam("id", user.getUserid())
+                            .request(new ACallback<BaseTResp2>() {
+                                @Override
+                                public void onSuccess(BaseTResp2 data) {
+                                    if (data.status == 200) {
+                                        doit();
+                                    }
+                                    ToastUtil.show(data.msg);
+                                }
 
+                                @Override
+                                public void onFail(int errCode, String errMsg) {
+                                    ToastUtil.show("onFail:errMsg=" + errMsg);
+                                    Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                                }
+                            });
                 });
         normalDialog.setNegativeButton("取消",
                 (dialog, which) -> {
@@ -459,8 +555,8 @@ public class ShuPuFragment extends Fragment {
         });
         TextView queding = pop.findViewById(R.id.queding);
         queding.setOnClickListener(view -> {
-            invitationDoit(ListToString(str), user.getUserid());
-            popupWindow2.dismiss();
+            invitationDoit(ListToString(str), user.getUserid(), user.getRelationship());
+//            popupWindow2.dismiss();
             mIsShowing = false;
             evinput.setText("");
         });
@@ -470,7 +566,7 @@ public class ShuPuFragment extends Fragment {
             evinput.setText("");
         });
         TextView invitation = pop.findViewById(R.id.invitation);
-        invitation.setOnClickListener(view -> invitationDoit(str.toString(), user.getUserid()));
+        invitation.setOnClickListener(view -> invitationDoit(str.toString(), user.getUserid(), user.getRelationship()));
         popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow2.setTouchable(true);
         popupWindow2.setOutsideTouchable(false);
@@ -503,15 +599,17 @@ public class ShuPuFragment extends Fragment {
     }
 
     // TODO: 2019/7/16 邀请
-    public void invitationDoit(String phone, String inviteesId) {
+    public void invitationDoit(String phone, String inviteesId, String relation) {
         phone = phone.replace(",", "");
         phone = phone.replace("[", "");
-        phone = phone.replace("]", "");
+        phone = phone.replace("]", "").replace(" ", "");
         String userId = SPHelper.getStringSF(mContext, "UserId");
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", userId);
         params.put("inviteesId", inviteesId);
         params.put("phone", phone.trim());
+        params.put("type", "0");
+        params.put("relation", relation);
         JSONObject jsonObject = new JSONObject(params);
         final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.inviteUser)
@@ -524,6 +622,7 @@ public class ShuPuFragment extends Fragment {
                         if (data.status == 200) {
                             showNormalDialog();
                             ToastUtil.show("邀请成功");
+                            popupWindow2.dismiss();
                         } else {
                             Log.e(TAG, "onSuccess: msg = " + data.msg + ",status=" + data.status);
                             ToastUtil.show("提示 ：" + data.msg);
@@ -678,7 +777,6 @@ public class ShuPuFragment extends Fragment {
 //                            godata(data.data);
                             initView();
                             convertData(data.data);
-
                             Log.e(TAG, "onSuccess: data = " + data.toString());
                         } else {
                             Log.e(TAG, "onSuccess: data = " + data.msg);
@@ -745,6 +843,8 @@ public class ShuPuFragment extends Fragment {
                         user.setNumber(family.getNumber());
                         user.setNoun(family.getNoun());
                         user.setPhone(family.getPhone());
+                        user.setRanking(family.getRanking());
+                        user.setRelationship(family.getRelationship());
                         showPopupWindow(family.getMineView(), user);
                     }
                 });

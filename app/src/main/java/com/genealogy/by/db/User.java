@@ -41,7 +41,7 @@ public class User implements Serializable {
     private String dieAddress;
     private String buriedArea;
     private String deathPlace;
-    private Object ranking;
+    private int ranking;
     private Integer fatherId;//父亲ID
     private Integer motherId;//母亲ID
     private String nationality;
@@ -49,6 +49,7 @@ public class User implements Serializable {
     private String surname;
 //    private String spouseId;//配偶ID
 
+    private String relationship;
 
     public int getIsCelebrity() {
         return isCelebrity;
@@ -66,11 +67,11 @@ public class User implements Serializable {
         return nationality;
     }
 
-    public Object getRanking() {
+    public int getRanking() {
         return ranking;
     }
 
-    public void setRanking(Object ranking) {
+    public void setRanking(int ranking) {
         this.ranking = ranking;
     }
 
@@ -100,7 +101,13 @@ public class User implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    public String getRelationship() {
+        return relationship;
+    }
 
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
 
     public String getBirthday() {
         return birthday;

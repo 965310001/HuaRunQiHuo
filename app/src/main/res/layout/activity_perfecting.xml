@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -93,7 +94,7 @@
 
                 <EditText
                     android:id="@+id/ev_alias"
-                    android:layout_width="230dp"
+                    android:layout_width="match_parent"
                     android:layout_height="23dp"
                     android:background="@null"
                     android:hint="别名、小名、外号等"
@@ -183,13 +184,13 @@
 
                 <EditText
                     android:id="@+id/ev_telephone"
-                    android:layout_width="@dimen/dp_230"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_23"
                     android:background="@null"
-                    android:gravity="center"
-                    android:hint=" +86 13413410666  "
+                    android:gravity="left"
                     android:textColor="#ffcccccc"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:text=" +86 13413410666  " />
             </LinearLayout>
 
             <LinearLayout
@@ -1104,11 +1105,11 @@
 
                     <EditText
                         android:id="@+id/ev_phone_number"
-                        android:layout_width="@dimen/dp_75"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
-                        android:hint=" 13413410666 "
+                        android:gravity="left"
+                        android:hint="请输入手机号码"
                         android:textColor="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>

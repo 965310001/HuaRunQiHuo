@@ -35,7 +35,7 @@ public class SearchNearInBlood implements Serializable {
     private String position;
     private String mark;
     //    private Integer createTime;
-    private Object ranking;
+    private int ranking;
     private String commonName;
     private String word;
     private String number;
@@ -340,11 +340,11 @@ public class SearchNearInBlood implements Serializable {
 //        this.createTime = createTime;
 //    }
 
-    public Object getRanking() {
+    public int getRanking() {
         return ranking;
     }
 
-    public void setRanking(Object ranking) {
+    public void setRanking(int ranking) {
         this.ranking = ranking;
     }
 
