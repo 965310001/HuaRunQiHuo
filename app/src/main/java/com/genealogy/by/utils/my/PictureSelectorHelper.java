@@ -168,7 +168,6 @@ public class PictureSelectorHelper {
                         // At least one permission is denied
                     }
                 });
-
     }
 
     void selectePhoto() {

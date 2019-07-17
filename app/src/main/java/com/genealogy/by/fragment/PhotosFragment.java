@@ -5,23 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import com.dinuscxj.refresh.RecyclerRefreshLayout;
-import com.dinuscxj.refresh.RefreshView;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.PhotosAddActivity;
 import com.genealogy.by.adapter.AlbumAdapter;
+import com.genealogy.by.adapter.LineagekAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
-import com.genealogy.by.entity.Album;
+import com.genealogy.by.entity.MyAlbum;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.ToolUtil;
 import com.genealogy.by.utils.my.BaseTResp2;
@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -50,10 +51,9 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     private Button addPhotos;
     private ImageView addImage;
     private RelativeLayout messageRelativeLayout;
-    private ListView albumsLv;
-    private ArrayList<Album> albums;
-    private AlbumAdapter adapter;
-    private RecyclerRefreshLayout layout;
+    private ArrayList<MyAlbum> albums;
+    private AlbumAdapter albumadapter;
+    private RecyclerView layout;
     private ToolUtil toolUtil;
     private RadioGroup mPhotosRadio;
 
@@ -85,6 +85,8 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.photos, container, false);
+        albumadapter = new AlbumAdapter(R.layout.item_photo_album);
+        intView(rootView);
         return rootView;
     }
 
@@ -103,41 +105,16 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                 }
             }
         });
-
-        albums = new ArrayList<Album>();
+        albums = new ArrayList<MyAlbum>();
         addImage =  getActivity().findViewById(R.id.add_image);
         addPhotos =  getActivity().findViewById(R.id.add_photos);
         messageRelativeLayout = getActivity().findViewById(R.id.message);
-        albumsLv = getActivity().findViewById(R.id.albumsLv);
         layout = getActivity().findViewById(R.id.layout);
-        //下拉刷新
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                toolUtil.dip2px(getActivity(), 40), (int) toolUtil.dip2px(getActivity(), 40));
-        layout.setRefreshView(new RefreshView(getActivity()), layoutParams);//RefreshViewEg为下拉刷新控件中的自定义头部类，详细用法参考此控件用法
-        layout.setRefreshStyle(RecyclerRefreshLayout.RefreshStyle.NORMAL);
-
-        //相册集 list view
-        adapter = new AlbumAdapter(getActivity(),R.layout.moban,albums,this);
-        albumsLv.setAdapter(adapter);
-
         //判断是否有相册集  进行显示隐藏
         if(albums.size() > 0){
             messageRelativeLayout.setVisibility(View.GONE);
-            //albumsLv.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
         }
-
-        layout.setOnRefreshListener(new RecyclerRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {//刷新
-                //取消刷新动画
-                layout.setRefreshing(false);
-                //清空数据
-                //albums.clear();
-                //重新获取数据
-                albums = albums;
-            }
-        });
 
         //添加相册按钮
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -166,15 +143,11 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                     //相册集 等于0
                     if(albums.size() == 0){
                         messageRelativeLayout.setVisibility(View.GONE);
-                        //albumsLv.setVisibility(View.VISIBLE);
                         layout.setVisibility(View.VISIBLE);
                     }
-                    Album album = new Album();
-                    album.setText(data.getStringExtra("photoTitle"));
-                    album.setContent(data.getStringExtra("photoDescription"));
+                    MyAlbum album = new MyAlbum();
                     albums.add(album);
                     //更新list view视图
-                    adapter.refresh(albums);
                     break;
                 case 201:
                     int id = Integer.valueOf(data.getStringExtra("id"));
@@ -189,7 +162,6 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                         layout.setVisibility(View.GONE);
                     }
                     //更新list view视图
-                    adapter.refresh(albums);
                     break;
             }
         }
@@ -206,15 +178,23 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setRequestBody(RequestBody.create(JSONS,jsonObject.toString()))
-                .request(new ACallback<BaseTResp2>() {
+                .request(new ACallback<BaseTResp2<List<MyAlbum>>>() {
                     @Override
-                    public void onSuccess(BaseTResp2 data) {
+                    public void onSuccess(BaseTResp2<List<MyAlbum>> data) {
                         if(data.status==200){
+
+                            List<MyAlbum> myAlbums = data.data;
                             Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= "+data.msg );
-                            if(data.data.toString().equals("[]")){
+                            if(myAlbums.size()==0){
                                 layout.setVisibility(View.GONE);
+                                messageRelativeLayout.setVisibility(View.VISIBLE);
                             }else{
-                                layout.setVisibility(View.GONE);
+                                layout.setVisibility(View.VISIBLE);
+                                messageRelativeLayout.setVisibility(View.GONE);
+                            }
+                            for (int i = 0; i <myAlbums.size() ; i++) {
+                                albumadapter.setNewData(myAlbums);
+                                albumadapter.notifyDataSetChanged();
                             }
                         }else{
                             Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= "+data.msg );
@@ -228,5 +208,44 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
                     }
                 });
     }
+    public void intView(View view){
+        albums = new ArrayList<>();
+        addImage =  view.findViewById(R.id.add_image);
+        addPhotos =  view.findViewById(R.id.add_photos);
+        messageRelativeLayout = view.findViewById(R.id.message);
+        layout = view.findViewById(R.id.layout);
+        //下拉刷新
 
+        //相册集 list view
+
+        //判断是否有相册集  进行显示隐藏
+        if(albums.size() > 0){
+            messageRelativeLayout.setVisibility(View.GONE);
+            //albumsLv.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+        }
+        layout.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        layout.setAdapter(albumadapter);
+
+
+        //添加相册按钮
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(), PhotosAddActivity.class),0);
+            }
+        });
+        //添加相册按钮
+        addPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(), PhotosAddActivity.class),0);
+            }
+        });
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+//        doit();
+    }
 }

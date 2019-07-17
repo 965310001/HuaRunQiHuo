@@ -14,12 +14,14 @@
             android:layout_marginRight="@dimen/dp_28"
             android:layout_marginTop="@dimen/dp_28"
             android:layout_marginLeft="@dimen/dp_28"
+            android:layout_marginBottom="@dimen/dp_30"
             android:layout_height="match_parent">
             <RelativeLayout
                 android:id="@+id/ll1"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
                 <ImageView
                     android:id="@+id/iv_1"
                     android:visibility="gone"
@@ -43,7 +45,9 @@
                     android:text="添加照片"/>
                 <TextView
                     android:id="@+id/text1"
+                    android:gravity="center_horizontal"
                     android:layout_width="match_parent"
+                    android:maxLines="2"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"/>
             </RelativeLayout>
@@ -77,7 +81,8 @@
                     android:textColor="#B14641"
                     android:text="添加照片"/>
                 <TextView
-
+                    android:id="@+id/text2"
+                    android:maxLines="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"/>
@@ -88,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/dp_28"
-            android:layout_marginBottom="@dimen/dp_28"
+            android:layout_marginBottom="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_28">
             <RelativeLayout
                 android:id="@+id/ll3"
@@ -118,6 +123,7 @@
                     android:text="添加照片"/>
                 <TextView
                     android:id="@+id/text3"
+                    android:maxLines="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"/>
@@ -152,6 +158,8 @@
                     android:textColor="#B14641"
                     android:text="添加照片"/>
                 <TextView
+                    android:id="@+id/text4"
+                    android:maxLines="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"/>

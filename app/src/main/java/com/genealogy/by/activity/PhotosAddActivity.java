@@ -98,7 +98,7 @@ public class PhotosAddActivity extends AppCompatActivity {
     }
     public  void doit(String title,int isTrue){
         String userId =  SPHelper.getStringSF(PhotosAddActivity.this,"UserId","");
-        String gid =  SPHelper.getStringSF(PhotosAddActivity.this,"GID","");
+        String gid =  SPHelper.getStringSF(PhotosAddActivity.this,"GId","");
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", userId);
         params.put("gId", gid);

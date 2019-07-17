@@ -10,5 +10,5 @@
         android:bottomLeftRadius="10dip"
     />
     <!--边框的宽度及颜色-->
-    <stroke android:width="2px" android:color="@android:color/holo_red_light" />
+    <stroke android:width="2px" android:color="#B14641" />
 </shape>

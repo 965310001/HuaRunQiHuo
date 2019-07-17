@@ -67,4 +67,37 @@
     <color name="zupu_boy">#d8f2fd</color>
     <color name="zupu_girl">#F9F6F4</color>
 
+
+    <color name="colorPrimary1">#2095F2</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimaryDark1">#303F9F</color>
+    <color name="colorAccent1">#FF4081</color>
+
+    <!--公共颜色开始-->
+    <color name="backgroundPrimary">#EBEBEB</color>
+    <color name="textBlack">#2c2c2c</color>
+    <color name="textGray">#B0B0B0</color>
+    <color name="textWhite">#ffffff</color>
+    <!--公共颜色结束-->
+
+    <!--个人页面开始-->
+    <color name="itemBackground">#fff</color>
+    <color name="textItemColor">#bfbfbf</color>
+    <!--个人页面结束-->
+
+    <!--朋友圈开始-->
+    <color name="moment_txtNameColor">#586B99</color>
+    <color name="moment_timeColor">#969696</color>
+    <!--朋友圈结束-->
+
+    <!--按钮颜色开始-->
+    <color name="btn_primary_normal">#337AB7</color>
+    <color name="btn_primary_pressed">#1E496E</color>
+    <color name="btn_warning_normal">#F0AD4E</color>
+    <color name="btn_warning_pressed">#D58512</color>
+    <!--按钮颜色结束-->
+
+    <!--聊天页面开始-->
+    <color name="chat_room_time">#DADADA</color>
+    <!--聊天页面结束-->
 </resources>

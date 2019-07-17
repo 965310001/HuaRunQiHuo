@@ -28,7 +28,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 
     <application
@@ -138,7 +142,36 @@
             android:screenOrientation="portrait"
             tools:ignore="DuplicateActivity">
         </activity>
-
+        <activity
+            android:name="com.genealogy.by.Ease.SystemSetting"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity">
+        </activity>
+        <activity
+            android:name="com.genealogy.by.Ease.EaseMainActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity">
+        </activity>
+        <activity
+            android:name="com.genealogy.by.Ease.FriendInforActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity">
+        </activity>
+        <activity
+            android:name="com.genealogy.by.Ease.UserInforActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity">
+        </activity>
+        <activity
+            android:name="com.genealogy.by.Ease.MomentActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity">
+        </activity>
 
         <!-- 设置环信应用的AppKey 环信-->
         <meta-data android:name="EASEMOB_APPKEY"  android:value="1103190619084395 #genalogy" />
