@@ -743,6 +743,7 @@ public class TabZuCeFragment extends BaseFragment {
                         bundle.putSerializable("type", "录入");
                         bundle.putString("Introduction",familyBook.getFamilyPhoto().get(idx1).getIntroduction());
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx1).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx1).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -754,6 +755,7 @@ public class TabZuCeFragment extends BaseFragment {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("type", "录入");
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx1).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx1).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -765,7 +767,8 @@ public class TabZuCeFragment extends BaseFragment {
             iv_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx1).getId());
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx1).getId(),
+                            familyBook.getFamilyPhoto().get(idx1).getUrl());
                 }
             });
         }else{
@@ -775,7 +778,8 @@ public class TabZuCeFragment extends BaseFragment {
             image1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,0,0);
+                    showPopupWindowEdit(view,0,familyBook.getFamilyPhoto().get(idx1).getId(),
+                            familyBook.getFamilyPhoto().get(idx1).getUrl());
                 }
             });
         }
@@ -791,6 +795,7 @@ public class TabZuCeFragment extends BaseFragment {
                         bundle.putSerializable("type", "录入");
                         bundle.putString("Introduction",familyBook.getFamilyPhoto().get(idx2).getIntroduction());
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx2).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx2).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -802,6 +807,7 @@ public class TabZuCeFragment extends BaseFragment {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("type", "录入");
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx2).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx2).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -813,7 +819,8 @@ public class TabZuCeFragment extends BaseFragment {
             iv_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx2).getId());
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx2).getId(),
+                            familyBook.getFamilyPhoto().get(idx2).getUrl());
                 }
             });
         }else{
@@ -823,7 +830,8 @@ public class TabZuCeFragment extends BaseFragment {
             image2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,0,0);
+                    showPopupWindowEdit(view,0,familyBook.getFamilyPhoto().get(idx2).getId(),
+                            familyBook.getFamilyPhoto().get(idx2).getUrl());
                 }
             });
         }
@@ -839,6 +847,7 @@ public class TabZuCeFragment extends BaseFragment {
                         bundle.putSerializable("type", "录入");
                         bundle.putString("Introduction",familyBook.getFamilyPhoto().get(idx3).getIntroduction());
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx3).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx3).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -851,6 +860,7 @@ public class TabZuCeFragment extends BaseFragment {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("type", "录入");
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx3).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx3).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -862,7 +872,8 @@ public class TabZuCeFragment extends BaseFragment {
             iv_3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx3).getId());
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx3).getId(),
+                            familyBook.getFamilyPhoto().get(idx3).getUrl());
                 }
             });
         }else{
@@ -872,7 +883,8 @@ public class TabZuCeFragment extends BaseFragment {
             image3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,0,0);
+                    showPopupWindowEdit(view,0,familyBook.getFamilyPhoto().get(idx3).getId(),
+                            familyBook.getFamilyPhoto().get(idx3).getUrl());
                 }
             });
         }
@@ -888,6 +900,7 @@ public class TabZuCeFragment extends BaseFragment {
                         bundle.putSerializable("type", "录入");
                         bundle.putString("Introduction",familyBook.getFamilyPhoto().get(idx4).getIntroduction());
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx4).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx4).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -899,6 +912,7 @@ public class TabZuCeFragment extends BaseFragment {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("type", "录入");
                         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx4).getId());
+                        bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx4).getUrl());
                         FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
                     }
                 });
@@ -910,7 +924,8 @@ public class TabZuCeFragment extends BaseFragment {
             iv_4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx4).getId());
+                    showPopupWindowEdit(view,1,familyBook.getFamilyPhoto().get(idx4).getId(),
+                            familyBook.getFamilyPhoto().get(idx4).getUrl());
                 }
             });
         }else{
@@ -920,13 +935,14 @@ public class TabZuCeFragment extends BaseFragment {
             image4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopupWindowEdit(view,0,0);
+                    showPopupWindowEdit(view,0,familyBook.getFamilyPhoto().get(idx4).getId(),
+                            familyBook.getFamilyPhoto().get(idx4).getUrl());
                 }
             });
         }
     }
 
-    private void showPopupWindowEdit(View view,int aog,int id) {
+    private void showPopupWindowEdit(View view,int aog,int id,String url) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupzcedit, null);
@@ -968,6 +984,7 @@ public class TabZuCeFragment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type", "录入");
                 bundle.putSerializable("Imgid", id);
+                bundle.putSerializable("Imgid", url);
                 FastUtil.startActivity(mContext, ReleasePictureActivity.class,bundle);
             }
         });

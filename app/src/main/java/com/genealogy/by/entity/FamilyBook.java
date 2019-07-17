@@ -193,7 +193,6 @@ public class FamilyBook implements Serializable {
          * family :
          * introduction :
          */
-
         private String id;
         private int lineage;
         private String surname;

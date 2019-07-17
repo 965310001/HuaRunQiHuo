@@ -48,15 +48,19 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class ReleasePictureActivity extends BaseTitleActivity {
     RecyclerView recyclerView;
-    Intent intent =getIntent();
+    Intent intent =new Intent();
     PictureSelectorHelper helper;
     EditText etText;
     String imgs;
     int familyAlbum=0;
     String Imgid="";
     String type="";
+    String oldurl="";
     @Override
     public void setTitleBar(TitleBarView titleBar) {
+        intent=getIntent();
+        oldurl = intent.getStringExtra("Url");
+
         Imgid = intent.getStringExtra("id");
         type = intent.getStringExtra("type");
         titleBar.setTitleMainText("发布图片").setRightTextColor(getResources().getColor(R.color.C_F47432)).setRightText("发布").setOnRightTextClickListener(new View.OnClickListener() {
@@ -139,12 +143,27 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         }
     }
     public void InputDoit(final List<String> urls,int id ){
+        String introduction = etText.getText().toString();
+        String  url = "";
+        if(urls.size()!=0){
+         url = urls.get(0);
+        }
+        if(url.length()>0){
+            file=new File(url);
+        }else{
+            file= new File("");
+        }
+        RequestBody image = RequestBody.create(MediaType.parse("image/png"), file);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("imgs", url, image)
+                .addFormDataPart("introduction",introduction)
+                .addFormDataPart("id",String.valueOf(familyAlbum))
+                .build();
         ViseHttp.POST(ApiConstant.familyBook_editImg)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .addParam("id", String.valueOf(id))
-                .addForm("imgs", file)
-                .addParam("introduction", etText.getText().toString())
+                .setRequestBody(requestBody)
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
