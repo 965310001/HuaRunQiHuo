@@ -48,7 +48,7 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class ReleasePictureActivity extends BaseTitleActivity {
     RecyclerView recyclerView;
-
+    Intent intent =getIntent();
     PictureSelectorHelper helper;
     EditText etText;
     String imgs;
@@ -57,7 +57,6 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     String type="";
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        Intent intent =getIntent();
         Imgid = intent.getStringExtra("id");
         type = intent.getStringExtra("type");
         titleBar.setTitleMainText("发布图片").setRightTextColor(getResources().getColor(R.color.C_F47432)).setRightText("发布").setOnRightTextClickListener(new View.OnClickListener() {
@@ -89,9 +88,16 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         FamilyBook familyBook =SPHelper.getDeviceData(mContext,"familyBook");
         familyAlbum = familyBook.getId();
         etText = mContentView.findViewById(R.id.et_text);
+        if(intent.getStringExtra("Introduction")!=null){
+            etText.setText(intent.getStringExtra("Introduction"));
+        }
+
         recyclerView = mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         helper = new PictureSelectorHelper(mContext, recyclerView);
+        if(type!=null&&type.contains("录入")){
+            recyclerView.setVisibility(View.GONE);
+        }
     }
     //上传图片
     File file = new File("");
@@ -143,10 +149,10 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
                         if (data.status == 200) {
-                            Log.e(TAG, "onSuccess: 照片删除成功  msg= " + data.msg);
+                            Log.e(TAG, "onSuccess: 照片简介录入  msg= " + data.msg);
                         } else {
-                            Log.e(TAG, "onSuccess:  照片删除失败  msg= " + data.msg);
-                            ToastUtil.show("请求失败 " + data.msg);
+                            Log.e(TAG, "onSuccess:  简介录入错误  msg= " + data.msg);
+                            ToastUtil.show("录入错误 " + data.msg);
                         }
                     }
                     @Override
