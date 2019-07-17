@@ -5,9 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -64,7 +64,7 @@ public class ShuPuFragment extends Fragment {
     private User user;
     private LinearLayout table;
     private View rootView;
-    public boolean flg = true;
+//    public boolean flg = true;
 
     private String param1;
 
@@ -90,18 +90,18 @@ public class ShuPuFragment extends Fragment {
                              Bundle savedInstanceState) {
         switch (param1) {
             case "父系":
-//                doit2();
+                doit2();
                 break;
 
             case "近亲":
-//                doit();
+                doit();
                 break;
 
             case "全部":
-//                doit3();
+                doit3();
                 break;
         }
-        doit();
+//        doit();
         rootView = inflater.inflate(R.layout.shupu_fuxi, container, false);
         return rootView;
     }
@@ -150,10 +150,10 @@ public class ShuPuFragment extends Fragment {
                 });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//    }
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
@@ -288,7 +288,8 @@ public class ShuPuFragment extends Fragment {
         popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        ColorDrawable dw = new ColorDrawable(0x30000000);
+        popupWindow.setBackgroundDrawable(dw);
         popupWindow.setOnDismissListener(new popupDismissListener());
         backgroundAlpha(0.5f);
         // 设置好参数之后再show
@@ -405,10 +406,14 @@ public class ShuPuFragment extends Fragment {
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
         popupWindowEdit.setOnDismissListener(new popupDismissListener());
-        popupWindowEdit.setBackgroundDrawable(new BitmapDrawable());
+//        popupWindowEdit.setBackgroundDrawable(new BitmapDrawable());
+        ColorDrawable dw = new ColorDrawable(0x30000000);
+        popupWindowEdit.setBackgroundDrawable(dw);
         popupWindowEdit.setOutsideTouchable(true);
-        // 设置好参数之后再show
-        popupWindowEdit.showAsDropDown(view);
+        popupWindowEdit.setFocusable(true);
+
+        View parent = ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
+        popupWindowEdit.showAsDropDown(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     private void WhetherDelete(User user) {
@@ -797,7 +802,7 @@ public class ShuPuFragment extends Fragment {
 
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
-        param1 = "近亲";
+//        param1 = "近亲";
         switch (param1) {
             case "父系":
                 mFtvTree.setVisibility(View.GONE);

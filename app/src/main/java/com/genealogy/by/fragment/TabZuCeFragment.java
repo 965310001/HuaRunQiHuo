@@ -698,7 +698,7 @@ public class TabZuCeFragment extends BaseFragment {
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         ToastUtil.show("失败: " + errMsg);
-                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                        Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
                     }
                 });
     }

@@ -11,7 +11,7 @@ public class SearchNearInBlood implements Serializable {
 
     private long id;
     private Integer gId;//族谱ID
-    private Object fatherId;//父亲ID
+    //    private Object fatherId;//父亲ID
     //    private Integer motherId;//母亲ID
     //    private Integer inviteId;
     private String account;
@@ -22,8 +22,8 @@ public class SearchNearInBlood implements Serializable {
     private String profilePhoto;/*头像*/
     private String phone;
     private String password;
-    //    private Integer health;//健在(0:健在 1:过世)
-    //    private Double height;
+    //    private transient Integer health;//健在(0:健在 1:过世)
+    //    private transient Double height;
     private String bloodGroup;
     private String ancestralHome;
     private String currentResidence;
@@ -34,7 +34,7 @@ public class SearchNearInBlood implements Serializable {
     private String unit;
     private String position;
     private String mark;
-    //    private Integer createTime;
+    //    private  Integer createTime;
     private int ranking;
     private String commonName;
     private String word;
@@ -49,36 +49,48 @@ public class SearchNearInBlood implements Serializable {
     private String dieAddress;
     private String buriedArea;
     private String deathPlace;
-//    private Integer yearOfLife;
+    //    private  Integer yearOfLife;
     private String nationality;
     private int isCelebrity;
-//    private String moveOut;
-//    private String industry;
-//    private String url;
-//    private String genealogyImage;
-//    private String idCard;
-//    private String latestUpdatetime;
-//    private Integer branch;//分支 0:始祖 1:始迁祖 2:本支祖 3:分支祖
+//    private  String moveOut;
+//    private  String industry;
+//    private  String url;
+//    private  String genealogyImage;
+//    private  String idCard;
+//    private  String latestUpdatetime;
+//    private  Integer branch;//分支 0:始祖 1:始迁祖 2:本支祖 3:分支祖
 
-    //    private String remark;
-//    private Integer oldId;
+    //    private  String remark;
+//    private  Integer oldId;
     private String nickName;
     private String relationship;
-//    private String geneticDisease;
-//    private Integer isReghx;//是否已经注册环信 0:否 1:是
+//    private  String geneticDisease;
+//    private  Integer isReghx;//是否已经注册环信 0:否 1:是
 
     private String birthday;
-    //    private String deeds;
+    //    private  String deeds;
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
 
 
-    private View mMineView;//我
-    private List<View> mSpouse;//配偶
-    private List<View> mChildren;//子女
-    private List<GenerationBean> generation;
+    private transient View mMineView;//我
+    private transient List<View> mSpouse;//配偶
+    private transient List<View> mChildren;//子女
+    private transient List<GenerationBean> generation;
 
     private SearchNearInBlood user;
+
+
+    public SearchNearInBlood() {
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
 
     public View getMineView() {
         return mMineView;
@@ -138,13 +150,13 @@ public class SearchNearInBlood implements Serializable {
         this.gId = gId;
     }
 
-    public Object getFatherId() {
-        return fatherId;
-    }
-
-    public void setFatherId(Object fatherId) {
-        this.fatherId = fatherId;
-    }
+//    public Object getFatherId() {
+//        return fatherId;
+//    }
+//
+//    public void setFatherId(Object fatherId) {
+//        this.fatherId = fatherId;
+//    }
 
 //    public Integer getMotherId() {
 //        return motherId;
@@ -499,7 +511,8 @@ public class SearchNearInBlood implements Serializable {
     public void setIsCelebrity(int isCelebrity) {
         this.isCelebrity = isCelebrity;
     }
-//
+
+    //
 //    public String getGenealogyImage() {
 //        return genealogyImage;
 //    }
@@ -605,7 +618,7 @@ public class SearchNearInBlood implements Serializable {
     }
 
 
-    public static class GenerationBean implements Serializable {
+    public class GenerationBean implements Serializable {
         /**
          * men : 1
          * women : 2
@@ -613,6 +626,9 @@ public class SearchNearInBlood implements Serializable {
 
         private int men;
         private int women;
+
+        public GenerationBean() {
+        }
 
         public int getMen() {
             return men;
@@ -646,5 +662,6 @@ public class SearchNearInBlood implements Serializable {
     public void setUser(SearchNearInBlood user) {
         this.user = user;
     }
+
 }
 

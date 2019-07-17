@@ -47,7 +47,9 @@ public class BaseTitleDelegate {
                 .setOnLeftTextClickListener(activity == null ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        activity.onBackPressed();
+                        if (null != activity) {
+                            activity.onBackPressed();
+                        }
                     }
                 })
                 .setTextColor(context.getResources().getColor(R.color.colorTitleText))

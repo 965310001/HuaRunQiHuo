@@ -4,7 +4,6 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
@@ -35,45 +34,45 @@ public class RelationshipChainActivity extends BaseTitleActivity {
         familyTreeView.setFamilyMember(data);
 
 
-        familyTreeView.setOnTouchListener((v, event) -> {
-            View view = (View) v;
-            switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN: //手指按下
-                    savedMatrix.set(matrix);
-                    startPoint.set(event.getX(), event.getY());
-                    mode = DRAG;
-                    break;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_POINTER_UP:
-                    mode = NONE;
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    oldDist = spacing(event); //如果两点距离大于10 多点模式
-                    if (oldDist > 10f) {
-                        savedMatrix.set(matrix);
-                        midPoint(middlePoint, event);
-                        mode = ZOOM;
-                    }
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    if (mode == DRAG) { //拖动
-                        matrix.set(savedMatrix);
-                        matrix.postTranslate(event.getX() - startPoint.x, event.getY() - startPoint.y);
-                    } else if (mode == ZOOM) { //缩放
-                        float newDist = spacing(event);
-                        if (newDist > 10f) {
-                            matrix.set(savedMatrix);
-                            float scale = newDist / oldDist;
-                            matrix.postScale(scale, scale, middlePoint.x, middlePoint.y);
-                        }
-                        v.setScaleX(newDist);
-                        v.setScaleY(newDist);
-                    }
-                    break;
-            }
-//            view.(matrix);
-            return true;
-        });
+//        familyTreeView.setOnTouchListener((v, event) -> {
+//            View view = (View) v;
+//            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                case MotionEvent.ACTION_DOWN: //手指按下
+//                    savedMatrix.set(matrix);
+//                    startPoint.set(event.getX(), event.getY());
+//                    mode = DRAG;
+//                    break;
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_POINTER_UP:
+//                    mode = NONE;
+//                    break;
+//                case MotionEvent.ACTION_POINTER_DOWN:
+//                    oldDist = spacing(event); //如果两点距离大于10 多点模式
+//                    if (oldDist > 10f) {
+//                        savedMatrix.set(matrix);
+//                        midPoint(middlePoint, event);
+//                        mode = ZOOM;
+//                    }
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    if (mode == DRAG) { //拖动
+//                        matrix.set(savedMatrix);
+//                        matrix.postTranslate(event.getX() - startPoint.x, event.getY() - startPoint.y);
+//                    } else if (mode == ZOOM) { //缩放
+//                        float newDist = spacing(event);
+//                        if (newDist > 10f) {
+//                            matrix.set(savedMatrix);
+//                            float scale = newDist / oldDist;
+//                            matrix.postScale(scale, scale, middlePoint.x, middlePoint.y);
+//                            v.setScaleX(newDist);
+//                            v.setScaleY(newDist);
+//                        }
+//                    }
+//                    break;
+//            }
+////            view.(matrix);
+//            return true;
+//        });
     }
 
     private static final int NONE = 0;     //初始状态

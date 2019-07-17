@@ -21,6 +21,7 @@ import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.interfaces.OnFamilySelectListener;
 import com.genealogy.by.utils.DisplayUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.com.commoncore.utils.SPHelper;
@@ -785,6 +786,42 @@ public class FamilyTreeView4 extends ViewGroup {
         initWidthAndHeight();
         initView();
         invalidate();
+
+        getGenerations();
+    }
+
+    List<Integer> generationList;
+
+    // TODO: 2019/7/17 计算每一代多少人
+    void getGenerations() {
+        String TAG = "GETGENERATIONS";
+        ArrayList<SearchNearInBlood> childes = new ArrayList<>();
+        childes.add(mFamilyMember);
+        getGenerations(1, childes);
+        Log.i(TAG, "-------------------------------------------------");
+        Log.i(TAG, "getGenerations: "+generationList);
+    }
+
+    /*第几代 孩子*/
+    void getGenerations(int generations, List<SearchNearInBlood> childes) {
+        String TAG = "GETGENERATIONS";
+        if (null != childes && childes.size() > 0) {
+            generationList = new ArrayList<>();
+            int chide = childes.size();
+            List<SearchNearInBlood> searchNearInBloods = new ArrayList<>();
+            for (SearchNearInBlood searchNearInBlood : childes) {
+                List<View> spouse = searchNearInBlood.getSpouse();
+                if (null != spouse && spouse.size() > 0) {
+                    chide += spouse.size();
+                }
+                for (SearchNearInBlood children : searchNearInBlood.getChildrens()) {
+                    searchNearInBloods.add(children);
+                }
+            }
+            generationList.add(new Integer(chide));
+            Log.i(TAG, String.format("第%d代，有%d人", generations, chide));
+            getGenerations(++generations, searchNearInBloods);
+        }
     }
 
     public void setOnFamilySelectListener(OnFamilySelectListener onFamilySelectListener) {
