@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.genealogy.by.Ease.EaseMainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.JournalActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
@@ -89,7 +90,7 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
                     FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;
             case R.id.tv_release:
-                    FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
+                    FastUtil.startActivity(mContext, EaseMainActivity.class);
                 break;
             case R.id.journal:
                 FastUtil.startActivity(mContext, JournalActivity.class);

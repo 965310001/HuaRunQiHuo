@@ -52,7 +52,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     PictureSelectorHelper helper;
     EditText etText;
     String imgs;
-    int id=0;
+    int familyAlbum=0;
     String Imgid="";
     String type="";
     @Override
@@ -87,7 +87,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         FamilyBook familyBook =SPHelper.getDeviceData(mContext,"familyBook");
-        id = familyBook.getId();
+        familyAlbum = familyBook.getId();
         etText = mContentView.findViewById(R.id.et_text);
         recyclerView = mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
@@ -98,11 +98,16 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     private void upLoadPic(final List<String> urls, final int position) {
         String url= urls.get(0);
         file=new File(url);
+        RequestBody image = RequestBody.create(MediaType.parse("image/png"), file);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("imgs", url, image)
+                .addFormDataPart("id",String.valueOf(familyAlbum))
+                .build();
         ViseHttp.POST(ApiConstant.familyBook_uploadImg)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .addParam("id", String.valueOf(id))//族册ID
-                .addForm("imgs",file)//图片
+                .setRequestBody(requestBody)
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {

@@ -147,7 +147,7 @@
                     android:layout_marginLeft="@dimen/dp_27"
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_40"
-                    android:background="@drawable/bg__item_read"/>
+                    android:background="@drawable/bg_item_read"/>
             </LinearLayout>
 
         </RelativeLayout>

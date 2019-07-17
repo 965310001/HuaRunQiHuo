@@ -6,9 +6,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.progress.UIProgressDialog;
+import com.genealogy.by.Ease.Logs.Logs;
+import com.genealogy.by.Ease.model.Model;
+import com.genealogy.by.Ease.model.bean.UserInfo;
 import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.PhoneLogin;
@@ -16,6 +20,7 @@ import com.genealogy.by.entity.PhoneUser;
 import com.genealogy.by.utils.CacheData;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -25,6 +30,10 @@ import com.vise.xsnow.http.mode.CacheMode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -96,7 +105,7 @@ public class RegisterActivity extends BaseTitleActivity {
                            Bundle bundle = new Bundle();
                             bundle.putString("userId",data.data.getUserId());
                             bundle.putString("gId",data.data.getGId()+"");
-                            PhoneUser  phoneUser = new PhoneUser();
+                            register();
                             SPHelper.setStringSF(mContext,"GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext,"Phone",phone);
                             SPHelper.setStringSF(mContext,"UserId",data.data.getUserId());
@@ -195,7 +204,7 @@ public class RegisterActivity extends BaseTitleActivity {
             mProgressDialog.dismiss();
         }
     }
-    public void register(View view) {
+    public void register() {
         final String username = etPhone.getText().toString().trim();
         final String pwd = "zupu123456";
         String confirm_pwd = "zupu123456";
@@ -215,36 +224,22 @@ public class RegisterActivity extends BaseTitleActivity {
             pd.show();
             new Thread(new Runnable() {
                 public void run() {
-                    try {
-                        // call method in SDK
-                        EMClient.getInstance().createAccount(username, pwd);
-                        runOnUiThread(() -> {
-                            if (!RegisterActivity.this.isFinishing())
-                                pd.dismiss();
-                            // save current user
-//                                DemoHelper.getInstance().setCurrentUserName(username);
-                            finish();
-                        });
-                    } catch (final HyphenateException e) {
-                        runOnUiThread(() -> {
-                            if (!RegisterActivity.this.isFinishing())
-                                pd.dismiss();
-                            int errorCode=e.getErrorCode();
-                            if(errorCode== EMError.NETWORK_ERROR){
-//                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_ALREADY_EXIST){
-//                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.User_already_exists), Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
-//                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
-//                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.EXCEED_SERVICE_LIMIT){
-//                                    Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register_exceed_service_limit), Toast.LENGTH_SHORT).show();
-                            }else{
-//                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    // call method in SDK
+                    EMClient.getInstance().login(username, pwd, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Log.e(TAG, "onSuccess: 环信登录成功" );
+                        }
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.e(TAG, "onError: 环信登录失败 : "+s );
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+                            Log.e(TAG, "onProgress: 正在请求 : "+s );
+                        }
+                    });
                 }
             }).start();
 

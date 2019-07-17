@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/line1"
     android:layout_width="fill_parent"
@@ -8,8 +7,9 @@
     tools:context=".activity.PhotosDetailsActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/rlall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/huise">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,7 +17,6 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             android:gravity="left">
-
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
@@ -40,10 +39,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_10"
                 android:gravity="right">
 
                 <ImageView
                     android:id="@+id/gallery"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="4dp"
@@ -53,10 +54,10 @@
                     android:id="@+id/photos_about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
-                    android:layout_marginLeft="35dp"
-                    android:text="..."
-                    android:textSize="40dp"/>
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:text="上传"
+                    android:textColor="#B14641"
+                    android:textSize="@dimen/dp_18"/>
             </RelativeLayout>
         </RelativeLayout>
         <View
@@ -66,21 +67,14 @@
             android:background="#22000000" />
     </RelativeLayout>
 
-    <com.dinuscxj.refresh.RecyclerRefreshLayout
-        android:id="@+id/layout"
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/rlall"
+        android:layout_marginTop="@dimen/dp_15"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:visibility="gone"
-        >
-        <ListView
-            android:id="@+id/albumsDetailsLv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:listSelector="@android:color/transparent">
-        </ListView>
-    </com.dinuscxj.refresh.RecyclerRefreshLayout>
+        android:id="@+id/recyclerview">
+
+    </android.support.v7.widget.RecyclerView>
     <RelativeLayout
         android:id="@+id/message"
         android:layout_width="match_parent"
@@ -121,4 +115,4 @@
             android:textColor="@color/white"
             android:text="发布照片" />
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
