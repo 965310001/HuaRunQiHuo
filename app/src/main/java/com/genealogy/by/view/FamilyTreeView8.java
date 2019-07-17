@@ -556,7 +556,7 @@ public class FamilyTreeView8 extends ViewGroup {
     private void drawChildrenLine(Canvas canvas, View mMineView, SearchNearInBlood mFamilyMember,
                                   List<View> mMyChildren) {
         if (mMyChildren != null && mMyChildren.size() > 0) {
-            Log.i(TAG, "drawChildrenLine: ");
+//            Log.i(TAG, "drawChildrenLine: ");
             final int myVerticalLineX = (int) mMineView.getX() + mItemWidthPX / 2;
             final int myVerticalLineStartY = (int) mMineView.getY() + mItemHeightPX;
             final int myVerticalLinesStopY = myVerticalLineStartY + mSpacePX;

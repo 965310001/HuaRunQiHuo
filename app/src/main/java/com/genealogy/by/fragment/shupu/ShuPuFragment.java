@@ -112,7 +112,10 @@ public class ShuPuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        doit();
+        if (SPHelper.getBooleanSF(getContext(), "isRefresh")) {
+            doit();
+            SPHelper.setBooleanSF(getContext(), "isRefresh", false);
+        }
     }
 
     //父

@@ -20,7 +20,8 @@
                 android:background="#464854"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="@dimen/dp_12"
+                    android:id="@+id/iv_back"
+                    android:layout_width="@dimen/dp_17"
                     android:layout_height="@dimen/dp_17"
                     android:layout_marginTop="@dimen/dp_32"
                     android:layout_marginLeft="@dimen/dp_13"

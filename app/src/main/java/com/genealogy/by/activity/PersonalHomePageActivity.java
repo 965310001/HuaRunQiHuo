@@ -34,10 +34,11 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
     private TextView Telephone;
     private TextView Birthday;
     private TextView Age;
-    private String  id = "";
+    private String id = "";
     private LinearLayout adddeeds;
     private android.support.v7.widget.RecyclerView rvDeeds;
     DeedsAdapter deedAdapter;
+
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText("个人详情页");
@@ -52,8 +53,8 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
     public void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         id = intent.getStringExtra("userId");
-        if(id==null||id.trim().length()==0){
-            id= SPHelper.getStringSF(mContext,"UserId");
+        if (id == null || id.trim().length() == 0) {
+            id = SPHelper.getStringSF(mContext, "UserId");
         }
 
         loadComment();
@@ -68,11 +69,13 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
         Age = findViewById(R.id.age);
         rvDeeds = findViewById(R.id.deeds);
         rvDeeds.setLayoutManager(new LinearLayoutManager(mContext));
-        deedAdapter= new DeedsAdapter(R.layout.item_personalhomepage);
+        deedAdapter = new DeedsAdapter(R.layout.item_personalhomepage);
         rvDeeds.setAdapter(deedAdapter);
         adddeeds.setOnClickListener(view -> {
 
         });
+
+        findViewById(R.id.iv_back).setOnClickListener(view -> finish());
     }
 
     @Override
@@ -88,8 +91,9 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
     protected void onResume() {
         super.onResume();
     }
+
     private void loadComment() {
-        if(id!=null&&id.trim().length()!=0){
+        if (id != null && id.trim().length() != 0) {
             ViseHttp.GET(ApiConstant.searchUserDeatil)
                     .baseUrl(ApiConstant.BASE_URL_ZP)
                     .addParam("id", id)
@@ -104,42 +108,44 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
                             deedAdapter.setNewData(list);
                             hideLoading();
                         }
+
                         @Override
                         public void onFail(int errCode, String errMsg) {
                             ToastUtil.show("请求失败");
-                            Log.e(TAG, "onFail: "+errMsg +";errCode="+errCode);
+                            Log.e(TAG, "onFail: " + errMsg + ";errCode=" + errCode);
                             hideLoading();
                         }
                     });
-        }else{
+        } else {
             ToastUtil.show("请重新登录");
         }
 
     }
-    void setdata(PersonalHome data){
-        if (!data.getSurname().isEmpty()&&data.getName()!=null){
-            tvName.setText(data.getSurname()+data.getName());
-        }else{
+
+    void setdata(PersonalHome data) {
+        if (!data.getSurname().isEmpty() && data.getName() != null) {
+            tvName.setText(data.getSurname() + data.getName());
+        } else {
             tvName.setText("");
         }
-        if (!data.getRelationship().isEmpty()&&data.getRelationship()!=null){
+        if (!data.getRelationship().isEmpty() && data.getRelationship() != null) {
             Relationship.setText(data.getRelationship());
-        }else{
+        } else {
             Relationship.setText("");
         }
-        if (!data.getAncestralHome().isEmpty()&&data.getAncestralHome()!=null){
+        if (!data.getAncestralHome().isEmpty() && data.getAncestralHome() != null) {
             Area.setText(data.getAncestralHome());
-        }else{
+        } else {
             Area.setText("");
         }
-        if (!data.getPhone().isEmpty()&&data.getAncestralHome()!=null){
+        if (!data.getPhone().isEmpty() && data.getAncestralHome() != null) {
             Telephone.setText(data.getPhone());
-        }else{
+        } else {
             Telephone.setText("");
         }
-        if (!data.getBirthday().isEmpty()&&data.getBirthday()!=null){
+        if (!data.getBirthday().isEmpty() && data.getBirthday() != null) {
             Birthday.setText(data.getBirthday());
-        }else{
+        } else {
             Birthday.setText("");
         }
         Age.setText("");

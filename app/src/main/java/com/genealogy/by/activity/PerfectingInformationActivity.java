@@ -21,6 +21,7 @@ import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.db.User;
 import com.genealogy.by.entity.AddUser;
+import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.utils.my.MyGlideEngine;
 import com.google.gson.Gson;
@@ -687,6 +688,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                         public void onSuccess(BaseTResp2 data) {
                             if (data.status == 200) {
                                 ToastUtil.show("提交成功: " + data.msg);
+                                SPHelper.setBooleanSF(mContext, "isRefresh", true);
                                 FastUtil.startActivity(mContext, MainActivity.class);
                                 PerfectingInformationActivity.this.finish();
                             } else {
