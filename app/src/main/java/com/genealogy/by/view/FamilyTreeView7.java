@@ -358,28 +358,61 @@ public class FamilyTreeView7 extends ViewGroup {
 
 
     void childrenLayout(int mineLeft, int mineTop, List<SearchNearInBlood> familyMember) {
+        /*先计算第三代*/
         if (null != familyMember && familyMember.size() > 0) {
-            /*排序*/
-            chideList = new ArrayList<>();//儿子
             int chileLeft = mineLeft;
-            for (SearchNearInBlood searchNearInBlood : familyMember) {
+            int chileTop = mineTop;
+            for (SearchNearInBlood searchNearInBlood : familyMember) {/*我*/
+                List<SearchNearInBlood> childrens = searchNearInBlood.getChildrens();
+                if (null != childrens && childrens.size() > 0) {
+                    chileTop += mItemHeightPX + 2 * mSpacePX;
+                    for (SearchNearInBlood children : childrens) {   /*儿子*/
+                        childrenLayout(chileLeft, chileTop + mItemHeightPX + 2 * mSpacePX, children.getChildrens());/*孙子*/
+                        chileLeft += (mItemWidthPX + mSpacePX);
+
+                        setChildViewFrame(children.getMineView(), chileLeft, chileTop, mItemWidthPX, mItemHeightPX);
+                        List<View> childes = children.getSpouse();
+                        if (null != childes && childes.size() > 0) {
+                            for (View view : childes) {
+                                setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), chileTop, mItemWidthPX, mItemHeightPX);
+                            }
+                        }
+//                        chileLeft += (mItemWidthPX + mSpacePX);
+                    }
+                }
+                chileLeft += (mItemWidthPX + mSpacePX);
                 setChildViewFrame(searchNearInBlood.getMineView(), chileLeft, mineTop, mItemWidthPX, mItemHeightPX);/*我*/
-                /*妻子*/
-                childes = searchNearInBlood.getSpouse();
+                List<View> childes = searchNearInBlood.getSpouse();/*妻子*/
                 if (null != childes && childes.size() > 0) {
                     for (View view : childes) {
                         setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), mineTop, mItemWidthPX, mItemHeightPX);
                     }
                 }
-                chileLeft += (mItemWidthPX + mSpacePX);
-                for (SearchNearInBlood children : searchNearInBlood.getChildrens()) {
-                    chideList.add(children);
-                }
-            }
-            if (null != chideList && chideList.size() > 0) {
-                childrenLayout(mineLeft, mineTop + mItemHeightPX + mSpacePX * 2, chideList);
+//                chileLeft += (mItemWidthPX + mSpacePX);
             }
         }
+
+//        if (null != familyMember && familyMember.size() > 0) {
+//            chideList = new ArrayList<>();//儿子
+//            int chileLeft = mineLeft;
+//            for (SearchNearInBlood searchNearInBlood : familyMember) {
+//                setChildViewFrame(searchNearInBlood.getMineView(), chileLeft, mineTop, mItemWidthPX, mItemHeightPX);/*我*/
+//                /*妻子*/
+//                childes = searchNearInBlood.getSpouse();
+//                if (null != childes && childes.size() > 0) {
+//                    for (View view : childes) {
+//                        setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), mineTop, mItemWidthPX, mItemHeightPX);
+//                    }
+//                }
+//                chileLeft += (mItemWidthPX + mSpacePX);
+//                for (SearchNearInBlood children : searchNearInBlood.getChildrens()) {
+//                    chideList.add(children);
+//                }
+//            }
+//            if (null != chideList && chideList.size() > 0) {
+//                childrenLayout(mineLeft, mineTop + mItemHeightPX + mSpacePX * 2, chideList);
+//            }
+//        }
     }
 
     private void setChildViewFrame(View childView, int left, int top, int width, int height) {
@@ -389,8 +422,8 @@ public class FamilyTreeView7 extends ViewGroup {
     @Override
     protected void onDraw(Canvas canvas) {
         drawGenerationLine(canvas);
-        drawSpouseLine(canvas);
-        drawChildrenLine(canvas);
+//        drawSpouseLine(canvas);
+//        drawChildrenLine(canvas);
     }
 
     private void drawGenerationLine(Canvas canvas) {
