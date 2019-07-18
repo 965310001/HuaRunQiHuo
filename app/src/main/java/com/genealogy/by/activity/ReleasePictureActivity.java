@@ -142,6 +142,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
             helper.setActivityResult(result);
         }
     }
+
     public void InputDoit(final List<String> urls,int id ){
         String introduction = etText.getText().toString();
         String  url = "";

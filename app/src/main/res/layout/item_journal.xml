@@ -15,7 +15,6 @@
         android:scaleType="centerCrop" />
     <TextView
         android:id="@+id/tv_log"
-        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="《K线图的93个卖出形态》"

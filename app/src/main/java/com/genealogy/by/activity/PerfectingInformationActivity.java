@@ -350,7 +350,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
     /**
      * 日期选择
-     *
      * @param activity
      * @param themeResId
      * @param tv
@@ -542,7 +541,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         return runk;
     }
 
-    void Submission2(String url) {
+    public void Submission2(String url) {
         int runking = runking(spRanking.getSelectedItem().toString());
         if (runking == 0) {
             ToastUtil.show("请选择排行");
@@ -763,7 +762,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                                 Log.e(TAG, "onSuccess:msg = " + data.msg + ",status= " + data.status);
                             }
                         }
-
                         @Override
                         public void onFail(int errCode, String errMsg) {
                             ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
@@ -771,31 +769,5 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                         }
                     });
         }
-    }
-
-    public void doit() {
-        ViseHttp.POST(url)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                .cacheMode(CacheMode.FIRST_REMOTE)
-                .addForm("type", relationship_type)
-                .addForm("user", addUser)
-                .request(new ACallback<BaseTResp2>() {
-                    @Override
-                    public void onSuccess(BaseTResp2 data) {
-                        if (data.status == 200) {
-                            ToastUtil.show("提交成功: " + data.msg);
-                            PerfectingInformationActivity.this.finish();
-                        } else {
-                            ToastUtil.show(data.msg);
-                            Log.e(TAG, "onSuccess:msg = " + data.msg + ",status= " + data.status);
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
-                        Log.e(TAG, "onFail:errMsg = " + errMsg + ",errCode: " + errCode);
-                    }
-                });
     }
 }

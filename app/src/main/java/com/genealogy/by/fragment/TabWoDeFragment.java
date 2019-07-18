@@ -11,8 +11,10 @@ import com.genealogy.by.activity.JournalActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
 import com.genealogy.by.activity.RegisterActivity;
+import com.genealogy.by.entity.PhoneLogin;
 
 import tech.com.commoncore.base.BaseFragment;
+import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.SPHelper;
 import tech.com.commoncore.utils.ToastUtil;
@@ -29,7 +31,7 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
     private TextView tvSetting;
     private TextView personal;
     private TextView quit;
-
+    private TextView phone;
     public static TabWoDeFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -48,7 +50,8 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
     public void initView(Bundle savedInstanceState) {
         ivUser = mContentView.findViewById(R.id.iv_user);
         tvName = mContentView.findViewById(R.id.tv_name);
-        tvName.setText("不在i");
+        phone = mContentView.findViewById(R.id.phone);
+
         tvMyFollow = mContentView.findViewById(R.id.tv_my_follow);
         tvMyFabulous = mContentView.findViewById(R.id.tv_my_fabulous);
         tvRelease = mContentView.findViewById(R.id.tv_release);
@@ -69,6 +72,19 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
         tvUserInfo.setOnClickListener(this::onClick);
         tvSetting.setOnClickListener(this::onClick);
         tvMessage.setOnClickListener(this::onClick);
+        setData();
+    }
+
+    public void setData(){
+        if(SPHelper.getStringSF(mContext,"profilePhoto")!=null) {
+            GlideManager.loadCircleImg(SPHelper.getStringSF(mContext,"profilePhoto"), ivUser);
+        }
+       if(SPHelper.getStringSF(mContext,"nickName")!=null){
+           tvName.setText(SPHelper.getStringSF(mContext,"nickName"));
+       }
+        if(SPHelper.getStringSF(mContext,"Phone")!=null){
+            phone.setText(SPHelper.getStringSF(mContext,"Phone"));
+        }
     }
 
     @Override

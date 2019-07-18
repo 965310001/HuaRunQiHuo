@@ -1,6 +1,8 @@
 package com.genealogy.by.entity;
 
-public class Journal {
+import java.io.Serializable;
+
+public class Journal implements Serializable {
 
     /**
      * id : 27
