@@ -8,7 +8,6 @@ import java.util.List;
 
 public class SearchNearInBlood implements Serializable {
 
-
     private long id;
     private Integer gId;//族谱ID
     //    private Object fatherId;//父亲ID
@@ -76,7 +75,7 @@ public class SearchNearInBlood implements Serializable {
     private transient View mMineView;//我
     private transient List<View> mSpouse;//配偶
     private transient List<View> mChildren;//子女
-    private transient List<GenerationBean> generation;
+    private List<GenerationBean> generation;
 
     private SearchNearInBlood user;
 
@@ -626,9 +625,6 @@ public class SearchNearInBlood implements Serializable {
 
         private int men;
         private int women;
-
-        public GenerationBean() {
-        }
 
         public int getMen() {
             return men;

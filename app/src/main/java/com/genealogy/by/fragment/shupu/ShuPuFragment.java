@@ -98,15 +98,11 @@ public class ShuPuFragment extends Fragment {
                 break;
 
             case "全部":
-                doit3();
+                doit2();
                 break;
         }
-//        doit();
         rootView = inflater.inflate(R.layout.shupu_fuxi, container, false);
         return rootView;
-    }
-
-    private void doit3() {
     }
 
     @Override
@@ -124,11 +120,10 @@ public class ShuPuFragment extends Fragment {
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
         JSONObject jsonObject = new JSONObject(params);
-        final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
         ViseHttp.POST(ApiConstant.setAsCenter)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                .setJson(jsonObject)
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -248,11 +243,11 @@ public class ShuPuFragment extends Fragment {
             middleId = user.getUserid();
             params.put("userId", middleId);
             JSONObject jsonObject = new JSONObject(params);
-            final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
+//            final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
             ViseHttp.POST(ApiConstant.searchNearInBlood)
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
-                    .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -276,12 +271,10 @@ public class ShuPuFragment extends Fragment {
                     });
         });
         add.setOnClickListener(v -> {
-//            ToastUtil.show("点击添加");
             popupWindow.dismiss();
             showPopupWindowAdd(v, user);
         });
         edit.setOnClickListener(v -> {
-//            ToastUtil.show("点击编辑");
             popupWindow.dismiss();
             showPopupWindowEdit(v, user);
         });
@@ -619,11 +612,12 @@ public class ShuPuFragment extends Fragment {
         params.put("type", "0");
         params.put("relation", relation);
         JSONObject jsonObject = new JSONObject(params);
-        final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
+//        final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.inviteUser)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                .setJson(jsonObject)
+//                .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                 .request(new ACallback<BaseTResp2<Object>>() {
                     @Override
                     public void onSuccess(BaseTResp2<Object> data) {
@@ -772,11 +766,12 @@ public class ShuPuFragment extends Fragment {
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
         JSONObject jsonObject = new JSONObject(params);
-        final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
+//        final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
         ViseHttp.POST(ApiConstant.searchNearInBlood)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                .setJson(jsonObject)
+//                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -802,27 +797,12 @@ public class ShuPuFragment extends Fragment {
 
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
-//        param1 = "近亲";
         switch (param1) {
             case "父系":
                 mFtvTree.setVisibility(View.GONE);
-                mFtvTree1.setVisibility(View.VISIBLE);
-                mFtvTree2.setVisibility(View.GONE);
-                mFtvTree1.setFamilyMember(data);
-                Log.i(TAG, "convertData: " + data);
-                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
-                    @Override
-                    public void onFamilySelect(FamilyMember family) {
-                    }
-
-                    @Override
-                    public void onFamilySelect(SearchNearInBlood family) {
-                        User user = new User();
-                        user.setGid(SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-                        user.setUserid(SPHelper.getStringSF(BaseApplication.getInstance(), "UserId"));
-                        showPopupWindow(family.getMineView(), user);
-                    }
-                });
+                mFtvTree1.setVisibility(View.GONE);
+                mFtvTree2.setVisibility(View.VISIBLE);
+                mFtvTree2.setFamilyMember(data);
                 break;
 
             case "近亲":
@@ -860,22 +840,35 @@ public class ShuPuFragment extends Fragment {
 
             case "全部":
                 mFtvTree.setVisibility(View.GONE);
-                mFtvTree1.setVisibility(View.GONE);
-                mFtvTree2.setVisibility(View.VISIBLE);
+                mFtvTree1.setVisibility(View.VISIBLE);
+                mFtvTree2.setVisibility(View.GONE);
+                mFtvTree1.setFamilyMember(data);
+                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
+                    @Override
+                    public void onFamilySelect(FamilyMember family) {
+                    }
+
+                    @Override
+                    public void onFamilySelect(SearchNearInBlood family) {
+                        User user = new User();
+                        user.setGid(SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+                        user.setUserid(SPHelper.getStringSF(BaseApplication.getInstance(), "UserId"));
+                        showPopupWindow(family.getMineView(), user);
+                    }
+                });
                 break;
         }
     }
 
     private FamilyTreeView4 mFtvTree;//近亲
-    private FamilyTreeView6 mFtvTree1;//父系
-    private FamilyTreeView7 mFtvTree2;//全部
+    private FamilyTreeView6 mFtvTree1;//全部
+    private FamilyTreeView7 mFtvTree2;//父系
 
     private void initView() {
         mFtvTree = rootView.findViewById(R.id.ftv_tree);
         mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);
         mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);
     }
-
 
     @TargetApi(Build.VERSION_CODES.M)
     public void AddView(final View shuPuFragment, User user) {

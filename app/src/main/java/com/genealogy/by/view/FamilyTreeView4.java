@@ -512,9 +512,9 @@ public class FamilyTreeView4 extends ViewGroup {
                                      List<SearchNearInBlood> myChild, List<View> mChildSpouseView) {
         if (mChildSpouseView != null && mChildSpouseView.size() > 0) {
             for (int j = 0; j < mChildSpouseView.size(); j++) {
-                Log.i(TAG, "childrenLayout: " + myChild.get(j)
-                        .getNickName() + " " + myChild.get(j)
-                        .getRelationship());
+//                Log.i(TAG, "childrenLayout: " + myChild.get(j)
+//                        .getNickName() + " " + myChild.get(j)
+//                        .getRelationship());
 
                 final View spouseView = mChildSpouseView.get(j);
 //                final int spouseLeft = childLeft + (j + 1) * (mItemWidthPX + mSpacePX);
@@ -798,8 +798,8 @@ public class FamilyTreeView4 extends ViewGroup {
         ArrayList<SearchNearInBlood> childes = new ArrayList<>();
         childes.add(mFamilyMember);
         getGenerations(1, childes);
-        Log.i(TAG, "-------------------------------------------------");
-        Log.i(TAG, "getGenerations: "+generationList);
+//        Log.i(TAG, "-------------------------------------------------");
+//        Log.i(TAG, "getGenerations: "+generationList);
     }
 
     /*第几代 孩子*/
