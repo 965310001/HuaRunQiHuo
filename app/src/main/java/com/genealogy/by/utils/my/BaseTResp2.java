@@ -1,10 +1,12 @@
 package com.genealogy.by.utils.my;
 
+import java.io.Serializable;
+
 /**
  * Time:2018/11/8
  * Desc: 数据加载的基类. 包含数据请求的最外层  字段: code、msg、data
  */
-public class BaseTResp2<T> {
+public class BaseTResp2<T> implements Serializable {
         public  int status ;
         public String msg;
         public int countSum;
@@ -16,4 +18,5 @@ public class BaseTResp2<T> {
                 this.countSum =countSum;
                 this.data = data;
         }
+
 }

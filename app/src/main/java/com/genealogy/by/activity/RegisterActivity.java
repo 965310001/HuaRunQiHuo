@@ -106,11 +106,14 @@ public class RegisterActivity extends BaseTitleActivity {
                             bundle.putString("userId",data.data.getUserId());
                             bundle.putString("gId",data.data.getGId()+"");
                             register();
+                            SPHelper.setStringSF(mContext,"profilePhoto", String.valueOf(data.data.getProfilePhoto()));//头像
+                            SPHelper.setStringSF(mContext,"nickName", String.valueOf(data.data.getNickName()));//昵称
                             SPHelper.setStringSF(mContext,"GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext,"Phone",phone);
                             SPHelper.setStringSF(mContext,"UserId",data.data.getUserId());
                             FastUtil.startActivity(mContext, MainActivity.class,bundle);
                         }else if(data.status==202){
+
                             SPHelper.setStringSF(mContext,"GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext,"Phone",phone);
                             SPHelper.setStringSF(mContext,"UserId",data.data.getUserId());
