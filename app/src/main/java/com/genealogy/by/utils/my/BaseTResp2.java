@@ -7,16 +7,20 @@ import java.io.Serializable;
  * Desc: 数据加载的基类. 包含数据请求的最外层  字段: code、msg、data
  */
 public class BaseTResp2<T> implements Serializable {
-        public  int status ;
-        public String msg;
-        public int countSum;
-        public T data;
+    public int status;
+    public String msg;
+    public int countSum;
+    public T data;
 
-        public BaseTResp2(int status, String msg, T data,int countSum) {
-                this.status = status;
-                this.msg = msg;
-                this.countSum =countSum;
-                this.data = data;
-        }
+    public BaseTResp2(int status, String msg, T data, int countSum) {
+        this.status = status;
+        this.msg = msg;
+        this.countSum = countSum;
+        this.data = data;
+    }
+
+    public boolean isSuccess() {
+        return status == 200;
+    }
 
 }

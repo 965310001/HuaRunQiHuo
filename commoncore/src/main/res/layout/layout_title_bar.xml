@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aries.ui.view.title.TitleBarView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.aries.ui.view.title.TitleBarView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/titleBar_headFastLib"
     android:layout_width="match_parent"
@@ -12,6 +11,6 @@
     app:title_leftTextColor="@color/colorTitleText"
     app:title_rightTextColor="@color/colorTitleText"
     app:title_titleMainTextColor="@color/colorTitleText"
-    app:title_titleSubTextColor="@color/colorTitleText"/>
+    app:title_titleSubTextColor="@color/colorTitleText" />
 
 

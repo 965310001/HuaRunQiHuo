@@ -1,12 +1,10 @@
 package com.genealogy.by.fragment.shupu;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -60,12 +58,8 @@ public class ShuPuFragment extends Fragment {
     private PopupWindow popupWindowAdd, popupWindowEdit, popupWindow;
     private boolean mIsShowing = false;
     private static final String TAG = "ShuPuFragment";
-    private List<User> users;
-    private User user;
-    private LinearLayout table;
+    //    private LinearLayout table;
     private View rootView;
-//    public boolean flg = true;
-
     private String param1;
 
     public static ShuPuFragment newInstance(String param1) {
@@ -129,7 +123,7 @@ public class ShuPuFragment extends Fragment {
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
                         if (data.status == 200) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-                            initView();
+//                            initView();
                             convertData(data.data);
                             Log.e(TAG, "onSuccess: data = " + data.toString());
                         } else {
@@ -145,11 +139,6 @@ public class ShuPuFragment extends Fragment {
                 });
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//    }
-
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
@@ -162,16 +151,14 @@ public class ShuPuFragment extends Fragment {
 
     /**
      * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha) {
+    private void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
     }
 
-    String middleId;/*中心Id*/
+    private String middleId;/*中心Id*/
 
     private void showPopupWindow(View view, User user) {
         View contentView = LayoutInflater.from(getActivity()).inflate(
@@ -218,7 +205,7 @@ public class ShuPuFragment extends Fragment {
 //                                popupWindow.dismiss();
 //                                Log.e(TAG, "onSuccess: data = " + data.toString());
                             } else {
-//                                Log.e(TAG, "onSuccess: data = " + data.msg);
+                                Log.e(TAG, "onSuccess: data = " + data.msg);
                             }
                         }
 
@@ -243,7 +230,6 @@ public class ShuPuFragment extends Fragment {
             middleId = user.getUserid();
             params.put("userId", middleId);
             JSONObject jsonObject = new JSONObject(params);
-//            final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
             ViseHttp.POST(ApiConstant.searchNearInBlood)
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
@@ -253,8 +239,6 @@ public class ShuPuFragment extends Fragment {
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
                             if (data.status == 200) {
                                 SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-//                            godata(data.data);
-                                initView();
                                 convertData(data.data);
                                 popupWindow.dismiss();
                                 Log.e(TAG, "onSuccess: data = " + data.toString());
@@ -400,8 +384,8 @@ public class ShuPuFragment extends Fragment {
         // 我觉得这里是API的一个bug
         popupWindowEdit.setOnDismissListener(new popupDismissListener());
 //        popupWindowEdit.setBackgroundDrawable(new BitmapDrawable());
-        ColorDrawable dw = new ColorDrawable(0x30000000);
-        popupWindowEdit.setBackgroundDrawable(dw);
+//        ColorDrawable dw = new ColorDrawable(0x30000000);
+        popupWindowEdit.setBackgroundDrawable(new ColorDrawable(0x30000000));
         popupWindowEdit.setOutsideTouchable(true);
         popupWindowEdit.setFocusable(true);
 
@@ -419,27 +403,25 @@ public class ShuPuFragment extends Fragment {
                 new AlertDialog.Builder(mContext);
         normalDialog.setTitle("您确定要删除嘛？");
         normalDialog.setPositiveButton("确定",
-                (dialog, which) -> {
-                    ViseHttp.GET(ApiConstant.delUser)
-                            .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                            .cacheMode(CacheMode.FIRST_REMOTE)
-                            .addParam("id", user.getUserid())
-                            .request(new ACallback<BaseTResp2>() {
-                                @Override
-                                public void onSuccess(BaseTResp2 data) {
-                                    if (data.status == 200) {
-                                        doit();
-                                    }
-                                    ToastUtil.show(data.msg);
+                (dialog, which) -> ViseHttp.GET(ApiConstant.delUser)
+                        .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                        .cacheMode(CacheMode.FIRST_REMOTE)
+                        .addParam("id", user.getUserid())
+                        .request(new ACallback<BaseTResp2>() {
+                            @Override
+                            public void onSuccess(BaseTResp2 data) {
+                                if (data.status == 200) {
+                                    doit();
                                 }
+                                ToastUtil.show(data.msg);
+                            }
 
-                                @Override
-                                public void onFail(int errCode, String errMsg) {
-                                    ToastUtil.show("onFail:errMsg=" + errMsg);
-                                    Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
-                                }
-                            });
-                });
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                ToastUtil.show("onFail:errMsg=" + errMsg);
+                                Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                            }
+                        }));
         normalDialog.setNegativeButton("取消",
                 (dialog, which) -> {
                 });
@@ -447,9 +429,7 @@ public class ShuPuFragment extends Fragment {
         normalDialog.show();
     }
 
-    public void popup(View view, User user) {
-        if (popupWindow2 == null) {
-        }
+    private void popup(View view, User user) {
         initPopup(user);
         if (!mIsShowing) {
             popupWindow2.showAtLocation(rootView.findViewById(R.id.line1), Gravity.BOTTOM, 0, 0);
@@ -463,7 +443,7 @@ public class ShuPuFragment extends Fragment {
         EditText evinput = pop.findViewById(R.id.evinput);//背景图
         TextView cancel = pop.findViewById(R.id.tv_cancel);//
         TextView tv1 = pop.findViewById(R.id.tv1);
-        LinearLayout numberkey = pop.findViewById(R.id.numberkey);
+//        LinearLayout numberkey = pop.findViewById(R.id.numberkey);
         TextView dismiss = pop.findViewById(R.id.dismiss);
 
         TextView tvName = pop.findViewById(R.id.tv_name);
@@ -548,7 +528,7 @@ public class ShuPuFragment extends Fragment {
         });
         TextView shanchu = pop.findViewById(R.id.shanchu);
         shanchu.setOnClickListener(view -> {
-            if (null != str && str.size() > 0) {
+            if (str.size() > 0) {
                 str.remove(str.size() - 1);
                 evinput.setText(ListToString(str));
                 setSelection(evinput);
@@ -575,7 +555,7 @@ public class ShuPuFragment extends Fragment {
         mIsShowing = false;
     }
 
-    void setSelection(EditText evinput) {
+    private void setSelection(EditText evinput) {
         evinput.setSelection(evinput.getText().toString().trim().length());
     }
 
@@ -600,7 +580,7 @@ public class ShuPuFragment extends Fragment {
     }
 
     // TODO: 2019/7/16 邀请
-    public void invitationDoit(String phone, String inviteesId, String relation) {
+    private void invitationDoit(String phone, String inviteesId, String relation) {
         phone = phone.replace(",", "");
         phone = phone.replace("[", "");
         phone = phone.replace("]", "").replace(" ", "");
@@ -612,12 +592,10 @@ public class ShuPuFragment extends Fragment {
         params.put("type", "0");
         params.put("relation", relation);
         JSONObject jsonObject = new JSONObject(params);
-//        final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.inviteUser)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setJson(jsonObject)
-//                .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                 .request(new ACallback<BaseTResp2<Object>>() {
                     @Override
                     public void onSuccess(BaseTResp2<Object> data) {
@@ -638,157 +616,45 @@ public class ShuPuFragment extends Fragment {
                 });
     }
 
-    public static String ListToString(List<String> list) {
-        StringBuffer sb = new StringBuffer();
+    private static String ListToString(List<String> list) {
         if (list != null && list.size() > 0) {
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i) == null || list.get(i) == "") {
+                if (TextUtils.isEmpty(list.get(i))) {
                     continue;
                 }
                 sb.append(list.get(i));
             }
+            return sb.toString();
         }
-        return sb.toString();
-    }
-
-    //遍历请求到的数据
-    public void godata(SearchNearInBlood data) {
-        user = new User();
-        if (data.getSurname() != null) {
-            user.setName(data.getSurname() + data.getName());
-        } else {
-            user.setName("");
-        }
-        user.setSex(data.getSex());
-        if (data.getProfilePhoto() != null) {
-            user.setProfilePhoto(data.getProfilePhoto());
-        } else {
-            user.setProfilePhoto("");
-        }
-        user.setUserid(data.getId() + "");
-        user.setGid(data.getGId() + "");
-        AddView(rootView, user);
-        List<SearchNearInBlood> childrens = data.getChildrens();
-        if (null != childrens && childrens.size() > 0) {
-            for (int i = 0; i < childrens.size(); i++) {
-                SearchNearInBlood children = childrens.get(i);
-                if (children.getName() != null) {
-                    user.setName(children.getName());
-                } else {
-                    user.setName("");
-                }
-                user.setSex(children.getSex());
-                if (children.getProfilePhoto() != null) {
-                    user.setProfilePhoto(children.getProfilePhoto());
-                } else {
-                    user.setProfilePhoto("");
-                }
-                AddView(rootView, user);
-                ForChildrensGo(children.getChildrens());
-                if (null != children.getSpouses()) {
-                    if (children.getSpouses().size() > 0) {
-                        SearchNearInBlood spouses = children.getSpouses().get(i);
-                        if (spouses.getName() != null) {
-                            user.setName(spouses.getName());
-                        } else {
-                            user.setName("");
-                        }
-                        user.setSex(spouses.getSex());
-                        if (spouses.getProfilePhoto() != null) {
-                            user.setProfilePhoto(spouses.getProfilePhoto());
-                        } else {
-                            user.setProfilePhoto("");
-                        }
-                        user.setGid(spouses.getGId() + "");
-                        user.setUserid(spouses.getId() + "");
-                        AddView(rootView, user);
-                    }
-                }
-            }
-        }
-        List<SearchNearInBlood> spouses = data.getSpouses();
-        if (null != spouses && spouses.size() != 0) {
-            for (int i = 0; i < spouses.size(); i++) {
-                SearchNearInBlood spouse = spouses.get(i);
-                if (spouse.getName() != null) {
-                    user.setName(spouse.getName());
-                } else {
-                    user.setName("");
-                }
-                user.setSex(spouse.getSex());
-                if (spouse.getProfilePhoto() != null) {
-                    user.setProfilePhoto(spouse.getProfilePhoto());
-                } else {
-                    user.setProfilePhoto("");
-                }
-                user.setGid(spouse.getGId() + "");
-                user.setUserid(spouse.getId() + "");
-                AddView(rootView, user);
-            }
-        }
-    }
-
-    public void ForChildrensGo(List<SearchNearInBlood> data) {
-        if (null != data) {
-            for (int i = 0; i < data.size(); i++) {
-                user.setName(data.get(i).getName());
-                user.setSex(data.get(i).getSex());
-                user.setProfilePhoto(data.get(i).getProfilePhoto());
-                AddView(rootView, user);
-                if (data.get(i).getChildrens().size() > 0) {
-//                    ForChildrensGo((List<Children>) data.get(i));
-                    ForChildrensGo(data);
-                }
-                if (data.get(i).getSpouses().size() != 0) {
-                    for (int f = 0; f < data.get(i).getSpouses().size(); f++) {
-                        SearchNearInBlood spouses = data.get(i).getSpouses().get(f);
-                        if (spouses.getName() != null) {
-                            user.setName(spouses.getName());
-                        } else {
-                            user.setName("");
-                        }
-                        user.setSex(spouses.getSex());
-                        if (spouses.getProfilePhoto() != null) {
-                            user.setProfilePhoto(spouses.getProfilePhoto());
-                        } else {
-                            user.setProfilePhoto("");
-                        }
-                        AddView(rootView, user);
-                    }
-                }
-            }
-        }
+        return "";
     }
 
     //网络请求
-    void doit() {
+    private void doit() {
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
         JSONObject jsonObject = new JSONObject(params);
-//        final MediaType JSONS = MediaType.parse("application/json;charset=utf-8");
         ViseHttp.POST(ApiConstant.searchNearInBlood)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setJson(jsonObject)
-//                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
                         if (data.status == 200) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-//                            godata(data.data);
-                            initView();
                             convertData(data.data);
-                            Log.e(TAG, "onSuccess: data = " + data.toString());
                         } else {
+                            ToastUtil.show(data.msg);
                             Log.e(TAG, "onSuccess: data = " + data.msg);
                         }
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("onFail:errMsg=" + errMsg);
+                        ToastUtil.show(errMsg);
                         Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
                     }
                 });
@@ -797,6 +663,10 @@ public class ShuPuFragment extends Fragment {
 
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
+        FamilyTreeView4 mFtvTree = rootView.findViewById(R.id.ftv_tree);//近亲
+        FamilyTreeView6 mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);//全部
+        FamilyTreeView7 mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);//父系
+
         switch (param1) {
             case "父系":
                 mFtvTree.setVisibility(View.GONE);
@@ -860,39 +730,135 @@ public class ShuPuFragment extends Fragment {
         }
     }
 
-    private FamilyTreeView4 mFtvTree;//近亲
-    private FamilyTreeView6 mFtvTree1;//全部
-    private FamilyTreeView7 mFtvTree2;//父系
-
-    private void initView() {
-        mFtvTree = rootView.findViewById(R.id.ftv_tree);
-        mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);
-        mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public void AddView(final View shuPuFragment, User user) {
-        table = shuPuFragment.findViewById(R.id.shupu_table);
-        View contentView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.item_user, null);
-        LinearLayout lluser = contentView.findViewById(R.id.lluser);
-        RelativeLayout rlName = contentView.findViewById(R.id.rl_name);
-        lluser.setOnClickListener(view -> showPopupWindow(view, user));
-        TextView imgs = contentView.findViewById(R.id.imgs);
-        TextView name = contentView.findViewById(R.id.name);
-        if (user.getSex() == 1) {
-            setItemUser(rlName, imgs, name, R.mipmap.girl, R.color.C_D3606B);
-        } else {
-            setItemUser(rlName, imgs, name, R.mipmap.boy, R.color.user);
-        }
-        name.setText(user.getName());
-        table.addView(contentView);
-
-    }
-
-    private void setItemUser(RelativeLayout rlName, TextView imgs, TextView name, int imageId, int colorId) {
-        imgs.setBackgroundResource(imageId);
-        name.setBackgroundResource(colorId);
-        rlName.setBackgroundResource(colorId);
-    }
+    //遍历请求到的数据
+//    public void godata(SearchNearInBlood data) {
+//        user = new User();
+//        if (data.getSurname() != null) {
+//            user.setName(data.getSurname() + data.getName());
+//        } else {
+//            user.setName("");
+//        }
+//        user.setSex(data.getSex());
+//        if (data.getProfilePhoto() != null) {
+//            user.setProfilePhoto(data.getProfilePhoto());
+//        } else {
+//            user.setProfilePhoto("");
+//        }
+//        user.setUserid(data.getId() + "");
+//        user.setGid(data.getGId() + "");
+//        AddView(rootView, user);
+//        List<SearchNearInBlood> childrens = data.getChildrens();
+//        if (null != childrens && childrens.size() > 0) {
+//            for (int i = 0; i < childrens.size(); i++) {
+//                SearchNearInBlood children = childrens.get(i);
+//                if (children.getName() != null) {
+//                    user.setName(children.getName());
+//                } else {
+//                    user.setName("");
+//                }
+//                user.setSex(children.getSex());
+//                if (children.getProfilePhoto() != null) {
+//                    user.setProfilePhoto(children.getProfilePhoto());
+//                } else {
+//                    user.setProfilePhoto("");
+//                }
+//                AddView(rootView, user);
+//                ForChildrensGo(children.getChildrens());
+//                if (null != children.getSpouses()) {
+//                    if (children.getSpouses().size() > 0) {
+//                        SearchNearInBlood spouses = children.getSpouses().get(i);
+//                        if (spouses.getName() != null) {
+//                            user.setName(spouses.getName());
+//                        } else {
+//                            user.setName("");
+//                        }
+//                        user.setSex(spouses.getSex());
+//                        if (spouses.getProfilePhoto() != null) {
+//                            user.setProfilePhoto(spouses.getProfilePhoto());
+//                        } else {
+//                            user.setProfilePhoto("");
+//                        }
+//                        user.setGid(spouses.getGId() + "");
+//                        user.setUserid(spouses.getId() + "");
+//                        AddView(rootView, user);
+//                    }
+//                }
+//            }
+//        }
+//        List<SearchNearInBlood> spouses = data.getSpouses();
+//        if (null != spouses && spouses.size() != 0) {
+//            for (int i = 0; i < spouses.size(); i++) {
+//                SearchNearInBlood spouse = spouses.get(i);
+//                if (spouse.getName() != null) {
+//                    user.setName(spouse.getName());
+//                } else {
+//                    user.setName("");
+//                }
+//                user.setSex(spouse.getSex());
+//                if (spouse.getProfilePhoto() != null) {
+//                    user.setProfilePhoto(spouse.getProfilePhoto());
+//                } else {
+//                    user.setProfilePhoto("");
+//                }
+//                user.setGid(spouse.getGId() + "");
+//                user.setUserid(spouse.getId() + "");
+//                AddView(rootView, user);
+//            }
+//        }
+//    }
+//    public void ForChildrensGo(List<SearchNearInBlood> data) {
+//        if (null != data) {
+//            for (int i = 0; i < data.size(); i++) {
+//                user.setName(data.get(i).getName());
+//                user.setSex(data.get(i).getSex());
+//                user.setProfilePhoto(data.get(i).getProfilePhoto());
+//                AddView(rootView, user);
+//                if (data.get(i).getChildrens().size() > 0) {
+////                    ForChildrensGo((List<Children>) data.get(i));
+//                    ForChildrensGo(data);
+//                }
+//                if (data.get(i).getSpouses().size() != 0) {
+//                    for (int f = 0; f < data.get(i).getSpouses().size(); f++) {
+//                        SearchNearInBlood spouses = data.get(i).getSpouses().get(f);
+//                        if (spouses.getName() != null) {
+//                            user.setName(spouses.getName());
+//                        } else {
+//                            user.setName("");
+//                        }
+//                        user.setSex(spouses.getSex());
+//                        if (spouses.getProfilePhoto() != null) {
+//                            user.setProfilePhoto(spouses.getProfilePhoto());
+//                        } else {
+//                            user.setProfilePhoto("");
+//                        }
+//                        AddView(rootView, user);
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    @TargetApi(Build.VERSION_CODES.M)
+//    public void AddView(final View shuPuFragment, User user) {
+//        table = shuPuFragment.findViewById(R.id.shupu_table);
+//        View contentView = LayoutInflater.from(getActivity()).inflate(
+//                R.layout.item_user, null);
+//        LinearLayout lluser = contentView.findViewById(R.id.lluser);
+//        RelativeLayout rlName = contentView.findViewById(R.id.rl_name);
+//        lluser.setOnClickListener(view -> showPopupWindow(view, user));
+//        TextView imgs = contentView.findViewById(R.id.imgs);
+//        TextView name = contentView.findViewById(R.id.name);
+//        if (user.getSex() == 1) {
+//            setItemUser(rlName, imgs, name, R.mipmap.girl, R.color.C_D3606B);
+//        } else {
+//            setItemUser(rlName, imgs, name, R.mipmap.boy, R.color.user);
+//        }
+//        name.setText(user.getName());
+//        table.addView(contentView);
+//
+//    }
+//    private void setItemUser(RelativeLayout rlName, TextView imgs, TextView name, int imageId, int colorId) {
+//        imgs.setBackgroundResource(imageId);
+//        name.setBackgroundResource(colorId);
+//        rlName.setBackgroundResource(colorId);
+//    }
 }

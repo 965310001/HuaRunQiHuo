@@ -419,9 +419,9 @@ public class FamilyTreeView6 extends ViewGroup {
         if (isListView(childes)) {
             int horizontalLineStartX, horizontalLineStopX, horizontalLineY;
             for (View view : childes) {
-                horizontalLineStartX = (int) mMineView.getX() + mItemWidthPX / 2;
-                horizontalLineStopX = (int) view.getX() + mItemWidthPX / 2;
-                horizontalLineY = (int) view.getY() + mItemWidthPX / 2;
+                horizontalLineStartX = (int) mMineView.getX() + mItemWidthPX;
+                horizontalLineStopX = (int) view.getX();
+                horizontalLineY = (int) view.getY() + mItemHeightPX / 2;
                 mPath.reset();
                 mPath.moveTo(horizontalLineStartX, horizontalLineY);
                 mPath.lineTo(horizontalLineStopX, horizontalLineY);
@@ -438,6 +438,7 @@ public class FamilyTreeView6 extends ViewGroup {
         if (null != searchNearInBloods) {
             int index = 0;
             List<SearchNearInBlood> childrens = searchNearInBloods.getChildrens();
+            View mView;
             for (SearchNearInBlood searchNearInBlood : childrens) {
                 mView = searchNearInBlood.getMineView();
                 int childLineY = (int) mView.getY() - mSpacePX;
@@ -514,7 +515,6 @@ public class FamilyTreeView6 extends ViewGroup {
                 mPath.lineTo(horizontalLineStopX, horizontalLineY);
                 canvas.drawPath(mPath, mPaint);
             }
-
         }
     }
 
@@ -536,7 +536,7 @@ public class FamilyTreeView6 extends ViewGroup {
             canvas.drawPath(mPath, mPaint);
 
             /*画子女*/
-//            int index = 0;
+            int index = 0;
             count = 0;
             for (View view : searchNearInBlood.getChildren()) {
                 childLineY = (int) view.getY() - mSpacePX;
@@ -547,8 +547,8 @@ public class FamilyTreeView6 extends ViewGroup {
                 mPath.moveTo(childLineStartX, childLineY);
                 mPath.lineTo(childLineStartX, childVerticalLineEndY);
                 canvas.drawPath(mPath, mPaint);
-                drawChildrenLine(canvas, searchNearInBlood.getChildrens().get(count));
-                count++;
+                drawChildrenLine(canvas, searchNearInBlood.getChildrens().get(index));
+                index++;
             }
         }
     }

@@ -28,8 +28,10 @@ import com.genealogy.by.utils.DisplayUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.com.commoncore.base.BaseApplication;
+
 /**
- * 家谱树自定义ViewGroup 全部
+ * 家谱树自定义ViewGroup 父系
  */
 
 public class FamilyTreeView7 extends ViewGroup {
@@ -214,7 +216,6 @@ public class FamilyTreeView7 extends ViewGroup {
         mFamilyMember.getUser().setMineView(mMineView);
         List<SearchNearInBlood.GenerationBean> beans = mFamilyMember.getGeneration();
         if (null != beans && beans.size() > 0) {
-            Log.i(TAG, "initView: GenerationBean");
             int index = 0;
             for (SearchNearInBlood.GenerationBean bean : beans) {
                 mGenerationView.add(createGeneration(String.format("%d", (++index)), bean));
@@ -292,12 +293,12 @@ public class FamilyTreeView7 extends ViewGroup {
 
         url = family.getProfilePhoto();
         if (!TextUtils.isEmpty(url)) {
-            Glide.with(getContext())
+            Glide.with(BaseApplication.getInstance().getApplicationContext())
                     .load(url)
                     .apply(new RequestOptions().error(R.mipmap.family_avatar))
                     .into(ivAvatar);
         } else {
-            Glide.with(getContext()).load(R.mipmap.family_avatar).into(ivAvatar);
+            Glide.with(BaseApplication.getInstance().getApplicationContext()).load(R.mipmap.family_avatar).into(ivAvatar);
         }
 
         // TODO: 2019/7/18 设置男女背景颜色
@@ -315,7 +316,6 @@ public class FamilyTreeView7 extends ViewGroup {
         return familyView;
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mShowWidthPX = MeasureSpec.getSize(widthMeasureSpec);
@@ -328,8 +328,6 @@ public class FamilyTreeView7 extends ViewGroup {
         }
         setMeasuredDimension(mMaxWidthPX, mMaxHeightPX);
     }
-
-    private static final String TAG = "FamilyTreeView7";
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -345,7 +343,8 @@ public class FamilyTreeView7 extends ViewGroup {
             if (null != mGenerationView && mGenerationView.size() > 0) {
                 int generationTop = mineTop;
                 for (View view : mGenerationView) {
-                    setChildViewFrame(view, mineLeft, generationTop, mItemWidthPX + mSpacePX + mLineWidthPX, mItemHeightPX);
+                    // TODO: 2019/7/19 取消注释
+//                    setChildViewFrame(view, mineLeft, generationTop, mItemWidthPX + mSpacePX + mLineWidthPX, mItemHeightPX);
                     generationTop += mItemHeightPX + mSpacePX * 2;
                 }
             }
@@ -356,63 +355,80 @@ public class FamilyTreeView7 extends ViewGroup {
         }
     }
 
-
     void childrenLayout(int mineLeft, int mineTop, List<SearchNearInBlood> familyMember) {
-        /*先计算第三代*/
         if (null != familyMember && familyMember.size() > 0) {
-            int chileLeft = mineLeft;
-            int chileTop = mineTop;
-            for (SearchNearInBlood searchNearInBlood : familyMember) {/*我*/
-                List<SearchNearInBlood> childrens = searchNearInBlood.getChildrens();
-                if (null != childrens && childrens.size() > 0) {
-                    chileTop += mItemHeightPX + 2 * mSpacePX;
-                    for (SearchNearInBlood children : childrens) {   /*儿子*/
-                        childrenLayout(chileLeft, chileTop + mItemHeightPX + 2 * mSpacePX, children.getChildrens());/*孙子*/
-                        chileLeft += (mItemWidthPX + mSpacePX);
+            if (null != familyMember && familyMember.size() > 0) {
+                int childTop = mineTop;
+                int childLeft = mineLeft;
+                int grandChildrenLeft = childLeft;
+                for (SearchNearInBlood searchNearInBlood : familyMember) {
+                    List<SearchNearInBlood> children = searchNearInBlood.getChildrens();/*第二代*/
+                    if (isList(children)) {
+                        childTop += mItemHeightPX + mSpacePX * 2;
+                        final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
+                        for (SearchNearInBlood bean : children) {
+                            List<SearchNearInBlood> childrens = bean.getChildrens();/*第三代*/
+                            if (isList(childrens)) {
+                                int startGrandChildLeft = grandChildrenLeft;
+                                int endGrandChildLeft = grandChildrenLeft;
 
-                        setChildViewFrame(children.getMineView(), chileLeft, chileTop, mItemWidthPX, mItemHeightPX);
-                        List<View> childes = children.getSpouse();
-                        if (null != childes && childes.size() > 0) {
-                            for (View view : childes) {
-                                setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), chileTop, mItemWidthPX, mItemHeightPX);
+                                int grandChildrenTop2 = grandChildrenTop + mItemHeightPX + mSpacePX * 2;
+                                int grandChildrenLeft2 = grandChildrenLeft + mItemWidthPX + mSpacePX;
+                                for (SearchNearInBlood nearInBlood : childrens) {
+
+                                    childrenLayout(grandChildrenLeft2, grandChildrenTop2, nearInBlood.getChildrens());/*递归第四代*/
+
+                                    List<SearchNearInBlood> childrens1 = nearInBlood.getChildrens();
+                                    if (null != childrens1 && childrens1.size() > 0) {
+                                        grandChildrenLeft2 += childrens1.size() * (mItemWidthPX + mSpacePX);
+
+//                                    grandChildrenLeft2 += mItemWidthPX + mSpacePX;
+
+//                                    grandChildrenLeft2 += childLayout(nearInBlood, grandChildrenLeft, grandChildrenTop);/*第三代*/
+
+                                    }
+                                    grandChildrenLeft = endGrandChildLeft = childLayout(nearInBlood, grandChildrenLeft, grandChildrenTop);/*第三代*/
+
+
+//                                    endGrandChildLeft = grandChildrenLeft;
+                                    grandChildrenLeft += mItemWidthPX + mSpacePX;
+                                }
+                                childLeft = (endGrandChildLeft - startGrandChildLeft) / 2 + startGrandChildLeft;
+                            } else {
+                                childLeft = grandChildrenLeft;
+                                grandChildrenLeft += mSpacePX + mItemWidthPX;
                             }
+                            childLayout(bean, childLeft, childTop);/*第二代*/
                         }
-//                        chileLeft += (mItemWidthPX + mSpacePX);
                     }
+                    childLayout(searchNearInBlood, childLeft, mineTop);/*第一代*/
                 }
-                chileLeft += (mItemWidthPX + mSpacePX);
-                setChildViewFrame(searchNearInBlood.getMineView(), chileLeft, mineTop, mItemWidthPX, mItemHeightPX);/*我*/
-                List<View> childes = searchNearInBlood.getSpouse();/*妻子*/
-                if (null != childes && childes.size() > 0) {
-                    for (View view : childes) {
-                        setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), mineTop, mItemWidthPX, mItemHeightPX);
-                    }
-                }
-//                chileLeft += (mItemWidthPX + mSpacePX);
             }
         }
+    }
 
-//        if (null != familyMember && familyMember.size() > 0) {
-//            chideList = new ArrayList<>();//儿子
-//            int chileLeft = mineLeft;
-//            for (SearchNearInBlood searchNearInBlood : familyMember) {
-//                setChildViewFrame(searchNearInBlood.getMineView(), chileLeft, mineTop, mItemWidthPX, mItemHeightPX);/*我*/
-//                /*妻子*/
-//                childes = searchNearInBlood.getSpouse();
-//                if (null != childes && childes.size() > 0) {
-//                    for (View view : childes) {
-//                        setChildViewFrame(view, chileLeft += (mItemWidthPX + mSpacePX), mineTop, mItemWidthPX, mItemHeightPX);
-//                    }
-//                }
-//                chileLeft += (mItemWidthPX + mSpacePX);
-//                for (SearchNearInBlood children : searchNearInBlood.getChildrens()) {
-//                    chideList.add(children);
-//                }
-//            }
-//            if (null != chideList && chideList.size() > 0) {
-//                childrenLayout(mineLeft, mineTop + mItemHeightPX + mSpacePX * 2, chideList);
-//            }
-//        }
+    /*画自己 和下一代*/
+    int childLayout(SearchNearInBlood bean, int childLeft, int mineTop) {
+        if (null != bean) {
+            setChildViewFrame(bean.getMineView(), childLeft, mineTop, mItemWidthPX, mItemHeightPX);
+            childLeft = spouseLayout(childLeft, mineTop, bean);
+        }
+        return childLeft;
+    }
+
+    /*画配偶*/
+    int spouseLayout(int childLeft, int mineTop, SearchNearInBlood bean) {
+        if (null != bean) {
+            List<SearchNearInBlood> spouses = bean.getSpouses();
+            if (isList(spouses)) {
+                int childTop = mineTop + mItemHeightPX + 2 * mSpacePX;
+                for (SearchNearInBlood spouse : spouses) {
+                    childrenLayout(childLeft, childTop, spouse.getChildrens());
+                    setChildViewFrame(spouse.getMineView(), childLeft += (mItemWidthPX + mSpacePX), mineTop, mItemWidthPX, mItemHeightPX);
+                }
+            }
+        }
+        return childLeft;
     }
 
     private void setChildViewFrame(View childView, int left, int top, int width, int height) {
@@ -421,7 +437,8 @@ public class FamilyTreeView7 extends ViewGroup {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        drawGenerationLine(canvas);
+        // TODO: 2019/7/19 第几世
+//        drawGenerationLine(canvas);  //第几世
 //        drawSpouseLine(canvas);
 //        drawChildrenLine(canvas);
     }
@@ -464,6 +481,10 @@ public class FamilyTreeView7 extends ViewGroup {
     }
 
     boolean isListView(List<View> views) {
+        return null != views && views.size() > 0;
+    }
+
+    boolean isList(List<SearchNearInBlood> views) {
         return null != views && views.size() > 0;
     }
 
@@ -678,7 +699,39 @@ public class FamilyTreeView7 extends ViewGroup {
             case MotionEvent.ACTION_UP:
                 intercerpt = false;
                 break;
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                Log.i(TAG, "onInterceptTouchEvent: ");
+                setNarrow();
+                intercerpt = true;
+                break;
         }
         return intercerpt;
     }
+
+    private static final String TAG = "FamilyTreeView7";
+    private float fScale = 1.0f;    //    图片缩放 1.0表示为原图
+
+    /*放大*/
+    void setEnlarge() {
+        if (fScale < 2) {
+            fScale += 0.1f;
+            setScale();
+        }
+    }
+
+    /*缩小*/
+    void setNarrow() {
+        if (fScale > 0.5) {
+            fScale -= 0.1f;
+            setScale();
+        }
+    }
+
+    void setScale() {
+        setScaleX(fScale);
+        setScaleY(fScale);
+    }
+
+
 }

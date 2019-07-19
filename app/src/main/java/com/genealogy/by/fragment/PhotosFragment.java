@@ -171,7 +171,7 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
         String userId =  SPHelper.getStringSF(getContext(),"UserId","");
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", userId);
-        Log.e(TAG, "doit: 参数："+params.toString() );
+        Log.e(TAG, "execute: 参数："+params.toString() );
         JSONObject jsonObject = new JSONObject(params);
         final MediaType JSONS= MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.album_searchMyAlbum)
@@ -246,6 +246,6 @@ public class PhotosFragment extends Fragment implements onClickAlbumItem {
     @Override
     public void onPause() {
         super.onPause();
-//        doit();
+//        execute();
     }
 }

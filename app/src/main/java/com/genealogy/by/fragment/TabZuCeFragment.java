@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.EditContentActivity;
 import com.genealogy.by.activity.EditCoverActivity;
@@ -42,13 +43,13 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import tech.com.commoncore.base.BaseFragment;
+import tech.com.commoncore.base.BaseTitleFragment;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
-public class TabZuCeFragment extends BaseFragment {
+public class TabZuCeFragment extends BaseTitleFragment {
 
     //日志提示
     private static final String TAG = "TabZuCeFragment";
@@ -76,15 +77,9 @@ public class TabZuCeFragment extends BaseFragment {
     private Intent intent;
     private FamilyBook familyBook;
     LineagekAdapter lineagekAdapter;
-    File file = new File("");
+    //    File file;//= new File("");
     int familyAlbum = 0;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment BlankFragment.
-     */
     public static TabZuCeFragment newInstance() {
         Bundle args = new Bundle();
         TabZuCeFragment fragment = new TabZuCeFragment();
@@ -557,6 +552,51 @@ public class TabZuCeFragment extends BaseFragment {
         mViewPager.setAdapter(mPagerAdapter);
     }
 
+    @Override
+    public void setTitleBar(TitleBarView titleBar) {
+        titleBar.setTitleMainText("族册")
+                .setLeftTextDrawable(R.mipmap.search_icon).setLeftTextDrawableHeight(48).setLeftTextDrawableWidth(48)
+                .setRightText("...").setRightTextSize(30)
+//                .setRightTextDrawable(R.mipmap.gengduo1).setRightTextDrawableHeight(48).setRightTextDrawableWidth(48)
+                .setOnLeftTextClickListener(view -> startActivity(new Intent(getActivity(), SearchMainActivity.class)))
+                .setOnRightTextClickListener(view -> {
+                    View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.popwindow_zuce, null);
+                    final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    //popupWindow.setAnimationStyle(R.style.take_photo_anim);
+                    //关闭事件
+                    popupWindow.setOnDismissListener(new popupDismissListener());
+                    //设置背景半透明
+                    backgroundAlpha(0.5f);
+                    popupWindow.setFocusable(true);
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    popupWindow.showAsDropDown(view);
+                    initPopwindowView(inflate);
+                    homeTextView.setOnClickListener(v12 -> {
+                        //关闭弹窗
+                        popupWindow.dismiss();
+                        //返回首页
+                        if (mViewPager.getCurrentItem() != 0) {
+                            mViewPager.setCurrentItem(0);
+                        }
+
+                    });
+
+                    editCoverTextView.setOnClickListener(v1 -> {
+                        //关闭弹窗
+                        popupWindow.dismiss();
+                        Intent i = new Intent(getActivity(), EditCoverActivity.class);
+                        String str = String.valueOf(familyBook.getId());
+                        i.putExtra("ID", str);
+                        i.putExtra("name", name);
+                        i.putExtra("person", person);
+                        i.putExtra("time", time);
+                        i.putExtra("address", address);
+                        startActivityForResult(i, 0);
+                    });
+
+                });
+    }
+
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
@@ -599,7 +639,7 @@ public class TabZuCeFragment extends BaseFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", gid);
         params.put("userId", userId);
-        Log.e(TAG, "doit: 参数：" + params.toString());
+        Log.e(TAG, "execute: 参数：" + params.toString());
         JSONObject jsonObject = new JSONObject(params);
         final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.familyBook)
@@ -921,7 +961,7 @@ public class TabZuCeFragment extends BaseFragment {
     //上传图片
     private void upLoadPic(final String url, final int position) {
         familyAlbum = familyBook.getId();
-        file = new File(url);
+        File file = new File(url);
         RequestBody image = RequestBody.create(MediaType.parse("image/png"), file);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)

@@ -1,50 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout_main"
     android:background="#F9F6F4"
     android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F9F6F4"
-            android:visibility="gone"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="@dimen/dp_70"
-                android:id="@+id/woziji"
-                android:visibility="gone"
-                android:background="@color/bank_bg02"
-                android:layout_marginLeft="@dimen/dp_150"
-                android:layout_marginTop="@dimen/dp_150"
-                android:layout_height="@dimen/dp_100" />
-            <!--<com.genealogy.by.view.FamilyTreeView-->
-                <!--android:id="@+id/ftv_tree"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="#F1F1F1" />-->
-        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F9F6F4"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/woziji"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_100"
+            android:layout_marginLeft="@dimen/dp_150"
+            android:layout_marginTop="@dimen/dp_150"
+            android:background="@color/bank_bg02"
+            android:visibility="gone" />
+        <!--<com.genealogy.by.view.FamilyTreeView-->
+        <!--android:id="@+id/ftv_tree"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="#F1F1F1" />-->
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relativeTop"
         android:layout_width="fill_parent"
         android:layout_height="70dp"
-        android:background="@color/white"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/search"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp"
             android:layout_weight="1"
             android:background="@null"
             android:gravity="left"
             android:text="搜索"
-            android:textSize="16dp"
-            android:textColor="@android:color/holo_red_light" />
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="16dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -83,8 +85,8 @@
                     android:button="@null"
                     android:gravity="center"
                     android:text="近亲"
-                    android:textSize="18dp"
-                    android:textColor="@color/bt_top_radiobutton_color" />
+                    android:textColor="@color/bt_top_radiobutton_color"
+                    android:textSize="18dp" />
 
                 <RadioButton
                     android:id="@+id/shupu_all"
@@ -96,8 +98,8 @@
                     android:button="@null"
                     android:gravity="center"
                     android:text="全部"
-                    android:textSize="18dp"
-                    android:textColor="@color/bt_top_radiobutton_color" />
+                    android:textColor="@color/bt_top_radiobutton_color"
+                    android:textSize="18dp" />
 
                 <TextView
                     android:id="@+id/about"
@@ -117,9 +119,9 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <com.genealogy.by.view.NoScrollViewPager
         android:id="@+id/contentShupuView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.genealogy.by.view.NoScrollViewPager>
+        android:layout_height="match_parent" />
 </LinearLayout>
