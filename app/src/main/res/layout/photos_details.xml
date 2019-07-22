@@ -1,81 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".activity.PhotosDetailsActivity">
 
     <RelativeLayout
         android:id="@+id/rlall"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <include layout="@layout/layout_title_bar" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="left"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="相册集"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/back" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/dp_10"
-                android:gravity="right">
-
-                <ImageView
-                    android:id="@+id/gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="50dp"
-                    android:src="@mipmap/zxj"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/photos_about"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5"
-                    android:text="上传"
-                    android:textColor="#B14641"
-                    android:textSize="@dimen/dp_18" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--android:background="#22000000" />-->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_below="@id/titleBar_headFastLib"
             android:background="#22000000" />
+
+        <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="30dp"
+         android:layout_marginBottom="5dp"
+         android:gravity="left"
+         android:visibility="gone">
+
+         <TextView
+         android:id="@+id/title"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:layout_gravity="center"
+         android:gravity="center"
+         android:text="相册集"
+         android:textColor="@android:color/background_dark"
+         android:textSize="20sp" />
+
+         <ImageView
+         android:id="@+id/back"
+         android:layout_width="30dp"
+         android:layout_height="30dp"
+         android:layout_marginLeft="10dp"
+         android:src="@mipmap/back" />
+
+         <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginRight="@dimen/dp_10"
+         android:gravity="right">
+
+         <ImageView
+         android:id="@+id/gallery"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_marginTop="4dp"
+         android:layout_marginRight="50dp"
+         android:src="@mipmap/zxj"
+         android:visibility="gone" />
+
+         <TextView
+         android:id="@+id/photos_about"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginRight="@dimen/dp_5"
+         android:text="上传"
+         android:textColor="#B14641"
+         android:textSize="@dimen/dp_18" />
+         </RelativeLayout>
+         </RelativeLayout>
+         <View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_marginTop="50dp"
+         android:background="#22000000" />
+
+
+ -->
 
     </RelativeLayout>
 

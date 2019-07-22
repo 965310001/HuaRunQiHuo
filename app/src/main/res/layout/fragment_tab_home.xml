@@ -6,118 +6,109 @@
     android:background="#F9F6F4"
     android:orientation="vertical">
 
-    <LinearLayout
+    <!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F9F6F4"
         android:orientation="vertical"
         android:visibility="gone">
-
-        <TextView
-            android:id="@+id/woziji"
-            android:layout_width="@dimen/dp_70"
-            android:layout_height="@dimen/dp_100"
-            android:layout_marginLeft="@dimen/dp_150"
-            android:layout_marginTop="@dimen/dp_150"
-            android:background="@color/bank_bg02"
-            android:visibility="gone" />
-        <!--<com.genealogy.by.view.FamilyTreeView-->
-        <!--android:id="@+id/ftv_tree"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#F1F1F1" />-->
-    </LinearLayout>
+        &lt;!&ndash;<TextView&ndash;&gt;
+        &lt;!&ndash;android:id="@+id/woziji"&ndash;&gt;
+        &lt;!&ndash;android:layout_width="@dimen/dp_70"&ndash;&gt;
+        &lt;!&ndash;android:layout_height="@dimen/dp_100"&ndash;&gt;
+        &lt;!&ndash;android:layout_marginLeft="@dimen/dp_150"&ndash;&gt;
+        &lt;!&ndash;android:layout_marginTop="@dimen/dp_150"&ndash;&gt;
+        &lt;!&ndash;android:background="@color/bank_bg02"&ndash;&gt;
+        &lt;!&ndash;android:visibility="gone" />&ndash;&gt;
+        &lt;!&ndash;<com.genealogy.by.view.FamilyTreeView&ndash;&gt;
+        &lt;!&ndash;android:id="@+id/ftv_tree"&ndash;&gt;
+        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+        &lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;
+        &lt;!&ndash;android:background="#F1F1F1" />&ndash;&gt;-->
+    <!--</LinearLayout>-->
 
     <RelativeLayout
         android:id="@+id/relativeTop"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/search"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="left"
             android:text="搜索"
             android:textColor="@android:color/holo_red_light"
             android:textSize="16dp" />
 
-        <RelativeLayout
+        <!--  <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center">-->
+
+        <RadioGroup
+            android:id="@+id/shupuRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:checkedButton="@id/shupu_fuxi"
+            android:orientation="horizontal">
 
-            <RadioGroup
-                android:id="@+id/shupuRadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
-                android:checkedButton="@id/shupu_fuxi"
-                android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/shupu_fuxi"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt_top_left_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="父系"
+                android:textColor="@color/bt_top_radiobutton_color"
+                android:textSize="18dp" />
 
-                <RadioButton
-                    android:id="@+id/shupu_fuxi"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bt_top_left_selector"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="父系"
-                    android:textColor="@color/bt_top_radiobutton_color"
-                    android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/shupu_jinqin"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt_top_center_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="近亲"
+                android:textColor="@color/bt_top_radiobutton_color"
+                android:textSize="18dp" />
 
-                <RadioButton
-                    android:id="@+id/shupu_jinqin"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bt_top_center_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="近亲"
-                    android:textColor="@color/bt_top_radiobutton_color"
-                    android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/shupu_all"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt_top_right_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="全部"
+                android:textColor="@color/bt_top_radiobutton_color"
+                android:textSize="18dp" />
+        </RadioGroup>
 
-                <RadioButton
-                    android:id="@+id/shupu_all"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bt_top_right_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="全部"
-                    android:textColor="@color/bt_top_radiobutton_color"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/about"
-                    android:layout_width="80dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="left"
-                    android:text="..."
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="30dp" />
-
-            </RadioGroup>
-
-        </RelativeLayout>
-
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingRight="@dimen/dp_15"
+            android:text="..."
+            android:paddingBottom="@dimen/dp_30"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/dp_30" />
     </RelativeLayout>
 
     <com.genealogy.by.view.NoScrollViewPager

@@ -15,7 +15,6 @@ public class PhotosAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-
         ImageView ivImg = helper.getView(R.id.imgs);
         helper.setGone(R.id.albumname, false)
                 .setGone(R.id.imgnumber, false);

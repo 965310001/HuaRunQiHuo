@@ -1,10 +1,9 @@
 package com.genealogy.by.activity;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -13,12 +12,15 @@ import com.genealogy.by.R;
 import com.genealogy.by.adapter.SearchAdapter;
 import com.genealogy.by.db.User;
 import com.genealogy.by.view.SearchView;
+import com.githang.statusbar.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.com.commoncore.base.BaseActivity;
 
-public class SearchMainActivity extends Activity implements SearchView.SearchViewListener {
+// TODO: 2019/7/22  调试接口
+public class SearchMainActivity extends BaseActivity implements SearchView.SearchViewListener {
 
     private String TAG = "SearchMain";
 
@@ -85,21 +87,22 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_main);
-        initData();
-        initViews();
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.search_main);
+//        initData();
+//        initViews();
+//        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
+//    }
 
     /**
      * 初始化视图
      */
     private void initViews() {
-        lvResults =  findViewById(R.id.main_lv_search_results);
-        searchView =  findViewById(R.id.main_search_layout);
+        lvResults = findViewById(R.id.main_lv_search_results);
+        searchView = findViewById(R.id.main_search_layout);
         //设置监听
         searchView.setSearchViewListener(this);
         //设置adapter
@@ -243,7 +246,17 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
         }
         Toast.makeText(this, "完成搜索", Toast.LENGTH_SHORT).show();
 
-
     }
 
+    @Override
+    public int getContentLayout() {
+        return R.layout.search_main;
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        initData();
+        initViews();
+        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
+    }
 }

@@ -50,6 +50,7 @@ import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
+// TODO: 2019/7/22 调试接口
 public class PerfectingInformationActivity extends BaseTitleActivity {
     public Spinner spNation, spRanking, spAlive, spEducation, spBloodType, spAcceptInvitation;
     public TextView tvBirthday, tvArea, tvAncestral, tvOriginArea, tvResidence, tvTimeDeath, tvAreaDeath, tvPreservation, tvRetract, tv_preservation;
@@ -78,8 +79,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
     public int type = 1;
     public String Userid = "";
     public String Gid = "";
-
-    User user;
+    private User user;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
@@ -184,8 +184,8 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         }
         tvPreservation.setOnClickListener(view -> Submission2(url));
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        tvBirthday.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this, R.color.colorPrimary, tvBirthday, calendar));
-        tvTimeDeath.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this, R.color.colorPrimary, tvTimeDeath, calendar));
+        tvBirthday.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this, tvBirthday, calendar));
+        tvTimeDeath.setOnClickListener(view -> showDatePickerDialog(PerfectingInformationActivity.this, tvTimeDeath, calendar));
         Nation();//民族
         Ranking();//排行
         Alive();//是否健在
@@ -352,21 +352,13 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
      * 日期选择
      *
      * @param activity
-     * @param themeResId
      * @param tv
      * @param calendar
      */
-    public static void showDatePickerDialog(Activity activity, int themeResId, final TextView tv, Calendar calendar) {
-        // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
-        // 绑定监听器(How the parent is notified that the date is set.)
-        new DatePickerDialog(activity, themeResId, (view, year, monthOfYear, dayOfMonth) -> {
-            // 此处得到选择的时间，可以进行你想要的操作
-            tv.setText(year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
-        }
-                // 设置初始日期
-                , calendar.get(Calendar.YEAR)
-                , calendar.get(Calendar.MONTH)
-                , calendar.get(Calendar.DAY_OF_MONTH)).show();
+    private void showDatePickerDialog(Activity activity, final TextView tv, Calendar calendar) {
+        new DatePickerDialog(activity, (view, year, monthOfYear, dayOfMonth) ->
+                tv.setText(String.format("%d年%d月%d日", year, (monthOfYear + 1), dayOfMonth)),
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     public void Areapick() {
@@ -398,16 +390,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 if (district != null) {
                     sb.append(district.getName() + " ");
                 }
-
-//                if (type == 1) {
-//                    tvArea.setText("" + sb.toString());
-//                } else if (type == 2) {
-//                    tvAreaDeath.setText("" + sb.toString());
-//                } else if (type == 3) {
-//                    tvAncestral.setText("" + sb.toString());
-//                } else if (type == 4) {
-//                    tvOriginArea.setText("" + sb.toString());
-//                }
 
                 switch (type) {
                     case 1:

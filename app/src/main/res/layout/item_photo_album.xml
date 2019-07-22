@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/llall"
-    android:padding="5dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
+
     <ImageView
+        android:id="@+id/imgs"
         android:layout_width="@dimen/dp_165"
         android:layout_height="@dimen/dp_165"
         android:layout_centerHorizontal="true"
-        android:src="@mipmap/shangchuanzhaopian"
-        android:id="@+id/imgs"/>
+        android:adjustViewBounds="true"
+        android:src="@mipmap/shangchuanzhaopian" />
+
     <TextView
-        android:layout_below="@id/imgs"
+        android:id="@+id/albumname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imgs"
         android:layout_centerHorizontal="true"
-        android:id="@+id/albumname"
-        android:text="这里是名字"/>
+        android:text="这里是名字" />
+
     <TextView
         android:id="@+id/imgnumber"
-        android:layout_below="@id/albumname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/albumname"
         android:layout_centerHorizontal="true"
-        android:text="35张"/>
+        android:text="35张" />
 </RelativeLayout>

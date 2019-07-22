@@ -85,10 +85,10 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
     }
 
     private void initViews() {
-        etInput = (EditText) findViewById(R.id.search_et_input);
-        ivDelete = (ImageView) findViewById(R.id.search_iv_delete);
-        btnBack = (Button) findViewById(R.id.search_btn_back);
-        lvTips = (ListView) findViewById(R.id.search_lv_tips);
+        etInput = findViewById(R.id.search_et_input);
+        ivDelete = findViewById(R.id.search_iv_delete);
+        btnBack = findViewById(R.id.search_btn_back);
+        lvTips = findViewById(R.id.search_lv_tips);
 
         lvTips.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,9 +122,10 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
 
     /**
      * 通知监听者 进行搜索操作
+     *
      * @param text
      */
-    private void notifyStartSearching(String text){
+    private void notifyStartSearching(String text) {
         if (mListener != null) {
             mListener.onSearch(etInput.getText().toString());
         }

@@ -1,23 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".activity.SearchMainActivity"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".activity.SearchMainActivity">
 
     <com.genealogy.by.view.SearchView
         android:id="@+id/main_search_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.genealogy.by.view.SearchView>
-    <!--F:\KGJ\HuaRunQiHuo-master\app\src\main\java\com\genealogy\by\view\SearchView.java-->
+        android:layout_height="wrap_content" />
 
     <ListView
-        android:visibility="gone"
         android:id="@+id/main_lv_search_results"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
-
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </LinearLayout>

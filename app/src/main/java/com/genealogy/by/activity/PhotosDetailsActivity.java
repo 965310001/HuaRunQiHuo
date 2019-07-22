@@ -6,11 +6,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.aries.ui.view.title.TitleBarView;
@@ -46,12 +43,13 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     //    private ListView albumsDetailsLv;
 //    private AlbumDetailsAdapter adapter;
     //    private BitmapCut bitmapCut;
+    //    private ImageView gallery;
+//    private ImageView back;
+    //    private TextView photosAbout;
 
-    private ImageView gallery;
-    private ImageView back;
-    private Button releasePhoto;
-    private TextView photosAbout;
     private TextView managerAlbum;
+
+    private Button releasePhoto;
     private TextView deleteAlbum;
     private Album album;
     private LinearLayout messageRelativeLayout;
@@ -88,13 +86,13 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 //        toolUtil = new ToolUtil();
 //        bitmapCut = new BitmapCut();
 //        title = findViewById(R.id.title);
+//        back = findViewById(R.id.back);
+//        gallery = findViewById(R.id.gallery);
+        //        photosAbout = findViewById(R.id.photos_about);
 
         photos = new ArrayList<>();
         album = new Album();
-        back = findViewById(R.id.back);
-        gallery = findViewById(R.id.gallery);
         releasePhoto = findViewById(R.id.release_photo);
-        photosAbout = findViewById(R.id.photos_about);
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new GridLayoutManager(PhotosDetailsActivity.this, 3));
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
@@ -108,9 +106,10 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 media.setPath(s);
                 medias.add(media);
             }
-            PictureSelector.create(mContext).themeStyle(R.style.picture_default_style).openExternalPreview(position, medias);
+            PictureSelector.create(mContext)
+                    .themeStyle(R.style.picture_default_style)
+                    .openExternalPreview(position, medias);
         });
-
         messageRelativeLayout = findViewById(R.id.message);
         if (list.size() != 0) {
             recyclerview.setVisibility(View.VISIBLE);
@@ -131,22 +130,22 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 //                toolUtil.dip2px(this, 40), toolUtil.dip2px(this, 40));
         mTitleBar.setTitleMainText(album.getText());
         //返回
-        back.setOnClickListener(v -> PhotosDetailsActivity.this.finish());
+//        back.setOnClickListener(v -> PhotosDetailsActivity.this.finish());
         //发布照片
         releasePhoto.setOnClickListener(v ->
                 //图片选择器
                 photoAndCamera()
         );
         //图标选取照片
-        gallery.setOnClickListener(v -> {
-            //图片选择器
-            photoAndCamera();
-        });
+//        gallery.setOnClickListener(v -> {
+//            //图片选择器
+//            photoAndCamera();
+//        });
 
         //菜单
-        photosAbout.setOnClickListener(v -> {
-            photoAndCamera();
-        });
+//        photosAbout.setOnClickListener(v -> {
+//            photoAndCamera();
+//        });
     }
 
     //Intent  回调
@@ -183,6 +182,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         PictureSelector.create(PhotosDetailsActivity.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .maxSelectNum(9)// 最大图片选择数量 int
+                .theme(R.style.picture_default_style)
                 .imageSpanCount(3)// 每行显示个数 int
                 .selectionMode(PictureConfig.MULTIPLE)
                 .previewImage(true)// 是否可预览图片 true or false
@@ -209,23 +209,21 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1f);
-        }
-    }
+//    class popupDismissListener implements PopupWindow.OnDismissListener {
+//        @Override
+//        public void onDismiss() {
+//            backgroundAlpha(1f);
+//        }
+//    }
 
     /**
      * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
-    }
+//    public void backgroundAlpha(float bgAlpha) {
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = bgAlpha; //0.0-1.0
+//        getWindow().setAttributes(lp);
+//    }
 
     //上传图片
     private void upLoadPic(final String url, final int position) {

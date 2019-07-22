@@ -9,41 +9,26 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.aries.ui.view.title.TitleBarView;
-import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.FamilyBook;
-import com.genealogy.by.entity.PhoneLogin;
-import com.genealogy.by.entity.PhoneUser;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
-import com.genealogy.by.utils.my.MyGlideEngine;
 import com.genealogy.by.utils.my.PictureSelectorHelper;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
-import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.DataUtils;
-import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
 public class ReleasePictureActivity extends BaseTitleActivity {

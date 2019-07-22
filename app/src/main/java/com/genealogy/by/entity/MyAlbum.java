@@ -1,5 +1,6 @@
 package com.genealogy.by.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class MyAlbum {
@@ -77,7 +78,7 @@ public class MyAlbum {
         this.albums = albums;
     }
 
-    public static class AlbumsBean {
+    public class AlbumsBean implements Serializable {
         private int id;
         private String url;
         private int aId;

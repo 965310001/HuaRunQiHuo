@@ -96,12 +96,12 @@ public class TabZuCeFragment extends BaseTitleFragment {
     public void initView(@Nullable Bundle savedInstanceState) {
 
         //滑动册谱派系
-        mViewPager = (ViewPager) mContentView.findViewById(R.id.contentView);
+        mViewPager = mContentView.findViewById(R.id.contentView);
         //搜索 其他
         searchButton = mContentView.findViewById(R.id.zuce_search);
         aboutButton = mContentView.findViewById(R.id.zuce_about);
         //水平滚动条
-        seekBar = (SeekBar) mContentView.findViewById(R.id.seekBar);
+        seekBar = mContentView.findViewById(R.id.seekBar);
         searchButton.setOnClickListener(v -> {
             //从fragment跳转到activity中
             startActivity(new Intent(getActivity(), SearchMainActivity.class));

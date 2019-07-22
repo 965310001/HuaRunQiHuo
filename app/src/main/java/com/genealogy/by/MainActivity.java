@@ -1,11 +1,8 @@
 package com.genealogy.by;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,11 +18,10 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.genealogy.by.entity.FutureInternatinal;
 import com.genealogy.by.fragment.PhotosFragment;
-import com.genealogy.by.fragment.TabHomeFragent;
+import com.genealogy.by.fragment.TabHomeFragment;
 import com.genealogy.by.fragment.TabWoDeFragment;
 import com.genealogy.by.fragment.TabZuCeFragment;
 import com.genealogy.by.utils.SPHelper;
-import com.genealogy.by.utils.ToolUtil;
 import com.githang.statusbar.StatusBarCompat;
 import com.vise.xsnow.event.IEvent;
 import com.vise.xsnow.event.Subscribe;
@@ -72,7 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private ViewPager mViewPager;
     private RadioGroup mTabRadioGroup;
-    private ToolUtil toolUtil;
+    //    private ToolUtil toolUtil;
     private List<Fragment> mFragments;
     private FragmentPagerAdapter mAdapter;
     public String userId = "";
@@ -85,7 +81,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorWhite));
         mainTab = mContentView.findViewById(R.id.main_tab);
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -118,13 +113,12 @@ public class MainActivity extends BaseActivity {
 //        }
         switchToFragment(0);
 
-        toolUtil = new ToolUtil();
         // find view
         mViewPager = findViewById(R.id.fragment_vp);
         mTabRadioGroup = findViewById(R.id.tabs_rg);
         // init fragment
         mFragments = new ArrayList<>(4);
-        mFragments.add(TabHomeFragent.newInstance());
+        mFragments.add(TabHomeFragment.newInstance());
         mFragments.add(TabZuCeFragment.newInstance());
         mFragments.add(PhotosFragment.newInstance());
         mFragments.add(TabWoDeFragment.newInstance());
@@ -137,8 +131,10 @@ public class MainActivity extends BaseActivity {
         mTabRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
 
 //        initData();
-    }
 
+        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
+
+    }
 
     /**
      * 切换fragment
@@ -187,7 +183,7 @@ public class MainActivity extends BaseActivity {
 
     private void showHomeFragment() {
         if (mainHomeFragment == null) {
-            mainHomeFragment = TabHomeFragent.newInstance();
+            mainHomeFragment = TabHomeFragment.newInstance();
             mTransaction.add(R.id.fl_main_content, mainHomeFragment, TAG_F_HOME);
         } else {
             mTransaction.show(mainHomeFragment);
@@ -197,7 +193,7 @@ public class MainActivity extends BaseActivity {
     private void showZuCeFragment() {
         if (mainZuCeFragment == null) {
             mainZuCeFragment = TabZuCeFragment.newInstance();
-            mTransaction.add(R.id.fl_main_content, TabZuCeFragment.newInstance(), TAG_F_HANGQING);
+            mTransaction.add(R.id.fl_main_content, mainZuCeFragment, TAG_F_HANGQING);
             mTransaction.hide(mainZuCeFragment);
         } else {
             mTransaction.show(mainZuCeFragment);
@@ -327,25 +323,25 @@ public class MainActivity extends BaseActivity {
      * @param uri
      * @return
      */
-    public static String getFilePath_below19(Context context, Uri uri) {
-        //这里开始的第二部分，获取图片的路径：低版本的是没问题的，但是sdk>19会获取不到
-        Cursor cursor = null;
-        String path = "";
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            //好像是android多媒体数据库的封装接口，具体的看Android文档
-            cursor = context.getContentResolver().query(uri, proj, null, null, null);
-            //获得用户选择的图片的索引值
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            //将光标移至开头 ，这个很重要，不小心很容易引起越界
-            cursor.moveToFirst();
-            //最后根据索引值获取图片路径   结果类似：/mnt/sdcard/DCIM/Camera/IMG_20151124_013332.jpg
-            path = cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return path;
-    }
+//    public static String getFilePath_below19(Context context, Uri uri) {
+//        //这里开始的第二部分，获取图片的路径：低版本的是没问题的，但是sdk>19会获取不到
+//        Cursor cursor = null;
+//        String path = "";
+//        try {
+//            String[] proj = {MediaStore.Images.Media.DATA};
+//            //好像是android多媒体数据库的封装接口，具体的看Android文档
+//            cursor = context.getContentResolver().query(uri, proj, null, null, null);
+//            //获得用户选择的图片的索引值
+//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            //将光标移至开头 ，这个很重要，不小心很容易引起越界
+//            cursor.moveToFirst();
+//            //最后根据索引值获取图片路径   结果类似：/mnt/sdcard/DCIM/Camera/IMG_20151124_013332.jpg
+//            path = cursor.getString(column_index);
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//        return path;
+//    }
 }
