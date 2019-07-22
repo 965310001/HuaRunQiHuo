@@ -280,7 +280,6 @@ public class ShuPuFragment extends Fragment {
         }
     }
 
-    // TODO: 2019/7/16 弹窗
     private void showPopupWindowAdd(View view, User user) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(getActivity()).inflate(
@@ -579,7 +578,6 @@ public class ShuPuFragment extends Fragment {
         normalDialog.show();
     }
 
-    // TODO: 2019/7/16 邀请
     private void invitationDoit(String phone, String inviteesId, String relation) {
         phone = phone.replace(",", "");
         phone = phone.replace("[", "");

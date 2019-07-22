@@ -350,6 +350,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
     /**
      * 日期选择
+     *
      * @param activity
      * @param themeResId
      * @param tv
@@ -451,7 +452,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CHOOSE) {
             List<String> result = Matisse.obtainPathResult(data);
             file = new File(result.get(0));
             GlideManager.loadCircleImg(result.get(0), ivJeadPortrait);
@@ -762,6 +763,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                                 Log.e(TAG, "onSuccess:msg = " + data.msg + ",status= " + data.status);
                             }
                         }
+
                         @Override
                         public void onFail(int errCode, String errMsg) {
                             ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);

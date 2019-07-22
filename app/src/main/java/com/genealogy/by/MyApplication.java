@@ -3,7 +3,6 @@ package com.genealogy.by;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 
 import com.genealogy.by.Ease.Logs.Logs;
 import com.genealogy.by.Ease.model.Model;
@@ -184,7 +183,7 @@ public class MyApplication extends BaseApplication {
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         List l = am.getRunningAppProcesses();
         Iterator i = l.iterator();
-        PackageManager pm = this.getPackageManager();
+//        PackageManager pm = this.getPackageManager();
         while (i.hasNext()) {
             ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
             try {

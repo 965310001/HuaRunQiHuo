@@ -139,7 +139,9 @@ public class GlideManager {
     }
 
     public static void loadImg(Object obj, ImageView iv) {
-        loadImg(obj, iv, sCommonPlaceholder);
+        if (null != obj) {
+            loadImg(obj, iv, sCommonPlaceholder);
+        }
     }
 
     /**

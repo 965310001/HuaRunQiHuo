@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.genealogy.by.entity.FutureInternatinal;
@@ -26,11 +27,9 @@ import com.genealogy.by.fragment.TabZuCeFragment;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.ToolUtil;
 import com.githang.statusbar.StatusBarCompat;
-import com.luck.picture.lib.config.PictureConfig;
 import com.vise.xsnow.event.IEvent;
 import com.vise.xsnow.event.Subscribe;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class MainActivity extends BaseActivity {
     public static final String TAG_F_NEW = "TAG_F_NEW";
     public static final String TAG_F_WODE = "TAG_F_WODE";
 
-    private com.flyco.tablayout.CommonTabLayout mainTab;
+    private CommonTabLayout mainTab;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
     private int mCurrentIndex;
@@ -310,17 +309,20 @@ public class MainActivity extends BaseActivity {
             }
         }
     };
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== -1){
-            Log.e(TAG, "onActivityResult: 这里是相册返回数据"+data.getData());
-            SPHelper.setStringSF(mContext,"ImgUrl",data.getData().toString());
+        if (resultCode == -1) {
+            Log.e(TAG, "onActivityResult: 这里是相册返回数据" + data.getData());
+            SPHelper.setStringSF(mContext, "ImgUrl", data.getData().toString());
         }
     }
+
     /**
      * 获取小于api19时获取相册中图片真正的uri
      * 对于路径是：content://media/external/images/media/33517这种的，需要转成/storage/emulated/0/DCIM/Camera/IMG_20160807_133403.jpg路径，也是使用这种方法
+     *
      * @param context
      * @param uri
      * @return

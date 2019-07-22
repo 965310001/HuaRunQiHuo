@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -157,11 +156,8 @@ public class NineGridlayout extends ViewGroup {
 	private CustomImageView generateImageView() {
 		CustomImageView iv = new CustomImageView(getContext());
 		iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		iv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			
-			}
+		iv.setOnClickListener(v -> {
+
 		});
 		iv.setBackgroundColor(Color.parseColor("#f5f5f5"));
 		return iv;

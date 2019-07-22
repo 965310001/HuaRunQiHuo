@@ -1,8 +1,6 @@
 package com.genealogy.by.adapter;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +10,7 @@ import com.genealogy.by.R;
 import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.utils.SPHelper;
 
+// TODO: 2019/7/22 调试接口
 public class LineagekdetailsAdapter extends BaseQuickAdapter<FamilyBook.LineageTableBean , BaseViewHolder> {
     public LineagekdetailsAdapter(int layoutResId) {
         super(layoutResId);

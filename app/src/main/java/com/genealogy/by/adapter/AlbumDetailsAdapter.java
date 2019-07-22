@@ -64,10 +64,10 @@ public class AlbumDetailsAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(resource, null);
             vh = new ViewHolder();
-            vh.img1 = (ImageView) convertView.findViewById(R.id.img1);
-            vh.img2 = (ImageView) convertView.findViewById(R.id.img2);
-            vh.img3 = (ImageView) convertView.findViewById(R.id.img3);
-            vh.img4 = (ImageView) convertView.findViewById(R.id.img4);
+            vh.img1 =  convertView.findViewById(R.id.img1);
+            vh.img2 =  convertView.findViewById(R.id.img2);
+            vh.img3 =  convertView.findViewById(R.id.img3);
+            vh.img4 =  convertView.findViewById(R.id.img4);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
@@ -124,15 +124,12 @@ public class AlbumDetailsAdapter extends BaseAdapter {
             if (itemList.size() > 3) {
                 vh.img4.setVisibility(View.VISIBLE);
                 vh.img4.setImageBitmap(itemList.get(3).getMinBmp());
-                vh.img4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, PhotosPreviewActivity.class);
-                        Log.d(TAG, itemList.get(3).getPath());
-                        intent.putExtra("photo", itemList.get(3).getPath());
-                        intent.putExtra("id", itemList.get(3).getId() + "");
-                        onClickAlbumItem.jumpActivity(intent);
-                    }
+                vh.img4.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, PhotosPreviewActivity.class);
+                    Log.d(TAG, itemList.get(3).getPath());
+                    intent.putExtra("photo", itemList.get(3).getPath());
+                    intent.putExtra("id", itemList.get(3).getId() + "");
+                    onClickAlbumItem.jumpActivity(intent);
                 });
             } else {
                 vh.img4.setVisibility(View.INVISIBLE);

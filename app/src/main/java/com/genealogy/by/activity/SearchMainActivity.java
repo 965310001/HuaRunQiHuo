@@ -98,8 +98,8 @@ public class SearchMainActivity extends Activity implements SearchView.SearchVie
      * 初始化视图
      */
     private void initViews() {
-        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
-        searchView = (SearchView) findViewById(R.id.main_search_layout);
+        lvResults =  findViewById(R.id.main_lv_search_results);
+        searchView =  findViewById(R.id.main_search_layout);
         //设置监听
         searchView.setSearchViewListener(this);
         //设置adapter

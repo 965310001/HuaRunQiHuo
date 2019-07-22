@@ -1,8 +1,10 @@
 package com.genealogy.by.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import com.genealogy.by.entity.Deed;
 import com.genealogy.by.entity.PersonalHome;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
+import com.githang.statusbar.StatusBarCompat;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
@@ -36,12 +39,14 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
     private TextView Age;
     private String id = "";
     private LinearLayout adddeeds;
-    private android.support.v7.widget.RecyclerView rvDeeds;
-    DeedsAdapter deedAdapter;
+    private RecyclerView rvDeeds;
+    private DeedsAdapter deedAdapter;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText("个人详情页");
+        titleBar.setTitleMainText("个人详情页").setDividerVisible(false).setTextColor(Color.WHITE).setRightTextDrawable(R.mipmap.gengduo1).setOnRightTextClickListener(v -> {
+        }).setBackgroundColor(Color.parseColor("#464854"));
+
     }
 
     @Override
@@ -51,6 +56,7 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
         Intent intent = getIntent();
         id = intent.getStringExtra("userId");
         if (id == null || id.trim().length() == 0) {
@@ -85,11 +91,6 @@ public class PersonalHomePageActivity extends BaseTitleActivity {
             if (resultCode == RESULT_OK) {
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void loadComment() {

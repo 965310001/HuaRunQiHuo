@@ -15,6 +15,7 @@ import com.genealogy.by.utils.SPHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 2019/7/22 调试接口
 public class LineagekAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public LineagekAdapter(int layoutResId) {
         super(layoutResId);

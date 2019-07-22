@@ -1,7 +1,6 @@
 package com.genealogy.by.activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 
 import com.aries.ui.view.title.TitleBarView;
@@ -32,15 +31,8 @@ public class ChangePasswordActivity extends BaseTitleActivity {
         etNewPassword = findViewById(R.id.et_new_password);
         etNewPasswordConfirm = findViewById(R.id.et_new_password_confirm);
 
-
-        findViewById(R.id.btn_complete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doPasswordChange();
-            }
-        });
+        findViewById(R.id.btn_complete).setOnClickListener(v -> doPasswordChange());
     }
-
 
     private void doPasswordChange() {
         if (DataUtils.isEmpty(etOldPassword.getText())) {

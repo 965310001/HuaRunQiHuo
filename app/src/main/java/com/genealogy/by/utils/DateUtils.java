@@ -139,11 +139,10 @@ public class DateUtils {
         int i = Integer.parseInt(time);
         String times = sdr.format(new Date(i * 1000L));
         return times;
-
     }
 
     /**
-     * @param time斜杠分开
+     * @param time 斜杠分开
      * @return
      */
     public static String timeslash(String time) {
@@ -157,7 +156,7 @@ public class DateUtils {
     }
 
     /**
-     * @param time斜杠分开
+     * @param time 斜杠分开
      * @return
      */
     public static String timeslashData(String time) {
@@ -171,7 +170,7 @@ public class DateUtils {
     }
 
     /**
-     * @param time斜杠分开
+     * @param time 斜杠分开
      * @return
      */
     public static String timeMinute(String time) {
@@ -243,7 +242,7 @@ public class DateUtils {
      * @param time
      * @return
      */
-    public  String timesOne(String time) {
+    public String timesOne(String time) {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         @SuppressWarnings("unused")
         long lcc = Long.valueOf(time);
@@ -332,7 +331,6 @@ public class DateUtils {
             mydate = cd.get(Calendar.DAY_OF_WEEK);
             // 获取指定日期转换成星期几
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (mydate == 1) {
@@ -387,7 +385,6 @@ public class DateUtils {
             mydate = cd.get(Calendar.DAY_OF_WEEK);
             // 获取指定日期转换成星期几
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (mydate == 1) {
@@ -426,7 +423,7 @@ public class DateUtils {
      * @return
      */
     public String week(String time) {
-        Date date = null;
+        Date date;
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
         int mydate = 0;
         String week = null;
@@ -437,7 +434,6 @@ public class DateUtils {
             mydate = cd.get(Calendar.DAY_OF_WEEK);
             // 获取指定日期转换成星期几
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (mydate == 1) {
@@ -465,7 +461,7 @@ public class DateUtils {
      * @return
      */
     public String weekOne(String time) {
-        Date date = null;
+        Date date;
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         int mydate = 0;
         String week = null;
@@ -476,7 +472,6 @@ public class DateUtils {
             mydate = cd.get(Calendar.DAY_OF_WEEK);
             // 获取指定日期转换成星期几
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (mydate == 1) {
@@ -499,30 +494,31 @@ public class DateUtils {
 
     /**
      * 时间戳转换成日期格式字符串
+     *
      * @param seconds 精确到秒的字符串
-     * @param formatStr
      * @return
      */
-    public static String timeStamp2Date(String seconds,String format) {
-        if(seconds == null || seconds.isEmpty() || seconds.equals("null")){
+    public static String timeStamp2Date(String seconds, String format) {
+        if (seconds == null || seconds.isEmpty() || seconds.equals("null")) {
             return "";
         }
-        if(format == null || format.isEmpty()){
+        if (format == null || format.isEmpty()) {
             format = "yyyy-MM-dd HH:mm:ss";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(new Date(Long.valueOf(seconds+"000")));
+        return sdf.format(new Date(Long.valueOf(seconds + "000")));
     }
+
     /**
      * 日期格式字符串转换成时间戳
-     * @param date 字符串日期
+     *
      * @param format 如：yyyy-MM-dd HH:mm:ss
      * @return
      */
-    public static String date2TimeStamp(String date_str,String format){
+    public static String date2TimeStamp(String date_str, String format) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);
-            return String.valueOf(sdf.parse(date_str).getTime()/1000);
+            return String.valueOf(sdf.parse(date_str).getTime() / 1000);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -531,11 +527,12 @@ public class DateUtils {
 
     /**
      * 取得当前时间戳（精确到秒）
+     *
      * @return
      */
-    public static String timeStamp(){
+    public static String timeStamp() {
         long time = System.currentTimeMillis();
-        String t = String.valueOf(time/1000);
+        String t = String.valueOf(time / 1000);
         return t;
     }
 }

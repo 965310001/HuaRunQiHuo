@@ -41,19 +41,21 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class PhotosDetailsActivity extends BaseTitleActivity implements onClickAlbumItem {
 
-    private ImageView back;
     //    private ToolUtil toolUtil;
     //    private TextView title;
+    //    private ListView albumsDetailsLv;
+//    private AlbumDetailsAdapter adapter;
+    //    private BitmapCut bitmapCut;
+
     private ImageView gallery;
+    private ImageView back;
     private Button releasePhoto;
     private TextView photosAbout;
     private TextView managerAlbum;
     private TextView deleteAlbum;
     private Album album;
     private LinearLayout messageRelativeLayout;
-    //    private ListView albumsDetailsLv;
-//    private AlbumDetailsAdapter adapter;
-    //    private BitmapCut bitmapCut;
+
     private String TAG = "PhotosDetailsActivity";
     private ArrayList<Photo> photos;
     private RecyclerView recyclerview;
@@ -78,9 +80,9 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 //        initView();
 //        StatusBarCompat.setStatusBarColor(this, toolUtil.hex2Int("#f5f5f5"));
 //    }
-
-    public void initData() {
-    }
+//
+//    public void initData() {
+//    }
 
     public void initView() {
 //        toolUtil = new ToolUtil();
@@ -98,6 +100,16 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
         recyclerview.setAdapter(photosadapter);
         photosadapter.setNewData(list);
+        photosadapter.setOnItemClickListener((adapter, view, position) -> {
+            ArrayList<LocalMedia> medias = new ArrayList<>();
+            LocalMedia media;
+            for (String s : list) {
+                media = new LocalMedia();
+                media.setPath(s);
+                medias.add(media);
+            }
+            PictureSelector.create(mContext).themeStyle(R.style.picture_default_style).openExternalPreview(position, medias);
+        });
 
         messageRelativeLayout = findViewById(R.id.message);
         if (list.size() != 0) {

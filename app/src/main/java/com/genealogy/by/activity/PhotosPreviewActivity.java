@@ -3,7 +3,6 @@ package com.genealogy.by.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
@@ -31,7 +30,7 @@ public class PhotosPreviewActivity extends AppCompatActivity {
 
     public void initView(){
         toolUtil = new ToolUtil();
-        previewImageView = (ImageView) findViewById(R.id.preview);
+        previewImageView =  findViewById(R.id.preview);
 
         final Intent intent = getIntent();
         String path = intent.getStringExtra("photo");

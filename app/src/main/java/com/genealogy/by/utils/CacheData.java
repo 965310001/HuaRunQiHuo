@@ -15,7 +15,6 @@ import tech.com.commoncore.utils.SignUtil;
  */
 public class CacheData {
 
-
     public static void initLoginAccount(Context context, String phone, String passwrod) {
         setLoginAccount(context, phone);
         setLoginPassword(context, passwrod);
@@ -64,6 +63,7 @@ public class CacheData {
     public static void setLight(Context context, boolean isOpen) {
         SPHelper.setBooleanSF(context, "openLight", isOpen);
     }
+
     public static void setSignRecord(Context context, boolean sign) {
         SPHelper.setBooleanSF(context, com.vise.utils.assist.DateUtil.getYmd(System.currentTimeMillis()), sign);
     }
