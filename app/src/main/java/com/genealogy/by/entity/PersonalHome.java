@@ -1,13 +1,5 @@
 package com.genealogy.by.entity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PersonalHome {
@@ -133,53 +125,7 @@ public class PersonalHome {
     private String relationship;
     private String geneticDisease;
     private int isReghx;
-    private List<?> childrens;
-    private List<?> spouses;
     private List<Deed> deeds;
-
-    public static PersonalHome objectFromData(String str) {
-
-        return new Gson().fromJson(str, PersonalHome.class);
-    }
-
-    public static PersonalHome objectFromData(String str, String key) {
-
-        try {
-            JSONObject jsonObject = new JSONObject(str);
-
-            return new Gson().fromJson(jsonObject.getString(str), PersonalHome.class);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static List<PersonalHome> arrayPersonalHomeFromData(String str) {
-
-        Type listType = new TypeToken<ArrayList<PersonalHome>>() {
-        }.getType();
-
-        return new Gson().fromJson(str, listType);
-    }
-
-    public static List<PersonalHome> arrayPersonalHomeFromData(String str, String key) {
-
-        try {
-            JSONObject jsonObject = new JSONObject(str);
-            Type listType = new TypeToken<ArrayList<PersonalHome>>() {
-            }.getType();
-
-            return new Gson().fromJson(jsonObject.getString(str), listType);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList();
-
-
-    }
 
     public int getId() {
         return id;
@@ -637,23 +583,7 @@ public class PersonalHome {
         this.isReghx = isReghx;
     }
 
-    public List<?> getChildrens() {
-        return childrens;
-    }
-
-    public void setChildrens(List<?> childrens) {
-        this.childrens = childrens;
-    }
-
-    public List<?> getSpouses() {
-        return spouses;
-    }
-
-    public void setSpouses(List<?> spouses) {
-        this.spouses = spouses;
-    }
-
-    public List<?> getDeeds() {
+    public List<Deed> getDeeds() {
         return deeds;
     }
 

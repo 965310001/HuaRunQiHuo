@@ -352,8 +352,64 @@ public class FamilyTreeView7 extends ViewGroup {
             chideList = new ArrayList<>();
             chideList.add(mFamilyMember.getUser());
             childrenLayout(mineLeft, mineTop, chideList);
+
         }
     }
+
+    void initWidthAndHeight(List<SearchNearInBlood> mMyChildren) {
+        final int[] widthDP = {
+                830,//第一代最大宽度
+                720,//第二代最大宽度
+                ITEM_WIDTH_DP,//第三代最大宽度
+                ITEM_WIDTH_DP,//第四代最大宽度
+                ITEM_WIDTH_DP//第五代最大宽度
+        };
+
+        if (mMyChildren != null) {
+            widthDP[3] += (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mMyChildren.size();
+            widthDP[4] = 0;
+            for (int i = 0; i < mMyChildren.size(); i++) {
+                final SearchNearInBlood child = mMyChildren.get(i);
+                final List<View> grandChildrenList = child.getChildren();
+
+                final int grandchildMaxWidthDP;
+                if (grandChildrenList != null && grandChildrenList.size() > 0) {
+                    final int grandchildCount = grandChildrenList.size();
+                    if (grandchildCount == 1 && mMyChildren.size() == 1) {
+                        grandchildMaxWidthDP = ITEM_WIDTH_DP + SPACE_WIDTH_DP;
+                    } else if (grandchildCount == 2 && child.getSpouse() != null) {
+                        grandchildMaxWidthDP = (ITEM_WIDTH_DP + SPACE_WIDTH_DP) * 5 / 2;
+                    } else {
+                        grandchildMaxWidthDP = (ITEM_WIDTH_DP + SPACE_WIDTH_DP) * grandchildCount;
+                    }
+                } else {
+                    if (mMyChildren.size() > 1) {
+                        if (child.getSpouse() != null) {
+                            grandchildMaxWidthDP = (ITEM_WIDTH_DP + SPACE_WIDTH_DP) * 2;
+                        } else {
+                            grandchildMaxWidthDP = ITEM_WIDTH_DP + SPACE_WIDTH_DP;
+                        }
+                    } else {
+                        grandchildMaxWidthDP = ITEM_WIDTH_DP + SPACE_WIDTH_DP;
+                    }
+                }
+                widthDP[4] += grandchildMaxWidthDP;
+            }
+            widthDP[4] -= SPACE_WIDTH_DP;
+            mGrandChildrenMaxWidth = DisplayUtil.dip2px(widthDP[4]);
+        }
+
+        mMaxWidthPX = mScreenWidth;
+        for (int width : widthDP) {
+            final int widthPX = DisplayUtil.dip2px(width);
+            if (widthPX > mMaxWidthPX) {
+                mMaxWidthPX = widthPX;
+            }
+        }
+
+        mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
+    }
+
 
     void childrenLayout(int mineLeft, int mineTop, List<SearchNearInBlood> familyMember) {
         if (null != familyMember && familyMember.size() > 0) {

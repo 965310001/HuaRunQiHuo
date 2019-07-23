@@ -27,7 +27,7 @@ import java.util.List;
 import tech.com.commoncore.utils.SPHelper;
 
 /**
- * 家谱树自定义ViewGroup
+ * 家谱树自定义ViewGroup 近亲
  */
 
 public class FamilyTreeView4 extends ViewGroup {
@@ -190,39 +190,39 @@ public class FamilyTreeView4 extends ViewGroup {
             830
     };
 
-    private void initWidthAndHeight() {
-//        final int[] widthDP = {
-//                1000,//第一代最大宽度
-////                720,//第二代最大宽度
-//                10000,
-////                ITEM_WIDTH_DP,//第三代最大宽度
-////                ITEM_WIDTH_DP,//第四代最大宽度
-////                ITEM_WIDTH_DP//第五代最大宽度
-//                1000,
-//                1000,
-//                1000
-//        };
-
-//        if (mFamilyMember.getSpouse() != null) {
-//            widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
-//        }
+//    private void initWidthAndHeight() {
+////        final int[] widthDP = {
+////                1000,//第一代最大宽度
+//////                720,//第二代最大宽度
+////                10000,
+//////                ITEM_WIDTH_DP,//第三代最大宽度
+//////                ITEM_WIDTH_DP,//第四代最大宽度
+//////                ITEM_WIDTH_DP//第五代最大宽度
+////                1000,
+////                1000,
+////                1000
+////        };
 //
-//        if (null != mFamilyMember.getChildrens() && mFamilyMember.getChildrens().size() > 0) {
-//            widthDP[2] = ITEM_WIDTH_DP + (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mFamilyMember.getChildrens().size() * 2;
-//        }
-
-        initWidthAndHeight(mFamilyMember.getChildrens());
-
-//        mMaxWidthPX = mScreenWidth;
-//        for (int width : widthDP) {
-//            final int widthPX = DisplayUtil.dip2px(width);
-//            if (widthPX > mMaxWidthPX) {
-//                mMaxWidthPX = widthPX;
-//            }
-//        }
+////        if (mFamilyMember.getSpouse() != null) {
+////            widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
+////        }
+////
+////        if (null != mFamilyMember.getChildrens() && mFamilyMember.getChildrens().size() > 0) {
+////            widthDP[2] = ITEM_WIDTH_DP + (SPACE_WIDTH_DP + ITEM_WIDTH_DP) * mFamilyMember.getChildrens().size() * 2;
+////        }
 //
-//        mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
-    }
+//        initWidthAndHeight(mFamilyMember.getChildrens());
+//
+////        mMaxWidthPX = mScreenWidth;
+////        for (int width : widthDP) {
+////            final int widthPX = DisplayUtil.dip2px(width);
+////            if (widthPX > mMaxWidthPX) {
+////                mMaxWidthPX = widthPX;
+////            }
+////        }
+////
+////        mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
+//    }
 
     private void initWidthAndHeight(List<SearchNearInBlood> mMyChildren) {
         if (mMyChildren != null) {
@@ -257,8 +257,6 @@ public class FamilyTreeView4 extends ViewGroup {
             }
             widthDP[4] -= SPACE_WIDTH_DP;
             mGrandChildrenMaxWidth = DisplayUtil.dip2px(widthDP[4]);
-
-            Log.i(TAG, "initWidthAndHeight: " + mGrandChildrenMaxWidth);
         }
 
         mMaxWidthPX = mScreenWidth;
@@ -451,14 +449,16 @@ public class FamilyTreeView4 extends ViewGroup {
     // TODO: 2019/7/10 子view 的摆放位置
     private void childrenLayout(int mineLeft, int mineTop,
                                 List<SearchNearInBlood> childes, List<View> childrenView) {
-        if (null != childes && childes.size() > 0 &&
-                childrenView != null && childrenView.size() > 0) {
-
+        if (isChildes(childes) && isChildrenView(childrenView)) {
+            initWidthAndHeight(childes);
             final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
             int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
+
             final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
             int grandChildrenLeft = childLeft;
+
             final int childCount = childrenView.size();
+
             for (int i = 0; i < childCount; i++) {
                 final View myChildView = childrenView.get(i);//每一个儿子
                 if (null != myChildView) {
@@ -484,11 +484,11 @@ public class FamilyTreeView4 extends ViewGroup {
                                         grandChildrenTop, searchNearInBlood.getChildrens(),
                                         searchNearInBlood.getChildren());
                                 /*孙媳*/
-                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-                                        grandChildrenLeft - (mItemWidthPX + mSpacePX),
-//                                        grandChildrenLeft,
-                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
-                                        searchNearInBlood.getSpouse());
+//                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
+//                                        grandChildrenLeft - (mItemWidthPX + mSpacePX),
+////                                        grandChildrenLeft,
+//                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
+//                                        searchNearInBlood.getSpouse());
 
                                 grandChildrenLeft += mItemWidthPX + mSpacePX;
                             }
@@ -503,28 +503,28 @@ public class FamilyTreeView4 extends ViewGroup {
                     // TODO: 2019/7/9 子配偶位置设置
                     grandChildrenLeft = childrenSpouseLayout(childTop, childLeft, grandChildrenLeft, myChild.getSpouses(),
                             myChild.getSpouse());
+
                 }
             }
         }
+    }
+
+    private boolean isChildrenView(List<View> childrenView) {
+        return childrenView != null && childrenView.size() > 0;
+    }
+
+    private boolean isChildes(List<SearchNearInBlood> childes) {
+        return null != childes && childes.size() > 0;
     }
 
     private int childrenSpouseLayout(int childTop, int childLeft, int grandChildrenLeft,
                                      List<SearchNearInBlood> myChild, List<View> mChildSpouseView) {
         if (mChildSpouseView != null && mChildSpouseView.size() > 0) {
             for (int j = 0; j < mChildSpouseView.size(); j++) {
-//                Log.i(TAG, "childrenLayout: " + myChild.get(j)
-//                        .getNickName() + " " + myChild.get(j)
-//                        .getRelationship());
-
                 final View spouseView = mChildSpouseView.get(j);
-//                final int spouseLeft = childLeft + (j + 1) * (mItemWidthPX + mSpacePX);
                 final int spouseLeft = childLeft + mSpacePX + mItemWidthPX;
                 setChildViewFrame(spouseView, spouseLeft, childTop, mItemWidthPX, mItemHeightPX);
                 grandChildrenLeft = Math.max(grandChildrenLeft, spouseLeft + mSpacePX + mItemWidthPX);
-
-//                        chilrenLayout(mineLeft, mineTop, myChildSpouse.get(i1).getChildrens(),
-//                                myChildSpouse.get(i1).getChildren());
-
             }
         }
         return grandChildrenLeft;
@@ -536,13 +536,6 @@ public class FamilyTreeView4 extends ViewGroup {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-//        drawSpouseLine(canvas);
-////        drawParentLine(canvas);
-////        drawBrothersLine(canvas);
-//        drawChildrenLine(canvas);
-
-
         drawLine(canvas);
     }
 
@@ -591,7 +584,6 @@ public class FamilyTreeView4 extends ViewGroup {
                 canvas.drawPath(mPath, mPaint);
 
                 final List<SearchNearInBlood> childSpouse = mFamilyMember.getChildrens().get(i).getSpouses();
-
 
                 if (childSpouse != null) {
                     drawSpouseLine(canvas, startChildView,
@@ -783,7 +775,7 @@ public class FamilyTreeView4 extends ViewGroup {
     public void setFamilyMember(SearchNearInBlood familyMember) {
         recycleAllView();
         initData(familyMember);
-        initWidthAndHeight();
+        initWidthAndHeight(mFamilyMember.getChildrens());
         initView();
         invalidate();
 

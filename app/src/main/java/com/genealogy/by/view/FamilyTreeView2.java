@@ -477,15 +477,15 @@ public class FamilyTreeView2 extends ViewGroup {
             //儿子
             if (mChildrenView != null && mChildrenView.size() > 0) {
                 final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
-                int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
+                int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;/*儿子*/
 
-                final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
-                int grandChildrenLeft = childLeft;
+                final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;/*孙子*/
+                int grandChildrenLeft = childLeft;/*孙子*/
 
                 int grandchildIndex = 0;
                 int childSpouseIndex = 0;
                 final int childCount = mChildrenView.size();
-                for (int i = 0; i < childCount; i++) {
+                for (int i = 0; i < childCount; i++) {/*儿子*/
                     final View myChildView = mChildrenView.get(i);
                     final FamilyMember myChild = mMyChildren.get(i);
                     final FamilyMember myChildSpouse = myChild.getSpouse();
@@ -496,7 +496,7 @@ public class FamilyTreeView2 extends ViewGroup {
                         int endGrandChildLeft = grandChildrenLeft;
 
                         final int myGrandChildrenCount = myGrandChildren.size();
-                        for (int j = 0; j < myGrandChildrenCount; j++) {
+                        for (int j = 0; j < myGrandChildrenCount; j++) {/*孙子*/
                             final View grandChildView = mGrandChildrenView.get(grandchildIndex);
                             setChildViewFrame(grandChildView, grandChildrenLeft, grandChildrenTop, mItemWidthPX, mItemHeightPX);
                             endGrandChildLeft = grandChildrenLeft;

@@ -53,13 +53,15 @@ import tech.com.commoncore.utils.ToastUtil;
 import static android.widget.PopupWindow.OnDismissListener;
 
 public class ShuPuFragment extends Fragment {
-    private Context mContext = getActivity();
-    private PopupWindow popupWindow2;
-    private PopupWindow popupWindowAdd, popupWindowEdit, popupWindow;
-    private boolean mIsShowing = false;
-    private static final String TAG = "ShuPuFragment";
+
+    //    private PopupWindow popupWindowAdd, popupWindowEdit, popupWindow;
     //    private LinearLayout table;
+
+    private Context mContext = getActivity();
+    private PopupWindow popupWindow2, popupWindowAdd, popupWindowEdit, popupWindow;
     private View rootView;
+    private boolean mIsShowing;
+    private static final String TAG = "ShuPuFragment";
     private String param1;
 
     public static ShuPuFragment newInstance(String param1) {

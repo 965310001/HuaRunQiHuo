@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,9 +18,9 @@
                 android:id="@+id/lin_user_info"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_153"
-                android:background="#464854"
-                android:orientation="vertical">
+                android:background="#464854">
 
+                <!--<include layout="@layout/layout_title_bar" />-->
 
                 <ImageView
                     android:id="@+id/iv_back"
@@ -33,7 +31,7 @@
                     android:background="@mipmap/back_white" />
 
                 <TextView
-                    android:layout_width="195dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="26dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_28"
@@ -57,7 +55,7 @@
                 android:layout_height="@dimen/dp_84"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_110"
-                android:background="@mipmap/wode" />
+                tools:background="@mipmap/wode" />
 
             <ImageView
                 android:id="@+id/invitation"
@@ -67,7 +65,8 @@
                 android:layout_marginTop="@dimen/dp_172"
                 android:layout_marginRight="@dimen/dp_16"
                 android:background="@mipmap/yaoqing1"
-                android:gravity="center"></ImageView>
+                android:gravity="center"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -88,7 +87,7 @@
                 android:layout_below="@id/tv_name"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_24"
-                android:text="您的大表姐" />
+                tools:text="您的大表姐" />
 
             <TextView
                 android:id="@+id/area"
@@ -97,7 +96,7 @@
                 android:layout_below="@id/tv_relationship"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="广州" />
+                tools:text="广州" />
 
             <TextView
                 android:id="@+id/tv_telephone"
@@ -106,7 +105,7 @@
                 android:layout_below="@id/tv_relationship"
                 android:layout_marginLeft="@dimen/dp_63"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="电话12387654321" />
+                tools:text="电话:12387654321" />
 
             <TextView
                 android:id="@+id/birthday"
@@ -120,7 +119,7 @@
                 android:text="1989.12.12" />
 
             <TextView
-                android:id="@+id/age"
+                android:id="@+id/tv_ranking"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_25"
                 android:layout_below="@id/tv_telephone"
@@ -129,7 +128,7 @@
                 android:layout_marginTop="@dimen/dp_16"
                 android:drawableLeft="@mipmap/paihang"
                 android:gravity="center"
-                android:text="31" />
+                tools:text="31" />
 
             <TextView
                 android:layout_width="@dimen/dp_50"
@@ -140,7 +139,7 @@
                 android:layout_marginRight="@dimen/dp_52"
                 android:drawableLeft="@mipmap/biaoqian"
                 android:gravity="center"
-                android:text="——" />
+                tools:text="——" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/deeds"
@@ -148,25 +147,26 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/birthday"
                 android:layout_marginLeft="@dimen/dp_27"
-                android:layout_marginRight="@dimen/dp_16"></android.support.v7.widget.RecyclerView>
+                android:layout_marginRight="@dimen/dp_16" />
 
-            <LinearLayout
-                android:id="@+id/adddeeds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deeds">
-
-                <TextView
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_27"
-                    android:background="@drawable/bg_item_read"
-                    android:gravity="center"
-                    android:text="+"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_20" />
-            </LinearLayout>
-
+            <!--<LinearLayout-->
+            <!--android:id="@+id/adddeeds"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/deeds">-->
+            <!--</LinearLayout>-->
+            <TextView
+                android:id="@+id/tv_add_deeds"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_below="@id/deeds"
+                android:layout_marginLeft="@dimen/dp_27"
+                android:background="@drawable/bg_item_read"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="+"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_20" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+</FrameLayout>

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
@@ -43,7 +42,7 @@ public class PhotosAddActivity extends BaseTitleActivity {
         findViewById(R.id.tv_create).setOnClickListener(v -> {
             String title = mEtTitle.getText().toString();
             if (TextUtils.isEmpty(title)) {
-                Toast.makeText(PhotosAddActivity.this, "请输入标题！", Toast.LENGTH_SHORT).show();
+                ToastUtil.show("请输入标题！");
             } else {
                 execute(title, isTrue ? 1 : 0);
                 Intent intent = new Intent();

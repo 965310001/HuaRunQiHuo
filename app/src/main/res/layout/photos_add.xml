@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="@dimen/dp_75"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_13"
@@ -35,6 +35,8 @@
             <!--android:background="#22000000" />-->
 
             <View
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="@dimen/dp_50"
@@ -44,7 +46,7 @@
                 android:id="@+id/photo_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_23"
-                android:layout_marginLeft="@dimen/dp_106"
+                android:layout_marginLeft="@dimen/dp_60"
                 android:layout_marginTop="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_39"
                 android:background="@null"
@@ -53,7 +55,7 @@
                 android:textSize="@dimen/dp_16" />
 
             <TextView
-                android:layout_width="@dimen/dp_75"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_23"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_70"
@@ -66,7 +68,7 @@
                 android:id="@+id/photo_description"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_23"
-                android:layout_marginLeft="@dimen/dp_106"
+                android:layout_marginLeft="@dimen/dp_60"
                 android:layout_marginTop="@dimen/dp_70"
                 android:hint="共享到亲戚相册"
                 android:textColor="#666666"
@@ -80,11 +82,11 @@
                 android:layout_marginTop="@dimen/dp_70"
                 android:layout_marginRight="@dimen/dp_30" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="250dp"
-                android:background="#22000000" />
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1px"-->
+                <!--android:layout_marginTop="250dp"-->
+                <!--android:background="#22000000" />-->
 
             <TextView
                 android:id="@+id/tv_create"

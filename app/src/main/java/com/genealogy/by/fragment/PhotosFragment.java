@@ -134,7 +134,6 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
                 });
     }
 
-
     @Override
     public void setTitleBar(TitleBarView titleBar) {
     }

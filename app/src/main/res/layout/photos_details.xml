@@ -84,7 +84,8 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rlall" />
+        android:layout_below="@id/rlall"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/message"
@@ -92,7 +93,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/rlall"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

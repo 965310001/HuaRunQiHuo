@@ -191,7 +191,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setRightText("上传").setOnRightTextClickListener(v -> photoAndCamera());
+        titleBar.setRightText("上传").setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
     }
 
     @Override

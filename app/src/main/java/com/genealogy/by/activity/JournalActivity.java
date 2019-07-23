@@ -59,6 +59,7 @@ public class JournalActivity extends BaseTitleActivity {
         });
         rv_contentFastLib.setLayoutManager(new LinearLayoutManager(mContext));
         rv_contentFastLib.setAdapter(journalAdapter);
+        mRefreshLayout.autoRefresh();
         loadLog(page);
     }
 

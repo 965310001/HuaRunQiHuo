@@ -105,8 +105,7 @@ public class RegisterActivity extends BaseTitleActivity {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("title", "无");
                             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-                        }
-                        {
+                        } else {
                             ToastUtil.show(" " + data.msg);
                         }
                     }
@@ -231,7 +230,6 @@ public class RegisterActivity extends BaseTitleActivity {
                     }
                 });
             }).start();
-
         }
     }
 }

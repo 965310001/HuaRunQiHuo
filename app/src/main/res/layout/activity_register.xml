@@ -5,35 +5,36 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/layout_title_bar"
+        android:visibility="invisible" />
 
-    <include layout="@layout/layout_title_bar"
-        android:visibility="invisible">
-    </include>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_15"
-        android:textSize="@dimen/dp_32"
+        android:text="开启寻根之旅..."
         android:textColor="#b14641"
-        android:text="开启寻根之旅..."/>
+        android:textSize="@dimen/dp_32" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_50"
+        android:orientation="horizontal"
         android:paddingRight="@dimen/dp_53">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dp_20"
-            android:text="国家/地区"/>
+            android:text="国家/地区" />
+
         <TextView
-            android:layout_marginLeft="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="中国"/>
+            android:layout_marginLeft="50dp"
+            android:text="中国" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +49,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+86"/>
+            android:text="+86" />
+
         <EditText
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
@@ -62,15 +64,16 @@
             android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_15"
         android:gravity="center"
-        android:visibility="gone"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/dp_59"
-        android:paddingRight="@dimen/dp_53">
+        android:paddingRight="@dimen/dp_53"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -92,7 +95,6 @@
     </LinearLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="验证码"/>
+            android:text="验证码" />
 
         <EditText
             android:id="@+id/et_varify_code"
@@ -130,6 +132,7 @@
             android:textSize="@dimen/sp_12" />
 
     </LinearLayout>
+
     <Button
         android:id="@+id/btn_regist"
         android:layout_width="match_parent"

@@ -434,6 +434,39 @@ public class FamilyTreeView6 extends ViewGroup {
         return null != views && views.size() > 0;
     }
 
+//    void drawSpouseLine(Canvas canvas, SearchNearInBlood searchNearInBlood) {
+//        List<View> spouse = searchNearInBlood.getSpouse();
+//        if (null != searchNearInBlood && isListView(spouse)) {
+//            int size = spouse.size();
+//            if (size >= 1) {/*一个配偶以上*/
+//                mView = searchNearInBlood.getMineView();
+//                int childLineStartX = (int) (mView.getX() + mItemWidthPX);
+//                int childLineEndX = childLineStartX + mSpacePX;
+//                int childLineY = (int) (mView.getY() + mItemHeightPX / 2);
+//                mPath.reset();
+//                mPath.moveTo(childLineStartX, childLineY);
+//                mPath.lineTo(childLineEndX, childLineY);
+//                canvas.drawPath(mPath, mPaint);
+//
+//                if (size >= 2) {/*两个配偶以上*/
+//                    for (int i = 0; i < spouse.size(); i++) {
+//                        mView = spouse.get(i);
+//                        childLineStartX = (int) (mView.getX() + mItemWidthPX);
+//                        childLineEndX = childLineStartX + mSpacePX;
+//                        childLineY = (int) (mView.getY() + mItemHeightPX / 2);
+//                        mPath.reset();
+//                        mPath.moveTo(childLineStartX, childLineY);
+//                        mPath.lineTo(childLineEndX, childLineY);
+//                        canvas.drawPath(mPath, mPaint);
+//                        if (i + 1 == size - 1) {
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     void drawChildrenLine(Canvas canvas, SearchNearInBlood searchNearInBloods) {
         if (null != searchNearInBloods) {
             int index = 0;
@@ -451,6 +484,7 @@ public class FamilyTreeView6 extends ViewGroup {
                 canvas.drawPath(mPath, mPaint);
 
                 drawChildrenLine(canvas, childrens.get(index));
+
                 /*画配偶*/
                 List<View> spouse = searchNearInBlood.getSpouse();
                 if (null != spouse && spouse.size() > 0) {
@@ -548,8 +582,20 @@ public class FamilyTreeView6 extends ViewGroup {
                 mPath.lineTo(childLineStartX, childVerticalLineEndY);
                 canvas.drawPath(mPath, mPaint);
                 drawChildrenLine(canvas, searchNearInBlood.getChildrens().get(index));
+
                 index++;
             }
+            /*画连接儿子的线*/
+            List<View> children = searchNearInBlood.getChildren();
+            if (isListView(children)) {
+                if (children.size() > 1) {
+                    mPath.reset();
+                    mPath.moveTo(children.get(0).getX() + mItemWidthPX / 2, children.get(0).getY() - mSpacePX);
+                    mPath.lineTo(children.get(children.size() - 1).getX() + mItemWidthPX / 2, children.get(0).getY() - mSpacePX);
+                    canvas.drawPath(mPath, mPaint);
+                }
+            }
+
         }
     }
 

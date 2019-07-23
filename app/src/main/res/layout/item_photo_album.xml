@@ -3,8 +3,9 @@
     android:id="@+id/llall"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="@dimen/dp_4">
 
     <ImageView
         android:id="@+id/imgs"
