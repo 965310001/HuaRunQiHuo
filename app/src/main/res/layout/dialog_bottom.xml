@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/t_translation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="编辑信息"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textSize_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:alpha="0.1"
+        android:background="@color/color_4d" />
+
+    <TextView
+        android:id="@+id/tv_relational"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="显示关系链"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textSize_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:alpha="0.1"
+        android:background="@color/color_4d" />
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="删除"
+        android:textColor="@color/zupu_red"
+        android:textSize="@dimen/textSize_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:alpha="0.1"
+        android:background="@color/color_4d" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="@color/color_4d"
+        android:textSize="@dimen/textSize_16" />
+
+
+</LinearLayout>

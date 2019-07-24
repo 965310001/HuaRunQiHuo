@@ -22,6 +22,7 @@
     </style>
     <!-- 自定义控件风格-->
     <style name="Custom" />
+
     <style name="Custom.TabRadioButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -32,4 +33,15 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/tab_text_color_selector</item>
     </style>
+
+    <!--底部弹窗-->
+    <style name="BottomDialog" parent="@android:style/Theme.DeviceDefault.Dialog">
+        <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
+    </style>
+
+    <style name="BottomDialogAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/bottom_dialog_slide_show</item>
+        <item name="android:windowExitAnimation">@anim/bottom_dialog_slide_hide</item>
+    </style>
+
 </resources>

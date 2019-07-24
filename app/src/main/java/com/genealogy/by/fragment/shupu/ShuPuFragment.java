@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,8 +50,6 @@ import tech.com.commoncore.base.BaseApplication;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
-
-import static android.widget.PopupWindow.OnDismissListener;
 
 public class ShuPuFragment extends Fragment {
 
@@ -720,9 +719,8 @@ public class ShuPuFragment extends Fragment {
 
                     @Override
                     public void onFamilySelect(SearchNearInBlood family) {
-                        User user = new User();
-                        user.setGid(SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-                        user.setUserid(SPHelper.getStringSF(BaseApplication.getInstance(), "UserId"));
+                        User user = new User(family.getId() + "",
+                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
                         showPopupWindow(family.getMineView(), user);
                     }
                 });

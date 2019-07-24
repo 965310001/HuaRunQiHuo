@@ -1,21 +1,16 @@
 package com.hrqhrj.fc;
 
+import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
+public class ExampleUnitTest extends TestCase {
 
-    public static void main(String[] args) {
+    public void testIn(){
         int[] nums1 = {1, 2, 2, 1};
         int[] nums2 = {2, 2};
-
-        /*太消耗内存了*/
-        intersect(nums1, nums2);
+        testIntersect(nums1, nums2);
     }
 
     /*
@@ -23,7 +18,7 @@ public class ExampleUnitTest {
         8 ms, 在所有 Java 提交中击败了 62.31% 的用户
         内存消耗 :38.4 MB, 在所有 Java 提交中击败了 17.85% 的用户
     */
-    static int[] intersect(int[] nums1, int[] nums2) {
+    void testIntersect(int[] nums1, int[] nums2) {
 //        Map<Integer, Integer> map = new HashMap<>();
 //        List<Integer> list = new ArrayList<>();
 //        if (nums1.length > nums2.length) {
@@ -107,7 +102,7 @@ public class ExampleUnitTest {
             ints[index++] = integer.intValue();
         }
 
-        return ints;
+//        return ints;
     }
 }
 

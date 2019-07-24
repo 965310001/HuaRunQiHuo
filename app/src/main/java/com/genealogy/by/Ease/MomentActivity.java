@@ -14,21 +14,21 @@ import java.util.List;
 
 public class MomentActivity extends Activity {
 
-    CustomToolbar toolbar;
+    private CustomToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment);
 
-        toolbar = (CustomToolbar) findViewById(R.id.moment_toolbar);
+        toolbar = findViewById(R.id.moment_toolbar);
         toolbar.setTitle("朋友圈");
 
-        ListView lv_moment = (ListView) findViewById(R.id.lv_moment_info);
+        ListView lv_moment = findViewById(R.id.lv_moment_info);
         List<MomentInfo> momentEntities = Model.getInstance().getDbManager().getMomentTableDao().getAllMomentInfo();
-        MomentInfoAdapter momentInfoAdapter = new MomentInfoAdapter(MomentActivity.this,momentEntities);
-        lv_moment.addHeaderView(this.getLayoutInflater().inflate(R.layout.layout_moment_heading,null),
-                null,false);
+        MomentInfoAdapter momentInfoAdapter = new MomentInfoAdapter(MomentActivity.this, momentEntities);
+        lv_moment.addHeaderView(this.getLayoutInflater().inflate(R.layout.layout_moment_heading, null),
+                null, false);
         //设置Adapter显示
         lv_moment.setAdapter(momentInfoAdapter);
     }

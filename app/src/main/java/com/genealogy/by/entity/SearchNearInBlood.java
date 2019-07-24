@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchNearInBlood implements Serializable {
-
     private long id;
     private Integer gId;//族谱ID
     //    private Object fatherId;//父亲ID

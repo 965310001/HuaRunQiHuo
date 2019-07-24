@@ -90,6 +90,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
         if (intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
+            Log.i(TAG, "setTitleBar: " + user);
         }
 
         if (!TextUtils.isEmpty(title)) {
