@@ -47,9 +47,88 @@ public class User implements Serializable {
     private String nationality;
     private int isCelebrity;
     private String surname;
-//    private String spouseId;//配偶ID
-
+    private String remark;
+    private String idCard;
+    private String moveOut;
+    private int health;
     private String relationship;
+    private String industry;
+    private String url;
+    private String geneticDisease;
+    private Object yearOfLife;
+    private Object height;
+
+    public void setGeneticDisease(String geneticDisease) {
+        this.geneticDisease = geneticDisease;
+    }
+
+    public String getGeneticDisease() {
+        return geneticDisease;
+    }
+
+    public void setHeight(Object height) {
+        this.height = height;
+    }
+
+    public Object getHeight() {
+        return height;
+    }
+
+    public void setYearOfLife(Object yearOfLife) {
+        this.yearOfLife = yearOfLife;
+    }
+
+    public Object getYearOfLife() {
+        return yearOfLife;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    public void setMoveOut(String moveOut) {
+        this.moveOut = moveOut;
+    }
+
+    public String getMoveOut() {
+        return moveOut;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public int getIsCelebrity() {
         return isCelebrity;
@@ -101,6 +180,7 @@ public class User implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public String getRelationship() {
         return relationship;
     }

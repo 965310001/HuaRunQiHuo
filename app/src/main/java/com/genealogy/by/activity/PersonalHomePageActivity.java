@@ -58,12 +58,9 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
         StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
         Intent intent = getIntent();
         id = intent.getStringExtra("userId");
-        Log.i(TAG, "initView: " + id);
         if (TextUtils.isEmpty(id)) {
-            Log.i(TAG, "initView: " + id);
             id = SPHelper.getStringSF(mContext, "UserId");
         }
-        Log.i(TAG, "initView: " + id);
         loadComment();
         ivImg = findViewById(R.id.portrait);
         tvName = findViewById(R.id.tv_name);
@@ -149,57 +146,82 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
             case R.id.tv_add_deeds:// TODO: 2019/7/23 添加事迹 
                 Log.i(TAG, "onClick: 添加事迹");
                 break;
+            case R.id.iv_invite:/*邀请*/
+                doInvite();
+                break;
             default:
-                Log.i(TAG, "onClick: " + id);
-//                if (null == mBottomDialog) {
-                mBottomDialog = new BottomDialog();
-                Log.i(TAG, "onClick: " + id);
-                if (!TextUtils.isEmpty(id) && id.equals(SPHelper.getStringSF(mContext, "UserId"))) {
-                    mBottomDialog.setGone(R.id.tv_delete, R.id.tv_delete);
-                    Log.i(TAG, "onClick: tv_delete");
-                }
-                mBottomDialog.setOnClick(view -> {
-                    switch (view.getId()) {
-                        case R.id.t_translation:/*编辑信息*/
-                            User mUser = null;
-                            if (null != mPerson) {
-                                mUser = new User();
-                                mUser.setPhone(mPerson.getPhone());
-                                mUser.setNumber(mPerson.getNumber());
-                                mUser.setGid(String.valueOf(mPerson.getGId()));
-                                mUser.setBirthday(mPerson.getBirthday());
-                                mUser.setEmail(mPerson.getEmail());
-                                mUser.setUserid(String.valueOf(mPerson.getId()));
-                                mUser.setNoun(mPerson.getNoun());
-                                mUser.setRelationship(mPerson.getRelationship());
-                                mUser.setIsCelebrity(Integer.valueOf(mPerson.getIsCelebrity()));
-                                mUser.setWord(mPerson.getWord());
-                                mUser.setWordGeneration(mPerson.getWordGeneration());
-                                mUser.setSchool(mPerson.getSchool());
-                                mUser.setPosition(mPerson.getPosition());
-                            }
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("title", "编辑信息");
-                            bundle.putSerializable("user", mUser);
-                            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-                            break;
-                        case R.id.tv_relational:
-                            /*SearchNearInBlood data = mPerson;*/
-                            bundle = new Bundle();
-                            bundle.putSerializable("data", mPerson);
-                            FastUtil.startActivity(mContext, RelationshipChainActivity.class, bundle);
-                            break;
-
-                        case R.id.tv_delete:
-                            deleteUser();
-                            break;
+                if (null == mBottomDialog) {
+                    mBottomDialog = new BottomDialog();
+                    if (!TextUtils.isEmpty(id) && id.equals(SPHelper.getStringSF(mContext, "UserId"))) {
+                        mBottomDialog.setGone("DELETE");
                     }
-                    mBottomDialog.dismiss();
-                });
-//                }
+                    mBottomDialog.setOnClick(view -> {
+                        switch (view.getId()) {
+                            case R.id.t_translation:/*编辑信息*/
+                                User mUser = null;
+                                if (null != mPerson) {
+                                    mUser = new User();
+                                    mUser.setPhone(mPerson.getPhone());
+                                    mUser.setNumber(mPerson.getNumber());
+                                    mUser.setGid(String.valueOf(mPerson.getGId()));
+                                    mUser.setBirthday(mPerson.getBirthday());
+                                    mUser.setEmail(mPerson.getEmail());
+                                    mUser.setUserid(String.valueOf(mPerson.getId()));
+                                    mUser.setNoun(mPerson.getNoun());
+                                    mUser.setRelationship(mPerson.getRelationship());
+                                    mUser.setIsCelebrity(Integer.valueOf(mPerson.getIsCelebrity()));
+                                    mUser.setWord(mPerson.getWord());
+                                    mUser.setWordGeneration(mPerson.getWordGeneration());
+                                    mUser.setSchool(mPerson.getSchool());
+                                    mUser.setPosition(mPerson.getPosition());
+                                    mUser.setMinName(mPerson.getMinName());
+                                    mUser.setUsedName(mPerson.getUsedName());
+                                    mUser.setDesignation(mPerson.getDesignation());
+                                    mUser.setName(mPerson.getName());
+                                    mUser.setSurname(mPerson.getSurname());
+                                    mUser.setProfilePhoto(mPerson.getProfilePhoto());
+                                    mUser.setSex(mPerson.getSex());
+                                    mUser.setNationality(mPerson.getNationality());
+                                    mUser.setRanking(mPerson.getRanking());
+                                    mUser.setRemark(mPerson.getRemark());
+                                    mUser.setIdCard(mPerson.getIdCard());
+                                    mUser.setCommonName(mPerson.getCommonName());
+                                    mUser.setEducation(mPerson.getEducation());
+                                    mUser.setMoveOut(mPerson.getMoveOut());
+                                    mUser.setBloodGroup(mPerson.getBloodGroup());
+                                    mUser.setHeight(mPerson.getHeight());
+                                    mUser.setBirthArea(mPerson.getBirthArea());
+                                    mUser.setBirthPlace(mPerson.getBirthPlace());
+                                    mUser.setHealth(mPerson.getHealth());
+                                    mUser.setEducation(mPerson.getEducation());
+                                    mUser.setYearOfLife(mPerson.getYearOfLife());
+
+                                }
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("title", "编辑信息");
+                                bundle.putSerializable("user", mUser);
+                                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
+                                break;
+                            case R.id.tv_relational:
+                                bundle = new Bundle();
+                                bundle.putSerializable("data", mPerson);
+                                FastUtil.startActivity(mContext, RelationshipChainActivity.class, bundle);
+                                break;
+
+                            case R.id.tv_delete:
+                                deleteUser();
+                                break;
+                        }
+                        mBottomDialog.dismiss();
+                    });
+                }
                 mBottomDialog.show(getSupportFragmentManager(), "PERSONALITY");
                 break;
         }
+    }
+
+    // TODO: 2019/7/24 邀请
+    private void doInvite() {
     }
 
     private void deleteUser() {

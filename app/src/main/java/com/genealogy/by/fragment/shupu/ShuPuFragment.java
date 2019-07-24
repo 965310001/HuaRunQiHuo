@@ -297,7 +297,7 @@ public class ShuPuFragment extends Fragment {
         fuqin.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "父亲");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();
@@ -305,7 +305,7 @@ public class ShuPuFragment extends Fragment {
         muqin.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "母亲");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();
@@ -313,7 +313,7 @@ public class ShuPuFragment extends Fragment {
         peiou.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "配偶");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();
@@ -321,7 +321,7 @@ public class ShuPuFragment extends Fragment {
         erzi.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "儿子");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();
@@ -329,7 +329,7 @@ public class ShuPuFragment extends Fragment {
         nver.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "女儿");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();
@@ -337,7 +337,7 @@ public class ShuPuFragment extends Fragment {
         jiedi.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("title", "兄弟姐妹");
-            bundle.putString("Userid", user.getUserid());
+            bundle.putString("mUserId", user.getUserid());
             bundle.putString("Gid", user.getGid());
             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
             popupWindowAdd.dismiss();

@@ -52,47 +52,44 @@ import tech.com.commoncore.utils.ToastUtil;
 
 // TODO: 2019/7/22 调试接口
 public class PerfectingInformationActivity extends BaseTitleActivity {
-    public Spinner spNation, spRanking, spAlive, spEducation, spBloodType, spAcceptInvitation;
-    public TextView tvBirthday, tvArea, tvAncestral, tvOriginArea, tvResidence, tvTimeDeath, tvAreaDeath, tvPreservation, tvRetract, tv_preservation;
-    public ImageView ivJeadPortrait;
-    public LinearLayout recommender, phonenumbe, acceptance, MoreInformation;
-    public EditText evName, evAlias, evTelephone, evIntroduce, evLocation, evId_number, evCommonNames, evWord, evNumber, evDesignation, evNoun, evUsedName, evWordGeneration, evMark, tvSchool, tvIndustry, tvCompany, tvPosition, tvMailbox, tvLink, tvAreaBury, tvAreaBuryBetailed, tvLifeYear, tvHeight, tvHereditaryDiseases, evPhone_number, evSurname;
+    private Spinner spNation, spRanking, spAlive, spEducation, spBloodType, spAcceptInvitation;
+    private TextView tvBirthday, tvArea, tvAncestral, tvOriginArea, tvResidence, tvTimeDeath, tvAreaDeath, tvPreservation, tvRetract, tv_preservation;
+    private ImageView ivJeadPortrait;
+    private LinearLayout recommender, phonenumbe, acceptance, MoreInformation;
+    private EditText evName, evAlias, evTelephone, evIntroduce, evLocation, evId_number, evCommonNames, evWord, evNumber, evDesignation, evNoun, evUsedName, evWordGeneration, evMark, tvSchool, tvIndustry, tvCompany, tvPosition, tvMailbox, tvLink, tvAreaBury, tvAreaBuryBetailed, tvLifeYear, tvHeight, tvHereditaryDiseases, evPhone_number, evSurname;
     private CityPickerView mCityPickerView = new CityPickerView();
-    public RadioGroup rgGender, rgCelebrity;
+    private RadioGroup rgGender, rgCelebrity;
     private String defaultProvinceName = "广东";
     private String defaultCityName = "广州";
     private String defaultDistrict = "天河区";
     private boolean isProvinceCyclic = true;
     private boolean isCityCyclic = true;
     private boolean isDistrictCyclic = true;
-    public CityConfig.WheelType mWheelType = CityConfig.WheelType.PRO_CITY_DIS;
     private boolean isShowGAT = true;
-    public int relationship_type = 1;
+    private int relationship_type = 1;
     private String sex = "";
     private String isCelebrity = "";
     private Intent intent;
     private String title = " ";
     private String url = "";
-    boolean more = true;
-    public RadioButton rb_gender1, rb_gender2, rb_celebrity1, rb_celebrity2;
-    public AddUser addUser;
-    public int type = 1;
-    public String Userid = "";
-    public String Gid = "";
+    private boolean more = true;
+    private RadioButton rb_gender1, rb_gender2, rb_celebrity1, rb_celebrity2;
+    private AddUser addUser;
+    private int type = 1;
+    private String mUserId;
+    private String Gid = "";
     private User user;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         intent = getIntent();
         title = intent.getStringExtra("title");
-        Userid = intent.getStringExtra("Userid");
+        mUserId = intent.getStringExtra("mUserId");
         Gid = intent.getStringExtra("Gid");
 
         if (intent.hasExtra("user")) {
             user = (User) intent.getSerializableExtra("user");
-            Log.i(TAG, "setTitleBar: " + user);
         }
-
         if (!TextUtils.isEmpty(title)) {
             if (title.contains("无")) {
                 setTitleAndType(titleBar, 0, ApiConstant.UerfectUserDetail, "完善您的个人信息");
@@ -172,7 +169,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         tvResidence = findViewById(R.id.tv_residence);//现居地
         spAlive = findViewById(R.id.sp_alive);
         ivJeadPortrait = findViewById(R.id.iv_jeadportrait);//照片
-        ivJeadPortrait.setOnClickListener(view -> selectePhoto());
+        ivJeadPortrait.setOnClickListener(view -> selectPhoto());
         tvPreservation = findViewById(R.id.tv_preservation);//保存
 
         recommender = findViewById(R.id.recommender);
@@ -231,7 +228,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             evUsedName.setText(user.getUsedName());
             evWord.setText(user.getWord());
             evNumber.setText(user.getNumber());
-            evTelephone.setText(user.getPhone());
+            evTelephone.setText(String.format("+86 %s", user.getPhone()));
             evDesignation.setText(user.getDesignation());
             switch (user.getIsCelebrity()) {
                 case 0:
@@ -243,7 +240,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                     rb_celebrity2.setChecked(true);
                     break;
             }
-            String nationality = user.getNationality();/*名族*/
+            String nationality = user.getNationality().replace(" ", "").trim();/*名族*/
             int index = 0;
             for (String s : getResources().getStringArray(R.array.plantes_04)) {
                 if (s.equals(nationality)) {
@@ -254,12 +251,56 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             }
 
             int ranking = user.getRanking();
-//            if (null != ranking) {
-//                String s = ranking.toString();
-//                Log.i(TAG, "initData: " + ranking.toString());
-//            }
             spRanking.setSelection(ranking);
-//            GlideManager.loadCircleImg(user.getProfilePhoto(), ivJeadPortrait);
+            if (!TextUtils.isEmpty(user.getProfilePhoto())) {
+                GlideManager.loadImg(user.getProfilePhoto(), ivJeadPortrait);
+            }
+            evIntroduce.setText(user.getRemark());/*简介*/
+            tvBirthday.setText(user.getBirthday());
+            tvArea.setText(user.getBirthArea());
+            evLocation.setText(user.getBirthPlace());
+            evId_number.setText(user.getIdCard());
+            spAlive.setSelection(user.getHealth());
+            evCommonNames.setText(user.getCommonName());
+            evWord.setText(user.getWord());
+            evNumber.setText(user.getNumber());
+            evDesignation.setText(user.getDesignation());
+            evNoun.setText(user.getNoun());
+            evWordGeneration.setText(user.getWordGeneration());
+            evMark.setText(user.getMark());
+            tvAncestral.setText(user.getAncestralHome());
+            tvOriginArea.setText(user.getMoveOut());
+            tvResidence.setText(user.getCurrentResidence());
+            String education = user.getEducation();
+            index = 0;
+            for (String s : getResources().getStringArray(R.array.plantes_05)) {
+                if (education.equals(s)) {
+                    spEducation.setSelection(index++);
+                    break;
+                }
+            }
+            tvSchool.setText(user.getSchool());
+            tvIndustry.setText(user.getIndustry());
+            tvCompany.setText(user.getUnit());
+            tvPosition.setText(user.getPosition());
+            tvMailbox.setText(user.getEmail());
+            tvLink.setText(user.getUrl());
+            tvTimeDeath.setText(user.getDeathTime());
+            tvAreaDeath.setText(user.getDieAddress());
+            tvAreaBury.setText(user.getBuriedArea());
+            tvAreaBuryBetailed.setText(user.getDeathPlace());
+            tvLifeYear.setText(Long.parseLong(user.getYearOfLife().toString()) + "");
+            tvHeight.setText(String.valueOf(user.getHeight()));
+
+            index = 0;
+            String bloodGroup = user.getBloodGroup();
+            for (String s : getResources().getStringArray(R.array.plantes_06)) {
+                if (bloodGroup.equals(s)) {
+                    spBloodType.setSelection(index++);
+                    break;
+                }
+            }
+            tvHereditaryDiseases.setText(user.getGeneticDisease());
         } else {
             if (!TextUtils.isEmpty(title)) {
                 if (title.contains("父亲")) {
@@ -275,6 +316,8 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 }
             }
         }
+
+
     }
 
     private void setSexChecked(boolean isBox, boolean isGirly) {
@@ -371,7 +414,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 .provinceCyclic(isProvinceCyclic)
                 .cityCyclic(isCityCyclic)
                 .districtCyclic(isDistrictCyclic)
-                .setCityWheelType(mWheelType)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
                 .setCustomItemTextViewId(R.id.item_city_name_tv)
                 .setShowGAT(isShowGAT)
                 .build();
@@ -418,7 +461,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
     private static final int REQUEST_CODE_CHOOSE = 1;
 
-    void selectePhoto() {
+    void selectPhoto() {
         Matisse.from(mContext)
                 .choose(MimeType.ofImage())//图片类型
                 .countable(true)//true:选中后显示数字;false:选中后显示对号
@@ -568,9 +611,9 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         TimeDeath = TimeDeath.replace("月", "-");
         TimeDeath = TimeDeath.replace("日", "");
         addUser = new AddUser();
-        Log.i(TAG, "Submission2: " + Userid);
-        if (Userid != null) {
-            addUser.setId(Integer.parseInt(Userid));
+        Log.i(TAG, "Submission2: " + mUserId);
+        if (mUserId != null) {
+            addUser.setId(Integer.parseInt(mUserId));
         }
         if (Gid != null) {
             addUser.setgId(Integer.parseInt(Gid));
@@ -624,7 +667,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                     .cacheMode(CacheMode.FIRST_REMOTE)
                     .addForm("type", relationship_type)
                     .addForm("gId", Gid)
-                    .addForm("id", Userid)
+                    .addForm("id", mUserId)
                     .addForm("surname", surname)//姓
                     .addForm("name", name)//名
                     .addForm("sex", sex)//性别
@@ -688,7 +731,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                     });
 
         } else {
-            Log.i(TAG, "Submission2: 2" + Userid);
+            Log.i(TAG, "Submission2: 2" + mUserId);
             ViseHttp.POST(url)
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)

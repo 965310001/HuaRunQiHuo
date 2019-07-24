@@ -3,12 +3,12 @@ package com.genealogy.by.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -39,7 +39,7 @@ import tech.com.commoncore.utils.ToastUtil;
 public class PhotosFragment extends BaseTitleFragment implements onClickAlbumItem, View.OnClickListener {
     private String TAG = "PhotosFragment";
     private Button addPhotos;
-    private ImageView addImage;
+    private AppCompatImageView addImage;
     private LinearLayout messageRelativeLayout;
     private ArrayList<MyAlbum> albums;
     private AlbumAdapter albumadapter;

@@ -11,7 +11,6 @@ import com.genealogy.by.activity.JournalActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
 import com.genealogy.by.activity.RegisterActivity;
-import com.genealogy.by.entity.PhoneLogin;
 
 import tech.com.commoncore.base.BaseFragment;
 import tech.com.commoncore.manager.GlideManager;
@@ -95,7 +94,7 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.lin_user_info:
+            /*case R.id.lin_user_info:*/
             case R.id.tv_user_info:
                     FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;

@@ -189,7 +189,7 @@
                     android:gravity="left"
                     android:textColor="#ffcccccc"
                     android:textSize="16sp"
-                    tools:text=" +86 13413410666  " />
+                    tools:text="+86 13413410666  " />
             </LinearLayout>
 
             <LinearLayout
@@ -323,8 +323,7 @@
                         android:background="@null"
                         android:editable="false"
                         android:gravity="center"
-                        android:hint=" 请选择您的生日  "
-                        android:textColor="#ffcccccc"
+                        android:hint="请选择您的生日  "
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -337,7 +336,7 @@
                     <TextView
                         android:layout_width="75dp"
                         android:layout_height="23dp"
-                        android:text="区域"
+                        android:text="出生地"
                         android:textColor="#ff666666"
                         android:textSize="16sp" />
 
@@ -348,7 +347,6 @@
                         android:background="@null"
                         android:gravity="center"
                         android:text=" 请选择出生区域  "
-                        android:textColor="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -372,7 +370,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请输入详细地点  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -396,7 +394,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请输入身份证号  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -420,7 +418,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 是  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -445,7 +443,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请输入常用名  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -470,7 +468,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 如：孟德  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -495,7 +493,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如：东坡居士"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -520,7 +518,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如:苏轼-文忠"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -544,7 +542,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如:恒山-常山"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -569,7 +567,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="请输入曾用名"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -593,7 +591,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 国"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -617,7 +615,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 过继、抱养、入赘"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -641,7 +639,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择您的祖籍地  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -665,7 +663,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择您的迁出地  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -689,7 +687,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 如：香港油丽都大厦A座1106  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -713,7 +711,6 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择您的学历  "
-                        android:textColor="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -737,7 +734,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 香港中文大学"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -761,7 +758,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 人力资源"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -785,7 +782,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 永旺商场广州"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -809,7 +806,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如: 人力资源总监"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -833,7 +830,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如:156217394@qq.com"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -857,7 +854,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="如:https://ldshfdgp.com"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -882,7 +879,7 @@
                         android:editable="false"
                         android:gravity="center"
                         android:hint=" 请选择死亡时间  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -906,7 +903,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择死亡地点  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -930,7 +927,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请填写葬于区域  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -954,7 +951,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请填写详细地点  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -978,7 +975,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请填写寿年  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1002,7 +999,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 如:160cm  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1026,7 +1023,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择您的血型  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1050,7 +1047,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 如: 无  "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1075,7 +1072,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:text=" 戴志颖 "
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
 
                     <TextView
@@ -1110,7 +1107,7 @@
                         android:background="@null"
                         android:gravity="left"
                         android:hint="请输入手机号码"
-                        android:textColor="#ffcccccc"
+
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -1119,7 +1116,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_marginTop="@dimen/dp_11"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="75dp"
@@ -1135,7 +1133,6 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 是  "
-                        android:textColor="#ffcccccc"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>

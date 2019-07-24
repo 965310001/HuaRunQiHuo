@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -31,14 +32,14 @@
                         android:id="@+id/iv_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_13"
                         android:adjustViewBounds="true"
-                        android:background="@mipmap/back_white" />
+                        android:padding="@dimen/dp_10"
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/icon_back_svg" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="26dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
@@ -50,11 +51,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/sp_20"
                         android:adjustViewBounds="true"
-                        android:background="@mipmap/gengduo1"
-                        android:onClick="onClick" />
+                        android:onClick="onClick"
+                        android:padding="@dimen/dp_10"
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/icon_three_points_svg" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -66,6 +67,18 @@
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_80"
                 tools:background="@mipmap/wode" />
+
+            <ImageView
+                android:id="@+id/iv_invite"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp_135"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="@mipmap/yaoqing1"
+                android:onClick="onClick"
+                android:text="邀请" />
+
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/invitation"

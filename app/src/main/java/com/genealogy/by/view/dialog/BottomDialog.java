@@ -1,10 +1,8 @@
 package com.genealogy.by.view.dialog;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,13 @@ import android.view.WindowManager;
 
 import com.genealogy.by.R;
 
+/**
+ * 底部弹框
+ */
 public class BottomDialog extends DialogFragment {
 
     private View.OnClickListener mClick;
-    private int[] mIds;
+    private String[] mIds;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +56,11 @@ public class BottomDialog extends DialogFragment {
         this.mClick = click;
     }
 
-    public void setGone(@IdRes int... ids) {
-        ids = new int[ids.length];
+    public void setGone(String... ids) {
+        ids = new String[ids.length];
         this.mIds = ids;
         int index = 0;
-        for (int id : ids) {
-            Log.i("TAG", "setGone: id" + id);
+        for (String id : ids) {
             mIds[index++] = id;
         }
     }
@@ -72,21 +72,16 @@ public class BottomDialog extends DialogFragment {
             view.findViewById(R.id.tv_delete).setOnClickListener(mClick);
         }
         view.findViewById(R.id.tv_cancel).setOnClickListener(v -> dismiss());
-
         try {
             if (null != mIds && mIds.length > 0) {
-                for (int id : mIds) {
-                    Log.i("TAG", "initClick: " + id);
-                    view.findViewById(id).setVisibility(View.GONE);
-                }
+                view.findViewById(R.id.tv_delete).setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private View createView(LayoutInflater inflater, ViewGroup container) {
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.dialog_bottom, container, false);
     }
-
 }

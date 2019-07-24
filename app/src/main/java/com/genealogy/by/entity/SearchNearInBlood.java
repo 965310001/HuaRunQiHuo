@@ -7,11 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchNearInBlood implements Serializable {
+
+    private String remark;
+    private String idCard;
+    private String moveOut;
+    private int health;
+    private String relationship;
+    private String industry;
+    private String url;
+    private String geneticDisease;
+    private Object yearOfLife;
+    private Object height;
     private long id;
     private Integer gId;//族谱ID
-    //    private Object fatherId;//父亲ID
-    //    private Integer motherId;//母亲ID
-    //    private Integer inviteId;
     private String account;
     private String spouseId;
     private String surname;
@@ -20,8 +28,6 @@ public class SearchNearInBlood implements Serializable {
     private String profilePhoto;/*头像*/
     private String phone;
     private String password;
-    //    private transient Integer health;//健在(0:健在 1:过世)
-    //    private transient Double height;
     private String bloodGroup;
     private String ancestralHome;
     private String currentResidence;
@@ -32,7 +38,6 @@ public class SearchNearInBlood implements Serializable {
     private String unit;
     private String position;
     private String mark;
-    //    private  Integer createTime;
     private int ranking;
     private String commonName;
     private String word;
@@ -47,30 +52,12 @@ public class SearchNearInBlood implements Serializable {
     private String dieAddress;
     private String buriedArea;
     private String deathPlace;
-    //    private  Integer yearOfLife;
     private String nationality;
     private int isCelebrity;
-//    private  String moveOut;
-//    private  String industry;
-//    private  String url;
-//    private  String genealogyImage;
-//    private  String idCard;
-//    private  String latestUpdatetime;
-//    private  Integer branch;//分支 0:始祖 1:始迁祖 2:本支祖 3:分支祖
-
-    //    private  String remark;
-//    private  Integer oldId;
     private String nickName;
-    private String relationship;
-//    private  String geneticDisease;
-//    private  Integer isReghx;//是否已经注册环信 0:否 1:是
-
     private String birthday;
-    //    private  String deeds;
     private List<SearchNearInBlood> childrens;
     private List<SearchNearInBlood> spouses;
-
-
     private transient View mMineView;//我
     private transient List<View> mSpouse;//配偶
     private transient List<View> mChildren;//子女
@@ -78,8 +65,84 @@ public class SearchNearInBlood implements Serializable {
 
     private SearchNearInBlood user;
 
+    public String getRemark() {
+        return remark;
+    }
 
-    public SearchNearInBlood() {
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getMoveOut() {
+        return moveOut;
+    }
+
+    public void setMoveOut(String moveOut) {
+        this.moveOut = moveOut;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getGeneticDisease() {
+        return geneticDisease;
+    }
+
+    public void setGeneticDisease(String geneticDisease) {
+        this.geneticDisease = geneticDisease;
+    }
+
+    public Object getYearOfLife() {
+        return yearOfLife;
+    }
+
+    public void setYearOfLife(Object yearOfLife) {
+        this.yearOfLife = yearOfLife;
+    }
+
+    public Object getHeight() {
+        return height;
+    }
+
+    public void setHeight(Object height) {
+        this.height = height;
+    }
+
+    public Integer getgId() {
+        return gId;
+    }
+
+    public void setgId(Integer gId) {
+        this.gId = gId;
     }
 
     public void setNationality(String nationality) {

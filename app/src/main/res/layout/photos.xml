@@ -51,14 +51,14 @@
         </RadioGroup>
 
         <!--更换图标-->
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/add_image"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/plus" />
+            app:srcCompat="@drawable/icon_addimg_svg" />
     </RelativeLayout>
 
     <FrameLayout
