@@ -228,7 +228,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             evUsedName.setText(user.getUsedName());
             evWord.setText(user.getWord());
             evNumber.setText(user.getNumber());
-            evTelephone.setText(String.format("+86 %s", user.getPhone()));
+            evTelephone.setText(String.format("%s", user.getPhone()));
             evDesignation.setText(user.getDesignation());
             switch (user.getIsCelebrity()) {
                 case 0:
@@ -289,7 +289,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             tvAreaDeath.setText(user.getDieAddress());
             tvAreaBury.setText(user.getBuriedArea());
             tvAreaBuryBetailed.setText(user.getDeathPlace());
-            tvLifeYear.setText(Long.parseLong(user.getYearOfLife().toString()) + "");
+            tvLifeYear.setText(String.valueOf((int) (Double.parseDouble(user.getYearOfLife().toString()))));
             tvHeight.setText(String.valueOf(user.getHeight()));
 
             index = 0;
@@ -316,8 +316,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 }
             }
         }
-
-
     }
 
     private void setSexChecked(boolean isBox, boolean isGirly) {
@@ -580,12 +578,12 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         } else {
             health = 1;
         }
-        int iscelebrity;
-        if (isCelebrity.contains("是")) {
+//        int iscelebrity;
+       /* if (isCelebrity.contains("是")) {
             iscelebrity = 0;
         } else {
             iscelebrity = 1;
-        }
+        }*/
         if (rb_gender1.isChecked()) {
             sex = "0";
         } else if (rb_gender2.isChecked()) {
@@ -640,7 +638,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
         addUser.setMoveOut(tvOriginArea.getText().toString());
         addUser.setMinName(evAlias.getText().toString());
         addUser.setMark(evMark.getText().toString());
-        addUser.setIsCelebrity(iscelebrity);
+        addUser.setIsCelebrity(Integer.valueOf(isCelebrity));
         addUser.setIndustry(tvIndustry.getText().toString());
         addUser.setImgs(file);
         addUser.setIdCard(evId_number.getText().toString());
@@ -681,7 +679,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                     .addForm("currentResidence", currentResidence)//聚集地
                     .addForm("wordGeneration", wordGeneration)//字辈
                     .addForm("school", school)//学校
-                    .addForm("isCelebrity", String.valueOf(iscelebrity))//是否名人(0:是 1:不是)
+                    .addForm("isCelebrity", String.valueOf(isCelebrity))//是否名人(0:是 1:不是)
                     .addForm("education", education)//学历
                     .addForm("email", tvMailbox.getText().toString())//邮箱
                     .addForm("unit", tvCompany.getText().toString())//单位
@@ -749,7 +747,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                     .addForm("currentResidence", currentResidence)//聚集地
                     .addForm("wordGeneration", wordGeneration)//字辈
                     .addForm("school", school)//学校
-                    .addForm("isCelebrity", String.valueOf(iscelebrity))//是否名人(0:是 1:不是)
+                    .addForm("isCelebrity", String.valueOf(isCelebrity))//是否名人(0:是 1:不是)
                     .addForm("education", education)//学历
                     .addForm("email", tvMailbox.getText().toString())//邮箱
                     .addForm("unit", tvCompany.getText().toString())//单位

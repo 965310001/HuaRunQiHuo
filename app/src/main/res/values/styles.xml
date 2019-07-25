@@ -44,4 +44,15 @@
         <item name="android:windowExitAnimation">@anim/bottom_dialog_slide_hide</item>
     </style>
 
+
+    <style name="width_height_match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="width_height_wrap_match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

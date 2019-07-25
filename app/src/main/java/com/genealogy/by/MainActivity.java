@@ -81,9 +81,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        Object o = "7.0";
-        Log.i(TAG, "initView: " + Long.valueOf(o.toString()) + "");
-
         mainTab = mContentView.findViewById(R.id.main_tab);
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");

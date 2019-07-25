@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/width_height_match"
     android:orientation="vertical">
 
     <include layout="@layout/layout_title_bar" />
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/width_height_wrap_match"
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/width_height_match"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_12"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <RelativeLayout style="@style/width_height_wrap_match">
 
                 <ImageView
                     android:id="@+id/iv_jeadportrait"
                     android:layout_width="@dimen/dp_96"
                     android:layout_height="@dimen/dp_96"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_102"
+                    android:layout_alignParentBottom="true"
                     android:background="@mipmap/shangchuanzhaopian" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_126"
-                    android:layout_marginTop="@dimen/dp_113">
+                    android:layout_alignBaseline="@+id/iv_jeadportrait"
+                    android:layout_marginLeft="@dimen/dp_126">
 
                     <TextView
                         android:layout_width="75dp"
@@ -44,19 +41,22 @@
 
                     <EditText
                         android:id="@+id/ev_surname"
-                        android:layout_width="115dp"
+                        android:layout_width="match_parent"
                         android:layout_height="23dp"
                         android:background="@null"
                         android:hint="请填写您的姓氏"
                         android:textColorHint="#ffcccccc"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="姓" />
                 </LinearLayout>
+
+                <!--<include layout="@layout/divider_view" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="@dimen/dp_126"
-                    android:layout_marginTop="@dimen/dp_162">
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dp_126">
 
                     <TextView
                         android:layout_width="75dp"
@@ -67,22 +67,22 @@
 
                     <EditText
                         android:id="@+id/ev_name"
-                        android:layout_width="115dp"
+                        android:layout_width="match_parent"
                         android:layout_height="23dp"
                         android:background="@null"
                         android:hint="请填写您的名称"
                         android:textColorHint="#ffcccccc"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="名" />
                 </LinearLayout>
             </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ll_alias"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_below="@id/iv_jeadportrait"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11">
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dp_11"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="75dp"
@@ -98,16 +98,18 @@
                     android:background="@null"
                     android:hint="别名、小名、外号等"
                     android:textColorHint="#ffcccccc"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:text="小名" />
             </LinearLayout>
+
+            <include layout="@layout/divider_view" />
+
 
             <LinearLayout
                 android:id="@+id/ll_ranking"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:layout_below="@id/rg_celebrity"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11">
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="75dp"
@@ -118,21 +120,20 @@
 
                 <Spinner
                     android:id="@+id/sp_ranking"
-                    android:layout_width="@dimen/dp_230"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_23"
-                    android:gravity="center"
-                    android:text=" 请选择您的排行  "
-                    android:textColor="#ffcccccc"
-                    android:textSize="16sp" />
+                    android:background="@null"
+                    android:gravity="center" />
             </LinearLayout>
+
+            <include layout="@layout/divider_view" />
 
             <RadioGroup
                 android:id="@+id/rg_gender"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="40dp"
                 android:layout_below="@id/ll_alias"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -144,8 +145,9 @@
 
                 <RadioButton
                     android:id="@+id/rb_gender1"
-                    android:layout_width="@dimen/dp_106"
-                    android:layout_height="@dimen/dp_36"
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:background="@drawable/tab_sex_selector"
                     android:button="@null"
                     android:gravity="center"
@@ -155,8 +157,9 @@
 
                 <RadioButton
                     android:id="@+id/rb_gender2"
-                    android:layout_width="@dimen/dp_106"
-                    android:layout_height="@dimen/dp_36"
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_marginLeft="@dimen/dp_16"
                     android:background="@drawable/tab_sex_selector"
                     android:button="@null"
@@ -166,13 +169,14 @@
                     android:textSize="16sp" />
             </RadioGroup>
 
+            <include layout="@layout/divider_view" />
+
             <LinearLayout
                 android:id="@+id/ll_telephone"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="40dp"
                 android:layout_below="@id/ll_ranking"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="75dp"
@@ -187,16 +191,16 @@
                     android:layout_height="@dimen/dp_23"
                     android:background="@null"
                     android:gravity="left"
-                    android:textColor="#ffcccccc"
                     android:textSize="16sp"
                     tools:text="+86 13413410666  " />
             </LinearLayout>
 
+            <include layout="@layout/divider_view" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11">
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="75dp"
@@ -216,12 +220,13 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <include layout="@layout/divider_view" />
+
             <RadioGroup
                 android:id="@+id/rg_celebrity"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_11"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -233,8 +238,9 @@
 
                 <RadioButton
                     android:id="@+id/rb_celebrity1"
-                    android:layout_width="@dimen/dp_106"
-                    android:layout_height="@dimen/dp_36"
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:background="@drawable/tab_sex_selector"
                     android:button="@null"
                     android:gravity="center"
@@ -244,8 +250,9 @@
 
                 <RadioButton
                     android:id="@+id/rb_celebrity2"
-                    android:layout_width="@dimen/dp_106"
-                    android:layout_height="@dimen/dp_36"
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_marginLeft="@dimen/dp_16"
                     android:background="@drawable/tab_sex_selector"
                     android:button="@null"
@@ -276,7 +283,6 @@
                 <TextView
                     android:layout_width="70dp"
                     android:layout_height="23dp"
-                    android:layout_marginLeft="@dimen/dp_12"
                     android:text="个人简介"
                     android:textColor="#ff666666"
                     android:textSize="16sp" />
@@ -285,7 +291,6 @@
                     android:id="@+id/ev_introduce"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_90"
-                    android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_12"
                     android:background="@null"
@@ -296,7 +301,6 @@
                     android:id="@+id/tv_word_number"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"
                     android:gravity="end"
                     android:text="0/500"
@@ -305,9 +309,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -318,20 +321,22 @@
 
                     <TextView
                         android:id="@+id/tv_birthday"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
                         android:editable="false"
-                        android:gravity="center"
-                        android:hint="请选择您的生日  "
-                        android:textSize="16sp" />
+                        android:hint="请选择您的生日"
+                        android:textSize="16sp"
+                        tools:text="2079-7-8" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="75dp"
@@ -342,19 +347,19 @@
 
                     <TextView
                         android:id="@+id/tv_area"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
-                        android:text=" 请选择出生区域  "
+                        android:text="请选择出生区域  "
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -365,20 +370,19 @@
 
                     <EditText
                         android:id="@+id/ev_location"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请输入详细地点  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -389,20 +393,19 @@
 
                     <EditText
                         android:id="@+id/ev_id_number"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请输入身份证号  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -418,16 +421,15 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 是  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-
-                    android:layout_marginTop="@dimen/dp_48">
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -438,21 +440,19 @@
 
                     <EditText
                         android:id="@+id/ev_common_names"
-                        android:layout_width="@dimen/dp_230"
-                        android:layout_height="@dimen/dp_23"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请输入常用名  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -463,21 +463,19 @@
 
                     <EditText
                         android:id="@+id/ev_word"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 如：孟德  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -488,21 +486,19 @@
 
                     <EditText
                         android:id="@+id/ev_number"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如：东坡居士"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -513,20 +509,19 @@
 
                     <EditText
                         android:id="@+id/ev_designation"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如:苏轼-文忠"
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -537,21 +532,19 @@
 
                     <EditText
                         android:id="@+id/ev_noun"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如:恒山-常山"
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -562,20 +555,19 @@
 
                     <EditText
                         android:id="@+id/ev_used_name"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="请输入曾用名"
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_48">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -586,20 +578,19 @@
 
                     <EditText
                         android:id="@+id/ev_wordgeneration"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如: 国"
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -610,20 +601,22 @@
 
                     <EditText
                         android:id="@+id/ev_mark"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:hint="如: 过继、抱养、入赘"
 
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -634,20 +627,21 @@
 
                     <TextView
                         android:id="@+id/tv_ancestral"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:hint=" 请选择您的祖籍地  "
 
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -658,67 +652,68 @@
 
                     <TextView
                         android:id="@+id/tv_origin_area"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:hint=" 请选择您的迁出地  "
 
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
-                        android:layout_height="23dp"
+                        android:layout_height="wrap_content"
                         android:text="现居地"
                         android:textColor="#ff666666"
                         android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/tv_residence"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:hint=" 如：香港油丽都大厦A座1106  "
 
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_48">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
-                        android:layout_height="23dp"
+                        android:layout_height="wrap_content"
                         android:text="学历"
                         android:textColor="#ff666666"
                         android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/sp_education"
-                        android:layout_width="@dimen/dp_230"
-                        android:layout_height="@dimen/dp_23"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="@null"
-                        android:gravity="center"
-                        android:hint=" 请选择您的学历  "
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -729,20 +724,19 @@
 
                     <EditText
                         android:id="@+id/tv_school"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如: 香港中文大学"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -753,20 +747,19 @@
 
                     <EditText
                         android:id="@+id/tv_industry"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如: 人力资源"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -777,20 +770,19 @@
 
                     <EditText
                         android:id="@+id/tv_company"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如: 永旺商场广州"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -801,20 +793,19 @@
 
                     <EditText
                         android:id="@+id/tv_position"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如: 人力资源总监"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -825,20 +816,20 @@
 
                     <EditText
                         android:id="@+id/tv_mailbox"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如:156217394@qq.com"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -849,20 +840,19 @@
 
                     <EditText
                         android:id="@+id/tv_link"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint="如:https://ldshfdgp.com"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_48">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -873,21 +863,20 @@
 
                     <TextView
                         android:id="@+id/tv_time_death"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
                         android:editable="false"
-                        android:gravity="center"
                         android:hint=" 请选择死亡时间  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -898,20 +887,20 @@
 
                     <TextView
                         android:id="@+id/tv_area_death"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请选择死亡地点  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -925,17 +914,18 @@
                         android:layout_width="@dimen/dp_230"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:hint=" 请填写葬于区域  "
 
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -949,17 +939,16 @@
                         android:layout_width="@dimen/dp_230"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请填写详细地点  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <include layout="@layout/divider_view" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -973,17 +962,16 @@
                         android:layout_width="@dimen/dp_230"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 请填写寿年  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_48">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -994,20 +982,19 @@
 
                     <EditText
                         android:id="@+id/tv_height"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 如:160cm  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -1018,20 +1005,20 @@
 
                     <Spinner
                         android:id="@+id/sp_blood_type"
-                        android:layout_width="@dimen/dp_230"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
                         android:gravity="center"
                         android:hint=" 请选择您的血型  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include layout="@layout/divider_view" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_12">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="75dp"
@@ -1045,17 +1032,16 @@
                         android:layout_width="@dimen/dp_230"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
                         android:hint=" 如: 无  "
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <!--<include layout="@layout/divider_view" />-->
 
                 <LinearLayout
                     android:id="@+id/recommender"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_48">
 
                     <TextView
@@ -1070,7 +1056,7 @@
                         android:layout_width="@dimen/dp_75"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:text=" 戴志颖 "
 
                         android:textSize="16sp" />
@@ -1080,17 +1066,18 @@
                         android:layout_width="@dimen/dp_100"
                         android:layout_height="@dimen/dp_23"
                         android:background="@null"
-                        android:gravity="center"
+
                         android:text=" （您的弟弟） "
                         android:textColor="#B14641"
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <!--<include layout="@layout/divider_view" />-->
+
                 <LinearLayout
                     android:id="@+id/phonenumbe"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_10">
 
                     <TextView
@@ -1107,16 +1094,16 @@
                         android:background="@null"
                         android:gravity="left"
                         android:hint="请输入手机号码"
-
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <!--<include layout="@layout/divider_view" />-->
 
                 <LinearLayout
                     android:id="@+id/acceptance"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_11"
+                    android:gravity="center_vertical"
                     android:visibility="gone">
 
                     <TextView
@@ -1141,9 +1128,7 @@
                 android:id="@+id/tv_preservation"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_47"
-                android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_35"
-                android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_17"
                 android:background="#B14641"
                 android:gravity="center"
@@ -1152,4 +1137,4 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-</RelativeLayout>
+</LinearLayout>
