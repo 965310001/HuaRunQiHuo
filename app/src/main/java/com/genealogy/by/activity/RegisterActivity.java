@@ -23,6 +23,9 @@ import com.vise.xsnow.http.mode.CacheMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.DataUtils;
@@ -97,11 +100,19 @@ public class RegisterActivity extends BaseTitleActivity {
                             SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext, "Phone", phone);
                             SPHelper.setStringSF(mContext, "UserId", data.data.getUserId());
+                            SPHelper.setStringSF(mContext, "Authorization", data.data.getAuthorization());
+                            Map<String, String> map = new HashMap<>();
+                            map.put("Authorization", data.data.getAuthorization());
+                            ViseHttp.CONFIG().globalHeaders(map);
                             FastUtil.startActivity(mContext, MainActivity.class, bundle);
                         } else if (data.status == 202) {
                             SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext, "Phone", phone);
                             SPHelper.setStringSF(mContext, "UserId", data.data.getUserId());
+                            SPHelper.setStringSF(mContext, "Authorization", data.data.getAuthorization());
+                            Map<String, String> map = new HashMap<>();
+                            map.put("Authorization", data.data.getAuthorization());
+                            ViseHttp.CONFIG().globalHeaders(map);
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("title", "无");
                             FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);

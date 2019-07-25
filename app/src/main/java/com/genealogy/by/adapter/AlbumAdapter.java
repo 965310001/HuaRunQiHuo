@@ -2,7 +2,6 @@ package com.genealogy.by.adapter;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,9 +26,7 @@ public class AlbumAdapter extends BaseQuickAdapter<MyAlbum, BaseViewHolder> {
         for (int i = 0; i < item.getAlbums().size(); i++) {
             list.add(item.getAlbums().get(i).getUrl());
         }
-        ImageView ivImg = helper.getView(R.id.imgs);
-        RelativeLayout llall = helper.getView(R.id.llall);
-        llall.setOnClickListener(view -> {
+        helper.getView(R.id.llall).setOnClickListener(view -> {
             Bundle bundle = new Bundle();
             bundle.putString("Id", String.valueOf(item.getId()));
             bundle.putString("Title", item.getTitle());
@@ -38,6 +35,7 @@ public class AlbumAdapter extends BaseQuickAdapter<MyAlbum, BaseViewHolder> {
             FastUtil.startActivity(mContext, PhotosDetailsActivity.class, bundle);
         });
         if (item.getAlbums().size() > 0) {
+            ImageView ivImg = helper.getView(R.id.imgs);
             GlideManager.loadImg(item.getAlbums().get(0).getUrl(), ivImg);
         }
         helper.setText(R.id.albumname, item.getTitle())

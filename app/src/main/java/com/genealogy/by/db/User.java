@@ -203,18 +203,6 @@ public class User implements Serializable {
         this.gid = gid;
     }
 
-    public User(int iconId, String name, String content, int sex,
-                int generation, String profilePhoto, String userid, String gid) {
-        this.iconId = iconId;
-        this.name = name;
-        this.content = content;
-        this.sex = sex;
-        this.generation = generation;
-        this.profilePhoto = profilePhoto;
-        this.userid = userid;
-        this.gid = gid;
-    }
-
     public String getProfilePhoto() {
         return profilePhoto;
     }
@@ -279,21 +267,21 @@ public class User implements Serializable {
         this.gid = gid;
     }
 
-    public String getSplitName() {
-        String str = "";
-        for (int i = 0; i < name.length(); i++) {
-            if (name.length() == 2) {
-                if (i == 1) {
-                    str += "\n" + name.substring(i, i + 1) + "\n";
-                } else {
-                    str += name.substring(i, i + 1) + "\n";
-                }
-            } else {
-                str += name.substring(i, i + 1) + "\n";
-            }
-        }
-        return str;
-    }
+//    public String getSplitName() {
+//        String str = "";
+//        for (int i = 0; i < name.length(); i++) {
+//            if (name.length() == 2) {
+//                if (i == 1) {
+//                    str += "\n" + name.substring(i, i + 1) + "\n";
+//                } else {
+//                    str += name.substring(i, i + 1) + "\n";
+//                }
+//            } else {
+//                str += name.substring(i, i + 1) + "\n";
+//            }
+//        }
+//        return str;
+//    }
 
     public List<SearchNearInBlood> getChildrens() {
         return childrens;

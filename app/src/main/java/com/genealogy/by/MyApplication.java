@@ -114,11 +114,13 @@ public class MyApplication extends BaseApplication {
                         .setLevel(HttpLogInterceptor.Level.BODY));
 
     }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 //        MultiDex.install(this);
     }
+
     public void initOkGo() {
         //okGo网络框架初始化和全局配置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -141,20 +143,22 @@ public class MyApplication extends BaseApplication {
                 .addCommonHeaders(headers)                      //全局公共头
                 .addCommonParams(params);
     }
-    public void EMOptions(){
+
+    public void EMOptions() {
         EMOptions options = new EMOptions();
-    // 默认添加好友时，是不需要验证的，改成需要验证
+        // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
-    // 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
+        // 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
         options.setAutoTransferMessageAttachments(true);
-    // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
+        // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
         options.setAutoDownloadThumbnail(true);
-    //初始化
+        //初始化
         EMClient.getInstance().init(application, options);
-    //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
     }
-    private void initBLChat(){
+
+    private void initBLChat() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
@@ -163,7 +167,7 @@ public class MyApplication extends BaseApplication {
         // 如果APP启用了远程的service，此application:onCreate会被调用2次
         // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
         // 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回
-        if (processAppName == null ||!processAppName.equalsIgnoreCase(this.getPackageName())) {
+        if (processAppName == null || !processAppName.equalsIgnoreCase(this.getPackageName())) {
             Logs.e("App", "enter the service process!");
 
             // 则此application::onCreate 是被service 调用的，直接返回
@@ -178,6 +182,7 @@ public class MyApplication extends BaseApplication {
         Model.getInstance().init(this);
 
     }
+
     private String getAppName(int pID) {
         String processName = null;
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);

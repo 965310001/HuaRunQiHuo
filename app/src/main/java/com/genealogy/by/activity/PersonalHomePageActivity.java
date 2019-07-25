@@ -46,6 +46,14 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
     private PersonalHome mPerson;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (SPHelper.getBooleanSF(mContext, "isRefresh", false)) {
+            loadComment();
+        }
+    }
+
+    @Override
     public void setTitleBar(TitleBarView titleBar) {
 //        titleBar.setTitleMainText("个人详情页").setTextColor(Color.WHITE)
 //                .setDividerVisible(true).setDividerHeight(1).setDividerBackgroundColor(Color.parseColor("#464854"))
@@ -195,7 +203,17 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
                                     mUser.setHealth(mPerson.getHealth());
                                     mUser.setEducation(mPerson.getEducation());
                                     mUser.setYearOfLife(mPerson.getYearOfLife());
-
+                                    mUser.setDieAddress(mPerson.getDieAddress());
+                                    mUser.setBuriedArea(mPerson.getBuriedArea());
+                                    mUser.setDeathPlace(mPerson.getDeathPlace());
+                                    mUser.setUnit(mPerson.getUnit());
+                                    mUser.setCurrentResidence(mPerson.getCurrentResidence());
+                                    mUser.setAncestralHome(mPerson.getAncestralHome());
+                                    mUser.setIndustry(mPerson.getIndustry());
+                                    mUser.setDeathTime(mPerson.getDeathTime());
+                                    mUser.setGeneticDisease(mPerson.getGeneticDisease());
+                                    mUser.setUrl(mPerson.getUrl());
+                                    mUser.setMark(mPerson.getMark());
                                 }
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("title", "编辑信息");

@@ -44,8 +44,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseApplication;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.FastUtil;
@@ -189,7 +187,8 @@ public class ShuPuFragment extends Fragment {
             ViseHttp.POST(ApiConstant.getRelationshipChain)
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
-                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
+                    .setJson(jsonObject)
+//                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -234,7 +233,8 @@ public class ShuPuFragment extends Fragment {
             ViseHttp.POST(ApiConstant.searchNearInBlood)
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
-                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
+                    .setJson(jsonObject)
+//                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
