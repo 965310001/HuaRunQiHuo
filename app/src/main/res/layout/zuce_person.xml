@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -10,41 +11,54 @@
 
         <TextView
             android:id="@+id/charactertitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:gravity="center"
             android:text="人物传"
             android:textColor="@color/black"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/editText"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
-            android:layout_marginLeft="270dp"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="33dp"
-            android:src="@mipmap/bianji" />
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_40"
+            android:tint="@color/black"
+            app:srcCompat="@drawable/icon_edit_svg" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="68dp"
-            android:textColor="@color/black"
-            android:textSize="10dp"
-            android:text="戴氏的历史人物\n画家、雕塑家   戴氏的起源 戴姓起源地\n戴逵，东晋学者、画家、雕塑家。字安道。谯郡铚县（今安徽濉溪）人。他反对佛教的因果报应说，著有《释疑论》。他曾为会稽山灵宝寺作木雕无量佛及胁侍菩萨，又为瓦官寺塑《五世佛》。\n将军 戴僧静，东晋人，在平定沈攸之叛乱中建功，被封为前军将军、宁朔将军。萧道成建立了齐国政权，就把戴僧静封为“建昌县侯”，担任‘太子左卫率’。\n宰相 戴至德，唐初宰相，戴胄哥哥的儿子。乾封二年几次升任后为西台侍郎、同东西台三品。后升任尚书右仆射。仪凤四年去世。\n诗人 戴叔伦，一作次公。润州金坛人。年轻时师事萧颖士。曾任新城令、东阳令、抚州刺史、容管经略使。晚年上表自请为道士。其诗多表现隐逸生活和闲适情调，但《女耕田行》、《屯田词》等篇也反映了人民生活的艰苦。\n戴复古，南宋诗人。字式之，号石屏。台州黄岩（今属浙江台州）人。他长期浪游江湖，卒年八十余。曾向陆游学诗，也受晚唐诗的影响，语言自然，是“江湖派”中较有成就的作家。\n画家 戴嵩，生卒年不详，擅画田家、川原之景，写山泽水牛尤为著名，与韩滉画马齐名，世称“韩马戴牛”。\n戴进，钱塘（今杭州）人，善画山水，境界深远妙处，多出己意。兼工人物、佛像，运笔顿挫有力，设色纯熟有神采，人推明代院体中第一手，有“浙派”之称。\n史学家 戴名世，号忧庵，人称潜虚先生。桐城（今属安徽）人。曾任翰林院编修。他刊行《南山集》，其中有许多明朝正史以外的史事，触怒了清王朝，以“大逆”罪被杀，为清朝四大文字狱之一。\n思想家 戴震，清代学者，安徽休宁人。他博闻强记，对天文、数学、历史、地理都有研究。他精通古音，立韵类正转旁转之例，创古音九类二十五部之说及阴、阳、入对转的理论，对经学、语言学有重大贡献，为一代考据大师。\n演员，导演 戴立忍，1991年，与邵昕、林建华共同参演周腾执导的一部台湾电影《皇金稻田》开始出道。\n歌手、音乐制作人 戴荃，2013年，参加浙江卫视歌唱选秀节目《中国好声音第二季》的比赛，盲选时演唱邓丽君的《一见你就笑》，成为庾澄庆组学员。\n演员 戴墨，2009年，出演何念执导的话剧《疯狂的疯狂》，从而正式进入演艺圈。"/>
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="戴氏的历史人物\n画家、雕塑家   戴氏的起源 戴姓起源地\n戴逵，东晋学者、画家、雕塑家。字安道。谯郡铚县（今安徽濉溪）人。他反对佛教的因果报应说，著有《释疑论》。他曾为会稽山灵宝寺作木雕无量佛及胁侍菩萨，又为瓦官寺塑《五世佛》。\n将军 戴僧静，东晋人，在平定沈攸之叛乱中建功，被封为前军将军、宁朔将军。萧道成建立了齐国政权，就把戴僧静封为“建昌县侯”，担任‘太子左卫率’。\n宰相 戴至德，唐初宰相，戴胄哥哥的儿子。乾封二年几次升任后为西台侍郎、同东西台三品。后升任尚书右仆射。仪凤四年去世。\n诗人 戴叔伦，一作次公。润州金坛人。年轻时师事萧颖士。曾任新城令、东阳令、抚州刺史、容管经略使。晚年上表自请为道士。其诗多表现隐逸生活和闲适情调，但《女耕田行》、《屯田词》等篇也反映了人民生活的艰苦。\n戴复古，南宋诗人。字式之，号石屏。台州黄岩（今属浙江台州）人。他长期浪游江湖，卒年八十余。曾向陆游学诗，也受晚唐诗的影响，语言自然，是“江湖派”中较有成就的作家。\n画家 戴嵩，生卒年不详，擅画田家、川原之景，写山泽水牛尤为著名，与韩滉画马齐名，世称“韩马戴牛”。\n戴进，钱塘（今杭州）人，善画山水，境界深远妙处，多出己意。兼工人物、佛像，运笔顿挫有力，设色纯熟有神采，人推明代院体中第一手，有“浙派”之称。\n史学家 戴名世，号忧庵，人称潜虚先生。桐城（今属安徽）人。曾任翰林院编修。他刊行《南山集》，其中有许多明朝正史以外的史事，触怒了清王朝，以“大逆”罪被杀，为清朝四大文字狱之一。\n思想家 戴震，清代学者，安徽休宁人。他博闻强记，对天文、数学、历史、地理都有研究。他精通古音，立韵类正转旁转之例，创古音九类二十五部之说及阴、阳、入对转的理论，对经学、语言学有重大贡献，为一代考据大师。\n演员，导演 戴立忍，1991年，与邵昕、林建华共同参演周腾执导的一部台湾电影《皇金稻田》开始出道。\n歌手、音乐制作人 戴荃，2013年，参加浙江卫视歌唱选秀节目《中国好声音第二季》的比赛，盲选时演唱邓丽君的《一见你就笑》，成为庾澄庆组学员。\n演员 戴墨，2009年，出演何念执导的话剧《疯狂的疯狂》，从而正式进入演艺圈。"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+        </android.support.v4.widget.NestedScrollView>
+
+
         <TextView
             android:id="@+id/pageNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
             android:text="18"
             android:textColor="@color/black"
-            android:textSize="10dp"/>
+            android:textSize="10dp" />
     </RelativeLayout>
 
 </LinearLayout>

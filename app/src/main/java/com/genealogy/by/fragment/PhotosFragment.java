@@ -94,9 +94,8 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     }
 
     public void doit() {
-        String userId = SPHelper.getStringSF(getContext(), "UserId", "");
         HashMap<String, String> params = new HashMap<>();
-        params.put("userId", userId);
+        params.put("userId", SPHelper.getStringSF(getContext(), "UserId", ""));
         Log.e(TAG, "execute: 参数：" + params.toString());
         ViseHttp.POST(ApiConstant.album_searchMyAlbum)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)

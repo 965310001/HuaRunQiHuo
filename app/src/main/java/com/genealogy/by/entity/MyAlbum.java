@@ -3,7 +3,7 @@ package com.genealogy.by.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class MyAlbum {
+public class MyAlbum implements Serializable {
 
     private int id;
     private String title;

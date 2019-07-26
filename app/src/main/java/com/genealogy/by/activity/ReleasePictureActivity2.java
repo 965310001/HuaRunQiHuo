@@ -31,7 +31,7 @@ import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.DataUtils;
 import tech.com.commoncore.utils.ToastUtil;
 
-public class ReleasePictureActivity extends BaseTitleActivity {
+public class ReleasePictureActivity2 extends BaseTitleActivity {
     //    private String Imgid = "";
     //    private String oldurl = "";
 
@@ -42,30 +42,30 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     private String imgs;
     private int familyAlbum = 0;
     private String type = "";
-    //上传图片
-    private File file;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         mIntent = getIntent();
+//        oldurl = mIntent.getStringExtra("Url");
+//        Imgid = mIntent.getStringExtra("id");
+
         type = mIntent.getStringExtra("type");
         titleBar.setTitleMainText("发布图片")
                 .setRightTextColor(getResources()
                         .getColor(R.color.C_F47432))
-                .setRightText("发布")
-                .setOnRightTextClickListener(v -> {
-                    if (type.contains("录入")) {
-                        if (DataUtils.isEmpty(etText.getText())) {
-                            ToastUtil.show("请输入评论内容");
-                            return;
-                        }
-                        imgs = "";
-                        InputDoit(helper.getPictureList(), 0);
-                    } else {
-                        imgs = "";
-                        upLoadPic(helper.getPictureList(), 0);
-                    }
-                });
+                .setRightText("发布").setOnRightTextClickListener(v -> {
+            if (type.contains("录入")) {
+                if (DataUtils.isEmpty(etText.getText())) {
+                    ToastUtil.show("请输入评论内容");
+                    return;
+                }
+                imgs = "";
+                InputDoit(helper.getPictureList(), 0);
+            } else {
+                imgs = "";
+                upLoadPic(helper.getPictureList(), 0);
+            }
+        });
     }
 
     @Override
@@ -88,6 +88,9 @@ public class ReleasePictureActivity extends BaseTitleActivity {
             recyclerView.setVisibility(View.GONE);
         }
     }
+
+    //上传图片
+    File file = new File("");
 
     private void upLoadPic(final List<String> urls, final int position) {
         String url = urls.get(0);

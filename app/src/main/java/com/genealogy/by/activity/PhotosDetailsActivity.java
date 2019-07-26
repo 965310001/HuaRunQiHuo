@@ -15,6 +15,7 @@ import com.genealogy.by.R;
 import com.genealogy.by.adapter.PhotosAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.Album;
+import com.genealogy.by.entity.MyAlbum;
 import com.genealogy.by.entity.Photo;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.luck.picture.lib.PictureSelector;
@@ -50,7 +51,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     private RecyclerView recyclerview;
     private PhotosAdapter photosadapter;
     private List<String> list;
-    private File file;
     private int familyAlbum = 0;
 
     @Override
@@ -119,19 +119,49 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 //相册集 等于0
                 if (photos.size() == 0 && selectList.size() > 0) {
                     messageRelativeLayout.setVisibility(View.GONE);
+
+                    MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                    File mFile;
+                    for (LocalMedia localMedia : selectList) {
+                        mFile = new File(localMedia.getPath());
+                        body.addFormDataPart("imgs", mFile.getName(), RequestBody.create(MediaType.parse("image/*"), mFile));
+                    }
+                    upLoadPic(body);
                 }
-                for (int i = 0; i < selectList.size(); i++) {
+               /* for (int i = 0; i < selectList.size(); i++) {
                     upLoadPic(selectList.get(i).getPath(), 0);
-                   /* if (i == selectList.size() - 1) {
-                        ToastUtil.show("提交成功 ");
-                    }*/
-                }
+                }*/
                 break;
             case 200:
                 //编辑设置标题
                 mTitleBar.setTitleMainText(data.getStringExtra("photoTitle"));
                 break;
         }
+    }
+
+    private void upLoadPic(MultipartBody.Builder body) {
+        body.addFormDataPart("aId", String.valueOf(familyAlbum));
+        ViseHttp.POST(ApiConstant.album_uploadImgs)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setRequestBody(body.build())
+                .request(new ACallback<BaseTResp2<List<MyAlbum.AlbumsBean>>>() {
+                    @Override
+                    public void onSuccess(BaseTResp2<List<MyAlbum.AlbumsBean>> data) {
+                        if (data.isSuccess()) {
+                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
+                            // TODO: 2019/7/26 图片上传成功需要刷新
+                            Log.i(TAG, "onSuccess: " + data.data);
+                        } else {
+                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
+                        }
+                        ToastUtil.show(data.msg);
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
+                    }
+                });
     }
 
     //启动相册、拍照选择器
@@ -164,31 +194,31 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     }
 
     //上传图片
-    private void upLoadPic(final String url, final int position) {
-        Log.i(TAG, "upLoadPic: " + familyAlbum);
-        file = new File(url);
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("imgs", url, RequestBody.create(MediaType.parse("image/*"), file))
-                .addFormDataPart("id", String.valueOf(familyAlbum))
-                .build();
-        ViseHttp.POST(ApiConstant.album_uploadImgs)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                .setRequestBody(requestBody)
-                .request(new ACallback<BaseTResp2>() {
-                    @Override
-                    public void onSuccess(BaseTResp2 data) {
-                        if (data.isSuccess()) {
-                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
-                        } else {
-                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
-                    }
-                });
-    }
+//    private void upLoadPic(final String url, final int position) {
+//        Log.i(TAG, "upLoadPic: " + familyAlbum);
+//        file = new File(url);
+//        RequestBody requestBody = new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                .addFormDataPart("imgs", url, RequestBody.create(MediaType.parse("image/*"), file))
+//                .addFormDataPart("aId", String.valueOf(familyAlbum))
+//                .build();
+//        ViseHttp.POST(ApiConstant.album_uploadImgs)
+//                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+//                .setRequestBody(requestBody)
+//                .request(new ACallback<BaseTResp2>() {
+//                    @Override
+//                    public void onSuccess(BaseTResp2 data) {
+//                        if (data.isSuccess()) {
+//                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
+//                        } else {
+//                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFail(int errCode, String errMsg) {
+//                        ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
+//                    }
+//                });
+//    }
 }
