@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.genealogy.by.activity.ReleasePictureActivity;
 import com.genealogy.by.activity.SearchMainActivity;
 import com.genealogy.by.adapter.LineagekAdapter;
 import com.genealogy.by.entity.FamilyBook;
+import com.genealogy.by.entity.FamilyPhoto;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.vise.xsnow.http.ViseHttp;
@@ -46,6 +48,7 @@ import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseTitleFragment;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.manager.GlideManager;
+import tech.com.commoncore.utils.DateUtil;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
@@ -56,9 +59,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
     private static final String TAG = "TabZuCeFragment";
     //viewpage管理
     private ViewPager mViewPager;
-    //搜索 其他按钮
-    private TextView searchButton;
-    private TextView aboutButton;
+
     //popwindow
     private PopupWindow popupWindowEdit;
     private TextView homeTextView;
@@ -77,6 +78,8 @@ public class TabZuCeFragment extends BaseTitleFragment {
     private FamilyBook familyBook;
     private LineagekAdapter lineagekAdapter;
     private int familyAlbum = 0;
+    private TextView mTv;
+    private View.OnClickListener mEditConvectingClick;
 
     public static TabZuCeFragment newInstance() {
         Bundle args = new Bundle();
@@ -94,53 +97,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
     public void initView(@Nullable Bundle savedInstanceState) {
         //滑动册谱派系
         mViewPager = mContentView.findViewById(R.id.contentView);
-        //搜索 其他
-        searchButton = mContentView.findViewById(R.id.zuce_search);
-        aboutButton = mContentView.findViewById(R.id.zuce_about);
-        //水平滚动条
         seekBar = mContentView.findViewById(R.id.seekBar);
-        searchButton.setOnClickListener(v ->
-                //从fragment跳转到activity中
-                startActivity(new Intent(getActivity(), SearchMainActivity.class))
-        );
-
-        aboutButton.setOnClickListener(v -> {
-            View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.popwindow_zuce, null);
-            final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            //popupWindow.setAnimationStyle(R.style.take_photo_anim);
-            //关闭事件
-            popupWindow.setOnDismissListener(new popupDismissListener());
-            //设置背景半透明
-            backgroundAlpha(0.5f);
-            popupWindow.setFocusable(true);
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
-            popupWindow.showAsDropDown(v);
-            initPopwindowView(inflate);
-            homeTextView.setOnClickListener(v12 -> {
-                //关闭弹窗
-                popupWindow.dismiss();
-                //返回首页
-                if (mViewPager.getCurrentItem() != 0) {
-                    mViewPager.setCurrentItem(0);
-                }
-            });
-            editCoverTextView.setOnClickListener(v1 -> {
-                //关闭弹窗
-                popupWindow.dismiss();
-                Map<String, Object> map = new HashMap<>();
-                map.put("ID", String.valueOf(familyBook.getId()));
-                map.put("name", name);
-                map.put("person", person);
-                map.put("time", time);
-                map.put("address", address);
-                goActivity(map, EditCoverActivity.class, true);
-            });
-
-        });
-
-        //默认布局
-//        initFuxiViewPager();
-        //水平滚动条 监听
         seekBar.setMax(views.size());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             //停止滑动
@@ -173,12 +130,12 @@ public class TabZuCeFragment extends BaseTitleFragment {
             switch (resultCode) {
                 case 200:
                     //获取封面布局
-                    LayoutInflater mLi = LayoutInflater.from(getActivity());
-                    View view = mLi.inflate(R.layout.zuce_cover, null);
-                    TextView nameTextView = view.findViewById(R.id.title);
-                    TextView personTextView = view.findViewById(R.id.person);
-                    TextView timeTextView = view.findViewById(R.id.time);
-                    TextView addressTextView = view.findViewById(R.id.address);
+                    /*LayoutInflater mLi = LayoutInflater.from(mContext);*/
+                    View view = views.get(0);
+                    TextView nameTextView = view.findViewById(R.id.tv_title);
+                    TextView personTextView = view.findViewById(R.id.tv_name);
+                    TextView timeTextView = view.findViewById(R.id.tv_time);
+                    /*TextView addressTextView = view.findViewById(R.id.address);*/
 
                     //设置返回参数
                     name = data.getStringExtra("name");
@@ -189,16 +146,20 @@ public class TabZuCeFragment extends BaseTitleFragment {
                     //设置封面布局 参数
                     if (name != null && !name.equals("")) {
                         nameTextView.setText(name);
+                        familyBook.setFamilybookName(name);
                     }
                     if (person != null && !person.equals("")) {
                         personTextView.setText(person);
+                        familyBook.setSponsor(person);
                     }
                     if (time != null && !time.equals("")) {
-                        timeTextView.setText(time);
+                        familyBook.setEditingTime(time);
+                        timeTextView.setText(DateUtil.dateToCnDate(time));
                     }
-                    if (address != null && !address.equals("")) {
+                    familyBook.setCatalogingAddress(address);
+                  /*  if (address != null && !address.equals("")) {
                         addressTextView.setText(address);
-                    }
+                    }*/
 
                     //更新页面
 //                    updateViewPagerItem(view, 0);
@@ -208,8 +169,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
                     // = Integer.valueOf(data.getStringExtra("index"));
                     int index = mViewPager.getCurrentItem();
                     View v = views.get(index);
-                    TextView contentTextView = v.findViewById(R.id.content);
-                    contentTextView.setText(data.getStringExtra("content"));
+                    setText(v, R.id.content, data.getStringExtra("content"));
 
                     Log.d(TAG, v.getId() + "");
 //                  contentTextView.setText(content);
@@ -219,6 +179,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
             }
         }
     }
+
 
     public void initPopwindowView(View view) {
         homeTextView = view.findViewById(R.id.home);
@@ -234,24 +195,89 @@ public class TabZuCeFragment extends BaseTitleFragment {
         view.findViewById(id).setOnClickListener(listener);
     }
 
+    private void addHomeView() {
+        if (isFamilyBook()) {
+            LayoutInflater mLi = LayoutInflater.from(mContext);
+            View view = mLi.inflate(R.layout.zuce_cover, null);
+            setText(view, R.id.tv_title, familyBook.getFamilybookName());
+            setText(view, R.id.tv_name, familyBook.getSponsor());
+            setText(view, R.id.tv_time, familyBook.getEditingTimeCN());
+
+            if (null == mEditConvectingClick) {
+                mEditConvectingClick = v -> goEditCoverActivity();
+            }
+
+            setClick(view, R.id.tv_title, mEditConvectingClick);
+            setClick(view, R.id.tv_name, mEditConvectingClick);
+            setClick(view, R.id.tv_time, mEditConvectingClick);
+
+            views.add(view);
+        }
+    }
+
+    private void addEditView(String title, String strContent) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_edit_person, null);
+        setText(view, R.id.tv_title, title);
+
+        if (isFamilyBook() && !TextUtils.isEmpty(strContent)) {
+            setText(view, R.id.content, strContent);
+        }
+        views.add(view);
+        setClick(view, R.id.editText, v -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("title", title);
+            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
+            map.put("id", String.valueOf(familyBook.getId()));
+            map.put("content", strContent);
+            goActivity(map, EditContentActivity.class, true);
+        });
+    }
+
+    private void addTableView(String title) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_family_book, null);
+        setText(view, R.id.title, title);
+        views.add(view);
+    }
+
+    private void addPhoto(int index1, int index2, int index3, int index4) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_add_photo, null);
+        /*doOnClick(view);*/
+        dosetdata(view, index1, index2, index3, index4);
+        views.add(view);
+    }
+
+    private void goEditCoverActivity() {
+        Log.i(TAG, "goEditCoverActivity: " + familyBook.getEditingTime());
+        Map<String, Object> map = new HashMap<>();
+        map.put("index", String.format("%d", mViewPager.getCurrentItem()));
+        map.put("ID", String.valueOf(familyBook.getId()));
+        map.put("name", familyBook.getFamilybookName());
+        map.put("person", familyBook.getSponsor());
+        map.put("time", familyBook.getEditingTime());
+        map.put("address", familyBook.getCatalogingAddress());
+        goActivity(map, EditCoverActivity.class, true);
+    }
+
+    private void setText(View view, int id, String content) {
+        if (!TextUtils.isEmpty(content)) {
+            mTv = view.findViewById(id);
+            mTv.setText(content);
+        }
+    }
+
+    private void setClick(View view, int id, View.OnClickListener click) {
+        view.findViewById(id).setOnClickListener(click);
+    }
+
+
     public void initFuxiViewPager() {
         //将要分页显示的View装入数组中
         //每个页面的Title数据
         LayoutInflater mLi = LayoutInflater.from(mContext);
-        View view = mLi.inflate(R.layout.zuce_cover, null);
-        if (isFamilyBook() && !familyBook.getFamilybookName().isEmpty()) {
-            TextView titlese = view.findViewById(R.id.title);
-            titlese.setText(familyBook.getFamilybookName());
-        }
-        if (isFamilyBook() && !familyBook.getSponsor().isEmpty()) {
-            TextView person = view.findViewById(R.id.person);
-            person.setText(familyBook.getSponsor());
-        }
-        if (isFamilyBook() && !familyBook.getEditingTimeCN().isEmpty()) {
-            TextView time = view.findViewById(R.id.time);
-            time.setText(familyBook.getEditingTimeCN());
-        }
-        views.add(view);
+        addHomeView();/*添加首页*/
+
+        View view;
+
         view = mLi.inflate(R.layout.zuce_directory, null);
         android.support.v7.widget.RecyclerView lineage = view.findViewById(R.id.lineage);
         lineage.setLayoutManager(new LinearLayoutManager(mContext));
@@ -269,208 +295,22 @@ public class TabZuCeFragment extends BaseTitleFragment {
 
         views.add(view);
         /*编委会*/
-        view = mLi.inflate(R.layout.zuce_bwh, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-
-        TextView content = view.findViewById(R.id.content);
-        TextView pageNumber = view.findViewById(R.id.pageNumber);
-//        TextView editorialtitle = view.findViewById(R.id.editorialtitle);
-        TextView editorialtitle = view.findViewById(R.id.tv_title);
-        editorialtitle.setText("编委会");
-        if (isFamilyBook()) {
-            String contentstr = familyBook.getEditorialCommittee();
-            if (contentstr != null) {
-                content.setText(contentstr);
-            }
+        addEditView("编委会", familyBook.getEditorialCommittee());
+        addEditView("家族序言", familyBook.getGenealogyPreface());
+        addEditView("姓氏来源", familyBook.getLastNameSource());
+        addEditView("家规家训", familyBook.getFamilyRule());
+        addTableView("家族照");
+        for (int i = 0; i < 36; i = i + 4) {
+            addPhoto(i, i + 1, i + 2, i + 3);
         }
-        views.add(view);
-        pageNumber.setText((views.size()) + "");
-        //点击事件
-        editText = view.findViewById(R.id.editText);
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", editorialtitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-        /*家族序言*/
-        view = mLi.inflate(R.layout.zuce_jzxy, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-
-        TextView prefacecontent = view.findViewById(R.id.content);
-        TextView prefacepageNumber = view.findViewById(R.id.pageNumber);
-//        TextView prefacetitle = view.findViewById(R.id.prefacetitle);
-        TextView prefacetitle = view.findViewById(R.id.tv_title);
-        prefacetitle.setText("家族序言");
-        if (isFamilyBook()) {
-            if (familyBook.getGenealogyPreface() != null) {
-                prefacecontent.setText(familyBook.getGenealogyPreface());
-            }
-        }
-        views.add(view);
-        prefacepageNumber.setText((views.size() + 1) + "");
-        //点击事件
-        editText = view.findViewById(R.id.editText);
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", prefacetitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-        /*姓氏来源*/
-        view = mLi.inflate(R.layout.zuce_xsly, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-
-        TextView sourcecontent = view.findViewById(R.id.content);
-        TextView sourcepageNumber = view.findViewById(R.id.pageNumber);
-//        TextView sourcetitle = view.findViewById(R.id.sourcetitle);
-        TextView sourcetitle = view.findViewById(R.id.tv_title);
-        if (isFamilyBook() && familyBook.getLastNameSource() != null) {
-            sourcecontent.setText(familyBook.getLastNameSource());
-        }
-        views.add(view);
-        sourcepageNumber.setText((views.size() + 1) + "");
-        //点击事件
-        editText = view.findViewById(R.id.editText);
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", sourcetitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-        /*族规家训*/
-        view = mLi.inflate(R.layout.zuce_jgjx, null);
-        TextView rulescontent = view.findViewById(R.id.content);
-        TextView rulespageNumber = view.findViewById(R.id.pageNumber);
-        TextView rulestitle = view.findViewById(R.id.rulestitle);
-        if (isFamilyBook() && familyBook.getFamilyRule() != null) {
-            rulescontent.setText(familyBook.getFamilyRule());
-        }
-        views.add(view);
-        rulespageNumber.setText((views.size() + 1) + "");
-        //点击事件
-        editText = view.findViewById(R.id.editText);
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", rulestitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-        /*家族照封面*/
-//        view = mLi.inflate(R.layout.zuce_jzz, null);
-        view = mLi.inflate(R.layout.layout_family_book, null);
-        ((TextView) view.findViewById(R.id.title)).setText("家族照");
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz1, null);
-        doOnClick(view);
-        dosetdata(view, 0, 1, 2, 3);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz2, null);
-        doOnClick(view);
-        dosetdata(view, 4, 5, 6, 7);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz3, null);
-        doOnClick(view);
-        dosetdata(view, 8, 9, 10, 11);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz4, null);
-        doOnClick(view);
-        dosetdata(view, 12, 13, 14, 15);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz5, null);
-        doOnClick(view);
-        dosetdata(view, 16, 17, 18, 19);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz6, null);
-        doOnClick(view);
-        dosetdata(view, 20, 21, 22, 23);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz7, null);
-        doOnClick(view);
-        dosetdata(view, 24, 25, 26, 27);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz8, null);
-        doOnClick(view);
-        dosetdata(view, 28, 29, 30, 31);
-        views.add(view);
-        /*家族照*/
-        view = mLi.inflate(R.layout.zuce_jzz9, null);
-        doOnClick(view);
-        dosetdata(view, 32, 33, 34, 35);
-        views.add(view);
-
-        /*世系表*/
-//        view = mLi.inflate(R.layout.zuce_sxb, null);
-        view = mLi.inflate(R.layout.layout_family_book, null);
-        ((TextView) view.findViewById(R.id.title)).setText("世系表");
-        views.add(view);
-
-        /*世系表*/
+        addTableView("世系表");
         view = mLi.inflate(R.layout.zuce_sxb_xq, null);
         views.add(view);
-
-        /*人物传*/
-//        view = mLi.inflate(R.layout.zuce_person, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-        views.add(view);
-        //点击事件
-        editText = view.findViewById(R.id.editText);
-        TextView charactertitle = view.findViewById(R.id.tv_title);
-        charactertitle.setText("人物传");
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", charactertitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-        /*大事记*/
-//        view = mLi.inflate(R.layout.zuce_bignote, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-        views.add(view);
-        editText = view.findViewById(R.id.editText);
-//        TextView bignotetitle = view.findViewById(R.id.bignotetitle);
-
-        TextView bignotetitle = view.findViewById(R.id.tv_title);
-        charactertitle.setText("大事记");
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", bignotetitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-
-//        view = mLi.inflate(R.layout.zuce_postscript, null);
-        view = mLi.inflate(R.layout.layout_edit_person, null);
-        views.add(view);
-        editText = view.findViewById(R.id.editText);
-        TextView epiloguetitle = view.findViewById(R.id.tv_title);
-        epiloguetitle.setText("后记");
-        editText.setOnClickListener(v -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("title", epiloguetitle.getText().toString());
-            map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-            map.put("id", String.valueOf(familyBook.getId()));
-            goActivity(map, EditContentActivity.class, true);
-        });
-
-        //标题集合
-        final ArrayList<String> titles = new ArrayList<>();
+        addEditView("人物传", familyBook.getCharacterBiography());
+        addEditView("大事记", familyBook.getBigNote());
+        addEditView("后记", familyBook.getPostscript());
+        ArrayList<String> titles = new ArrayList<>();
         titles.add("tab1");
-
         PagerAdapter mPagerAdapter = new PagerAdapter() {
             @Override
             public boolean isViewFromObject(View arg0, Object arg1) {
@@ -539,8 +379,8 @@ public class TabZuCeFragment extends BaseTitleFragment {
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText("族册")
-                .setLeftTextDrawable(R.mipmap.search_icon).setLeftTextDrawableHeight(48).setLeftTextDrawableWidth(48)
-                .setRightText("...").setRightTextSize(30)
+                .setLeftTextDrawable(R.drawable.icon_search_svg).setLeftTextDrawableHeight(48).setLeftTextDrawableWidth(48)
+                .setRightTextDrawable(R.drawable.icon_three_points_svg).setRightTextSize(30)
 //                .setRightTextDrawable(R.mipmap.gengduo1).setRightTextDrawableHeight(48).setRightTextDrawableWidth(48)
                 .setOnLeftTextClickListener(view -> startActivity(new Intent(getActivity(), SearchMainActivity.class)))
                 .setOnRightTextClickListener(view -> {
@@ -567,14 +407,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
                     editCoverTextView.setOnClickListener(v1 -> {
                         //关闭弹窗
                         popupWindow.dismiss();
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("index", String.format("%d", mViewPager.getCurrentItem()));
-                        map.put("ID", String.valueOf(familyBook.getId()));
-                        map.put("name", name);
-                        map.put("person", person);
-                        map.put("time", time);
-                        map.put("address", address);
-                        goActivity(map, EditCoverActivity.class, true);
+                        goEditCoverActivity();
                     });
 
                 });
@@ -622,14 +455,10 @@ public class TabZuCeFragment extends BaseTitleFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", gid);
         params.put("userId", userId);
-        Log.e(TAG, "execute: 参数：" + params.toString());
-        JSONObject jsonObject = new JSONObject(params);
-//        final MediaType JSONS = MediaType.parse("application/json; charset=utf-8");
         ViseHttp.POST(ApiConstant.familyBook)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
-//                .setRequestBody(RequestBody.create(JSONS, jsonObject.toString()))
+                .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<FamilyBook>>() {
                     @Override
                     public void onSuccess(BaseTResp2<FamilyBook> data) {
@@ -669,161 +498,82 @@ public class TabZuCeFragment extends BaseTitleFragment {
                 });
     }
 
-    private void doOnClick(View view) {
-        View.OnClickListener clickListener = v -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class);
-        setOnClickListener(view, R.id.image1, clickListener);
-        setOnClickListener(view, R.id.image2, clickListener);
-        setOnClickListener(view, R.id.image3, clickListener);
-        setOnClickListener(view, R.id.image4, clickListener);
+//    private void doOnClick(View view) {
+//        View.OnClickListener clickListener = v -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class);
+//        setOnClickListener(view, R.id.image1, clickListener);
+//        setOnClickListener(view, R.id.image2, clickListener);
+//        setOnClickListener(view, R.id.image3, clickListener);
+//        setOnClickListener(view, R.id.image4, clickListener);
+//    }
+
+    void setGone(View view, int... ids) {
+        if (ids.length > 0) {
+            for (int id : ids) {
+                view.findViewById(id).setVisibility(View.GONE);
+            }
+        }
     }
 
-    public void dosetdata(View view, int idx1, int idx2, int idx3, int idx4) {
-        TextView tv_1 = view.findViewById(R.id.tv_1);
-        TextView tv_2 = view.findViewById(R.id.tv_2);
-        TextView tv_3 = view.findViewById(R.id.tv_3);
-        TextView tv_4 = view.findViewById(R.id.tv_4);
-        TextView image1 = view.findViewById(R.id.image1);
-        TextView image2 = view.findViewById(R.id.image2);
-        TextView image3 = view.findViewById(R.id.image3);
-        TextView image4 = view.findViewById(R.id.image4);
-        ImageView iv_1 = view.findViewById(R.id.iv_1);
-        ImageView iv_2 = view.findViewById(R.id.iv_2);
-        ImageView iv_3 = view.findViewById(R.id.iv_3);
-        ImageView iv_4 = view.findViewById(R.id.iv_4);
-        if (familyBook.getFamilyPhoto().size() > idx1 + 1) {
-            String url_1 = familyBook.getFamilyPhoto().get(idx1).getUrl();
-            TextView text1 = view.findViewById(R.id.text1);
-            if (familyBook.getFamilyPhoto().get(idx1).getIntroduction() != null
-                    && familyBook.getFamilyPhoto().get(idx1).getIntroduction().trim().length() != 0) {
-                text1.setText(familyBook.getFamilyPhoto().get(idx1).getIntroduction());
-                text1.setOnClickListener(view116 -> {
-                    goActivity(idx1);
-                });
-            } else {
-                text1.setText("编辑简介");
-                text1.setOnClickListener(view115 -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("type", "录入");
-                    bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx1).getId());
-                    bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx1).getUrl());
-                    FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
-                });
+    void setVisible(View view, int... ids) {
+        if (ids.length > 0) {
+            for (int id : ids) {
+                view.findViewById(id).setVisibility(View.VISIBLE);
             }
-            image1.setVisibility(View.GONE);
-            tv_1.setVisibility(View.GONE);
-            iv_1.setVisibility(View.VISIBLE);
-            GlideManager.loadImg(url_1, iv_1);
-            iv_1.setOnClickListener(view114 -> showPopupWindowEdit(view114, 1, familyBook.getFamilyPhoto().get(idx1).getId(),
-                    familyBook.getFamilyPhoto().get(idx1).getUrl()));
-        } else {
-            image1.setVisibility(View.VISIBLE);
-            tv_1.setVisibility(View.VISIBLE);
-            iv_1.setVisibility(View.GONE);
-            image1.setOnClickListener(view113 -> showPopupWindowEdit(view113, 0, familyBook.getFamilyPhoto().get(idx1).getId(),
-                    familyBook.getFamilyPhoto().get(idx1).getUrl()));
         }
-        if (familyBook.getFamilyPhoto().size() > idx2) {
-            String url_1 = familyBook.getFamilyPhoto().get(idx2).getUrl();
-            TextView text2 = view.findViewById(R.id.text2);
+    }
 
-            if (familyBook.getFamilyPhoto().get(idx2).getIntroduction() != null
-                    && familyBook.getFamilyPhoto().get(idx2).getIntroduction().trim().length() != 0) {
-                text2.setText(familyBook.getFamilyPhoto().get(idx2).getIntroduction());
-                text2.setOnClickListener(view112 -> {
-                    goActivity(idx2);
-                });
-            } else {
-                text2.setText("编辑简介");
-                text2.setOnClickListener(view111 -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("type", "录入");
-                    bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx2).getId());
-                    bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx2).getUrl());
-                    FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
-                });
+    private String url;
+
+    public void dosetdata(View view, int idx1, int idx2, int idx3, int idx4) {
+        List<FamilyPhoto> familyPhoto = familyBook.getFamilyPhoto();
+        if (null != familyPhoto) {
+            int size = familyBook.getFamilyPhoto().size();
+            if (size > idx1 + 1) {
+                ImageView iv_1 = view.findViewById(R.id.iv_1);
+                setTablePhoto(view, idx1, iv_1, familyPhoto, R.id.text1, R.id.image1, R.id.tv_1, R.id.iv_1);
             }
-            image2.setVisibility(View.GONE);
-            tv_2.setVisibility(View.GONE);
-            iv_2.setVisibility(View.VISIBLE);
-            GlideManager.loadImg(url_1, iv_2);
-            iv_2.setOnClickListener(view110 -> showPopupWindowEdit(view110, 1, familyBook.getFamilyPhoto().get(idx2).getId(),
-                    familyBook.getFamilyPhoto().get(idx2).getUrl()));
-        } else {
-            image2.setVisibility(View.VISIBLE);
-            tv_2.setVisibility(View.VISIBLE);
-            iv_2.setVisibility(View.GONE);
-            image2.setOnClickListener(view19 -> showPopupWindowEdit(view19, 0, familyBook.getFamilyPhoto().get(idx2).getId(),
-                    familyBook.getFamilyPhoto().get(idx2).getUrl()));
-        }
-        if (familyBook.getFamilyPhoto().size() > idx3) {
-            String url_1 = familyBook.getFamilyPhoto().get(idx3).getUrl();
-            TextView text3 = view.findViewById(R.id.text3);
-            if (familyBook.getFamilyPhoto().get(idx3).getIntroduction() != null
-                    && familyBook.getFamilyPhoto().get(idx3).getIntroduction().trim().length() != 0) {
-                text3.setText(familyBook.getFamilyPhoto().get(idx3).getIntroduction());
-                text3.setOnClickListener(view18 -> {
-                    goActivity(idx3);
-                });
-            } else {
-                text3.setText("编辑简介");
-                text3.setOnClickListener(view17 -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("type", "录入");
-                    bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx3).getId());
-                    bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx3).getUrl());
-                    FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
-                });
+            if (size > idx2) {
+                ImageView iv_2 = view.findViewById(R.id.iv_2);
+                setTablePhoto(view, idx2, iv_2, familyPhoto, R.id.text2, R.id.image2, R.id.tv_2, R.id.iv_2);
             }
-            image3.setVisibility(View.GONE);
-            tv_3.setVisibility(View.GONE);
-            iv_3.setVisibility(View.VISIBLE);
-            GlideManager.loadImg(url_1, iv_3);
-            iv_3.setOnClickListener(view15 -> showPopupWindowEdit(view15, 1, familyBook.getFamilyPhoto().get(idx3).getId(),
-                    familyBook.getFamilyPhoto().get(idx3).getUrl()));
-        } else {
-            image3.setVisibility(View.VISIBLE);
-            tv_3.setVisibility(View.VISIBLE);
-            iv_3.setVisibility(View.GONE);
-            image3.setOnClickListener(view16 -> showPopupWindowEdit(view16, 0, familyBook.getFamilyPhoto().get(idx3).getId(),
-                    familyBook.getFamilyPhoto().get(idx3).getUrl()));
-        }
-        if (familyBook.getFamilyPhoto().size() > idx4) {
-            String url_1 = familyBook.getFamilyPhoto().get(idx4).getUrl();
-            TextView text4 = view.findViewById(R.id.text4);
-            if (familyBook.getFamilyPhoto().get(idx4).getIntroduction() != null
-                    && familyBook.getFamilyPhoto().get(idx4).getIntroduction().trim().length() != 0) {
-                text4.setText(familyBook.getFamilyPhoto().get(idx4).getIntroduction());
-                text4.setOnClickListener(view14 -> {
-                    goActivity(idx4);
-                });
-            } else {
-                text4.setText("编辑简介");
-                text4.setOnClickListener(view13 -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("type", "录入");
-                    bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx4).getId());
-                    bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(idx4).getUrl());
-                    FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
-                });
+            if (size > idx3) {
+                ImageView iv_3 = view.findViewById(R.id.iv_3);
+                setTablePhoto(view, idx3, iv_3, familyPhoto, R.id.text3, R.id.image3, R.id.tv_3, R.id.iv_3);
             }
-            image4.setVisibility(View.GONE);
-            tv_4.setVisibility(View.GONE);
-            iv_4.setVisibility(View.VISIBLE);
-            GlideManager.loadImg(url_1, iv_4);
-            iv_4.setOnClickListener(view12 -> showPopupWindowEdit(view12, 1, familyBook.getFamilyPhoto().get(idx4).getId(),
-                    familyBook.getFamilyPhoto().get(idx4).getUrl()));
-        } else {
-            image1.setVisibility(View.VISIBLE);
-            tv_4.setVisibility(View.VISIBLE);
-            iv_4.setVisibility(View.GONE);
-            image4.setOnClickListener(view1 -> showPopupWindowEdit(view1, 0, familyBook.getFamilyPhoto().get(idx4).getId(),
-                    familyBook.getFamilyPhoto().get(idx4).getUrl()));
+            if (size > idx4) {
+                ImageView iv_4 = view.findViewById(R.id.iv_4);
+                setTablePhoto(view, idx4, iv_4, familyPhoto, R.id.text4, R.id.image4, R.id.tv_4, R.id.iv_4);
+            }
         }
+    }
+
+    private void setTablePhoto(View view, int idx1, ImageView iv_1, List<FamilyPhoto> familyPhoto, int p, int p2, int p3, int p4) {
+        String introduction;
+        url = familyPhoto.get(idx1).getUrl();
+        introduction = familyPhoto.get(idx1).getIntroduction();
+        if (TextUtils.isEmpty(introduction)) {
+            introduction = "编辑简介";
+            setClick(view, p, v -> {
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "录入");
+                bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx1).getId());
+                bundle.putSerializable("Url", url);
+                FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+            });
+        } else {
+            setClick(view, p, v -> goActivity(idx1));
+        }
+        setText(view, p, introduction);
+        setGone(view, p2, p3);
+        GlideManager.loadImg(url, iv_1);
+        setVisible(view, p4);
+        setClick(view, p4, v -> showPopupWindowEdit(v, 1, familyBook.getFamilyPhoto().get(idx1).getId(),
+                familyBook.getFamilyPhoto().get(idx1).getUrl()));
     }
 
     private void goActivity(int index) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("type", "录入");
+        bundle.putString("type", "录入");
         bundle.putString("Introduction", familyBook.getFamilyPhoto().get(index).getIntroduction());
         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(index).getId());
         bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(index).getUrl());
@@ -860,7 +610,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
 //                openimgs();
             popupWindowEdit.dismiss();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("type", "录入");
+            bundle.putString("type", "录入");
             bundle.putSerializable("Imgid", id);
             bundle.putSerializable("Imgid", url);
             FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);

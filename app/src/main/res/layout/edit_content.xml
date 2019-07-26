@@ -9,10 +9,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="#22000000" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -25,80 +25,80 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/dp_300"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="输入文字"
+                android:minHeight="@dimen/dp_300"
                 android:padding="10dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/huise"
-                    android:visibility="gone">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="left">
-
-                        <TextView
-                            android:id="@+id/title"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="编委会"
-                            android:textColor="@android:color/background_dark"
-                            android:textSize="20sp" />
-
-                        <ImageView
-                            android:id="@+id/back"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="10dp"
-                            android:src="@mipmap/back" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="right">
-
-                            <TextView
-                                android:id="@+id/saveText"
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="20dp"
-                                android:gravity="right"
-                                android:text="提交"
-                                android:textColor="@android:color/holo_red_light"
-                                android:textSize="20sp" />
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <!--<View-->
+            <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#22000000" />-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical">-->
+
                 <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@color/huise"-->
+                    <!--android:visibility="gone">-->
 
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:gravity="left">-->
 
+                        <!--<TextView-->
+                            <!--android:id="@+id/title"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_alignParentTop="true"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="编委会"-->
+                            <!--android:textColor="@android:color/background_dark"-->
+                            <!--android:textSize="20sp" />-->
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/back"-->
+                            <!--android:layout_width="30dp"-->
+                            <!--android:layout_height="30dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:src="@mipmap/back" />-->
+
+                        <!--<RelativeLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:gravity="right">-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/saveText"-->
+                                <!--android:layout_width="100dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginRight="20dp"-->
+                                <!--android:gravity="right"-->
+                                <!--android:text="提交"-->
+                                <!--android:textColor="@android:color/holo_red_light"-->
+                                <!--android:textSize="20sp" />-->
+                        <!--</RelativeLayout>-->
+                    <!--</RelativeLayout>-->
                 <!--</RelativeLayout>-->
-            </LinearLayout>
+
+                <!--&lt;!&ndash;<View&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="1dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="#22000000" />&ndash;&gt;-->
+                <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content">&ndash;&gt;-->
+
+
+                <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+            <!--</LinearLayout>-->
 
         </FrameLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

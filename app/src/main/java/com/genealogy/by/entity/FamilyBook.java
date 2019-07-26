@@ -2,8 +2,6 @@ package com.genealogy.by.entity;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -55,7 +53,7 @@ public class FamilyBook implements Serializable {
     }
 
     public String getFamilybookName() {
-        if (!TextUtils.isEmpty(familybookName)) {
+        if (TextUtils.isEmpty(familybookName)) {
             return "";
         }
         return familybookName;
@@ -146,6 +144,9 @@ public class FamilyBook implements Serializable {
     }
 
     public String getEditingTime() {
+        if (!TextUtils.isEmpty(editingTime)) {
+            editingTime = editingTime.replace("00:00:00", "").replace(" ", "");
+        }
         return editingTime;
     }
 
@@ -207,11 +208,6 @@ public class FamilyBook implements Serializable {
         private String introduction;
         private List<SearchNearInBlood> spouses;
         private List<String> parents;
-
-        public static LineageTableBean objectFromData(String str) {
-
-            return new Gson().fromJson(str, LineageTableBean.class);
-        }
 
         public String getId() {
             return id;

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        style="@style/width_height_match"
+        android:layout_margin="@dimen/dp_28"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/width_height_match"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/ll1"
+                style="@style/width_height_match"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/text1"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:background="@color/refreshHeader"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/image1"
+                    android:layout_width="@dimen/dp_52"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/addimg" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/sp_18"
+                    android:layout_below="@id/image1"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:gravity="center"
+                    android:text="添加照片"
+                    android:textColor="#B14641" />
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:maxLines="2"
+                    tools:text="a" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll2"
+                style="@style/width_height_match"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/text2"
+                    android:layout_marginBottom="@dimen/dp_10"
+
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/image2"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/addimg" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/sp_18"
+                    android:layout_below="@id/image2"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:gravity="center"
+                    android:text="添加照片"
+                    android:textColor="#B14641" />
+
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:maxLines="2" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/width_height_match"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/ll3"
+                style="@style/width_height_match"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/text3"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/image3"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/addimg" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/sp_18"
+                    android:layout_below="@id/image3"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:gravity="center"
+                    android:text="添加照片"
+                    android:textColor="#B14641" />
+
+                <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:maxLines="2" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ll4"
+                style="@style/width_height_match"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/text4"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/image4"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/addimg" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/sp_18"
+                    android:layout_below="@id/image4"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:gravity="center"
+                    android:text="添加照片"
+                    android:textColor="#B14641" />
+
+                <TextView
+                    android:id="@+id/text4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:maxLines="2" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pageNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="6"
+        android:textColor="@color/black"
+        android:textSize="10dp" />
+
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -32,9 +33,6 @@ import tech.com.commoncore.utils.DataUtils;
 import tech.com.commoncore.utils.ToastUtil;
 
 public class ReleasePictureActivity extends BaseTitleActivity {
-    //    private String Imgid = "";
-    //    private String oldurl = "";
-
     private Intent mIntent;
     private RecyclerView recyclerView;
     private PictureSelectorHelper helper;
@@ -54,8 +52,8 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                         .getColor(R.color.C_F47432))
                 .setRightText("发布")
                 .setOnRightTextClickListener(v -> {
-                    if (type.contains("录入")) {
-                        if (DataUtils.isEmpty(etText.getText())) {
+                    if (!TextUtils.isEmpty(type) && type.contains("录入")) {
+                        if (DataUtils.isEmpty(etText.getText().toString())) {
                             ToastUtil.show("请输入评论内容");
                             return;
                         }
