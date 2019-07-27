@@ -173,6 +173,27 @@ public class FamilyTreeView7 extends ViewGroup {
         }
 
         mMaxHeightPX = Math.max(DisplayUtil.dip2px(MAX_HEIGHT_DP), mScreenHeight);
+//        mMaxHeightPX = Math.max(DisplayUtil.dip2px(getMaxHeight()), mScreenHeight);
+    }
+
+    private int getMaxHeight() {
+        List<SearchNearInBlood.GenerationBean> generation = mFamilyMember.getGeneration();
+        if (null != generation && generation.size() > 0) {
+            return generation.size() * (ITEM_HEIGHT_DP + 2 * SPACE_WIDTH_DP) - 2 * SPACE_WIDTH_DP;
+        }
+        return MAX_HEIGHT_DP;
+    }
+
+    private int getMaxWidth() {
+        List<SearchNearInBlood.GenerationBean> generation = mFamilyMember.getGeneration();
+        if (null != generation && generation.size() > 0) {
+            int width = 0;
+            for (SearchNearInBlood.GenerationBean bean : generation) {
+                width = Math.max(bean.getMen() + bean.getWomen(), width);
+            }
+            return (ITEM_WIDTH_DP + SPACE_WIDTH_DP) * width - SPACE_WIDTH_DP;
+        }
+        return mScreenWidth;
     }
 
     private void initWidthAndHeight(int[] widthDP, List<SearchNearInBlood> mMyChildren) {

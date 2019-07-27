@@ -120,53 +120,6 @@ public class FamilyTreeView4 extends ViewGroup {
 
     private void recycleAllView() {
         removeAllViews();
-//        mMineView = null;
-//        mSpouseView = null;
-//        mFatherView = null;
-//        mMotherView = null;
-//        mPaternalGrandFatherView = null;
-//        mPaternalGrandMotherView = null;
-//        mMaternalGrandFatherView = null;
-//        mMaternalGrandMotherView = null;
-//        mFosterFatherView = null;
-//        mFosterMotherView = null;
-//        mFPGrandFatherView = null;
-//        mFPGrandMotherView = null;
-//        mFMGrandFatherView = null;
-//        mFMGrandMotherView = null;
-
-//        if (mBrothersView != null) {
-//            mBrothersView.clear();
-//        } else {
-//            mBrothersView = new ArrayList<>();
-//        }
-//        if (mSpouseView != null) {
-//            mSpouseView.clear();
-//        } else {
-//            mSpouseView = new ArrayList<>();
-//        }
-//        if (mChildrenView != null) {
-//            mChildrenView.clear();
-//        } else {
-//            mChildrenView = new ArrayList<>();
-//        }
-//        if (mChildSpouseView != null) {
-//            mChildSpouseView.clear();
-//        } else {
-//            mChildSpouseView = new ArrayList<>();
-//        }
-//        if (mGrandChildrenView != null) {
-//            mGrandChildrenView.clear();
-//        } else {
-//            mGrandChildrenView = new ArrayList<>();
-//        }
-//        mMySpouse = null;
-//        mMyFather = null;
-//        mMyMother = null;
-//        if (mMyBrothers != null) {
-//            mMyBrothers.clear();
-//            mMyBrothers = null;
-//        }
         if (mMyChildren != null) {
             mMyChildren.clear();
             mMyChildren = null;
@@ -331,7 +284,6 @@ public class FamilyTreeView4 extends ViewGroup {
                 createFamilyView(spouse, spouse.getChildrens(), true);
             }
         }
-//        Log.i(TAG, "initView: " + mFamilyMember);
         /************************************** end *************************************/
     }
 
