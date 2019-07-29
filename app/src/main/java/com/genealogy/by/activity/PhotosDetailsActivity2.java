@@ -97,7 +97,7 @@ public class PhotosDetailsActivity2 extends BaseTitleActivity implements onClick
         recyclerview.setLayoutManager(new GridLayoutManager(PhotosDetailsActivity2.this, 3));
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
         recyclerview.setAdapter(photosadapter);
-        photosadapter.setNewData(list);
+//        photosadapter.setNewData(album);
         photosadapter.setOnItemClickListener((adapter, view, position) -> {
             ArrayList<LocalMedia> medias = new ArrayList<>();
             LocalMedia media;

@@ -17,6 +17,7 @@ import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.Album;
 import com.genealogy.by.entity.MyAlbum;
 import com.genealogy.by.entity.Photo;
+import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -25,8 +26,11 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -37,7 +41,7 @@ import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.ToastUtil;
 
 // TODO: 2019/7/25 图片上传接口 一直报错 
-public class PhotosDetailsActivity extends BaseTitleActivity implements onClickAlbumItem {
+public class PhotosDetailsActivity extends BaseTitleActivity implements onClickAlbumItem, View.OnClickListener {
 
     private TextView managerAlbum;
 
@@ -53,12 +57,25 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     private List<String> list;
     private int familyAlbum = 0;
 
+
+    private TextView tvDownload, tvDel, tvBatchManage, tvEditManage, tvUploadPhoto;
+
+    private List<MyAlbum.AlbumsBean> beans;
+    private List<MyAlbum.AlbumsBean> mAlbums;
+    private boolean mIsHide;
+
     @Override
     public void jumpActivity(Intent intent) {
         startActivityForResult(intent, 0);
     }
 
     public void initView() {
+        tvDownload = findViewById(R.id.tv_download);
+        tvDel = findViewById(R.id.tv_delete);
+        tvBatchManage = findViewById(R.id.tv_batch_manage);
+        tvEditManage = findViewById(R.id.tv_edit_manage);
+        tvUploadPhoto = findViewById(R.id.tv_upload_photo);
+
         photos = new ArrayList<>();
         album = new Album();
         releasePhoto = findViewById(R.id.release_photo);
@@ -66,7 +83,9 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         recyclerview.setLayoutManager(new GridLayoutManager(PhotosDetailsActivity.this, 3));
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
         recyclerview.setAdapter(photosadapter);
-        photosadapter.setNewData(list);
+        if (mAlbums.size() > 0) {
+            photosadapter.setNewData(mAlbums);
+        }
         photosadapter.setOnItemClickListener((adapter, view, position) -> {
             ArrayList<LocalMedia> medias = new ArrayList<>();
             LocalMedia media;
@@ -103,6 +122,8 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 //图片选择器
                 photoAndCamera()
         );
+
+        beans = new ArrayList<>();
     }
 
     //Intent  回调
@@ -119,7 +140,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 //相册集 等于0
                 if (photos.size() == 0 && selectList.size() > 0) {
                     messageRelativeLayout.setVisibility(View.GONE);
-
                     MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
                     File mFile;
                     for (LocalMedia localMedia : selectList) {
@@ -136,10 +156,54 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 //编辑设置标题
                 mTitleBar.setTitleMainText(data.getStringExtra("photoTitle"));
                 break;
+
+
+            case 202:
+                String title = data.getStringExtra("title");
+                album.setText(title);
+                mTitleBar.setTitleMainText(title);
+                break;
         }
     }
 
+    /*删除相册*/
+    private void delImg(String ids) {
+        showLoading();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("ids", ids);
+        ViseHttp.POST(ApiConstant.album_delImgs)
+                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setJson(new JSONObject(params))
+                .request(new ACallback<BaseTResp2>() {
+                    @Override
+                    public void onSuccess(BaseTResp2 data) {
+                        hideLoading();
+                        if (data.isSuccess()) {
+                            SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
+                            String[] strings = ids.split(",");
+                            for (String string : strings) {
+                                for (MyAlbum.AlbumsBean bean : photosadapter.getData()) {
+                                    if (bean.getUrl().equals(string)) {
+                                        photosadapter.getData().remove(bean);
+                                    }
+                                }
+                            }
+                            Log.i(TAG, "onSuccess: 你好");
+                            photosadapter.notifyDataSetChanged();
+                        }
+                        ToastUtil.show(data.msg);
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        ToastUtil.show(errMsg);
+                        hideLoading();
+                    }
+                });
+    }
+
     private void upLoadPic(MultipartBody.Builder body) {
+        showLoading();
         body.addFormDataPart("aId", String.valueOf(familyAlbum));
         ViseHttp.POST(ApiConstant.album_uploadImgs)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
@@ -147,18 +211,37 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 .request(new ACallback<BaseTResp2<List<MyAlbum.AlbumsBean>>>() {
                     @Override
                     public void onSuccess(BaseTResp2<List<MyAlbum.AlbumsBean>> data) {
-                        if (data.isSuccess()) {
-                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
-                            // TODO: 2019/7/26 图片上传成功需要刷新
-                            Log.i(TAG, "onSuccess: " + data.data);
-                        } else {
-                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
+                        hideLoading();
+//                        if (data.isSuccess()) {
+//                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
+//                            Log.i(TAG, "onSuccess: " + data.data);
+//                        } else {
+//                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
+//                        }
+//                        photosadapter.addData(data.data);
+                        Log.i(TAG, "onSuccess: " + photosadapter.getData().size());
+
+                        if (null != data.data) {
+                            beans.addAll(data.data);
+                            if (photosadapter.getData().size() == 0) {
+                              /*  for (MyAlbum.AlbumsBean bean : data.data) {
+                                    list.add(bean.getUrl());
+                                }*/
+                                photosadapter.setNewData(data.data);
+                            } else {
+                               /* for (MyAlbum.AlbumsBean bean : data.data) {
+                                }*/
+                                photosadapter.addData(data.data);
+                            }
                         }
+
                         ToastUtil.show(data.msg);
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
+                        Log.i(TAG, "onFail: " + errMsg + " " + errCode);
                         ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
                     }
                 });
@@ -178,7 +261,22 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setRightText("上传").setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
+        titleBar.setRightText("上传")
+                .setOnLeftTextClickListener(v -> {
+                    if (mIsHide) {
+                        mIsHide = !mIsHide;
+                        hideBottom(mIsHide);
+
+                        photosadapter.setCheck(false);
+                        photosadapter.notifyDataSetChanged();
+                    } else {
+                        if (beans.size() > 0) {
+                            SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
+                        }
+                        finish();
+                    }
+
+                }).setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
     }
 
     @Override
@@ -190,35 +288,66 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     public void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         list = intent.getStringArrayListExtra("Urls");
+        mAlbums = (List<MyAlbum.AlbumsBean>) intent.getSerializableExtra("data");
         initView();
     }
 
-    //上传图片
-//    private void upLoadPic(final String url, final int position) {
-//        Log.i(TAG, "upLoadPic: " + familyAlbum);
-//        file = new File(url);
-//        RequestBody requestBody = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("imgs", url, RequestBody.create(MediaType.parse("image/*"), file))
-//                .addFormDataPart("aId", String.valueOf(familyAlbum))
-//                .build();
-//        ViseHttp.POST(ApiConstant.album_uploadImgs)
-//                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-//                .setRequestBody(requestBody)
-//                .request(new ACallback<BaseTResp2>() {
-//                    @Override
-//                    public void onSuccess(BaseTResp2 data) {
-//                        if (data.isSuccess()) {
-//                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
-//                        } else {
-//                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFail(int errCode, String errMsg) {
-//                        ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
-//                    }
-//                });
-//    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_batch_manage:/*批量管理*/
+                hideBottom(true);
+                photosadapter.setCheck(true);
+                photosadapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_edit_manage:/*编辑相册*/
+                Intent intent = new Intent(mContext, PhotosEditActivity.class);
+                intent.putExtra("data", album);
+                jumpActivity(intent);
+                break;
+            case R.id.tv_upload_photo:
+                photoAndCamera();
+                break;
+            case R.id.tv_download:/*下载图片*/
+                break;
+
+            case R.id.tv_delete:/*删除图片*/
+                StringBuilder sb = new StringBuilder();
+                for (MyAlbum.AlbumsBean bean : mAlbums) {
+                    if (bean.isSelect()) {
+                        sb.append(bean.getId()).append(",");
+                    }
+                }
+                if (sb.length() > 0) {
+                    delImg(sb.toString());
+                } else {
+                    ToastUtil.show("请选择删除的图片");
+                }
+
+                break;
+        }
+    }
+
+    private void hideBottom(boolean isHide) {
+        if (isHide) {
+            tvBatchManage.setVisibility(View.GONE);
+            tvEditManage.setVisibility(View.GONE);
+            tvUploadPhoto.setVisibility(View.GONE);
+
+            tvDownload.setVisibility(View.VISIBLE);
+            tvDel.setVisibility(View.VISIBLE);
+        } else {
+            tvBatchManage.setVisibility(View.VISIBLE);
+            tvEditManage.setVisibility(View.VISIBLE);
+            tvUploadPhoto.setVisibility(View.VISIBLE);
+
+            tvDownload.setVisibility(View.GONE);
+            tvDel.setVisibility(View.GONE);
+        }
+
+        this.mIsHide = isHide;
+
+    }
+
+
 }

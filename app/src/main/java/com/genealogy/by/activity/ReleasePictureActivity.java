@@ -58,10 +58,10 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                             return;
                         }
                         imgs = "";
-                        InputDoit(helper.getPictureList(), 0);
+                        InputDoit(helper.getPictureList());
                     } else {
                         imgs = "";
-                        upLoadPic(helper.getPictureList(), 0);
+                        upLoadPic(helper.getPictureList());
                     }
                 });
     }
@@ -87,7 +87,8 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         }
     }
 
-    private void upLoadPic(final List<String> urls, final int position) {
+    private void upLoadPic(final List<String> urls) {
+        showLoading();
         String url = urls.get(0);
         file = new File(url);
         RequestBody image = RequestBody.create(MediaType.parse("image/*"), file);
@@ -103,6 +104,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
+                        hideLoading();
                         if (data.status == 200) {
                             ToastUtil.show("提交成功: " + data.msg);
                             finish();
@@ -113,21 +115,14 @@ public class ReleasePictureActivity extends BaseTitleActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
                         ToastUtil.show("失败: " + errMsg + "，errCode: " + errCode);
                     }
                 });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            ArrayList<String> result = (ArrayList<String>) Matisse.obtainPathResult(data);
-            helper.setActivityResult(result);
-        }
-    }
-
-    public void InputDoit(final List<String> urls, int id) {
+    public void InputDoit(final List<String> urls) {
+        showLoading();
         String introduction = etText.getText().toString();
         String url = "";
         if (urls.size() != 0) {
@@ -138,7 +133,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         } else {
             file = new File("");
         }
-        RequestBody image = RequestBody.create(MediaType.parse("image/png"), file);
+        RequestBody image = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("imgs", url, image)
@@ -152,8 +147,10 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
+                        hideLoading();
                         if (data.status == 200) {
                             Log.e(TAG, "onSuccess: 照片简介录入  msg= " + data.msg);
+                            ToastUtil.show("录入成功 " + data.msg);
                         } else {
                             Log.e(TAG, "onSuccess:  简介录入错误  msg= " + data.msg);
                             ToastUtil.show("录入错误 " + data.msg);
@@ -162,9 +159,21 @@ public class ReleasePictureActivity extends BaseTitleActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
                         ToastUtil.show("失败: " + errMsg);
-                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                        /*Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);*/
                     }
                 });
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = (ArrayList<String>) Matisse.obtainPathResult(data);
+            helper.setActivityResult(result);
+        }
+    }
+
 }

@@ -3,7 +3,6 @@
     android:id="@+id/llall"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/dp_4">
 
@@ -30,4 +29,12 @@
         android:layout_below="@id/albumname"
         android:layout_centerHorizontal="true"
         android:text="35张" />
+
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

@@ -33,7 +33,7 @@ public class EditContentActivity extends BaseTitleActivity {
         mEtContent = findViewById(R.id.content);
 
         String title = intent.getStringExtra("title");
-        mIndex = intent.getStringExtra("mIndex");
+        mIndex = intent.getStringExtra("index");
         if (title != null) {
             mFieldName = getFieldName(title);
             mTitleBar.setTitleMainText(title);
@@ -87,9 +87,10 @@ public class EditContentActivity extends BaseTitleActivity {
                             Intent intent = new Intent();
                             intent.putExtra("content", content);
                             intent.putExtra("index", mIndex);
+                            intent.putExtra("title", mFieldName);
                             setResult(201, intent);  // 201表示成功
                             EditContentActivity.this.finish();
-                            setResult(200, intent);  // 200表示成功
+//                            setResult(200, intent);  // 200表示成功
                         } else {
                             ToastUtil.show("请求失败 " + data.msg);
                         }

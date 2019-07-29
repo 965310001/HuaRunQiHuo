@@ -10,8 +10,8 @@ public class MyAlbum implements Serializable {
     private String isTrue;
     private int gId;
     private int userId;
-    private long createTime;
-    private int quantity;
+    //    private long createTime;
+    //    private int quantity;
     private List<AlbumsBean> albums;
 
     public int getId() {
@@ -54,21 +54,21 @@ public class MyAlbum implements Serializable {
         this.userId = userId;
     }
 
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+//    public long getCreateTime() {
+//        return createTime;
+//    }
+//
+//    public void setCreateTime(long createTime) {
+//        this.createTime = createTime;
+//    }
+//
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
 
     public List<AlbumsBean> getAlbums() {
         return albums;
@@ -82,7 +82,15 @@ public class MyAlbum implements Serializable {
         private int id;
         private String url;
         private int aId;
-        private long createTime;
+        private boolean isSelect;
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
+        //        private Integer createTime;
 
         public int getId() {
             return id;
@@ -108,12 +116,12 @@ public class MyAlbum implements Serializable {
             this.aId = aId;
         }
 
-        public long getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(long createTime) {
-            this.createTime = createTime;
-        }
+//        public Integer getCreateTime() {
+//            return createTime;
+//        }
+//
+//        public void setCreateTime(Integer createTime) {
+//            this.createTime = createTime;
+//        }
     }
 }

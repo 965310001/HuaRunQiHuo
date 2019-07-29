@@ -9,6 +9,7 @@ import com.genealogy.by.R;
 import com.genealogy.by.activity.PhotosDetailsActivity;
 import com.genealogy.by.entity.MyAlbum;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class AlbumAdapter extends BaseQuickAdapter<MyAlbum, BaseViewHolder> {
             bundle.putString("Title", item.getTitle());
             bundle.putString("IsTrue", item.getIsTrue());
             bundle.putStringArrayList("Urls", (ArrayList<String>) list);
+            bundle.putSerializable("data", (Serializable) item.getAlbums());
             FastUtil.startActivity(mContext, PhotosDetailsActivity.class, bundle);
         });
         if (item.getAlbums().size() > 0) {

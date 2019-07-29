@@ -1,5 +1,6 @@
 package tech.com.commoncore.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.sql.Timestamp;
@@ -594,6 +595,9 @@ public class DateUtil {
 
 
     public static String dateToCnDate(String date) {
+        if (TextUtils.isEmpty(date)) {
+            return "";
+        }
         String result = "";
         String[] cnDate = new String[]{"〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
         String ten = "十";

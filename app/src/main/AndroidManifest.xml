@@ -201,8 +201,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
         </provider>
+
         <activity
             android:name=".activity.RelationshipChainActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".activity.PhotosEditActivity"
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:screenOrientation="portrait"
             tools:ignore="DuplicateActivity" />

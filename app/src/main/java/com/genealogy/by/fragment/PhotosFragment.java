@@ -59,6 +59,15 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (SPHelper.getBooleanSF(mContext, "REFRESH_PHOTO", false)) {
+            doit();
+            SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", false);
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //200 添加图库相册集
@@ -88,6 +97,12 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
                         layout.setVisibility(View.GONE);
                     }
                     //更新list view视图
+                    break;
+
+                case 202:
+                    /*data.getStringExtra("id");
+                    Serializable data1 = data.getSerializableExtra("data");*/
+                    doit();
                     break;
             }
         }
@@ -180,4 +195,5 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     public void onClick(View v) {
         startActivityForResult(new Intent(getActivity(), PhotosAddActivity.class), 0);
     }
+
 }
