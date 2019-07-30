@@ -32,7 +32,7 @@ public class AlbumAdapter extends BaseQuickAdapter<MyAlbum, BaseViewHolder> {
             bundle.putString("Id", String.valueOf(item.getId()));
             bundle.putString("Title", item.getTitle());
             bundle.putString("IsTrue", item.getIsTrue());
-            bundle.putStringArrayList("Urls", (ArrayList<String>) list);
+//            bundle.putStringArrayList("Urls", (ArrayList<String>) list);
             bundle.putSerializable("data", (Serializable) item.getAlbums());
             FastUtil.startActivity(mContext, PhotosDetailsActivity.class, bundle);
         });

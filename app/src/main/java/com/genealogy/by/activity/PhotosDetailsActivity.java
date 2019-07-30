@@ -2,6 +2,9 @@ package com.genealogy.by.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,21 +19,28 @@ import com.genealogy.by.adapter.PhotosAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.Album;
 import com.genealogy.by.entity.MyAlbum;
-import com.genealogy.by.entity.Photo;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
+import com.luck.picture.lib.tools.ToastManage;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -43,26 +53,18 @@ import tech.com.commoncore.utils.ToastUtil;
 // TODO: 2019/7/25 图片上传接口 一直报错 
 public class PhotosDetailsActivity extends BaseTitleActivity implements onClickAlbumItem, View.OnClickListener {
 
-    private TextView managerAlbum;
-
-    private Button releasePhoto;
-    private TextView deleteAlbum;
     private Album album;
+    private Button releasePhoto;
     private LinearLayout messageRelativeLayout;
-
     private String TAG = "PhotosDetailsActivity";
-    private ArrayList<Photo> photos;
-    private RecyclerView recyclerview;
     private PhotosAdapter photosadapter;
-    private List<String> list;
-    private int familyAlbum = 0;
-
-
+    private int familyAlbum;
     private TextView tvDownload, tvDel, tvBatchManage, tvEditManage, tvUploadPhoto;
-
-    private List<MyAlbum.AlbumsBean> beans;
+    private ConstraintLayout clBottom;
     private List<MyAlbum.AlbumsBean> mAlbums;
     private boolean mIsHide;
+    private boolean mRefresh;
+    private loadDataThread loadDataThread;
 
     @Override
     public void jumpActivity(Intent intent) {
@@ -75,23 +77,25 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         tvBatchManage = findViewById(R.id.tv_batch_manage);
         tvEditManage = findViewById(R.id.tv_edit_manage);
         tvUploadPhoto = findViewById(R.id.tv_upload_photo);
+        clBottom = findViewById(R.id.cl_bottom);
 
-        photos = new ArrayList<>();
-        album = new Album();
         releasePhoto = findViewById(R.id.release_photo);
-        recyclerview = findViewById(R.id.recyclerview);
+        RecyclerView recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new GridLayoutManager(PhotosDetailsActivity.this, 3));
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
         recyclerview.setAdapter(photosadapter);
         if (mAlbums.size() > 0) {
+            clBottom.setVisibility(View.VISIBLE);
             photosadapter.setNewData(mAlbums);
+        } else {
+            clBottom.setVisibility(View.GONE);
         }
         photosadapter.setOnItemClickListener((adapter, view, position) -> {
             ArrayList<LocalMedia> medias = new ArrayList<>();
             LocalMedia media;
-            for (String s : list) {
+            for (MyAlbum.AlbumsBean bean : mAlbums) {
                 media = new LocalMedia();
-                media.setPath(s);
+                media.setPath(bean.getUrl());
                 medias.add(media);
             }
             PictureSelector.create(mContext)
@@ -99,7 +103,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                     .openExternalPreview(position, medias);
         });
         messageRelativeLayout = findViewById(R.id.message);
-        if (list.size() != 0) {
+        if (mAlbums.size() != 0) {
             recyclerview.setVisibility(View.VISIBLE);
             messageRelativeLayout.setVisibility(View.GONE);
         } else {
@@ -109,24 +113,15 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         //获取传来的参数
         Intent intent = getIntent();
         familyAlbum = Integer.parseInt(intent.getStringExtra("Id"));
+
+        album = new Album();
         album.setText(intent.getStringExtra("Title"));
-        album.setId(Integer.valueOf(intent.getStringExtra("Id")));
+        album.setId(familyAlbum);
         album.setSrc(intent.getStringExtra("src"));
         album.setContent(intent.getStringExtra("content"));
-        //下拉刷新
-//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-//                toolUtil.dip2px(this, 40), toolUtil.dip2px(this, 40));
         mTitleBar.setTitleMainText(album.getText());
-        //发布照片
-        releasePhoto.setOnClickListener(v ->
-                //图片选择器
-                photoAndCamera()
-        );
-
-        beans = new ArrayList<>();
     }
 
-    //Intent  回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,8 +132,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
             case RESULT_OK:
                 // 图片、视频、音频选择结果回调
                 List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                //相册集 等于0
-                if (photos.size() == 0 && selectList.size() > 0) {
+                if (selectList.size() > 0) {
                     messageRelativeLayout.setVisibility(View.GONE);
                     MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
                     File mFile;
@@ -148,15 +142,11 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                     }
                     upLoadPic(body);
                 }
-               /* for (int i = 0; i < selectList.size(); i++) {
-                    upLoadPic(selectList.get(i).getPath(), 0);
-                }*/
                 break;
             case 200:
                 //编辑设置标题
                 mTitleBar.setTitleMainText(data.getStringExtra("photoTitle"));
                 break;
-
 
             case 202:
                 String title = data.getStringExtra("title");
@@ -180,16 +170,21 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                         hideLoading();
                         if (data.isSuccess()) {
                             SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
-                            String[] strings = ids.split(",");
-                            for (String string : strings) {
-                                for (MyAlbum.AlbumsBean bean : photosadapter.getData()) {
-                                    if (bean.getUrl().equals(string)) {
-                                        photosadapter.getData().remove(bean);
-                                    }
+                            Iterator<MyAlbum.AlbumsBean> iterator = mAlbums.iterator();
+                            MyAlbum.AlbumsBean bean;
+                            while (iterator.hasNext()) {
+                                bean = iterator.next();
+                                if (bean.isSelect()) {
+                                    iterator.remove();
                                 }
                             }
-                            Log.i(TAG, "onSuccess: 你好");
-                            photosadapter.notifyDataSetChanged();
+                            for (MyAlbum.AlbumsBean albumsBean : mAlbums) {
+                                albumsBean.setSelect(false);
+                            }
+                            photosadapter.setNewData(mAlbums);
+                            if (mAlbums.size() == 0) {
+                                clBottom.setVisibility(View.GONE);
+                            }
                         }
                         ToastUtil.show(data.msg);
                     }
@@ -212,36 +207,21 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                     @Override
                     public void onSuccess(BaseTResp2<List<MyAlbum.AlbumsBean>> data) {
                         hideLoading();
-//                        if (data.isSuccess()) {
-//                            Log.e(TAG, "onSuccess: 提交成功" + data.msg);
-//                            Log.i(TAG, "onSuccess: " + data.data);
-//                        } else {
-//                            Log.e(TAG, "onSuccess: 提交失败" + data.msg);
-//                        }
-//                        photosadapter.addData(data.data);
-                        Log.i(TAG, "onSuccess: " + photosadapter.getData().size());
-
                         if (null != data.data) {
-                            beans.addAll(data.data);
+                            mRefresh = true;
                             if (photosadapter.getData().size() == 0) {
-                              /*  for (MyAlbum.AlbumsBean bean : data.data) {
-                                    list.add(bean.getUrl());
-                                }*/
+                                clBottom.setVisibility(View.VISIBLE);
                                 photosadapter.setNewData(data.data);
                             } else {
-                               /* for (MyAlbum.AlbumsBean bean : data.data) {
-                                }*/
                                 photosadapter.addData(data.data);
                             }
                         }
-
                         ToastUtil.show(data.msg);
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         hideLoading();
-                        Log.i(TAG, "onFail: " + errMsg + " " + errCode);
                         ToastUtil.show("请求失败: " + errMsg + "，errCode: " + errCode);
                     }
                 });
@@ -266,11 +246,10 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                     if (mIsHide) {
                         mIsHide = !mIsHide;
                         hideBottom(mIsHide);
-
                         photosadapter.setCheck(false);
                         photosadapter.notifyDataSetChanged();
                     } else {
-                        if (beans.size() > 0) {
+                        if (mRefresh) {
                             SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
                         }
                         finish();
@@ -278,6 +257,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 
                 }).setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
     }
+
 
     @Override
     public int getContentLayout() {
@@ -287,7 +267,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     @Override
     public void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        list = intent.getStringArrayListExtra("Urls");
         mAlbums = (List<MyAlbum.AlbumsBean>) intent.getSerializableExtra("data");
         initView();
     }
@@ -305,12 +284,9 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 intent.putExtra("data", album);
                 jumpActivity(intent);
                 break;
-            case R.id.tv_upload_photo:
-                photoAndCamera();
-                break;
             case R.id.tv_download:/*下载图片*/
+                showDownLoadDialog();
                 break;
-
             case R.id.tv_delete:/*删除图片*/
                 StringBuilder sb = new StringBuilder();
                 for (MyAlbum.AlbumsBean bean : mAlbums) {
@@ -323,10 +299,112 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 } else {
                     ToastUtil.show("请选择删除的图片");
                 }
-
+                break;
+            case R.id.tv_upload_photo:
+            case R.id.release_photo:
+                photoAndCamera();
                 break;
         }
     }
+
+
+    private void showDownLoadDialog() {
+        showLoading();
+        String path;
+        for (MyAlbum.AlbumsBean mAlbum : mAlbums) {
+            if (mAlbum.isSelect()) {
+                path = mAlbum.getUrl();
+                Log.i(TAG, "showDownLoadDialog: " + path);
+                boolean isHttp = PictureMimeType.isHttp(path);
+                if (isHttp) {
+                    loadDataThread = new loadDataThread(path);
+                    loadDataThread.start();
+                } else {
+                    // 有可能本地图片
+                    try {
+                        String dirPath = PictureFileUtils.createDir(this,
+                                System.currentTimeMillis() + ".png", getIntent().getStringExtra(PictureConfig.DIRECTORY_PATH));
+                        PictureFileUtils.copyFile(path, dirPath);
+                        Log.i(TAG, "showDownLoadDialog:下载成功 ");
+                    } catch (IOException e) {
+                        Log.i(TAG, "showDownLoadDialog:下载失败" + e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        Log.i(TAG, "showDownLoadDialog: ");
+        hideLoading();
+        for (MyAlbum.AlbumsBean bean : mAlbums) {
+            bean.setSelect(false);
+        }
+        photosadapter.notifyDataSetChanged();
+
+        /*dialog.dismiss();*/
+    }
+
+    // 进度条线程
+    public class loadDataThread extends Thread {
+        private String path;
+
+        public loadDataThread(String path) {
+            super();
+            this.path = path;
+        }
+
+        @Override
+        public void run() {
+            try {
+                showLoadingImage(path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // 下载图片保存至手机
+    public void showLoadingImage(String urlPath) {
+        try {
+            URL u = new URL(urlPath);
+            String path = PictureFileUtils.createDir(this,
+                    System.currentTimeMillis() + ".png", getIntent().getStringExtra(PictureConfig.DIRECTORY_PATH));
+            byte[] buffer = new byte[1024 * 8];
+            int read;
+            int ava = 0;
+            long start = System.currentTimeMillis();
+            BufferedInputStream bin;
+            bin = new BufferedInputStream(u.openStream());
+            BufferedOutputStream bout = new BufferedOutputStream(
+                    new FileOutputStream(path));
+            while ((read = bin.read(buffer)) > -1) {
+                bout.write(buffer, 0, read);
+                ava += read;
+                /*long speed = ava / (System.currentTimeMillis() - start);*/
+            }
+            bout.flush();
+            bout.close();
+            Message message = handler.obtainMessage();
+            message.what = 200;
+            message.obj = path;
+            handler.sendMessage(message);
+        } catch (IOException e) {
+            ToastManage.s(mContext, getString(R.string.picture_save_error) + "\n" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 200:
+                    String path = (String) msg.obj;
+                    ToastManage.s(mContext, getString(R.string.picture_save_success));
+                    break;
+            }
+        }
+    };
 
     private void hideBottom(boolean isHide) {
         if (isHide) {
@@ -344,10 +422,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
             tvDownload.setVisibility(View.GONE);
             tvDel.setVisibility(View.GONE);
         }
-
         this.mIsHide = isHide;
-
     }
-
-
 }

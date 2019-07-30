@@ -31,6 +31,7 @@ public class PhotosAdapter extends BaseQuickAdapter<MyAlbum.AlbumsBean, BaseView
         }
 
         helper.setGone(R.id.cb_select, isCheck);
+        helper.setChecked(R.id.cb_select, false);
         helper.setOnCheckedChangeListener(R.id.cb_select, (buttonView, isChecked) -> item.setSelect(isChecked));
     }
 

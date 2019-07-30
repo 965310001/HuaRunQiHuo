@@ -42,16 +42,13 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     private AppCompatImageView addImage;
     private LinearLayout messageRelativeLayout;
     private ArrayList<MyAlbum> albums;
-    private AlbumAdapter albumadapter;
+    private AlbumAdapter albumadapter, albumadapter1;
     private RecyclerView layout;
     private RadioGroup mPhotosRadio;
 
     @Override
     public void jumpActivity(Intent intent) {
         startActivityForResult(intent, 0);
-    }
-
-    public PhotosFragment() {
     }
 
     public static PhotosFragment newInstance() {
@@ -109,43 +106,87 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     }
 
     public void doit() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("userId", SPHelper.getStringSF(getContext(), "UserId", ""));
-        Log.e(TAG, "execute: 参数：" + params.toString());
-        ViseHttp.POST(ApiConstant.album_searchMyAlbum)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(new JSONObject(params))
-                .request(new ACallback<BaseTResp2<List<MyAlbum>>>() {
-                    @Override
-                    public void onSuccess(BaseTResp2<List<MyAlbum>> data) {
-                        if (data.status == 200) {
+        if (!isAllFamily) {
+            layout.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            layout.setAdapter(albumadapter);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("userId", SPHelper.getStringSF(getContext(), "UserId", ""));
+            Log.e(TAG, "execute: 参数：" + params.toString());
+            ViseHttp.POST(ApiConstant.album_searchMyAlbum)
+                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .cacheMode(CacheMode.FIRST_REMOTE)
+                    .setJson(new JSONObject(params))
+                    .request(new ACallback<BaseTResp2<List<MyAlbum>>>() {
+                        @Override
+                        public void onSuccess(BaseTResp2<List<MyAlbum>> data) {
+                            if (data.isSuccess()) {
 
-                            List<MyAlbum> myAlbums = data.data;
-                            Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
-                            if (myAlbums.size() == 0) {
-                                layout.setVisibility(View.GONE);
-                                messageRelativeLayout.setVisibility(View.VISIBLE);
+                                List<MyAlbum> myAlbums = data.data;
+                                Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
+                                if (myAlbums.size() == 0) {
+                                    layout.setVisibility(View.GONE);
+                                    messageRelativeLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    layout.setVisibility(View.VISIBLE);
+                                    messageRelativeLayout.setVisibility(View.GONE);
+                                }
+                                for (int i = 0; i < myAlbums.size(); i++) {
+                                    albumadapter.setNewData(myAlbums);
+                                    albumadapter.notifyDataSetChanged();
+                                }
                             } else {
-                                layout.setVisibility(View.VISIBLE);
-                                messageRelativeLayout.setVisibility(View.GONE);
+                                Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
+                                ToastUtil.show("请求失败 " + data.msg);
                             }
-                            for (int i = 0; i < myAlbums.size(); i++) {
-                                albumadapter.setNewData(myAlbums);
-                                albumadapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
-                            ToastUtil.show("请求失败 " + data.msg);
                         }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("失败: " + errMsg);
-                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
-                    }
-                });
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            ToastUtil.show("失败: " + errMsg);
+                            Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                        }
+                    });
+        } else {
+            layout.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            layout.setAdapter(albumadapter1);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("gId", SPHelper.getStringSF(mContext, "GId", " "));//Gid
+            ViseHttp.POST(ApiConstant.album_searchFamilyAlbum)
+                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .cacheMode(CacheMode.FIRST_REMOTE)
+                    .setJson(new JSONObject(params))
+                    .request(new ACallback<BaseTResp2<List<MyAlbum>>>() {
+                        @Override
+                        public void onSuccess(BaseTResp2<List<MyAlbum>> data) {
+                            if (data.isSuccess()) {
+                                List<MyAlbum> myAlbums = data.data;
+                                Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
+                                if (myAlbums.size() == 0) {
+                                    layout.setVisibility(View.GONE);
+                                    messageRelativeLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    layout.setVisibility(View.VISIBLE);
+                                    messageRelativeLayout.setVisibility(View.GONE);
+                                }
+                                for (int i = 0; i < myAlbums.size(); i++) {
+                                    albumadapter1.setNewData(myAlbums);
+                                    albumadapter1.notifyDataSetChanged();
+                                }
+                            } else {
+                                Log.e(TAG, "onSuccess: 我的相册查询请求成功  msg= " + data.msg);
+                                ToastUtil.show("请求失败 " + data.msg);
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+                            ToastUtil.show("失败: " + errMsg);
+                            Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
+                        }
+                    });
+        }
+
+
     }
 
     @Override
@@ -162,8 +203,8 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
     public void initView(Bundle savedInstanceState) {
         StatusBarCompat.setStatusBarColor(getActivity(), Color.parseColor("#464854"), false);
         mContentView.setPadding(0, DisplayUtil.getStatusBarHeight(), 0, 0);
-
         albumadapter = new AlbumAdapter(R.layout.item_photo_album);
+        albumadapter1 = new AlbumAdapter(R.layout.item_photo_album);
         albums = new ArrayList<>();
         addImage = mContentView.findViewById(R.id.add_image);
         addPhotos = mContentView.findViewById(R.id.add_photos);
@@ -179,10 +220,14 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
         mPhotosRadio.setOnCheckedChangeListener((radioGroup, i) -> {
             // TODO: 2019/7/22 接口调试  添加下拉刷新
             if (i == R.id.family) {
+                isAllFamily = false;
                 Log.i(TAG, "onActivityCreated: ");
             } else if (i == R.id.all_family) {
                 Log.i(TAG, "onActivityCreated: ");
+                isAllFamily = true;
             }
+
+            doit();
         });
 
         addImage.setOnClickListener(this);
@@ -191,9 +236,11 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
         doit();
     }
 
+    private boolean isAllFamily;
+
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent(getActivity(), PhotosAddActivity.class), 0);
+        jumpActivity(new Intent(getActivity(), PhotosAddActivity.class));
     }
 
 }
