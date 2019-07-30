@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/dp_28"
+        android:background="@color/white">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_10"
                 android:text="目录"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/committee"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
                 android:text="编委会------------------------------------------1"
                 android:textColor="@color/black"
@@ -36,9 +40,9 @@
 
             <TextView
                 android:id="@+id/preface"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="家谱序言----------------------------------------2"
@@ -47,9 +51,9 @@
 
             <TextView
                 android:id="@+id/source"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
                 android:text="姓氏来源----------------------------------------3"
@@ -58,9 +62,9 @@
 
             <TextView
                 android:id="@+id/instruction"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
                 android:text="家规家训----------------------------------------4"
@@ -69,7 +73,7 @@
 
             <TextView
                 android:id="@+id/photo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
@@ -80,11 +84,13 @@
 
             <TextView
                 android:id="@+id/surface"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
+
                 android:text="世系表-----------------------------------------15"
                 android:textColor="@color/black"
                 android:textSize="13dp" />
@@ -93,37 +99,38 @@
                 android:id="@+id/lineage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center_vertical" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/biography"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
+
                 android:text="人物传------------------------------------------18"
                 android:textColor="@color/black"
                 android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/events"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
+
                 android:text="大记事------------------------------------------19"
                 android:textColor="@color/black"
                 android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/epilogue"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
                 android:text="后记--------------------------------------------20"

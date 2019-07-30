@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
 import com.genealogy.by.activity.PhotosAddActivity;
+import com.genealogy.by.activity.PhotosDetailsActivity;
 import com.genealogy.by.adapter.AlbumAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.MyAlbum;
@@ -28,12 +29,14 @@ import com.vise.xsnow.http.mode.CacheMode;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import tech.com.commoncore.base.BaseTitleFragment;
 import tech.com.commoncore.constant.ApiConstant;
+import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
 public class PhotosFragment extends BaseTitleFragment implements onClickAlbumItem, View.OnClickListener {
@@ -198,13 +201,32 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
         return R.layout.photos;
     }
 
-
     @Override
     public void initView(Bundle savedInstanceState) {
         StatusBarCompat.setStatusBarColor(getActivity(), Color.parseColor("#464854"), false);
         mContentView.setPadding(0, DisplayUtil.getStatusBarHeight(), 0, 0);
         albumadapter = new AlbumAdapter(R.layout.item_photo_album);
+        albumadapter.setOnItemChildClickListener((adapter, view, position) -> {
+            MyAlbum item = (MyAlbum) adapter.getData().get(position);
+            Bundle bundle = new Bundle();
+            bundle.putString("Id", String.valueOf(item.getId()));
+            bundle.putString("Title", item.getTitle());
+            bundle.putString("IsTrue", item.getIsTrue());
+            bundle.putSerializable("data", (Serializable) item.getAlbums());
+            FastUtil.startActivity(mContext, PhotosDetailsActivity.class, bundle);
+        });
+
         albumadapter1 = new AlbumAdapter(R.layout.item_photo_album);
+        albumadapter1.setOnItemChildClickListener((adapter, view, position) -> {
+            MyAlbum item = (MyAlbum) adapter.getData().get(position);
+            Bundle bundle = new Bundle();
+            bundle.putString("Id", String.valueOf(item.getId()));
+            bundle.putString("Title", item.getTitle());
+            bundle.putString("IsTrue", item.getIsTrue());
+            bundle.putSerializable("data", (Serializable) item.getAlbums());
+            bundle.putBoolean("HIDE", true);
+            FastUtil.startActivity(mContext, PhotosDetailsActivity.class, bundle);
+        });
         albums = new ArrayList<>();
         addImage = mContentView.findViewById(R.id.add_image);
         addPhotos = mContentView.findViewById(R.id.add_photos);
@@ -225,6 +247,7 @@ public class PhotosFragment extends BaseTitleFragment implements onClickAlbumIte
             } else if (i == R.id.all_family) {
                 Log.i(TAG, "onActivityCreated: ");
                 isAllFamily = true;
+
             }
 
             doit();

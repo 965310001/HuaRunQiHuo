@@ -120,6 +120,29 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         album.setSrc(intent.getStringExtra("src"));
         album.setContent(intent.getStringExtra("content"));
         mTitleBar.setTitleMainText(album.getText());
+
+        if (intent.hasExtra("HIDE")) {
+            if (intent.getBooleanExtra("HIDE", false)) {
+                tvDel.setVisibility(View.GONE);
+                tvEditManage.setVisibility(View.GONE);
+            }
+        } else {
+            mTitleBar.setRightText("上传")
+                    .setOnLeftTextClickListener(v -> {
+                        if (mIsHide) {
+                            mIsHide = !mIsHide;
+                            hideBottom(mIsHide);
+                            photosadapter.setCheck(false);
+                            photosadapter.notifyDataSetChanged();
+                        } else {
+                            if (mRefresh) {
+                                SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
+                            }
+                            finish();
+                        }
+
+                    }).setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
+        }
     }
 
     @Override
@@ -241,23 +264,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setRightText("上传")
-                .setOnLeftTextClickListener(v -> {
-                    if (mIsHide) {
-                        mIsHide = !mIsHide;
-                        hideBottom(mIsHide);
-                        photosadapter.setCheck(false);
-                        photosadapter.notifyDataSetChanged();
-                    } else {
-                        if (mRefresh) {
-                            SPHelper.setBooleanSF(mContext, "REFRESH_PHOTO", true);
-                        }
-                        finish();
-                    }
-
-                }).setDividerVisible(true).setOnRightTextClickListener(v -> photoAndCamera());
     }
-
 
     @Override
     public int getContentLayout() {
@@ -311,12 +318,14 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
     private void showDownLoadDialog() {
         showLoading();
         String path;
+
+        int index = 0;
         for (MyAlbum.AlbumsBean mAlbum : mAlbums) {
             if (mAlbum.isSelect()) {
+                index = 1;
                 path = mAlbum.getUrl();
-                Log.i(TAG, "showDownLoadDialog: " + path);
-                boolean isHttp = PictureMimeType.isHttp(path);
-                if (isHttp) {
+                /*boolean isHttp = PictureMimeType.isHttp(path);*/
+                if (PictureMimeType.isHttp(path)) {
                     loadDataThread = new loadDataThread(path);
                     loadDataThread.start();
                 } else {
@@ -333,14 +342,15 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
                 }
             }
         }
-        Log.i(TAG, "showDownLoadDialog: ");
         hideLoading();
-        for (MyAlbum.AlbumsBean bean : mAlbums) {
-            bean.setSelect(false);
+        if (index == 0) {
+            ToastUtil.show("请选择图片");
+        } else {
+            for (MyAlbum.AlbumsBean bean : mAlbums) {
+                bean.setSelect(false);
+            }
+            photosadapter.notifyDataSetChanged();
         }
-        photosadapter.notifyDataSetChanged();
-
-        /*dialog.dismiss();*/
     }
 
     // 进度条线程
@@ -411,7 +421,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
             tvBatchManage.setVisibility(View.GONE);
             tvEditManage.setVisibility(View.GONE);
             tvUploadPhoto.setVisibility(View.GONE);
-
             tvDownload.setVisibility(View.VISIBLE);
             tvDel.setVisibility(View.VISIBLE);
         } else {
@@ -420,6 +429,9 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
             tvUploadPhoto.setVisibility(View.VISIBLE);
 
             tvDownload.setVisibility(View.GONE);
+            tvDel.setVisibility(View.GONE);
+        }
+        if (getIntent().hasExtra("HIDE")) {
             tvDel.setVisibility(View.GONE);
         }
         this.mIsHide = isHide;

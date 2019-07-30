@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.FamilyBook;
+import com.genealogy.by.entity.FamilyPhoto;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.utils.my.PictureSelectorHelper;
@@ -42,12 +43,18 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     private String type = "";
     //上传图片
     private File file;
+    private int mIndex;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         mIntent = getIntent();
         type = mIntent.getStringExtra("type");
-        titleBar.setTitleMainText("发布图片")
+
+        if (mIntent.hasExtra("index")) {
+            mIndex = mIntent.getIntExtra("index", 0);
+        }
+
+        titleBar.setTitleMainText("录入简介")
                 .setRightTextColor(getResources()
                         .getColor(R.color.C_F47432))
                 .setRightText("发布")
@@ -75,6 +82,7 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     public void initView(Bundle savedInstanceState) {
         FamilyBook familyBook = SPHelper.getDeviceData(mContext, "familyBook");
         familyAlbum = familyBook.getId();
+
         etText = mContentView.findViewById(R.id.et_text);
         if (mIntent.getStringExtra("Introduction") != null) {
             etText.setText(mIntent.getStringExtra("Introduction"));
@@ -82,8 +90,16 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         recyclerView = mContentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         helper = new PictureSelectorHelper(mContext, recyclerView);
+        helper.setMaxCount(1);
         if (type != null && type.contains("录入")) {
             recyclerView.setVisibility(View.GONE);
+        }
+        if (mIntent.hasExtra("id")) {
+            familyAlbum = mIntent.getIntExtra("id", 0);
+        }
+
+        if (mIntent.hasExtra("Introduction")) {
+            etText.setText(mIntent.getStringExtra("Introduction"));
         }
     }
 
@@ -95,15 +111,16 @@ public class ReleasePictureActivity extends BaseTitleActivity {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("imgs", url, image)
+//                .addFormDataPart("introduction", introduction)
                 .addFormDataPart("id", String.valueOf(familyAlbum))
                 .build();
         ViseHttp.POST(ApiConstant.familyBook_uploadImg)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setRequestBody(requestBody)
-                .request(new ACallback<BaseTResp2>() {
+                .request(new ACallback<BaseTResp2<FamilyPhoto>>() {
                     @Override
-                    public void onSuccess(BaseTResp2 data) {
+                    public void onSuccess(BaseTResp2<FamilyPhoto> data) {
                         hideLoading();
                         if (data.status == 200) {
                             ToastUtil.show("提交成功: " + data.msg);
@@ -111,6 +128,12 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                         } else {
                             ToastUtil.show(data.msg + "");
                         }
+                        mIntent = new Intent();
+                        mIntent.putExtra("index", mIndex);
+                        mIntent.putExtra("data", data.data);
+                        mIntent.putExtra("content", data.data.getIntroduction());
+                        setResult(202, mIntent);
+                        finish();
                     }
 
                     @Override
@@ -124,19 +147,9 @@ public class ReleasePictureActivity extends BaseTitleActivity {
     public void InputDoit(final List<String> urls) {
         showLoading();
         String introduction = etText.getText().toString();
-        String url = "";
-        if (urls.size() != 0) {
-            url = urls.get(0);
-        }
-        if (url.length() > 0) {
-            file = new File(url);
-        } else {
-            file = new File("");
-        }
-        RequestBody image = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("imgs", url, image)
+//                .addFormDataPart("imgs", url, image)
                 .addFormDataPart("introduction", introduction)
                 .addFormDataPart("id", String.valueOf(familyAlbum))
                 .build();
@@ -155,13 +168,17 @@ public class ReleasePictureActivity extends BaseTitleActivity {
                             Log.e(TAG, "onSuccess:  简介录入错误  msg= " + data.msg);
                             ToastUtil.show("录入错误 " + data.msg);
                         }
+                        mIntent = new Intent();
+                        mIntent.putExtra("content", introduction);
+                        mIntent.putExtra("index", mIndex);
+                        setResult(202, mIntent);
+                        finish();
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         hideLoading();
                         ToastUtil.show("失败: " + errMsg);
-                        /*Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);*/
                     }
                 });
     }

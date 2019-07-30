@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/dp_10"
     android:background="@color/white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dp_28"
-        android:layout_marginTop="@dimen/dp_29"
-        android:layout_marginRight="@dimen/dp_27"
-        android:layout_marginBottom="@dimen/dp_32"
-        android:layout_height="match_parent">
-        <include
-            layout="@layout/zuce_sxb_xq1"/>
-    </LinearLayout>
-</RelativeLayout>
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_marginLeft="@dimen/dp_28"-->
+    <!--android:layout_marginTop="@dimen/dp_29"-->
+    <!--android:layout_marginRight="@dimen/dp_27"-->
+    <!--android:layout_marginBottom="@dimen/dp_32"-->
+    <!--android:layout_height="match_parent">-->
+    <!--</LinearLayout>-->
+    <include layout="@layout/zuce_sxb_xq1" />
+</LinearLayout>

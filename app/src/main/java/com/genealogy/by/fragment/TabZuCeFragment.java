@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ import com.genealogy.by.activity.EditCoverActivity;
 import com.genealogy.by.activity.ReleasePictureActivity;
 import com.genealogy.by.activity.SearchMainActivity;
 import com.genealogy.by.adapter.LineagekAdapter;
+import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.entity.FamilyPhoto;
 import com.genealogy.by.utils.SPHelper;
@@ -51,8 +53,9 @@ import tech.com.commoncore.utils.DateUtil;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
+
 // TODO: 2019/7/23 调试接口
-public class TabZuCeFragment extends BaseTitleFragment {
+public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumItem {
     //viewpage管理
     private ViewPager mViewPager;
 
@@ -120,13 +123,6 @@ public class TabZuCeFragment extends BaseTitleFragment {
         if (requestCode == 0) {
             switch (resultCode) {
                 case 200:
-                    //获取封面布局
-                    /*LayoutInflater mLi = LayoutInflater.from(mContext);*/
-//                    TextView nameTextView = view.findViewById(R.id.tv_title);
-//                    TextView personTextView = view.findViewById(R.id.tv_name);
-//                    TextView timeTextView = view.findViewById(R.id.tv_time);
-//                    /*TextView addressTextView = view.findViewById(R.id.address);*/
-
                     //设置返回参数
                     View view = views.get(0);
                     String name = data.getStringExtra("name");
@@ -135,24 +131,6 @@ public class TabZuCeFragment extends BaseTitleFragment {
                     String address = data.getStringExtra("address");
                     setHomeView(view, name, person, time, true);
                     familyBook.setCatalogingAddress(address);
-
-//                    //设置封面布局 参数
-//                    if (!TextUtils.isEmpty(name)) {
-//                        nameTextView.setText(name);
-//                        familyBook.setFamilybookName(name);
-//                    }
-//                    if (!TextUtils.isEmpty(person)) {
-//                        personTextView.setText(person);
-//                        familyBook.setSponsor(person);
-//                    }
-//                    if (!TextUtils.isEmpty(time)) {
-//                        familyBook.setEditingTime(time);
-//                        timeTextView.setText(DateUtil.dateToCnDate(time));
-//                    }
-                  /*  if (address != null && !address.equals("")) {
-                        addressTextView.setText(address);
-                    }*/
-
                     //更新页面
 //                    updateViewPagerItem(view, 0);
                     break;
@@ -181,6 +159,43 @@ public class TabZuCeFragment extends BaseTitleFragment {
                     //更新页面
                     updateViewPagerItem(v, index);
                     break;
+
+                case 202:/*更新图片*/
+                    v = views.get(data.getIntExtra("index", 0));
+                    content = data.getStringExtra("content");
+                    String url = data.getStringExtra("url");
+                    Log.i(TAG, "onActivityResult: " + content);
+
+                    if (data.hasExtra("data")) {
+                        FamilyPhoto familyPhoto = (FamilyPhoto) data.getSerializableExtra("data");
+                        url = familyPhoto.getUrl();
+                        content = familyPhoto.getIntroduction();
+                    }
+
+                    ImageView iv;
+                    switch (this.index) {
+                        case 0:
+                            iv = v.findViewById(R.id.iv_1);
+                            setText(v, R.id.text1, content);
+                            GlideManager.loadImg(url, iv);
+                            break;
+                        case 1:
+                            iv = v.findViewById(R.id.iv_2);
+                            setText(v, R.id.text2, content);
+                            GlideManager.loadImg(url, iv);
+                            break;
+                        case 2:
+                            iv = v.findViewById(R.id.iv_3);
+                            setText(v, R.id.text3, content);
+                            GlideManager.loadImg(url, iv);
+                            break;
+                        case 3:
+                            iv = v.findViewById(R.id.iv_4);
+                            setText(v, R.id.text4, content);
+                            GlideManager.loadImg(url, iv);
+                            break;
+                    }
+                    break;
             }
         }
     }
@@ -191,7 +206,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
 //        exportCoverTextView = view.findViewById(R.id.export_cover);
     }
 
-    boolean isFamilyBook() {
+    private boolean isFamilyBook() {
         return null != familyBook;
     }
 
@@ -302,9 +317,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
         LayoutInflater mLi = LayoutInflater.from(mContext);
         addHomeView();/*添加首页*/
 
-        View view;
-
-        view = mLi.inflate(R.layout.zuce_directory, null);
+        View view = mLi.inflate(R.layout.zuce_directory, null);
         android.support.v7.widget.RecyclerView lineage = view.findViewById(R.id.lineage);
         lineage.setLayoutManager(new LinearLayoutManager(mContext));
         lineage.setAdapter(lineagekAdapter);
@@ -435,8 +448,12 @@ public class TabZuCeFragment extends BaseTitleFragment {
                         popupWindow.dismiss();
                         goEditCoverActivity();
                     });
-
                 });
+    }
+
+    @Override
+    public void jumpActivity(Intent intent) {
+        startActivityForResult(intent, 0);
     }
 
     /**
@@ -497,8 +514,7 @@ public class TabZuCeFragment extends BaseTitleFragment {
                                 list.add(String.valueOf(data.data.getLineageTable().get(i).getLineage()));
                             }
                             for (int i = 0; i < list.size(); i++) {
-                                for (int j = list.size() - 1; j > i; j--)  //内循环是 外循环一次比较的次数
-                                {
+                                for (int j = list.size() - 1; j > i; j--) {
                                     if (list.get(i) == list.get(j)) {
                                         list.remove(j);
                                     }
@@ -577,33 +593,99 @@ public class TabZuCeFragment extends BaseTitleFragment {
         if (TextUtils.isEmpty(introduction)) {
             introduction = "编辑简介";
             setClick(view, p, v -> {
-                Bundle bundle = new Bundle();
+              /*  Bundle bundle = new Bundle();
                 bundle.putString("type", "录入");
                 bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(idx1).getId());
                 bundle.putSerializable("Url", url);
-                FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+                bundle.putString("index", String.format("%d", mViewPager.getCurrentItem()));
+                FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);*/
+
+                index = idx1 % 4;
+                goActivity(idx1);
             });
         } else {
-            setClick(view, p, v -> goActivity(idx1));
+            setClick(view, p, v -> {
+                index = idx1 % 4;
+                goActivity(idx1);
+            });
         }
         setText(view, p, introduction);
         setGone(view, p2, p3);
         GlideManager.loadImg(url, iv_1);
         setVisible(view, p4);
-        setClick(view, p4, v -> showPopupWindowEdit(v, 1, familyBook.getFamilyPhoto().get(idx1).getId(),
-                familyBook.getFamilyPhoto().get(idx1).getUrl()));
+        setClick(view, p4, v -> {
+            index = idx1 % 4;
+            showPopupWindowEdit(v, 1, familyBook.getFamilyPhoto().get(idx1).getId(),
+                    familyBook.getFamilyPhoto().get(idx1).getUrl(), idx1);
+
+        });
     }
+
+    private int index;
 
     private void goActivity(int index) {
         Bundle bundle = new Bundle();
-        bundle.putString("type", "录入");
+        bundle.putString("type", "录入简介");
+        bundle.putInt("id", familyBook.getFamilyPhoto().get(index).getId());
         bundle.putString("Introduction", familyBook.getFamilyPhoto().get(index).getIntroduction());
         bundle.putSerializable("Imgid", familyBook.getFamilyPhoto().get(index).getId());
         bundle.putSerializable("Url", familyBook.getFamilyPhoto().get(index).getUrl());
-        FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+        bundle.putInt("index", mViewPager.getCurrentItem());
+        Intent intent = new Intent(mContext, ReleasePictureActivity.class);
+        intent.putExtras(bundle);
+        jumpActivity(intent);
     }
 
-    private void showPopupWindowEdit(View view, int aog, int id, String url) {
+//    /*private void showPopupWindowEdit(View view, int aog, int id, String url) {
+//        // 一个自定义的布局，作为显示的内容
+//        View contentView = LayoutInflater.from(mContext).inflate(
+//                R.layout.activity_popupzcedit, null);
+//        // 设置按钮的点击事件
+//        RelativeLayout ll = contentView.findViewById(R.id.ll1);//背景图
+//        TextView edit = contentView.findViewById(R.id.edit);//上传
+//        TextView input = contentView.findViewById(R.id.input);//录入
+//        TextView delete = contentView.findViewById(R.id.delete);//删除
+//        TextView cancel = contentView.findViewById(R.id.cancel);//取消
+//        if (aog == 0) {
+//            input.setVisibility(View.GONE);
+//            delete.setVisibility(View.GONE);
+//        } else {
+//            input.setVisibility(View.VISIBLE);
+//            delete.setVisibility(View.VISIBLE);
+//        }
+//        ll.setOnClickListener(view1 -> popupWindowEdit.dismiss());
+//        edit.setOnClickListener(v -> {*//*上传照片*//*
+////                openimgs();
+//           *//* popupWindowEdit.dismiss();
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("type", "上传");
+//            bundle.putSerializable("id", id);
+////            FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);*//*
+////            // TODO: 2019/7/30 单张图片上传
+////        });
+////        input.setOnClickListener(v -> {*//*录入简介*//*
+////                openimgs();
+//            popupWindowEdit.dismiss();
+//            Bundle bundle = new Bundle();
+//            bundle.putString("type", "录入");
+//            bundle.putSerializable("Imgid", id);
+//            bundle.putSerializable("Imgid", url);
+//            bundle.putInt("index", mViewPager.getCurrentItem());
+//            FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+//        });
+//        delete.setOnClickListener(v -> deleteDoit(id));
+//        cancel.setOnClickListener(v -> popupWindowEdit.dismiss());
+//        popupWindowEdit = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
+//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+//        // 我觉得这里是API的一个bug
+//        popupWindowEdit.setOnDismissListener(new popuDismissListener());
+//        popupWindowEdit.setBackgroundDrawable(new BitmapDrawable());
+//        popupWindowEdit.setOutsideTouchable(true);
+//        // 设置好参数之后再show
+//        popupWindowEdit.showAsDropDown(view);
+//    }*/
+
+    private void showPopupWindowEdit(View view, int aog, int id, String url, int index) {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.activity_popupzcedit, null);
@@ -621,22 +703,25 @@ public class TabZuCeFragment extends BaseTitleFragment {
             delete.setVisibility(View.VISIBLE);
         }
         ll.setOnClickListener(view1 -> popupWindowEdit.dismiss());
-        edit.setOnClickListener(v -> {
+        edit.setOnClickListener(v -> {/*上传照片*/
 //                openimgs();
             popupWindowEdit.dismiss();
             Bundle bundle = new Bundle();
             bundle.putSerializable("type", "上传");
             bundle.putSerializable("id", id);
             FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+            // TODO: 2019/7/30 单张图片上传
         });
-        input.setOnClickListener(v -> {
+        input.setOnClickListener(v -> {/*录入简介*/
 //                openimgs();
             popupWindowEdit.dismiss();
-            Bundle bundle = new Bundle();
+           /* Bundle bundle = new Bundle();
             bundle.putString("type", "录入");
             bundle.putSerializable("Imgid", id);
             bundle.putSerializable("Imgid", url);
-            FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);
+            bundle.putInt("index", mViewPager.getCurrentItem());
+            FastUtil.startActivity(mContext, ReleasePictureActivity.class, bundle);*/
+            goActivity(index);
         });
         delete.setOnClickListener(v -> deleteDoit(id));
         cancel.setOnClickListener(v -> popupWindowEdit.dismiss());
