@@ -109,7 +109,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
-
                 android:text="人物传------------------------------------------18"
                 android:textColor="@color/black"
                 android:textSize="13dp" />

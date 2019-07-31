@@ -7,7 +7,7 @@ package tech.com.commoncore.constant;
  */
 public class ApiConstant {
 
-    public static final String BASE_URL_ZP= "http://39.98.47.107:9005/";
+    public static final String BASE_URL_ZP = "http://39.98.47.107:9005/";
     public static final String Account_Send_messages = "user/sendPhoneMessage";//发送注册或登录短信(获取验证码)
     public static final String Account_register = "user/phoneLogin";//短信登录或注册登陆
     public static final String UerfectUserDetail = "user/perfectUserDetail";//完善个人信息
@@ -36,4 +36,9 @@ public class ApiConstant {
     public static final String album_uploadImgs = "album/uploadImgs";//图片上传
     public static final String album_delImgs = "album/delImgs";//删除照片
     public static final String log_search = "log/search";//日志
+
+
+    public static final String searchContactPerson = "user/searchContactPerson";//环信通讯录
+
+
 }

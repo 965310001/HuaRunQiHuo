@@ -11,6 +11,7 @@ import com.genealogy.by.activity.JournalActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
 import com.genealogy.by.activity.RegisterActivity;
+import com.hyphenate.chat.EMClient;
 
 import tech.com.commoncore.base.BaseFragment;
 import tech.com.commoncore.manager.GlideManager;
@@ -31,6 +32,7 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
     private TextView personal;
     private TextView quit;
     private TextView phone;
+
     public static TabWoDeFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -74,15 +76,15 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
         setData();
     }
 
-    public void setData(){
-        if(SPHelper.getStringSF(mContext,"profilePhoto")!=null) {
-            GlideManager.loadCircleImg(SPHelper.getStringSF(mContext,"profilePhoto"), ivUser);
+    public void setData() {
+        if (SPHelper.getStringSF(mContext, "profilePhoto") != null) {
+            GlideManager.loadCircleImg(SPHelper.getStringSF(mContext, "profilePhoto"), ivUser);
         }
-       if(SPHelper.getStringSF(mContext,"nickName")!=null){
-           tvName.setText(SPHelper.getStringSF(mContext,"nickName"));
-       }
-        if(SPHelper.getStringSF(mContext,"Phone")!=null){
-            phone.setText(SPHelper.getStringSF(mContext,"Phone"));
+        if (SPHelper.getStringSF(mContext, "nickName") != null) {
+            tvName.setText(SPHelper.getStringSF(mContext, "nickName"));
+        }
+        if (SPHelper.getStringSF(mContext, "Phone") != null) {
+            phone.setText(SPHelper.getStringSF(mContext, "Phone"));
         }
     }
 
@@ -96,16 +98,16 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
         switch (v.getId()) {
             /*case R.id.lin_user_info:*/
             case R.id.tv_user_info:
-                    FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;
             case R.id.tv_my_follow:
-                    FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;
             case R.id.tv_my_fabulous:
-                    FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
+                FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;
             case R.id.tv_release:
-                    FastUtil.startActivity(mContext, EaseMainActivity.class);
+                FastUtil.startActivity(mContext, EaseMainActivity.class);
                 break;
             case R.id.journal:
                 FastUtil.startActivity(mContext, JournalActivity.class);
@@ -116,10 +118,12 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
             case R.id.tv_message:
                 break;
             case R.id.quit:
+                EMClient.getInstance().logout(true);/*退出登录*/
+
                 ToastUtil.show("退出登录");
-                SPHelper.removeSF(mContext,"GId");
-                SPHelper.removeSF(mContext,"Phone");
-                SPHelper.removeSF(mContext,"UserId");
+                SPHelper.removeSF(mContext, "GId");
+                SPHelper.removeSF(mContext, "Phone");
+                SPHelper.removeSF(mContext, "UserId");
                 FastUtil.startActivity(mContext, RegisterActivity.class);
                 getActivity().finish();
                 break;

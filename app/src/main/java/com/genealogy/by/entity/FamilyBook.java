@@ -178,7 +178,7 @@ public class FamilyBook implements Serializable {
         this.familyPhoto = familyPhoto;
     }
 
-    public static class LineageTableBean implements Serializable {
+    public class LineageTableBean implements Serializable {
         /**
          * id :
          * lineage : 1
@@ -201,7 +201,7 @@ public class FamilyBook implements Serializable {
         private String name;
         private String birthday;
         private String deathTime;
-        private String child;
+        private List<String> child;
         private String ranking;
         private String profilePhoto;
         private String family;
@@ -257,11 +257,11 @@ public class FamilyBook implements Serializable {
             this.deathTime = deathTime;
         }
 
-        public String getChild() {
+        public List<String> getChild() {
             return child;
         }
 
-        public void setChild(String child) {
+        public void setChild(List<String> child) {
             this.child = child;
         }
 

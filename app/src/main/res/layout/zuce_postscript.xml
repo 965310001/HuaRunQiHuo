@@ -12,11 +12,11 @@
             android:id="@+id/epiloguetitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="30dp"
+            android:gravity="center"
             android:text="后记"
             android:textColor="@color/black"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/editText"
@@ -25,26 +25,29 @@
             android:layout_marginLeft="270dp"
             android:layout_marginTop="33dp"
             android:src="@mipmap/bianji" />
+
         <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="68dp"
+            android:layout_marginRight="40dp"
+            android:text=""
             android:textColor="@color/black"
-            android:textSize="10dp"
-            android:text=""/>
+            android:textSize="10dp" />
+
         <TextView
             android:id="@+id/pageNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
             android:text="20"
             android:textColor="@color/black"
-            android:textSize="10dp"/>
+            android:textSize="10dp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

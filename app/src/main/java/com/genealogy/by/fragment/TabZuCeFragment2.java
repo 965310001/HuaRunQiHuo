@@ -724,7 +724,7 @@ public class TabZuCeFragment2 extends BaseTitleFragment {
                             }
                             list.toString();
                             //把每个世系的数据遍历出来
-                            lineagekAdapter.setNewData(list);
+//                            lineagekAdapter.setNewData(list);
                             initFuxiViewPager();
                             SPHelper.saveDeviceData(mContext, "familyBook", familyBook);
                         } else {

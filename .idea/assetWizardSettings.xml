@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="icon_edit_svg" />
-                            <entry key="sourceFile" value="D:\icon_edit.svg" />
+                            <entry key="outputName" value="ic_lianxiren_svg" />
+                            <entry key="sourceFile" value="D:\lianxiren.svg" />
                           </map>
                         </option>
                       </PersistentState>

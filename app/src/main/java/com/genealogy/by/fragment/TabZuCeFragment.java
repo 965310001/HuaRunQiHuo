@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,8 @@ import com.genealogy.by.adapter.LineagekAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.entity.FamilyPhoto;
+import com.genealogy.by.entity.MyLineageTableBean;
+import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.vise.xsnow.http.ViseHttp;
@@ -79,6 +83,16 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
     private View.OnClickListener mEditConvectingClick;
     private PagerAdapter mPagerAdapter;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (SPHelper.getStringSF(mContext, "ImgUrl", null) != null) {
+            String str = SPHelper.getStringSF(mContext, "ImgUrl", null);
+            SPHelper.removeSF(mContext, "ImgUrl");
+            upLoadPic(str, 0);
+        }
+    }
+
     public static TabZuCeFragment newInstance() {
         return new TabZuCeFragment();
     }
@@ -93,7 +107,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         //滑动册谱派系
         mViewPager = mContentView.findViewById(R.id.contentView);
         seekBar = mContentView.findViewById(R.id.seekBar);
-        seekBar.setMax(views.size());
+//        seekBar.setMax(views.size());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             //停止滑动
             @Override
@@ -112,7 +126,21 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
             }
         });
         lineagekAdapter = new LineagekAdapter(R.layout.item_lineagek);
+
+//        List<String> lists = new ArrayList<>();
+//        for (FamilyBook.LineageTableBean bean : familyBook.getLineageTable()) {
+//            lists.add(String.format("%s%s", bean.getSurname(), bean.getName()));
+//        }
+        /*lineagekAdapter.setNewData(familyBook.getLineageTable());*/
+        lineagekAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Bundle bundle = new Bundle();
+            FamilyBook.LineageTableBean bean = (FamilyBook.LineageTableBean) adapter.getData().get(position);
+//                bundle.putSerializable("data", );
+        });
+
         doit();
+
+
     }
 
     @Override
@@ -318,7 +346,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         addHomeView();/*添加首页*/
 
         View view = mLi.inflate(R.layout.zuce_directory, null);
-        android.support.v7.widget.RecyclerView lineage = view.findViewById(R.id.lineage);
+        RecyclerView lineage = view.findViewById(R.id.lineage);
         lineage.setLayoutManager(new LinearLayoutManager(mContext));
         lineage.setAdapter(lineagekAdapter);
 
@@ -343,8 +371,9 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
             addPhoto(i, i + 1, i + 2, i + 3);
         }
         addTableView("世系表");
-        view = mLi.inflate(R.layout.zuce_sxb_xq, null);
-        views.add(view);
+
+        addLineageTable();
+
         addEditView("人物传", familyBook.getCharacterBiography());
         addEditView("大事记", familyBook.getBigNote());
         addEditView("后记", familyBook.getPostscript());
@@ -393,6 +422,145 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
             }
         };
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                seekBar.setProgress(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        seekBar.setMax(views.size() - 1);
+    }
+
+    private void addLineageTable() {
+        List<FamilyBook.LineageTableBean> lineageTable = familyBook.getLineageTable();
+        if (null != lineageTable && lineageTable.size() > 0) {
+            LayoutInflater mLi = LayoutInflater.from(mContext);
+
+            View view;
+            for (int i = 0; i < lineageTable.size(); i = i + 3) {
+                view = mLi.inflate(R.layout.zuce_sxb_xq, null);
+                setLineageTable(lineageTable, view, i, R.id.include_layout1);
+
+                if (i + 1 < lineageTable.size()) {
+                    setLineageTable(lineageTable, view, i + 1, R.id.include_layout2);
+                }
+                if (i + 2 < lineageTable.size()) {
+                    setLineageTable(lineageTable, view, i + 2, R.id.include_layout3);
+                }
+                views.add(view);
+            }
+        }
+    }
+
+    private void setLineageTable(List<FamilyBook.LineageTableBean> lineageTable, View view, int i, int p) {
+        FamilyBook.LineageTableBean bean;
+        StringBuffer fatherName;
+        List<SearchNearInBlood> spouses;
+        AppCompatImageView iv, iv1;
+
+        bean = lineageTable.get(i);
+        fatherName = new StringBuffer();
+        for (String s : bean.getParents()) {
+            fatherName.append(s).append("\n");
+        }
+        setText(view.findViewById(p), R.id.tv_generation, changeToBig(bean.getLineage()));
+        setText(view.findViewById(p), R.id.tv_name, String.format("%s%s", bean.getSurname(), bean.getName()));
+        setText(view.findViewById(p), R.id.tv_father_name, fatherName.toString());
+
+        spouses = bean.getSpouses();
+        if (null != spouses && spouses.size() > 0) {
+            SearchNearInBlood searchNearInBlood = spouses.get(0);
+            setText(view.findViewById(p), R.id.tv_spouses_name,
+                    String.format("%s%S", searchNearInBlood.getSurname(), spouses.get(0).getName()));
+
+            if (!TextUtils.isEmpty(searchNearInBlood.getProfilePhoto())) {
+                iv1 = view.findViewById(p).findViewById(R.id.iv_spouses_icon);
+                GlideManager.loadImg(searchNearInBlood.getProfilePhoto(), iv1);
+            }
+
+            setText(view.findViewById(p), R.id.tv_spouses_birthday, String.format("%s", searchNearInBlood.getBirthday()));
+            setText(view.findViewById(p), R.id.tv_spouses_deathTime, String.format("%s", searchNearInBlood.getDeathTime()));
+        }
+        /*头像*/
+        if (!TextUtils.isEmpty(bean.getProfilePhoto())) {
+            iv = view.findViewById(p).findViewById(R.id.iv_icon);
+            GlideManager.loadImg(bean.getProfilePhoto(), iv);
+        }
+
+        List<String> child = bean.getChild();
+        if (null != child && child.size() > 0) {
+            fatherName = new StringBuffer();
+            for (String s : child) {
+                fatherName.append(s).append("\n");
+            }
+            setText(view.findViewById(p), R.id.tv_children_name, fatherName.toString());
+        }
+
+        setText(view.findViewById(p), R.id.tv_ranking, String.format("%s排行", bean.getRanking()));
+        setText(view.findViewById(p), R.id.tv_introduction, String.format("%s", bean.getIntroduction()));/*简介*/
+        setText(view.findViewById(p), R.id.tv_family, String.format("兄妹%s人", bean.getFamily()));/*简介*/
+        setText(view.findViewById(p), R.id.tv_birthday, String.format("%s", bean.getBirthday()));
+        setText(view.findViewById(p), R.id.tv_deathTime, String.format("%s", bean.getDeathTime()));
+
+
+    }
+
+    private String changeToBig(int value) {
+        char[] hunit = {'十', '百', '千'};                                               //段内位置表示
+        char[] vunit = {'万', '亿'};                                                     //段名表示
+        char[] digit = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};  //数字表示
+        long midVal = (long) (value * 100);                                      //转化成整形
+        String valStr = String.valueOf(midVal);                                //转化成字符串
+        String head = valStr.substring(0, valStr.length() - 2);               //取整数部分
+        String prefix = "";                                                                 //整数部分转化的结果
+        //处理小数点前面的数
+        char[] chDig = head.toCharArray();                                                         //把整数部分转化成字符数组
+        char zero = '0';                                                                                          //标志'0'表示出现过0
+        byte zeroSerNum = 0;                                                                            //连续出现0的次数
+        for (int i = 0; i < chDig.length; i++) {                                                               //循环处理每个数字
+            int idx = (chDig.length - i - 1) % 4;                                                                //取段内位置
+            int vidx = (chDig.length - i - 1) / 4;                                                                //取段位置
+            if (chDig[i] == '0') {                                                                                  //如果当前字符是0
+                zeroSerNum++;                                                                                 //连续0次数递增
+                if (zero == '0') {                                                                                    //标志
+                    zero = digit[0];
+                }
+                if (idx == 0 && vidx > 0 && zeroSerNum < 4) {
+                    prefix += vunit[vidx - 1];
+                    zero = '0';
+                }
+                continue;
+            }
+            zeroSerNum = 0;                                                                                    //连续0次数清零
+            if (zero != '0') {                                                                                        //如果标志不为0,则加上,例如万,亿什么的
+                prefix += zero;
+                zero = '0';
+            }
+            prefix += digit[chDig[i] - '0'];                                                                        //转化该数字表示
+            if (idx > 0) prefix += hunit[idx - 1];
+            if (idx == 0 && vidx > 0) {
+                prefix += vunit[vidx - 1];                                                                             //段结束位置应该加上段名如万,亿
+            }
+        }
+        if (prefix.startsWith("一十")) {
+            String[] strings = prefix.split("一十");
+            System.out.println(strings.length);
+            if (strings.length == 0) {
+                prefix = "十";
+            } else {
+                prefix = "十" + strings[1];
+            }
+        }
+        return String.format("%s\n世", prefix);                                                                                     //返回正确表示
+
     }
 
     private void goActivity(Map<String, Object> map, Class clazz, boolean isResult) {
@@ -505,7 +673,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
                 .request(new ACallback<BaseTResp2<FamilyBook>>() {
                     @Override
                     public void onSuccess(BaseTResp2<FamilyBook> data) {
-                        if (data.status == 200) {
+                        if (data.isSuccess()) {
                             SPHelper.saveDeviceData(mContext, "familyBook", familyBook);
                             SPHelper.saveDeviceData(mContext, "LineageTable", data.data.getLineageTable());
                             familyBook = data.data;
@@ -520,9 +688,31 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
                                     }
                                 }
                             }
-                            list.toString();
+                            List<MyLineageTableBean> lineageTableBeans = new ArrayList<>();
+
+                            List<FamilyBook.LineageTableBean> beanList = new ArrayList<>();
+                            int index = 0;
+                            MyLineageTableBean myLineageTableBean;
+// TODO: 2019/7/31 测试 
+                            for (FamilyBook.LineageTableBean bean : data.data.getLineageTable()) {
+                                if (index != bean.getLineage()) {
+                                    myLineageTableBean = new MyLineageTableBean();
+                                    myLineageTableBean.setIndex(bean.getLineage());
+                                    beanList.add(bean);
+                                    myLineageTableBean.setLineageTableBeans(beanList);
+                                    index = bean.getLineage();
+                                    lineageTableBeans.add(myLineageTableBean);
+
+                                    beanList = new ArrayList<>();
+                                } else {
+                                    beanList.add(bean);
+                                }
+                            }
+                            Log.i(TAG, "onSuccess: " + lineageTableBeans);
+
                             //把每个世系的数据遍历出来
                             lineagekAdapter.setNewData(list);
+//                            lineagekAdapter.setNewData(familyBook.getLineageTable());
                             initFuxiViewPager();
                             SPHelper.saveDeviceData(mContext, "familyBook", familyBook);
                         } else {
@@ -536,6 +726,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
                     }
                 });
     }
+
 
     private void doOnClick(View view) {
         View.OnClickListener clickListener = v -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class);
@@ -742,16 +933,6 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (SPHelper.getStringSF(mContext, "ImgUrl", null) != null) {
-            String str = SPHelper.getStringSF(mContext, "ImgUrl", null);
-            SPHelper.removeSF(mContext, "ImgUrl");
-            upLoadPic(str, 0);
         }
     }
 

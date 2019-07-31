@@ -212,5 +212,10 @@
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:screenOrientation="portrait"
             tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".Ease.ContactsListActivity"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity" />
     </application>
 </manifest>

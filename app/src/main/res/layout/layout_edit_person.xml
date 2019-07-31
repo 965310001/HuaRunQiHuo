@@ -51,5 +51,6 @@
         android:layout_centerHorizontal="true"
         android:text="18"
         android:textColor="@color/black"
-        android:textSize="10dp" />
+        android:textSize="10dp"
+        android:visibility="gone" />
 </RelativeLayout>

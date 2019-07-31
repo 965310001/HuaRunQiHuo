@@ -80,6 +80,9 @@ public class ToastUtil {
     }
 
     public static void show(CharSequence content) {
+        if (content.toString().contains("NETWORK_ERRO")) {
+            content = "网络不好，请稍后再试！";
+        }
         show(content, sIsShowRunningForeground);
     }
 

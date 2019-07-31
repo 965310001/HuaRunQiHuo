@@ -2,13 +2,11 @@ package com.genealogy.by.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.progress.UIProgressDialog;
-import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.PhoneLogin;
 import com.genealogy.by.utils.CacheData;
@@ -29,7 +27,6 @@ import java.util.Map;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.DataUtils;
-import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.RegUtils;
 import tech.com.commoncore.utils.ToastUtil;
 import tech.com.commoncore.widget.CountDownTextView;
@@ -90,11 +87,11 @@ public class RegisterActivity extends BaseTitleActivity {
                 .request(new ACallback<BaseTResp2<PhoneLogin>>() {
                     @Override
                     public void onSuccess(BaseTResp2<PhoneLogin> data) {
+
                         if (data.status == 200) {
                             Bundle bundle = new Bundle();
                             bundle.putString("userId", data.data.getUserId());
                             bundle.putString("gId", data.data.getGId() + "");
-                            register();
                             SPHelper.setStringSF(mContext, "profilePhoto", String.valueOf(data.data.getProfilePhoto()));//头像
                             SPHelper.setStringSF(mContext, "nickName", String.valueOf(data.data.getNickName()));//昵称
                             SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
@@ -104,7 +101,8 @@ public class RegisterActivity extends BaseTitleActivity {
                             Map<String, String> map = new HashMap<>();
                             map.put("Authorization", data.data.getAuthorization());
                             ViseHttp.CONFIG().globalHeaders(map);
-                            FastUtil.startActivity(mContext, MainActivity.class, bundle);
+                            register();
+                            /*FastUtil.startActivity(mContext, MainActivity.class, bundle);*/
                         } else if (data.status == 202) {
                             SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
                             SPHelper.setStringSF(mContext, "Phone", phone);
@@ -115,10 +113,13 @@ public class RegisterActivity extends BaseTitleActivity {
                             ViseHttp.CONFIG().globalHeaders(map);
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("title", "无");
-                            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
+                            register();
+                            /*FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);*/
                         } else {
                             ToastUtil.show(" " + data.msg);
                         }
+
+
                     }
 
                     @Override
@@ -205,42 +206,34 @@ public class RegisterActivity extends BaseTitleActivity {
     }
 
     private void register() {
-        final String username = etPhone.getText().toString().trim();
-        final String pwd = "zupu123456";
-        String confirm_pwd = "zupu123456";
-        if (TextUtils.isEmpty(username)) {
-            etPhone.requestFocus();
-            return;
-        } else if (TextUtils.isEmpty(pwd)) {
-            return;
-        } else if (TextUtils.isEmpty(confirm_pwd)) {
-            return;
-        } else if (!pwd.equals(confirm_pwd)) {
-            return;
-        }
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.show();
+        new Thread(() -> {
+            // call method in SDK
+            Log.i(TAG, "register: " + SPHelper.getStringSF(mContext, "UserId"));
+            EMClient.getInstance().login(SPHelper.getStringSF(mContext, "UserId"), "zupu123456", new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    Log.e(TAG, "onSuccess: 环信登录成功");
+                    /*EMClient.getInstance().chatManager().loadAllConversations();*/
+                }
 
-        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
-            final ProgressDialog pd = new ProgressDialog(this);
-            pd.show();
-            new Thread(() -> {
-                // call method in SDK
-                EMClient.getInstance().login(username, pwd, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        Log.e(TAG, "onSuccess: 环信登录成功");
-                    }
+                @Override
+                public void onError(int i, String s) {
+                    Log.e(TAG, "onError: 环信登录失败 : " + s + i+" "+SPHelper.getStringSF(mContext, "UserId"));
+                }
 
-                    @Override
-                    public void onError(int i, String s) {
-                        Log.e(TAG, "onError: 环信登录失败 : " + s);
-                    }
+                @Override
+                public void onProgress(int i, String s) {
+                    Log.e(TAG, "onProgress: 正在请求 : " + s);
+                }
+            });
+        }).start();
 
-                    @Override
-                    public void onProgress(int i, String s) {
-                        Log.e(TAG, "onProgress: 正在请求 : " + s);
-                    }
-                });
-            }).start();
-        }
+//        final String username = etPhone.getText().toString().trim();
+//        final String pwd = tvVerifyCode.getText().toString().trim();
+//        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
+//
+//        }
     }
 }
