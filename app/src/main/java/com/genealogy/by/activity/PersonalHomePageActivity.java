@@ -101,7 +101,7 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-                            ToastUtil.show("请求失败");
+                            ToastUtil.show(errMsg);
                             Log.e(TAG, "onFail: " + errMsg + ";errCode=" + errCode);
                             hideLoading();
                         }

@@ -118,19 +118,16 @@ public class ChatFragment extends Fragment {
     // 初始化试图
     private void initEvent() {
         // 设置chatListView的Item点击事件
-        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ChatMsgActivity.class);
-                FriendInfo friendInfo = Model.getInstance().getDbManager().getFriendTableDao().getFriendInfoById(Integer.parseInt(chatListData.get(position).get(FRIEND_ID).toString()));
-                intent.putExtra(FriendTable.FRIEND_NAME,friendInfo.getFriendName());
-                intent.putExtra(FriendTable.FRIEND_ACCOUNT,friendInfo.getFriendAccount());
-                intent.putExtra(FriendTable.FRIEND_SEX,friendInfo.getFriendSex());
-                intent.putExtra(FriendTable.FRIEND_HEAD,friendInfo.getFriendHead());
-                intent.putExtra(FriendTable.FRIEND_ID,friendInfo.getFriendId());
-                intent.putExtra(USER_ID, userId);
-                startActivity(intent);
-            }
+        chatListView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getActivity(), ChatMsgActivity.class);
+            FriendInfo friendInfo = Model.getInstance().getDbManager().getFriendTableDao().getFriendInfoById(Integer.parseInt(chatListData.get(position).get(FRIEND_ID).toString()));
+            intent.putExtra(FriendTable.FRIEND_NAME,friendInfo.getFriendName());
+            intent.putExtra(FriendTable.FRIEND_ACCOUNT,friendInfo.getFriendAccount());
+            intent.putExtra(FriendTable.FRIEND_SEX,friendInfo.getFriendSex());
+            intent.putExtra(FriendTable.FRIEND_HEAD,friendInfo.getFriendHead());
+            intent.putExtra(FriendTable.FRIEND_ID,friendInfo.getFriendId());
+            intent.putExtra(USER_ID, userId);
+            startActivity(intent);
         });
 
         // 设置chatListView的Item长按点击事件

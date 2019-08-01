@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" >戴氏族谱</string>
-    <string name="gonggao" >尊敬的用户：您好！今晚22:30美国能源信息署将发布当周EIA原油库存数据，届时行情走势波动会较为剧烈，为降低用户持仓风险，美原油履约保证金于22:00-23:00期间将会提高(去除前两档)。由于行情过快不好把握，建议大家择机操作！提醒客户多加留意市况的行情、走势，同时建议用户确保账户内有充足资金，以抵御未知的市场风险及掌握瞬间市况波动带来的获利机会。    入金-赠金：为感谢广大用户长期以来对我司的支持和信赖：凡是采用公司入款【银行转账、支付宝转银行卡、微信转银行卡】入金的用户，即可尊享该笔入金2%的优惠。   如遇充值问题，第一时间联系在线客服，客服人员会引导您迅速入金。</string>
+    <string name="app_name">戴氏族谱</string>
+    <string name="gonggao">尊敬的用户：您好！今晚22:30美国能源信息署将发布当周EIA原油库存数据，届时行情走势波动会较为剧烈，为降低用户持仓风险，美原油履约保证金于22:00-23:00期间将会提高(去除前两档)。由于行情过快不好把握，建议大家择机操作！提醒客户多加留意市况的行情、走势，同时建议用户确保账户内有充足资金，以抵御未知的市场风险及掌握瞬间市况波动带来的获利机会。    入金-赠金：为感谢广大用户长期以来对我司的支持和信赖：凡是采用公司入款【银行转账、支付宝转银行卡、微信转银行卡】入金的用户，即可尊享该笔入金2%的优惠。   如遇充值问题，第一时间联系在线客服，客服人员会引导您迅速入金。</string>
 
     <!--<string name="app_name1">BLChat</string>-->
     <!--<string name="action_search">查找</string>-->
@@ -39,7 +39,7 @@
 
     <!--朋友圈开始-->
     <!--<string name="txt_friend_moment">天下只有两种人。比如一串葡萄到手，一种人挑最好的先吃，另一种人把最好的留到最后吃。照例第一种人应该乐观，因为他每吃一颗都是吃剩的葡萄里最好的；第二种人应该悲观，-->
-        <!--因为他每吃一颗都是吃剩的葡萄里最坏的。不过事实却适得其反，缘故是第二种人还有希望，第一种人只有回忆。</string>-->
+    <!--因为他每吃一颗都是吃剩的葡萄里最坏的。不过事实却适得其反，缘故是第二种人还有希望，第一种人只有回忆。</string>-->
     <!--<string name="moment_time">6分钟前</string>-->
     <!--朋友圈结束-->
 
@@ -83,7 +83,7 @@
     <!--<string name="error_incorrect_password">This password is incorrect</string>-->
     <!--<string name="error_field_required">This field is required</string>-->
     <!--<string name="permission_rationale">"Contacts permissions are needed for providing email-->
-        <!--completions."-->
+    <!--completions."-->
     <!--</string>-->
 
     <!--<string name="friendInfor_btnSetNickName">设置备注和关系</string>-->
@@ -100,4 +100,16 @@
     <!--<string name="add_friend_contact_hint">添加或邀请通讯录中的朋友</string>-->
     <!--<string name="add_friend_pub_hint">获取更多资讯和服务</string>-->
     <!--<string name="add_friend_pub">公众号</string>-->
+
+    <string name="location_recv">[%1$s的位置]</string>
+    <string name="location_prefix">[我的位置]</string>
+    <string name="picture">[图片]</string>
+    <string name="video">[视频]</string>
+    <string name="file">[文件]</string>
+
+    <string name="voice_prefix">[语音]</string>
+    <string name="voice_call">[语音通话]</string>
+    <string name="video_call">[视频通话]</string>
+    <string name="dynamic_expression">[动态表情]</string>
+    <string name="all_members">所有成员</string>
 </resources>

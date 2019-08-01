@@ -1,6 +1,9 @@
 package com.genealogy.by.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import com.genealogy.by.activity.JournalActivity;
 import com.genealogy.by.activity.PerfectingInformationActivity;
 import com.genealogy.by.activity.PersonalHomePageActivity;
 import com.genealogy.by.activity.RegisterActivity;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 
 import tech.com.commoncore.base.BaseFragment;
@@ -118,16 +122,48 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
             case R.id.tv_message:
                 break;
             case R.id.quit:
-                EMClient.getInstance().logout(true);/*退出登录*/
+                showLoading();
+                EMClient.getInstance().logout(true, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        mHandler.sendEmptyMessage(0);
+                    }
 
-                ToastUtil.show("退出登录");
-                SPHelper.removeSF(mContext, "GId");
-                SPHelper.removeSF(mContext, "Phone");
-                SPHelper.removeSF(mContext, "UserId");
-                FastUtil.startActivity(mContext, RegisterActivity.class);
-                getActivity().finish();
+                    @Override
+                    public void onError(int i, String s) {
+                        Log.i(TAG, "onError: " + i + s);
+                        mHandler.hasMessages(2, s);
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
                 break;
 
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            hideLoading();
+            switch (msg.what) {
+                case 0:
+                    SPHelper.removeSF(mContext, "GId");
+                    SPHelper.removeSF(mContext, "Phone");
+                    SPHelper.removeSF(mContext, "UserId");
+                    FastUtil.startActivity(mContext, RegisterActivity.class);
+                    getActivity().finish();
+                    break;
+
+                case 2:
+                    ToastUtil.show(msg.obj.toString());
+                    break;
+            }
+
+        }
+    };
 }

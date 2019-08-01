@@ -4,61 +4,50 @@
     android:id="@+id/activity_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <com.genealogy.by.Ease.ui.CustomToolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:id="@+id/chatMsgToolbar"
-        app:overflowPart="@mipmap/next"
-        >
-    </com.genealogy.by.Ease.ui.CustomToolbar>
+    <include layout="@layout/layout_title_bar" />
 
     <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@android:id/list"
-        android:paddingBottom="5dp"
         android:background="@color/backgroundPrimary"
-        >
-    </ListView>
+        android:paddingBottom="5dp"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/itemBackground"
-        >
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:background="@mipmap/send_msg_record"
-            />
+            android:background="@mipmap/send_msg_record" />
+
         <EditText
+            android:id="@+id/chatMsg_etSendContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/chatMsg_etSendContent"
-            />
+            android:layout_weight="1" />
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:background="@mipmap/send_msg_face"
-            />
+            android:background="@mipmap/send_msg_face" />
+
         <Button
+            android:id="@+id/chatMsg_btnSendMsg"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:background="@mipmap/send_msg_add"
-            android:id="@+id/chatMsg_btnSendMsg"
-            android:textColor="@color/textWhite"
-            />
+            android:textColor="@color/textWhite" />
     </LinearLayout>
 
 </LinearLayout>

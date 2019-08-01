@@ -1,5 +1,6 @@
 package com.genealogy.by.Ease;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,8 @@ import android.view.View;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.genealogy.by.Ease.model.dao.FriendTable;
+import com.genealogy.by.Ease.model.dao.UserTable;
 import com.genealogy.by.R;
 import com.genealogy.by.adapter.ContactsListAdapter;
 import com.genealogy.by.entity.SearchNearInBlood;
@@ -91,9 +94,20 @@ public class ContactsListActivity extends BaseTitleActivity implements BaseQuick
                 });
     }
 
+
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         SearchNearInBlood item = (SearchNearInBlood) adapter.getData().get(position);
-        Log.i(TAG, "onItemChildClick: " + item);
+        Intent intent = new Intent(mContext, ChatMsgActivity.class);
+        intent.putExtra(FriendTable.FRIEND_ID, Integer.valueOf(String.valueOf(item.getId())));
+        intent.putExtra(FriendTable.FRIEND_ACCOUNT, String.valueOf(item.getAccount()));
+        intent.putExtra(FriendTable.FRIEND_NAME, String.format("%s%s", item.getSurname(), item.getName()));
+        intent.putExtra(FriendTable.FRIEND_HEAD, item.getProfilePhoto());
+
+        intent.putExtra(UserTable.USER_ID, Integer.valueOf(SPHelper.getStringSF(this, "UserId", "")));
+        intent.putExtra(UserTable.USER_NAME, SPHelper.getStringSF(this, "nickName", ""));
+        intent.putExtra(UserTable.USER_HEAD, SPHelper.getStringSF(this, "profilePhoto", ""));
+
+        startActivity(intent);
     }
 }

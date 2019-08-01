@@ -8,14 +8,32 @@
     <include layout="@layout/layout_title_bar" />
 
     <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-        <!--android:id="@+id/smartLayout_rootFastLib"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:id="@+id/smartLayout_rootFastLib"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <ListView
-            android:id="@+id/rv_contentFastLib"
+    <!--
+        <com.hyphenate.easeui.widget.EaseConversationList
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite" />
+            android:background="@android:color/transparent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            hyphenate:cvsListPrimaryTextSize="16sp"
+            />
+    -->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite" />
+
+    <!--<ListView-->
+    <!--android:id="@+id/rv_contentFastLib"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/colorWhite" />-->
     <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 </LinearLayout>

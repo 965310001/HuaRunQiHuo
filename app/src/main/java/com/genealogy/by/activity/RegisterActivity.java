@@ -1,15 +1,14 @@
 package com.genealogy.by.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.EditText;
 
 import com.aries.ui.view.title.TitleBarView;
-import com.aries.ui.widget.progress.UIProgressDialog;
+import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.entity.PhoneLogin;
-import com.genealogy.by.utils.CacheData;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.hyphenate.EMCallBack;
@@ -27,6 +26,7 @@ import java.util.Map;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.DataUtils;
+import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.RegUtils;
 import tech.com.commoncore.utils.ToastUtil;
 import tech.com.commoncore.widget.CountDownTextView;
@@ -40,7 +40,6 @@ public class RegisterActivity extends BaseTitleActivity {
 
     private String phone = "";
     private String varify_code = "";
-    private String password = "";
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
@@ -87,8 +86,8 @@ public class RegisterActivity extends BaseTitleActivity {
                 .request(new ACallback<BaseTResp2<PhoneLogin>>() {
                     @Override
                     public void onSuccess(BaseTResp2<PhoneLogin> data) {
-
-                        if (data.status == 200) {
+                        hideLoading();
+                        if (data.isSuccess()) {
                             Bundle bundle = new Bundle();
                             bundle.putString("userId", data.data.getUserId());
                             bundle.putString("gId", data.data.getGId() + "");
@@ -102,40 +101,34 @@ public class RegisterActivity extends BaseTitleActivity {
                             map.put("Authorization", data.data.getAuthorization());
                             ViseHttp.CONFIG().globalHeaders(map);
                             register();
-                            /*FastUtil.startActivity(mContext, MainActivity.class, bundle);*/
+                            FastUtil.startActivity(mContext, MainActivity.class, bundle);
                         } else if (data.status == 202) {
-                            SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
-                            SPHelper.setStringSF(mContext, "Phone", phone);
-                            SPHelper.setStringSF(mContext, "UserId", data.data.getUserId());
-                            SPHelper.setStringSF(mContext, "Authorization", data.data.getAuthorization());
-                            Map<String, String> map = new HashMap<>();
-                            map.put("Authorization", data.data.getAuthorization());
-                            ViseHttp.CONFIG().globalHeaders(map);
+                            showLoading();
+//                            SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
+//                            SPHelper.setStringSF(mContext, "Phone", phone);
+//                            SPHelper.setStringSF(mContext, "UserId", data.data.getUserId());
+//                            SPHelper.setStringSF(mContext, "Authorization", data.data.getAuthorization());
+//                            Map<String, String> map = new HashMap<>();
+//                            map.put("Authorization", data.data.getAuthorization());
+//                            ViseHttp.CONFIG().globalHeaders(map);
+
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("title", "无");
-                            register();
-                            /*FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);*/
+                            bundle.putBoolean("isRegister", true);
+                            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                         } else {
-                            ToastUtil.show(" " + data.msg);
+                            showLoading();
+                            ToastUtil.show(data.msg);
                         }
-
-
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
                         ToastUtil.show("注册失败: " + errMsg);
                         Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
                     }
                 });
-    }
-
-
-    /**
-     * 保存用户登录资料
-     */
-    private void saveUserInfo(String username, String password) {
-        CacheData.initLoginAccount(mContext, username, password);
     }
 
     private boolean verifyPhone() {
@@ -165,75 +158,42 @@ public class RegisterActivity extends BaseTitleActivity {
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
-                        ToastUtil.show("请求成功");
-
                         hideLoading();
+                        ToastUtil.show(data.msg);
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
                         ToastUtil.show("请求失败");
                         Log.e(TAG, "onFail: " + errMsg + ";errCode=" + errCode);
-                        hideLoading();
                     }
                 });
     }
 
-
-    private UIProgressDialog mProgressDialog;
-
-    public void showLoading() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new UIProgressDialog.WeBoBuilder(this)
-                    .setMessage("进行中...")
-                    .setCancelable(false)
-                    .create();
-        }
-        mProgressDialog.setDimAmount(0.6f)
-                .show();
-    }
-
-    public void hideLoading() {
-        if (mProgressDialog != null) {
-            mProgressDialog.hide();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mProgressDialog != null && mProgressDialog.isShowing()) mProgressDialog.dismiss();
-    }
-
     private void register() {
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.show();
-        new Thread(() -> {
-            // call method in SDK
-            Log.i(TAG, "register: " + SPHelper.getStringSF(mContext, "UserId"));
-            EMClient.getInstance().login(SPHelper.getStringSF(mContext, "UserId"), "zupu123456", new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    Log.e(TAG, "onSuccess: 环信登录成功");
-                    /*EMClient.getInstance().chatManager().loadAllConversations();*/
-                }
+        new Thread(() ->
+                EMClient.getInstance().login(SPHelper.getStringSF(mContext, "UserId"), "zupu123456", new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Looper.prepare();
+                        showLoading();
+                        Log.e(TAG, "onSuccess: 环信登录成功");
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                    }
 
-                @Override
-                public void onError(int i, String s) {
-                    Log.e(TAG, "onError: 环信登录失败 : " + s + i+" "+SPHelper.getStringSF(mContext, "UserId"));
-                }
+                    @Override
+                    public void onError(int i, String s) {
+                        showLoading();
+                        ToastUtil.show(s);
+                        Log.i(TAG, "环信登录失败:" + s + i);
+                    }
 
-                @Override
-                public void onProgress(int i, String s) {
-                    Log.e(TAG, "onProgress: 正在请求 : " + s);
-                }
-            });
-        }).start();
-
-//        final String username = etPhone.getText().toString().trim();
-//        final String pwd = tvVerifyCode.getText().toString().trim();
-//        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
-//
-//        }
+                    @Override
+                    public void onProgress(int i, String s) {
+                        Log.e(TAG, "onProgress: 正在请求 : " + s);
+                    }
+                })
+        ).start();
     }
 }

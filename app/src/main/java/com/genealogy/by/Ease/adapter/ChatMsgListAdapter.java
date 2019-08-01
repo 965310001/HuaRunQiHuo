@@ -20,7 +20,7 @@ import com.genealogy.by.R;
  * Created by wjh on 17-5-13.
  */
 
-public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListener, View.OnLongClickListener{
+public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListener, View.OnLongClickListener {
 
     private Context context;        // 上下文，用于绘制图象
     private ChatInfo chatInfo;      // 当前聊天对象
@@ -55,7 +55,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListe
             convertView = View.inflate(context, R.layout.listview_row_chat_msg_right, null);
 
             // 获取消息并设置气泡内容
-            TextView tvContent = (TextView) convertView.findViewById(R.id.rightMsg_content);
+            TextView tvContent = convertView.findViewById(R.id.rightMsg_content);
             tvContent.setText(chatInfo.getChatMsgData().get(position).get(ChatTable.CHAT_MSG_CONTENT).toString());
             tvContent.setFocusable(true);
             tvContent.setOnLongClickListener(this);
@@ -72,13 +72,13 @@ public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListe
                 // 设置组件的属性
                 tvLastMsgTime.setText(date);
                 tvLastMsgTime.setVisibility(View.VISIBLE);
-            }else if (showTimeFlag == ChatTable.SHOW_TIME){
+            } else if (showTimeFlag == ChatTable.SHOW_TIME) {
                 // 获取显示时间的组件
                 TextView tvLastMsgTime = (TextView) convertView.findViewById(R.id.rightMsg_lastTime);
                 // 获取消息的时间
                 String msgTime = chatInfo.getChatMsgData().get(position).get(ChatTable.CHAT_MSG_TIME).toString();
                 // 截取日期的部分
-                String time = msgTime.substring(msgTime.indexOf(" ")+1, msgTime.lastIndexOf(":"));
+                String time = msgTime.substring(msgTime.indexOf(" ") + 1, msgTime.lastIndexOf(":"));
                 // 将截取出来的字符数组转化为字符串
                 String timeResult = String.valueOf(time);
                 // 设置组件的属性
@@ -90,7 +90,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListe
             ImageView ivUserHead = (ImageView) convertView.findViewById(R.id.rightMsg_userHead);
             ivUserHead.setOnClickListener(this);
 
-        }else if(flag.equals(ChatTable.CHAT_MSG_TYPE_RECEIVER)) {
+        } else if (flag.equals(ChatTable.CHAT_MSG_TYPE_RECEIVER)) {
             // 接受的则实例化左侧气泡布局
             convertView = View.inflate(context, R.layout.listview_row_chat_msg_left, null);
 
@@ -114,13 +114,13 @@ public class ChatMsgListAdapter extends BaseAdapter implements View.OnClickListe
                 // 设置组件的属性
                 tvLastMsgTime.setText(dateResult);
                 tvLastMsgTime.setVisibility(View.VISIBLE);
-            }else if (showTimeFlag == ChatTable.SHOW_TIME){
+            } else if (showTimeFlag == ChatTable.SHOW_TIME) {
                 // 获取显示时间的组件
                 TextView tvLastMsgTime = (TextView) convertView.findViewById(R.id.leftMsg_lastTime);
                 // 获取消息的时间
                 String msgTime = chatInfo.getChatMsgData().get(position).get(ChatTable.CHAT_MSG_TIME).toString();
                 // 截取日期的部分
-                String time = msgTime.substring(msgTime.indexOf(" "+1), msgTime.lastIndexOf(":"));
+                String time = msgTime.substring(msgTime.indexOf(" " + 1), msgTime.lastIndexOf(":"));
                 // 将截取出来的字符数组转化为字符串
                 String timeResult = String.valueOf(time);
                 // 设置组件的属性

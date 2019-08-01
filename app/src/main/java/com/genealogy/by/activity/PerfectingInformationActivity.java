@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,11 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aries.ui.view.title.TitleBarView;
+import com.genealogy.by.MainActivity;
 import com.genealogy.by.R;
 import com.genealogy.by.db.User;
+import com.genealogy.by.entity.PhoneLogin;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.utils.my.MyGlideEngine;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -36,8 +41,10 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,6 +52,7 @@ import okhttp3.RequestBody;
 import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.manager.GlideManager;
+import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
 // TODO: 2019/7/22 调试接口
@@ -66,7 +74,8 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
     private User user;
     private CityConfig mCityConfig;
     private File mFile;
-    private ACallback<BaseTResp2> mCallback, mCallback2;
+    private ACallback<BaseTResp2<PhoneLogin>> mCallback;
+    private ACallback<BaseTResp2> mCallback2;
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
@@ -526,13 +535,70 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 .addFormDataPart("gId", Gid)
                 .addFormDataPart("type", String.valueOf(relationship_type));
         if (relationship_type != 0) {
-            mCallback = new ACallback<BaseTResp2>() {
+//            mCallback = new ACallback<BaseTResp2>() {
+//                @Override
+//                public void onSuccess(BaseTResp2 data) {
+//                    if (data.isSuccess()) {
+//                        /*保存个人信息*/
+//                        if (getIntent().hasExtra("isRegister")) {
+//                            //同时登录
+//                        }
+//                        ToastUtil.show("提交成功: " + data.msg);
+//                        SPHelper.setBooleanSF(mContext, "isRefresh", true);
+//                        finish();
+//                    } else {
+//                        ToastUtil.show(data.msg);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFail(int errCode, String errMsg) {
+//                    ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
+//                }
+//            };
+
+
+            mCallback = new ACallback<BaseTResp2<PhoneLogin>>() {
                 @Override
-                public void onSuccess(BaseTResp2 data) {
+                public void onSuccess(BaseTResp2<PhoneLogin> data) {
                     if (data.isSuccess()) {
+                      /*  if (getIntent().hasExtra("isRegister")) {
+                            //同时登录
+                        }
                         ToastUtil.show("提交成功: " + data.msg);
                         SPHelper.setBooleanSF(mContext, "isRefresh", true);
-                        finish();
+                        finish();*/
+                        if (getIntent().hasExtra("isRegister")) {
+                            if (data.isSuccess()) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("userId", data.data.getUserId());
+                                bundle.putString("gId", data.data.getGId() + "");
+                                SPHelper.setStringSF(mContext, "profilePhoto", String.valueOf(data.data.getProfilePhoto()));//头像
+                                SPHelper.setStringSF(mContext, "nickName", String.valueOf(data.data.getNickName()));//昵称
+                                SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
+                                SPHelper.setStringSF(mContext, "Phone", phone);
+                                SPHelper.setStringSF(mContext, "UserId", data.data.getUserId());
+                                SPHelper.setStringSF(mContext, "Authorization", data.data.getAuthorization());
+                                Map<String, String> map = new HashMap<>();
+                                map.put("Authorization", data.data.getAuthorization());
+                                ViseHttp.CONFIG().globalHeaders(map);
+                                register();
+                                FastUtil.startActivity(mContext, MainActivity.class, bundle);
+                            } else if (data.status == 202) {
+                                showLoading();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("title", "无");
+                                bundle.putBoolean("isRegister", true);
+                                FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
+                            } else {
+                                showLoading();
+                                ToastUtil.show(data.msg);
+                            }
+                        } else {
+                            ToastUtil.show("提交成功: " + data.msg);
+                            SPHelper.setBooleanSF(mContext, "isRefresh", true);
+                            finish();
+                        }
                     } else {
                         ToastUtil.show(data.msg);
                     }
@@ -542,7 +608,26 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 public void onFail(int errCode, String errMsg) {
                     ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
                 }
+//                @Override
+//                public void onSuccess(BaseTResp2<PhoneLogin> data) {
+//                    if (data.isSuccess()) {
+//                        /*保存个人信息*/
+//                        if (getIntent().hasExtra("isRegister")) {
+//                            //同时登录
+//                        }
+//                        ToastUtil.show("提交成功: " + data.msg);
+//                        SPHelper.setBooleanSF(mContext, "isRefresh", true);
+//                        finish();
+//                    } else {
+//                        ToastUtil.show(data.msg);
+//                    }
+//                }
+//                @Override
+//                public void onFail(int errCode, String errMsg) {
+//                    ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
+//                }
             };
+
             if (null != mFile) {
                 MultipartBody requestBody = builder.addFormDataPart("imgs", mFile.getName(),
                         RequestBody.create(MediaType.parse("image/*"), mFile)).build();
@@ -558,7 +643,6 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                         .cacheMode(CacheMode.FIRST_REMOTE)
                         .setRequestBody(builder.build()).request(mCallback);
             }
-
         } else {
             mCallback2 = new ACallback<BaseTResp2>() {
                 @Override
@@ -595,4 +679,31 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             }
         }
     }
+
+    private void register() {
+        new Thread(() ->
+                EMClient.getInstance().login(SPHelper.getStringSF(mContext, "UserId"), "zupu123456", new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Looper.prepare();
+                        showLoading();
+                        Log.e(TAG, "onSuccess: 环信登录成功");
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        showLoading();
+                        ToastUtil.show(s);
+                        Log.i(TAG, "环信登录失败:" + s + i);
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+                        Log.e(TAG, "onProgress: 正在请求 : " + s);
+                    }
+                })
+        ).start();
+    }
+
 }
