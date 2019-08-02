@@ -33,9 +33,8 @@ import tech.com.commoncore.base.BaseActivity;
 import tech.com.commoncore.event.SwitchEvent;
 
 /**
- * Created by dell on 2019/4/17.
+ * 主页
  */
-
 public class MainActivity extends BaseActivity {
 
     public static final String TAG_F_HOME = "TAG_HOME";
@@ -49,11 +48,7 @@ public class MainActivity extends BaseActivity {
     private FragmentTransaction mTransaction;
     private int mCurrentIndex;
 
-    private Fragment mainHomeFragment;
-    private Fragment mainZuCeFragment;
-    private Fragment mainFaXianFragment;
-    private Fragment mainPhotosFragment;
-    private Fragment mainWoDeFragment;
+    private Fragment mainHomeFragment, mainZuCeFragment, mainFaXianFragment, mainPhotosFragment, mainWoDeFragment;
 
     private String[] mTitles = {"树谱", "族册", "相册", "我的"};
     private int[] mIconUnselectIds = {
@@ -64,27 +59,25 @@ public class MainActivity extends BaseActivity {
             R.mipmap.icon_shouye_s, R.mipmap.icon_hq_s,
             R.mipmap.icon_quanzi_s, R.mipmap.icon_wode_s};
 
-    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+    private ArrayList<CustomTabEntity> mTabEntities;
 
     private ViewPager mViewPager;
     private RadioGroup mTabRadioGroup;
-    //    private ToolUtil toolUtil;
     private List<Fragment> mFragments;
     private FragmentPagerAdapter mAdapter;
     public String userId = "";
     public String gId = "";
 
     @Override
-    public int getContentLayout() {
-        return R.layout.activity_main;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
-        mainTab = mContentView.findViewById(R.id.main_tab);
+        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
+
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         gId = intent.getStringExtra("gId");
+
+        mainTab = mContentView.findViewById(R.id.main_tab);
+        mTabEntities = new ArrayList<>();
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new FutureInternatinal.TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
@@ -92,7 +85,6 @@ public class MainActivity extends BaseActivity {
         mainTab.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                Log.i(TAG, "onTabSelect: " + position);
                 switchToFragment(position);
             }
 
@@ -108,14 +100,11 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null) {
             restoreFragment(savedInstanceState);
         }
-//        else {
-//            switchToFragment(0);
-//        }
         switchToFragment(0);
 
         // find view
         mViewPager = findViewById(R.id.fragment_vp);
-        mTabRadioGroup = findViewById(R.id.tabs_rg);
+
         // init fragment
         mFragments = new ArrayList<>(4);
         mFragments.add(TabHomeFragment.newInstance());
@@ -128,11 +117,9 @@ public class MainActivity extends BaseActivity {
         mViewPager.setOffscreenPageLimit(3);
         // register listener
         mViewPager.addOnPageChangeListener(mPageChangeListener);
+
+        mTabRadioGroup = findViewById(R.id.tabs_rg);
         mTabRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
-
-//        initData();
-
-        StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
     }
 
     /**
@@ -298,7 +285,6 @@ public class MainActivity extends BaseActivity {
             for (int i = 0; i < group.getChildCount(); i++) {
                 if (group.getChildAt(i).getId() == checkedId) {
                     mViewPager.setCurrentItem(i);
-                    Log.d("page", i + "");
                     return;
                 }
             }
@@ -314,33 +300,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 获取小于api19时获取相册中图片真正的uri
-     * 对于路径是：content://media/external/images/media/33517这种的，需要转成/storage/emulated/0/DCIM/Camera/IMG_20160807_133403.jpg路径，也是使用这种方法
-     *
-     * @param context
-     * @param uri
-     * @return
-     */
-//    public static String getFilePath_below19(Context context, Uri uri) {
-//        //这里开始的第二部分，获取图片的路径：低版本的是没问题的，但是sdk>19会获取不到
-//        Cursor cursor = null;
-//        String path = "";
-//        try {
-//            String[] proj = {MediaStore.Images.Media.DATA};
-//            //好像是android多媒体数据库的封装接口，具体的看Android文档
-//            cursor = context.getContentResolver().query(uri, proj, null, null, null);
-//            //获得用户选择的图片的索引值
-//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            //将光标移至开头 ，这个很重要，不小心很容易引起越界
-//            cursor.moveToFirst();
-//            //最后根据索引值获取图片路径   结果类似：/mnt/sdcard/DCIM/Camera/IMG_20151124_013332.jpg
-//            path = cursor.getString(column_index);
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//        }
-//        return path;
-//    }
+
+    @Override
+    public int getContentLayout() {
+        return R.layout.activity_main;
+    }
 }

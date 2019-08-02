@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -120,6 +121,7 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
                 FastUtil.startActivity(mContext, PersonalHomePageActivity.class);
                 break;
             case R.id.tv_message:
+                ToastUtil.show("该功能暂未开发，敬请期待", new ToastUtil.Builder().setGravity(Gravity.CENTER));
                 break;
             case R.id.quit:
                 showLoading();

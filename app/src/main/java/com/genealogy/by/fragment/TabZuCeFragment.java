@@ -107,7 +107,6 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         //滑动册谱派系
         mViewPager = mContentView.findViewById(R.id.contentView);
         seekBar = mContentView.findViewById(R.id.seekBar);
-//        seekBar.setMax(views.size());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             //停止滑动
             @Override
@@ -139,8 +138,6 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         });
 
         doit();
-
-
     }
 
     @Override

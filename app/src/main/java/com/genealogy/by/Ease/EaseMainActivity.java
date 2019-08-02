@@ -17,7 +17,8 @@ public class EaseMainActivity extends BaseTitleActivity {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText("私信列表").setRightTextDrawable(R.drawable.ic_lianxiren_svg)
+        titleBar.setTitleMainText("私信列表")
+                .setRightTextDrawable(R.drawable.ic_lianxiren_svg)
                 .setOnRightTextClickListener(v -> startActivity(new Intent(mContext, ContactsListActivity.class)));
     }
 
@@ -36,7 +37,6 @@ public class EaseMainActivity extends BaseTitleActivity {
                 Map<String, Object> map = conversation.getLastMessage().ext();
                 intent.putExtra(FriendTable.FRIEND_NAME, map.get("otherUserNickName").toString());
                 intent.putExtra(FriendTable.FRIEND_HEAD, map.get("otherUserPortrait").toString());
-
                 intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
 
             } catch (Exception e) {

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,7 +34,9 @@ import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.ToastUtil;
 
-// TODO: 2019/7/22 调试接口
+/**
+ * 册谱封面信息
+ */
 public class EditCoverActivity extends BaseTitleActivity implements View.OnClickListener {
 
     private String id;
@@ -124,8 +127,8 @@ public class EditCoverActivity extends BaseTitleActivity implements View.OnClick
                 .request(new ACallback<BaseTResp2<BookEdit>>() {
                     @Override
                     public void onSuccess(BaseTResp2<BookEdit> data) {
-                        if (data.status == 200) {
-                            ToastUtil.show(" 请求成功" + data.msg);
+                        if (data.isSuccess()) {
+                            ToastUtil.show(" 请求成功" + data.msg, new ToastUtil.Builder().setGravity(Gravity.CENTER));
                             Intent intent = new Intent();
                             intent.putExtra("name", name);
                             intent.putExtra("person", person);
@@ -134,13 +137,13 @@ public class EditCoverActivity extends BaseTitleActivity implements View.OnClick
                             setResult(200, intent);  // 200表示成功
                             EditCoverActivity.this.finish();
                         } else {
-                            ToastUtil.show("请求失败 " + data.msg);
+                            ToastUtil.show("请求失败 " + data.msg, new ToastUtil.Builder().setGravity(Gravity.CENTER));
                         }
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show("失败: " + errMsg);
+                        ToastUtil.show("失败: " + errMsg, new ToastUtil.Builder().setGravity(Gravity.CENTER));
                     }
                 });
     }
@@ -210,5 +213,4 @@ public class EditCoverActivity extends BaseTitleActivity implements View.OnClick
         });
         mCityPickerView.showCityPicker();
     }
-
 }

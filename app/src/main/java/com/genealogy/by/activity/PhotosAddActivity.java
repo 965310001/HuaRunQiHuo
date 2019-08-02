@@ -3,7 +3,8 @@ package com.genealogy.by.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,69 +24,66 @@ import tech.com.commoncore.base.BaseTitleActivity;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.ToastUtil;
 
-public class PhotosAddActivity extends BaseTitleActivity {
+/**
+ * 添加相册
+ */
+public class PhotosAddActivity extends BaseTitleActivity implements View.OnClickListener {
 
     private TextView mTvDescries;
     private EditText mEtTitle;
-    private String TAG = "PhotosAddActivity";
     private TextView mSwitchShare;
     private boolean isTrue;//是否分享的开关参数
 
-    public void initView() {
+    @Override
+    public void initView(Bundle savedInstanceState) {
         mTvDescries = findViewById(R.id.photo_description);
         mEtTitle = findViewById(R.id.photo_title);
         mSwitchShare = findViewById(R.id.switch_share);
-        mSwitchShare.setOnClickListener(view -> isTrue = !isTrue);
-        //取到id 暂时没用
-        /*getIntent().getStringExtra("id");*/
 
-        findViewById(R.id.tv_create).setOnClickListener(v -> {
-            String title = mEtTitle.getText().toString();
-            if (TextUtils.isEmpty(title)) {
-                ToastUtil.show("请输入标题！");
-            } else {
-                execute(title, isTrue ? 1 : 0);
-                Intent intent = new Intent();
-                intent.putExtra("photoDescription", mTvDescries.getText().toString());
-                intent.putExtra("photoTitle", title);
-                setResult(200, intent);
-                PhotosAddActivity.this.finish();
-            }
-        });
+        mSwitchShare.setOnClickListener(view -> isTrue = !isTrue);
+        findViewById(R.id.tv_create).setOnClickListener(this::onClick);
     }
 
-    public void execute(String title, int isTrue) {
-        String userId = SPHelper.getStringSF(PhotosAddActivity.this, "UserId", "");
-        String gid = SPHelper.getStringSF(PhotosAddActivity.this, "GId", "");
+    @Override
+    public void onClick(View view) {
+        String title = mEtTitle.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            ToastUtil.show("请输入标题...", new ToastUtil.Builder().setGravity(Gravity.CENTER));
+        } else {
+            execute(title);
+            Intent intent = new Intent();
+            intent.putExtra("photoDescription", mTvDescries.getText().toString());
+            intent.putExtra("photoTitle", title);
+            setResult(200, intent);
+            PhotosAddActivity.this.finish();
+        }
+    }
+
+    private void execute(String title) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("userId", userId);
-        params.put("gId", gid);
+        params.put("userId", SPHelper.getStringSF(PhotosAddActivity.this, "UserId", ""));
+        params.put("gId", SPHelper.getStringSF(PhotosAddActivity.this, "GId", ""));
         params.put("title", title);
-        params.put("isTrue", String.valueOf(isTrue));
-        Log.e(TAG, "请求参数: 参数：" + params.toString());
-        JSONObject jsonObject = new JSONObject(params);
+        params.put("isTrue", String.valueOf(isTrue ? 1 : 0));
         ViseHttp.POST(ApiConstant.album_create)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
+                .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2>() {
                     @Override
                     public void onSuccess(BaseTResp2 data) {
                         if (data.isSuccess()) {
                             ToastUtil.show("创建相册请求成功");
                         } else {
-                            Log.e(TAG, "onSuccess: 创建相册请求成功  msg= " + data.msg);
-                            ToastUtil.show("创建相册失败: " + data.msg);
+                            ToastUtil.show("创建相册请求成功: " + data.msg);
                         }
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         ToastUtil.show("请求失败: " + errMsg);
-                        Log.e(TAG, "errMsg: " + errMsg + "errCode:  " + errCode);
                     }
                 });
-
     }
 
     @Override
@@ -96,10 +94,5 @@ public class PhotosAddActivity extends BaseTitleActivity {
     @Override
     public int getContentLayout() {
         return R.layout.photos_add;
-    }
-
-    @Override
-    public void initView(Bundle savedInstanceState) {
-        initView();
     }
 }

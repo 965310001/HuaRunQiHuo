@@ -9,9 +9,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smartLayout_rootFastLib"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_contentFastLib"

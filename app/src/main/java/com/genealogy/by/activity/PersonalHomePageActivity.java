@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,8 +30,11 @@ import tech.com.commoncore.manager.GlideManager;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
-// TODO: 2019/7/23 调试接口  个人详情页
+/**
+ * 个人详情页
+ */
 public class PersonalHomePageActivity extends BaseTitleActivity implements View.OnClickListener {
+
     private AppCompatImageView ivImg;
     private TextView tvName;
     private TextView Relationship;
@@ -40,36 +44,23 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
     private TextView mTvRanking;
     private String id;
     private RecyclerView rvDeeds;
-    private DeedsAdapter deedAdapter;
+    private DeedsAdapter mAdapter;
     private BottomDialog mBottomDialog;
 
     private PersonalHome mPerson;
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (SPHelper.getBooleanSF(mContext, "isRefresh", false)) {
-            loadComment();
-        }
-    }
-
-    @Override
-    public void setTitleBar(TitleBarView titleBar) {
-//        titleBar.setTitleMainText("个人详情页").setTextColor(Color.WHITE)
-//                .setDividerVisible(true).setDividerHeight(1).setDividerBackgroundColor(Color.parseColor("#464854"))
-//
-//                .setRightTextDrawable(R.mipmap.gengduo1).setOnRightTextClickListener(this).setBackgroundColor(Color.parseColor("#464854"));
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
         StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
+
         Intent intent = getIntent();
         id = intent.getStringExtra("userId");
         if (TextUtils.isEmpty(id)) {
             id = SPHelper.getStringSF(mContext, "UserId");
         }
+
         loadComment();
+
         ivImg = findViewById(R.id.portrait);
         tvName = findViewById(R.id.tv_name);
         Relationship = findViewById(R.id.tv_relationship);
@@ -77,12 +68,13 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
         Telephone = findViewById(R.id.tv_telephone);
         Birthday = findViewById(R.id.birthday);
         mTvRanking = findViewById(R.id.tv_ranking);
+
         rvDeeds = findViewById(R.id.deeds);
         rvDeeds.setLayoutManager(new LinearLayoutManager(mContext));
-        deedAdapter = new DeedsAdapter(R.layout.item_personalhomepage);
-        rvDeeds.setAdapter(deedAdapter);
+        mAdapter = new DeedsAdapter(R.layout.item_personalhomepage);
+        rvDeeds.setAdapter(mAdapter);
 
-        findViewById(R.id.iv_back).setOnClickListener(view -> finish());
+        findViewById(R.id.iv_back).setOnClickListener(this::onClick);
     }
 
     private void loadComment() {
@@ -95,7 +87,7 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
                         public void onSuccess(BaseTResp2<PersonalHome> data) {
                             setUser(data.data);
                             mPerson = data.data;
-                            deedAdapter.setNewData(data.data.getDeeds());
+                            mAdapter.setNewData(data.data.getDeeds());
                             hideLoading();
                         }
 
@@ -107,7 +99,7 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
                         }
                     });
         } else {
-            ToastUtil.show("请重新登录");
+            ToastUtil.show("请重新登录", new ToastUtil.Builder().setGravity(Gravity.CENTER));
             FastUtil.startActivity(mContext, RegisterActivity.class);
         }
     }
@@ -143,6 +135,14 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (SPHelper.getBooleanSF(mContext, "isRefresh", false)) {
+            loadComment();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mBottomDialog = null;
@@ -151,6 +151,9 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.tv_add_deeds:// TODO: 2019/7/23 添加事迹 
                 Log.i(TAG, "onClick: 添加事迹");
                 break;
@@ -238,7 +241,6 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
         }
     }
 
-    // TODO: 2019/7/24 邀请
     private void doInvite() {
     }
 
@@ -277,9 +279,11 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
     }
 
     @Override
+    public void setTitleBar(TitleBarView titleBar) {
+    }
+
+    @Override
     public int getContentLayout() {
         return R.layout.activity_see_details;
     }
-
-
 }
