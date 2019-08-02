@@ -8,6 +8,7 @@ import com.genealogy.by.Ease.Logs.Logs;
 import com.genealogy.by.Ease.model.Model;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -156,6 +157,7 @@ public class MyApplication extends BaseApplication {
         EMClient.getInstance().init(application, options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
+        EaseUI.getInstance().init(application, options);
     }
 
     private void initBLChat() {

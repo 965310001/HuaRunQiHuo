@@ -16,6 +16,7 @@ import com.genealogy.by.adapter.ContactsListAdapter;
 import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
+import com.hyphenate.easeui.EaseConstant;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
@@ -98,7 +99,7 @@ public class ContactsListActivity extends BaseTitleActivity implements BaseQuick
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         SearchNearInBlood item = (SearchNearInBlood) adapter.getData().get(position);
-        Intent intent = new Intent(mContext, ChatMsgActivity.class);
+        Intent intent = new Intent(mContext, ChatMsgActivity2.class);
         intent.putExtra(FriendTable.FRIEND_ID, Integer.valueOf(String.valueOf(item.getId())));
         intent.putExtra(FriendTable.FRIEND_ACCOUNT, String.valueOf(item.getAccount()));
         intent.putExtra(FriendTable.FRIEND_NAME, String.format("%s%s", item.getSurname(), item.getName()));
@@ -107,6 +108,10 @@ public class ContactsListActivity extends BaseTitleActivity implements BaseQuick
         intent.putExtra(UserTable.USER_ID, Integer.valueOf(SPHelper.getStringSF(this, "UserId", "")));
         intent.putExtra(UserTable.USER_NAME, SPHelper.getStringSF(this, "nickName", ""));
         intent.putExtra(UserTable.USER_HEAD, SPHelper.getStringSF(this, "profilePhoto", ""));
+
+
+        intent.putExtra(EaseConstant.EXTRA_USER_ID, String.valueOf(item.getId()));
+
 
         startActivity(intent);
     }

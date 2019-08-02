@@ -221,6 +221,11 @@
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:screenOrientation="portrait"
             tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".Ease.ChatMsgActivity2"
+            android:configChanges="keyboardHidden|screenLayout|orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="DuplicateActivity" />
 
 
     </application>

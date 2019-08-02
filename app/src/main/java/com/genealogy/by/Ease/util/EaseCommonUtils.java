@@ -20,12 +20,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
-import com.genealogy.by.Ease.EaseConstant;
-import com.genealogy.by.Ease.EaseUser;
 import com.genealogy.by.R;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.HanziToPinyin;
 import com.hyphenate.util.HanziToPinyin.Token;
@@ -133,6 +133,7 @@ public class EaseCommonUtils {
 
     /**
      * get top activity
+     *
      * @param context
      * @return
      */
@@ -191,6 +192,7 @@ public class EaseCommonUtils {
 
     /**
      * change the chat type to EMConversationType
+     *
      * @param chatType
      * @return
      */
@@ -207,12 +209,11 @@ public class EaseCommonUtils {
     /**
      * \~chinese
      * 判断是否是免打扰的消息,如果是app中应该不要给用户提示新消息
-     * @param message
-     * return
      *
-     * \~english
-     * check if the message is kind of slient message, if that's it, app should not play tone or vibrate
-     *
+     * @param message return
+     *                <p>
+     *                \~english
+     *                check if the message is kind of slient message, if that's it, app should not play tone or vibrate
      * @param message
      * @return
      */

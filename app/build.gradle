@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -9,7 +9,7 @@ android {
     }
     defaultConfig {
         applicationId "com.genealogy.by"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -70,4 +70,5 @@ dependencies {
     implementation files('libs/fastjson-1.1.45.android.jar')
     implementation 'com.google.android.gms:play-services-base:11.4.0'
     implementation 'com.google.firebase:firebase-messaging:11.4.0'
+    implementation project(path: ':easeui')
 }

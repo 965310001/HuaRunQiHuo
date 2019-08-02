@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.Ease.Logs.Logs;
@@ -42,10 +41,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.com.commoncore.utils.ToastUtil;
+
 import static com.genealogy.by.Ease.model.dao.ChatTable.CHAT_MSG_TYPE_SEND;
 
 public class ChatMsgActivity extends ListActivity {
-
     private EditText etSendContent;     // 用户想要发送内容
     private Button btnSendMsg;      // 发送消息按钮
     private int btnSendMsgFlag;     // 判断发送消息按钮状态的Flag
@@ -123,7 +123,7 @@ public class ChatMsgActivity extends ListActivity {
         userId = getIntent().getIntExtra(UserTable.USER_ID, -1);
         friendId = getIntent().getIntExtra(FriendTable.FRIEND_ID, -1);
         if (userId == -1 || friendId == -1) {
-            Toast.makeText(this, "获取聊天记录失败, 请检查你的网络.", Toast.LENGTH_SHORT).show();
+            ToastUtil.show("获取聊天记录失败, 请检查你的网络.");
             finish();
         }
 
@@ -133,7 +133,7 @@ public class ChatMsgActivity extends ListActivity {
         // 实例化当前聊天对象
         chatInfo = Model.getInstance().getDbManager().getChatTableDao().getChatMsgInfo(userId, friendId);
 
-        getConversation();
+        /*getConversation();*/
 
         // 设置聊天信息列表的适配器
         chatMsgListAdapter = new ChatMsgListAdapter(this, chatInfo);

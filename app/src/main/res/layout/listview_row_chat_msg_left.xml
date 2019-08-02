@@ -19,7 +19,8 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_below="@+id/leftMsg_lastTime"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:src="@mipmap/wode" />
 
     <TextView
         android:id="@+id/leftMsg_content"

@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
-import android.view.View;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,6 +20,7 @@ import com.genealogy.by.utils.SPHelper;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;
@@ -59,30 +59,29 @@ public class EaseMainActivity extends BaseTitleActivity {
         conversationList = loadConversationList();
         mAdapter.setNewData(conversationList);
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                EMConversation bean = (EMConversation) adapter.getData().get(position);
-                try {
-                    Log.i(TAG, "onItemChildClick: " + bean.conversationId());
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            EMConversation bean = (EMConversation) adapter.getData().get(position);
+            try {
+                Log.i(TAG, "onItemChildClick: " + bean.conversationId());
 
-                    EMMessage message = bean.getLastMessage();
+                EMMessage message = bean.getLastMessage();
 
-                    Intent intent = new Intent(mContext, ChatMsgActivity.class);
-                    intent.putExtra(FriendTable.FRIEND_ID, Integer.valueOf(bean.conversationId()));
-                    intent.putExtra(FriendTable.FRIEND_NAME, message.getStringAttribute("otherUserNickName"));
-                    intent.putExtra(FriendTable.FRIEND_HEAD, message.getStringAttribute("otherUserPortrait"));
+                Intent intent = new Intent(mContext, ChatMsgActivity2.class);
+                intent.putExtra(FriendTable.FRIEND_ID, Integer.valueOf(bean.conversationId()));
+                intent.putExtra(FriendTable.FRIEND_NAME, message.getStringAttribute("otherUserNickName"));
+                intent.putExtra(FriendTable.FRIEND_HEAD, message.getStringAttribute("otherUserPortrait"));
 
-                    intent.putExtra(UserTable.USER_ID, Integer.valueOf(SPHelper.getStringSF(mContext, "UserId", "")));
-                    intent.putExtra(UserTable.USER_NAME, message.getStringAttribute("nickName"));
-                    intent.putExtra(UserTable.USER_HEAD, message.getStringAttribute("UserPortrait"));
+                intent.putExtra(UserTable.USER_ID, Integer.valueOf(SPHelper.getStringSF(mContext, "UserId", "")));
+                intent.putExtra(UserTable.USER_NAME, message.getStringAttribute("nickName"));
+                intent.putExtra(UserTable.USER_HEAD, message.getStringAttribute("UserPortrait"));
 
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Log.i(TAG, "onItemChildClick: " + e.toString());
-                }
+                intent.putExtra(EaseConstant.EXTRA_USER_ID, String.valueOf(bean.conversationId()));
 
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.i(TAG, "onItemChildClick: " + e.toString());
             }
+
         });
     }
 

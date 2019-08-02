@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/C_F6F6F6"
@@ -61,12 +61,15 @@
 
                 <TextView
                     android:id="@+id/personal"
-                    android:layout_width="@dimen/dp_105"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/dp_21"
                     android:layout_marginLeft="@dimen/dp_19"
                     android:layout_marginTop="@dimen/dp_101"
-                    android:gravity="center"
-                    android:text="个人主页"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:layout_weight="1"
+                    android:drawableRight="@mipmap/icon_wode_more"
+                    android:gravity="right"
+                    android:text="个人主页  "
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
@@ -74,7 +77,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/colorWhite"
                 android:orientation="vertical">
 
@@ -91,7 +93,8 @@
                     android:paddingBottom="@dimen/dp_18"
                     android:text="入谱申请"
                     android:textColor="@color/C_585858"
-                    android:textSize="@dimen/sp_15" />
+                    android:textSize="@dimen/sp_15"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_my_fabulous"
@@ -122,8 +125,6 @@
                     android:text="私信"
                     android:textColor="@color/C_585858"
                     android:textSize="@dimen/sp_15" />
-
-
             </LinearLayout>
 
             <TextView
@@ -183,10 +184,12 @@
                     android:paddingBottom="@dimen/dp_18"
                     android:text="家族基金"
                     android:textColor="@color/C_585858"
-                    android:textSize="@dimen/sp_15" />
+                    android:textSize="@dimen/sp_15"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_setting"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/citang"
@@ -198,7 +201,8 @@
                     android:paddingBottom="@dimen/dp_18"
                     android:text="家族祠堂"
                     android:textColor="@color/C_585858"
-                    android:textSize="@dimen/sp_15" />
+                    android:textSize="@dimen/sp_15"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -212,12 +216,14 @@
                     android:paddingBottom="@dimen/dp_18"
                     android:text="宗亲喜事"
                     android:textColor="@color/C_585858"
-                    android:textSize="@dimen/sp_15" />
+                    android:textSize="@dimen/sp_15"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_24"
-                    android:background="#EEEEEE" />
+                    android:background="#EEEEEE"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/quit"
@@ -237,4 +243,4 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+</FrameLayout>
