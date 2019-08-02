@@ -19,6 +19,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
         android:gravity="center_vertical"
         android:text="《K线图的93个卖出形态》"
         android:textColor="@color/C_333333"
