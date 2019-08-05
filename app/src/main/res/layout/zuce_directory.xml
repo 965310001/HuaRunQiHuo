@@ -23,77 +23,213 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:text="目录"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/committee"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="编委会------------------------------------------1"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_24"
+                    android:gravity="center"
+                    android:text="编委会"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/preface"
 
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="家谱序言----------------------------------------2"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="家谱序言"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/source"
-
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="姓氏来源----------------------------------------3"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
 
-            <TextView
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓氏来源"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/instruction"
-
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="家规家训----------------------------------------4"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="家规家训"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="家族照------------------------------------------5"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
+                <!--<TextView-->
+                <!--android:id="@+id/photo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_24"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="@dimen/dp_10"-->
+                <!--android:gravity="center"-->
+                <!--android:text="家族照&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;5"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="13dp" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center"
+                    android:text="家族照"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5" />
+
+            </LinearLayout>
+
+            <!--<TextView-->
+            <!--android:id="@+id/surface"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp_24"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/dp_10"-->
+            <!--android:text="世系表-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;15"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="13dp" />-->
+
+            <LinearLayout
                 android:id="@+id/surface"
-
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                android:text="世系表-----------------------------------------15"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                <!--
+                <TextView
+                    android:id="@+id/surface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="center_horizontal"
+                    android:text="世系表-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;15"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="世系表"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15" />
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lineage"
@@ -102,40 +238,88 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/biography"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="人物传------------------------------------------18"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="人物传"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/events"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_24"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                android:text="大记事------------------------------------------19"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="大记事"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
 
-            <TextView
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/epilogue"
-
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:text="后记--------------------------------------------20"
-                android:textColor="@color/black"
-                android:textSize="13dp" />
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="后记"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

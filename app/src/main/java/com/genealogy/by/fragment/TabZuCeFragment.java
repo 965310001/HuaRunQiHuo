@@ -31,7 +31,6 @@ import com.genealogy.by.adapter.LineagekAdapter;
 import com.genealogy.by.adapter.onClickAlbumItem;
 import com.genealogy.by.entity.FamilyBook;
 import com.genealogy.by.entity.FamilyPhoto;
-import com.genealogy.by.entity.MyLineageTableBean;
 import com.genealogy.by.entity.SearchNearInBlood;
 import com.genealogy.by.utils.SPHelper;
 import com.genealogy.by.utils.my.BaseTResp2;
@@ -57,12 +56,9 @@ import tech.com.commoncore.utils.DateUtil;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
-
-// TODO: 2019/7/23 调试接口
 public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumItem {
     //viewpage管理
     private ViewPager mViewPager;
-
     //popwindow
     private PopupWindow popupWindowEdit;
     private TextView homeTextView;
@@ -126,16 +122,27 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         });
         lineagekAdapter = new LineagekAdapter(R.layout.item_lineagek);
 
-//        List<String> lists = new ArrayList<>();
-//        for (FamilyBook.LineageTableBean bean : familyBook.getLineageTable()) {
-//            lists.add(String.format("%s%s", bean.getSurname(), bean.getName()));
-//        }
-        /*lineagekAdapter.setNewData(familyBook.getLineageTable());*/
-        lineagekAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Bundle bundle = new Bundle();
-            FamilyBook.LineageTableBean bean = (FamilyBook.LineageTableBean) adapter.getData().get(position);
-//                bundle.putSerializable("data", );
+        lineagekAdapter.setOnPage((adapter, view, position, page) -> {
+            Log.i(TAG, "initView: " + page);
+            mViewPager.setCurrentItem(Integer.valueOf(page) + 1);
         });
+
+
+////        List<String> lists = new ArrayList<>();
+////        for (FamilyBook.LineageTableBean bean : familyBook.getLineageTable()) {
+////            lists.add(String.format("%s%s", bean.getSurname(), bean.getName()));
+////        }
+//        /*lineagekAdapter.setNewData(familyBook.getLineageTable());*/
+//        lineagekAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+////            Bundle bundle = new Bundle();
+////            FamilyBook.LineageTableBean bean = (FamilyBook.LineageTableBean) adapter.getData().get(position);
+////                bundle.putSerializable("data", );
+//
+//            Log.i(TAG, "initView: " + position);
+//            List<FamilyBook.LineageTableBean> lineageTable1 = SPHelper.getDeviceData(mContext, "LineageTable");
+//            FamilyBook.LineageTableBean bean = lineageTable1.get(position);
+//            Log.i(TAG, "initView: " + bean.getSurname() + bean.getName());
+//        });
 
         doit();
     }
@@ -353,6 +360,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         setOnClickListener(view, R.id.instruction, v -> updateViewPagerItem(v, 5));
         setOnClickListener(view, R.id.photo, v -> updateViewPagerItem(v, 6));
         setOnClickListener(view, R.id.surface, v -> updateViewPagerItem(v, 16));
+
         setOnClickListener(view, R.id.biography, v -> updateViewPagerItem(v, views.size() - 2));
         setOnClickListener(view, R.id.epilogue, v -> updateViewPagerItem(v, views.size() - 1));
         setOnClickListener(view, R.id.events, v -> updateViewPagerItem(v, views.size()));
@@ -657,7 +665,7 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
 //        mViewPager.getAdapter().notifyDataSetChanged();
     }
 
-    public void doit() {
+    private void doit() {
         String userId = SPHelper.getStringSF(mContext, "UserId", "");
         String gid = SPHelper.getStringSF(mContext, "GId", "");
         HashMap<String, String> params = new HashMap<>();
@@ -675,41 +683,76 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
                             SPHelper.saveDeviceData(mContext, "LineageTable", data.data.getLineageTable());
                             familyBook = data.data;
                             List<String> list = new ArrayList();
-                            for (int i = 0; i < data.data.getLineageTable().size(); i++) {
-                                list.add(String.valueOf(data.data.getLineageTable().get(i).getLineage()));
-                            }
-                            for (int i = 0; i < list.size(); i++) {
-                                for (int j = list.size() - 1; j > i; j--) {
-                                    if (list.get(i) == list.get(j)) {
-                                        list.remove(j);
-                                    }
-                                }
-                            }
-                            List<MyLineageTableBean> lineageTableBeans = new ArrayList<>();
 
-                            List<FamilyBook.LineageTableBean> beanList = new ArrayList<>();
                             int index = 0;
-                            MyLineageTableBean myLineageTableBean;
-// TODO: 2019/7/31 测试 
-                            for (FamilyBook.LineageTableBean bean : data.data.getLineageTable()) {
-                                if (index != bean.getLineage()) {
-                                    myLineageTableBean = new MyLineageTableBean();
-                                    myLineageTableBean.setIndex(bean.getLineage());
-                                    beanList.add(bean);
-                                    myLineageTableBean.setLineageTableBeans(beanList);
-                                    index = bean.getLineage();
-                                    lineageTableBeans.add(myLineageTableBean);
-
-                                    beanList = new ArrayList<>();
-                                } else {
-                                    beanList.add(bean);
+                            for (int i = 0; i < data.data.getLineageTable().size(); i++) {
+                                if (index != data.data.getLineageTable().get(i).getLineage()) {
+                                    list.add(String.valueOf(data.data.getLineageTable().get(i).getLineage()));
+                                    index = data.data.getLineageTable().get(i).getLineage();
                                 }
                             }
-                            Log.i(TAG, "onSuccess: " + lineageTableBeans);
+//                            for (int i = 0; i < list.size(); i++) {
+//                                for (int j = list.size() - 1; j > i; j--) {
+//                                    if (list.get(i) == list.get(j)) {
+//                                        list.remove(j);
+//                                    }
+//                                }
+//                            }
+//                            int index = -1;
+//                            List<FamilyBook.LineageTableBean> lineageTable = data.data.getLineageTable();
+//                            FamilyBook.LineageTableBean tableBean = null;
+//                            for (FamilyBook.LineageTableBean bean : lineageTable) {
+//                                if (index != bean.getLineage()) {
+//                                    if (null == tableBean) {
+//                                        tableBean = new FamilyBook.LineageTableBean();
+//                                        index = bean.getLineage();
+//                                        tableBean.setLineage(index);
+//                                    }
+//                                    tableBean.setName(bean.getName() + bean.getSurname());
+//                                } else {
+//                                    Log.i(TAG, "onSuccess: " + bean.getSurname() + bean.getName());
+//                                }
+//                            }
+//                            List<Object> objectList = new ArrayList<>();
+//                            index = 0;
+//                            for (FamilyBook.LineageTableBean bean : lineageTable) {
+//                                if (index != bean.getLineage()) {
+//                                    index = bean.getLineage();
+//                                    objectList.add(Integer.valueOf(bean.getLineage()));
+//                                }
+//                                objectList.add(bean.getSurname() + bean.getName());
+//                            }
+//
+//                            for (Object o : objectList) {
+//                                if (o instanceof Integer) {
+//
+//                                } else {
+//
+//                                }
+//                            }
+//                            Log.i(TAG, "onSuccess: " + objectList);
+//                            List<MyLineageTableBean> lineageTableBeans = new ArrayList<>();
+//                            List<FamilyBook.LineageTableBean> beanList = new ArrayList<>();
+//                            int index = 0;
+//                            MyLineageTableBean myLineageTableBean;
+//                            for (FamilyBook.LineageTableBean bean : data.data.getLineageTable()) {
+//                                if (index != bean.getLineage()) {
+//                                    myLineageTableBean = new MyLineageTableBean();
+//                                    myLineageTableBean.setIndex(bean.getLineage());
+//                                    beanList.add(bean);
+//                                    myLineageTableBean.setLineageTableBeans(beanList);
+//                                    index = bean.getLineage();
+//                                    lineageTableBeans.add(myLineageTableBean);
+//                                    beanList = new ArrayList<>();
+//                                } else {
+//                                    beanList.add(bean);
+//                                }
+//                            }
+//                            Log.i(TAG, "onSuccess: " + lineageTableBeans);
+
 
                             //把每个世系的数据遍历出来
                             lineagekAdapter.setNewData(list);
-//                            lineagekAdapter.setNewData(familyBook.getLineageTable());
                             initFuxiViewPager();
                             SPHelper.saveDeviceData(mContext, "familyBook", familyBook);
                         } else {
@@ -723,7 +766,6 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
                     }
                 });
     }
-
 
     private void doOnClick(View view) {
         View.OnClickListener clickListener = v -> FastUtil.startActivity(getContext(), ReleasePictureActivity.class);

@@ -146,7 +146,6 @@ public class TabZuCeFragment2 extends BaseTitleFragment {
                 map.put("address", address);
                 goActivity(map, EditCoverActivity.class, true);
             });
-
         });
 
         //默认布局
@@ -158,19 +157,16 @@ public class TabZuCeFragment2 extends BaseTitleFragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mViewPager.setCurrentItem(progress);
-                Log.d(TAG, progress + "");
             }
 
             //开始滑动
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             //记录每个进程的刻度
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         lineagekAdapter = new LineagekAdapter(R.layout.item_lineagek);

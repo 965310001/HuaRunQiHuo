@@ -1,53 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F6F4"
     android:orientation="vertical">
 
-    <!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F9F6F4"
-        android:orientation="vertical"
-        android:visibility="gone">
-        &lt;!&ndash;<TextView&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/woziji"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="@dimen/dp_70"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="@dimen/dp_100"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginLeft="@dimen/dp_150"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginTop="@dimen/dp_150"&ndash;&gt;
-        &lt;!&ndash;android:background="@color/bank_bg02"&ndash;&gt;
-        &lt;!&ndash;android:visibility="gone" />&ndash;&gt;
-        &lt;!&ndash;<com.genealogy.by.view.FamilyTreeView&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/ftv_tree"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:background="#F1F1F1" />&ndash;&gt;-->
-    <!--</LinearLayout>-->
-
     <RelativeLayout
         android:id="@+id/relativeTop"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="@dimen/dp_48"
         android:background="@color/white"
         android:gravity="center">
 
         <TextView
             android:id="@+id/search"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:padding="15dp"
             android:text="搜索"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="16dp" />
-
-        <!--  <RelativeLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center">-->
+            android:textSize="@dimen/textSize_14" />
 
         <RadioGroup
             android:id="@+id/shupuRadioButton"
@@ -96,22 +72,27 @@
                 android:textSize="18dp" />
         </RadioGroup>
 
-        <TextView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/about"
-            android:layout_width="@dimen/dp_40"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:paddingRight="@dimen/dp_15"
-            android:paddingBottom="@dimen/dp_30"
+            android:padding="@dimen/dp_15"
             android:text="..."
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="@dimen/dp_30" />
+            android:tint="@android:color/holo_red_light"
+            app:srcCompat="@drawable/icon_three_points_svg" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#22000000" />
 
     <com.genealogy.by.view.NoScrollViewPager
         android:id="@+id/contentShupuView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/C_F6F6F6" />
 </LinearLayout>
