@@ -26,30 +26,10 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class TabWoDeFragment extends BaseFragment implements View.OnClickListener {
     private ImageView ivUser;
-    private TextView tvName;
-    private TextView tvMyFollow;
-    private TextView tvMyFabulous;
-    private TextView tvRelease;
-    private TextView Journal;
-    private TextView tvMessage;
-    private TextView tvUserInfo;
-    private TextView tvSetting;
-    private TextView personal;
-    private TextView quit;
-    private TextView phone;
+    private TextView tvName, phone;
 
     public static TabWoDeFragment newInstance() {
-        Bundle args = new Bundle();
-
-        TabWoDeFragment fragment = new TabWoDeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
-    @Override
-    public int getContentLayout() {
-        return R.layout.fragment_tab_wode;
+        return new TabWoDeFragment();
     }
 
     @Override
@@ -58,30 +38,21 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
         tvName = mContentView.findViewById(R.id.tv_name);
         phone = mContentView.findViewById(R.id.phone);
 
-        tvMyFollow = mContentView.findViewById(R.id.tv_my_follow);
-        tvMyFabulous = mContentView.findViewById(R.id.tv_my_fabulous);
-        tvRelease = mContentView.findViewById(R.id.tv_release);
-        Journal = mContentView.findViewById(R.id.journal);
-        tvMessage = mContentView.findViewById(R.id.tv_message);
-        tvUserInfo = mContentView.findViewById(R.id.tv_user_info);
-        tvSetting = mContentView.findViewById(R.id.tv_setting);
-        personal = mContentView.findViewById(R.id.personal);
-        quit = mContentView.findViewById(R.id.quit);
-
         mContentView.findViewById(R.id.lin_user_info).setOnClickListener(this);
-        personal.setOnClickListener(this::onClick);
-        quit.setOnClickListener(this::onClick);
-        tvMyFollow.setOnClickListener(this::onClick);
-        tvMyFabulous.setOnClickListener(this::onClick);
-        tvRelease.setOnClickListener(this::onClick);
-        Journal.setOnClickListener(this::onClick);
-        tvUserInfo.setOnClickListener(this::onClick);
-        tvSetting.setOnClickListener(this::onClick);
-        tvMessage.setOnClickListener(this::onClick);
-        setData();
+        mContentView.findViewById(R.id.personal).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.quit).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_my_follow).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_my_fabulous).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_release).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.journal).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_user_info).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_setting).setOnClickListener(this::onClick);
+        mContentView.findViewById(R.id.tv_message).setOnClickListener(this::onClick);
+
+        initData();
     }
 
-    public void setData() {
+    private void initData() {
         if (SPHelper.getStringSF(mContext, "profilePhoto") != null) {
             GlideManager.loadCircleImg(SPHelper.getStringSF(mContext, "profilePhoto"), ivUser);
         }
@@ -94,20 +65,10 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /*case R.id.lin_user_info:*/
             case R.id.tv_user_info:
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
-                break;
             case R.id.tv_my_follow:
-                FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
-                break;
             case R.id.tv_my_fabulous:
                 FastUtil.startActivity(mContext, PerfectingInformationActivity.class);
                 break;
@@ -143,7 +104,6 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
                     }
                 });
                 break;
-
         }
     }
 
@@ -160,12 +120,15 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
                     FastUtil.startActivity(mContext, RegisterActivity.class);
                     getActivity().finish();
                     break;
-
                 case 2:
-                    ToastUtil.show(msg.obj.toString());
+                    ToastUtil.show(msg.obj.toString(), new ToastUtil.Builder().setGravity(Gravity.CENTER));
                     break;
             }
-
         }
     };
+
+    @Override
+    public int getContentLayout() {
+        return R.layout.fragment_tab_wode;
+    }
 }
