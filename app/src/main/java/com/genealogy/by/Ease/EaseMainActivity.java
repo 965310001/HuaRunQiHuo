@@ -23,11 +23,6 @@ public class EaseMainActivity extends BaseTitleActivity {
     }
 
     @Override
-    public int getContentLayout() {
-        return R.layout.activity_main1;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
         EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
         conversationListFragment.hideTitleBar();
@@ -38,13 +33,16 @@ public class EaseMainActivity extends BaseTitleActivity {
                 intent.putExtra(FriendTable.FRIEND_NAME, map.get("otherUserNickName").toString());
                 intent.putExtra(FriendTable.FRIEND_HEAD, map.get("otherUserPortrait").toString());
                 intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(intent);
         });
-
         getSupportFragmentManager().beginTransaction().add(R.id.container, conversationListFragment).commit();
+    }
+
+    @Override
+    public int getContentLayout() {
+        return R.layout.activity_main1;
     }
 }

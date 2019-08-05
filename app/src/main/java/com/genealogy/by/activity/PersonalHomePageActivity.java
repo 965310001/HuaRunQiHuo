@@ -36,17 +36,11 @@ import tech.com.commoncore.utils.ToastUtil;
 public class PersonalHomePageActivity extends BaseTitleActivity implements View.OnClickListener {
 
     private AppCompatImageView ivImg;
-    private TextView tvName;
-    private TextView Relationship;
-    private TextView Area;
-    private TextView Telephone;
-    private TextView Birthday;
-    private TextView mTvRanking;
+    private TextView tvName, Relationship, Area, Telephone, Birthday, mTvRanking;
     private String id;
     private RecyclerView rvDeeds;
     private DeedsAdapter mAdapter;
     private BottomDialog mBottomDialog;
-
     private PersonalHome mPerson;
 
     @Override
@@ -272,7 +266,6 @@ public class PersonalHomePageActivity extends BaseTitleActivity implements View.
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
-                // TODO: 2019/7/23 编辑信息 添加事件以后的回调 是否更新数据
                 loadComment();
             }
         }

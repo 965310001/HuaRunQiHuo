@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
@@ -51,10 +50,7 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class ShuPuFragment extends Fragment {
 
-    //    private PopupWindow popupWindowAdd, popupWindowEdit, popupWindow;
-    //    private LinearLayout table;
-
-    private Context mContext = getActivity();
+    private Context mContext;
     private PopupWindow popupWindow2, popupWindowAdd, popupWindowEdit, popupWindow;
     private View rootView;
     private boolean mIsShowing;
@@ -120,7 +116,7 @@ public class ShuPuFragment extends Fragment {
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
-                        if (data.status == 200) {
+                        if (data.isSuccess()) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
 //                            initView();
                             convertData(data.data);
@@ -192,7 +188,7 @@ public class ShuPuFragment extends Fragment {
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
-                            if (data.status == 200) {
+                            if (data.isSuccess()) {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("data", data.data);
                                 FastUtil.startActivity(mContext, RelationshipChainActivity.class, bundle);
@@ -234,11 +230,10 @@ public class ShuPuFragment extends Fragment {
                     .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
                     .setJson(jsonObject)
-//                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
-                            if (data.status == 200) {
+                            if (data.isSuccess()) {
                                 SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
                                 convertData(data.data);
                                 popupWindow.dismiss();
@@ -285,63 +280,15 @@ public class ShuPuFragment extends Fragment {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.activity_popupadd, null);
-        // 设置按钮的点击事件
-        LinearLayout ll = contentView.findViewById(R.id.ll1);//背景图
-        LinearLayout fuqin = contentView.findViewById(R.id.ll_fuqin);//父亲
-        LinearLayout muqin = contentView.findViewById(R.id.ll_muqin);//母亲
-        LinearLayout peiou = contentView.findViewById(R.id.ll_peiou);//配偶
-        LinearLayout erzi = contentView.findViewById(R.id.ll_erzi);//儿子
-        LinearLayout nver = contentView.findViewById(R.id.ll_nver);//女儿
-        LinearLayout jiedi = contentView.findViewById(R.id.ll_jiedi);//姐弟
-        ll.setOnClickListener(view1 -> popupWindowAdd.dismiss());
-        fuqin.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "父亲");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
-        muqin.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "母亲");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
-        peiou.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "配偶");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
-        erzi.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "儿子");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
-        nver.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "女儿");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
-        jiedi.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("title", "兄弟姐妹");
-            bundle.putString("mUserId", user.getUserid());
-            bundle.putString("Gid", user.getGid());
-            FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
-            popupWindowAdd.dismiss();
-        });
+
+        contentView.findViewById(R.id.ll1).setOnClickListener(view1 -> popupWindowAdd.dismiss());
+        contentView.findViewById(R.id.ll_fuqin).setOnClickListener(v -> goPerfectingActivity(user, "父亲"));
+        contentView.findViewById(R.id.ll_muqin).setOnClickListener(v -> goPerfectingActivity(user, "母亲"));
+        contentView.findViewById(R.id.ll_peiou).setOnClickListener(v -> goPerfectingActivity(user, "配偶"));
+        contentView.findViewById(R.id.ll_erzi).setOnClickListener(v -> goPerfectingActivity(user, "儿子"));
+        contentView.findViewById(R.id.ll_nver).setOnClickListener(v -> goPerfectingActivity(user, "女儿"));
+        contentView.findViewById(R.id.ll_jiedi).setOnClickListener(v -> goPerfectingActivity(user, "兄弟姐妹"));
+
         popupWindowAdd = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
@@ -351,6 +298,15 @@ public class ShuPuFragment extends Fragment {
         backgroundAlpha(0.5f);
         // 设置好参数之后再show
         popupWindowAdd.showAsDropDown(view);
+    }
+
+    private void goPerfectingActivity(User user, String title) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("title", title);
+        bundle.putString("mUserId", user.getUserid());
+        bundle.putString("Gid", user.getGid());
+        popupWindowAdd.dismiss();
+        FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
     }
 
     private void showPopupWindowEdit(View view, User user) {
@@ -410,7 +366,7 @@ public class ShuPuFragment extends Fragment {
                         .request(new ACallback<BaseTResp2>() {
                             @Override
                             public void onSuccess(BaseTResp2 data) {
-                                if (data.status == 200) {
+                                if (data.isSuccess()) {
                                     doit();
                                 }
                                 ToastUtil.show(data.msg);
@@ -449,14 +405,6 @@ public class ShuPuFragment extends Fragment {
         TextView tvName = pop.findViewById(R.id.tv_name);
         tvName.setText(String.format("请输入\"%s\"的手机号码", user.getName()));
         dismiss.setOnClickListener(view -> {
-//            if (flg) {
-//                numberkey.setVisibility(View.GONE);
-//                flg = false;
-//            } else {
-//                numberkey.setVisibility(View.VISIBLE);
-//                flg = true;
-//            }
-
             popupWindow2.dismiss();
             mIsShowing = false;
             evinput.setText("");
@@ -580,9 +528,10 @@ public class ShuPuFragment extends Fragment {
     }
 
     private void invitationDoit(String phone, String inviteesId, String relation) {
-        phone = phone.replace(",", "");
-        phone = phone.replace("[", "");
-        phone = phone.replace("]", "").replace(" ", "");
+        phone = phone.replace(",", "")
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
         String userId = SPHelper.getStringSF(mContext, "UserId");
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", userId);
@@ -598,7 +547,7 @@ public class ShuPuFragment extends Fragment {
                 .request(new ACallback<BaseTResp2<Object>>() {
                     @Override
                     public void onSuccess(BaseTResp2<Object> data) {
-                        if (data.status == 200) {
+                        if (data.isSuccess()) {
                             showNormalDialog();
                             ToastUtil.show("邀请成功");
                             popupWindow2.dismiss();
@@ -634,15 +583,14 @@ public class ShuPuFragment extends Fragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
-        JSONObject jsonObject = new JSONObject(params);
         ViseHttp.POST(ApiConstant.searchNearInBlood)
                 .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
+                .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
-                        if (data.status == 200) {
+                        if (data.isSuccess()) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
                             convertData(data.data);
                         } else {
@@ -665,7 +613,6 @@ public class ShuPuFragment extends Fragment {
         FamilyTreeView4 mFtvTree = rootView.findViewById(R.id.ftv_tree);//近亲
         FamilyTreeView6 mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);//全部
         FamilyTreeView7 mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);//父系
-
         switch (param1) {
             case "父系":
                 mFtvTree.setVisibility(View.GONE);
@@ -727,136 +674,4 @@ public class ShuPuFragment extends Fragment {
                 break;
         }
     }
-
-    //遍历请求到的数据
-//    public void godata(SearchNearInBlood data) {
-//        user = new User();
-//        if (data.getSurname() != null) {
-//            user.setName(data.getSurname() + data.getName());
-//        } else {
-//            user.setName("");
-//        }
-//        user.setSex(data.getSex());
-//        if (data.getProfilePhoto() != null) {
-//            user.setProfilePhoto(data.getProfilePhoto());
-//        } else {
-//            user.setProfilePhoto("");
-//        }
-//        user.setUserid(data.getId() + "");
-//        user.setGid(data.getGId() + "");
-//        AddView(rootView, user);
-//        List<SearchNearInBlood> childrens = data.getChildrens();
-//        if (null != childrens && childrens.size() > 0) {
-//            for (int i = 0; i < childrens.size(); i++) {
-//                SearchNearInBlood children = childrens.get(i);
-//                if (children.getName() != null) {
-//                    user.setName(children.getName());
-//                } else {
-//                    user.setName("");
-//                }
-//                user.setSex(children.getSex());
-//                if (children.getProfilePhoto() != null) {
-//                    user.setProfilePhoto(children.getProfilePhoto());
-//                } else {
-//                    user.setProfilePhoto("");
-//                }
-//                AddView(rootView, user);
-//                ForChildrensGo(children.getChildrens());
-//                if (null != children.getSpouses()) {
-//                    if (children.getSpouses().size() > 0) {
-//                        SearchNearInBlood spouses = children.getSpouses().get(i);
-//                        if (spouses.getName() != null) {
-//                            user.setName(spouses.getName());
-//                        } else {
-//                            user.setName("");
-//                        }
-//                        user.setSex(spouses.getSex());
-//                        if (spouses.getProfilePhoto() != null) {
-//                            user.setProfilePhoto(spouses.getProfilePhoto());
-//                        } else {
-//                            user.setProfilePhoto("");
-//                        }
-//                        user.setGid(spouses.getGId() + "");
-//                        user.setUserid(spouses.getId() + "");
-//                        AddView(rootView, user);
-//                    }
-//                }
-//            }
-//        }
-//        List<SearchNearInBlood> spouses = data.getSpouses();
-//        if (null != spouses && spouses.size() != 0) {
-//            for (int i = 0; i < spouses.size(); i++) {
-//                SearchNearInBlood spouse = spouses.get(i);
-//                if (spouse.getName() != null) {
-//                    user.setName(spouse.getName());
-//                } else {
-//                    user.setName("");
-//                }
-//                user.setSex(spouse.getSex());
-//                if (spouse.getProfilePhoto() != null) {
-//                    user.setProfilePhoto(spouse.getProfilePhoto());
-//                } else {
-//                    user.setProfilePhoto("");
-//                }
-//                user.setGid(spouse.getGId() + "");
-//                user.setUserid(spouse.getId() + "");
-//                AddView(rootView, user);
-//            }
-//        }
-//    }
-//    public void ForChildrensGo(List<SearchNearInBlood> data) {
-//        if (null != data) {
-//            for (int i = 0; i < data.size(); i++) {
-//                user.setName(data.get(i).getName());
-//                user.setSex(data.get(i).getSex());
-//                user.setProfilePhoto(data.get(i).getProfilePhoto());
-//                AddView(rootView, user);
-//                if (data.get(i).getChildrens().size() > 0) {
-////                    ForChildrensGo((List<Children>) data.get(i));
-//                    ForChildrensGo(data);
-//                }
-//                if (data.get(i).getSpouses().size() != 0) {
-//                    for (int f = 0; f < data.get(i).getSpouses().size(); f++) {
-//                        SearchNearInBlood spouses = data.get(i).getSpouses().get(f);
-//                        if (spouses.getName() != null) {
-//                            user.setName(spouses.getName());
-//                        } else {
-//                            user.setName("");
-//                        }
-//                        user.setSex(spouses.getSex());
-//                        if (spouses.getProfilePhoto() != null) {
-//                            user.setProfilePhoto(spouses.getProfilePhoto());
-//                        } else {
-//                            user.setProfilePhoto("");
-//                        }
-//                        AddView(rootView, user);
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    @TargetApi(Build.VERSION_CODES.M)
-//    public void AddView(final View shuPuFragment, User user) {
-//        table = shuPuFragment.findViewById(R.id.shupu_table);
-//        View contentView = LayoutInflater.from(getActivity()).inflate(
-//                R.layout.item_user, null);
-//        LinearLayout lluser = contentView.findViewById(R.id.lluser);
-//        RelativeLayout rlName = contentView.findViewById(R.id.rl_name);
-//        lluser.setOnClickListener(view -> showPopupWindow(view, user));
-//        TextView imgs = contentView.findViewById(R.id.imgs);
-//        TextView name = contentView.findViewById(R.id.name);
-//        if (user.getSex() == 1) {
-//            setItemUser(rlName, imgs, name, R.mipmap.girl, R.color.C_D3606B);
-//        } else {
-//            setItemUser(rlName, imgs, name, R.mipmap.boy, R.color.user);
-//        }
-//        name.setText(user.getName());
-//        table.addView(contentView);
-//
-//    }
-//    private void setItemUser(RelativeLayout rlName, TextView imgs, TextView name, int imageId, int colorId) {
-//        imgs.setBackgroundResource(imageId);
-//        name.setBackgroundResource(colorId);
-//        rlName.setBackgroundResource(colorId);
-//    }
 }

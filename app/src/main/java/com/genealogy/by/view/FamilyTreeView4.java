@@ -313,7 +313,6 @@ public class FamilyTreeView4 extends ViewGroup {
             tvName.setText("");
         }
 
-        // TODO: 2019/7/9 设置头像
 //        final String url = family.getMemberImg();
 //        String url;
 //        switch (family.getSex()) {
@@ -382,7 +381,6 @@ public class FamilyTreeView4 extends ViewGroup {
 
             List<View> mSpouse = mFamilyMember.getSpouse();
             if (mSpouse != null) {
-                // TODO: 2019/7/9 我配偶循环
                 if (mSpouse != null && mSpouse.size() > 0) {
                     final int brotherCount = mSpouse.size();
                     for (int i = 0; i < brotherCount; i++) {
@@ -395,8 +393,43 @@ public class FamilyTreeView4 extends ViewGroup {
             }
             /*我的儿子*/
             childrenLayout(mineLeft, mineTop, mFamilyMember.getChildrens(), mFamilyMember.getChildren());
+
+            /*************************************************** start ***************************************************/
+            /*计算我和配偶*/
+            Log.i(TAG, "onLayout: " + getOneHomeAllWidth(mFamilyMember));
+            /**************************************************** end ****************************************************/
         }
     }
+
+
+    private int getOneHomeAllWidth(SearchNearInBlood mFamilyMember) {
+        int number1 = 1, number2 = 1, number3;
+
+        /*第一代*/
+        List<View> spouse = mFamilyMember.getSpouse();
+        if (isChildrenView(spouse)) {
+            number1 += spouse.size() + number1;
+        }
+
+        /*第二代*/
+        for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
+            spouse = children.getSpouse();
+            if (isChildrenView(spouse)) {
+                number2 += spouse.size() + number2;
+            } else {
+                number2 += 1;
+            }
+
+
+
+            /*第三代*/
+
+        }
+
+
+        return 0;
+    }
+
 
     // TODO: 2019/7/10 子view 的摆放位置
     private void childrenLayout(int mineLeft, int mineTop,
@@ -455,7 +488,6 @@ public class FamilyTreeView4 extends ViewGroup {
                     // TODO: 2019/7/9 子配偶位置设置
                     grandChildrenLeft = childrenSpouseLayout(childTop, childLeft, grandChildrenLeft, myChild.getSpouses(),
                             myChild.getSpouse());
-
                 }
             }
         }
