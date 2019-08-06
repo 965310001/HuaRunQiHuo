@@ -361,9 +361,9 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
         setOnClickListener(view, R.id.photo, v -> updateViewPagerItem(v, 6));
         setOnClickListener(view, R.id.surface, v -> updateViewPagerItem(v, 16));
 
-        setOnClickListener(view, R.id.biography, v -> updateViewPagerItem(v, views.size() - 2));
-        setOnClickListener(view, R.id.epilogue, v -> updateViewPagerItem(v, views.size() - 1));
-        setOnClickListener(view, R.id.events, v -> updateViewPagerItem(v, views.size()));
+        setOnClickListener(view, R.id.biography, v -> updateViewPagerItem(v, views.size() - 3));
+        setOnClickListener(view, R.id.events, v -> updateViewPagerItem(v, views.size() - 2));
+        setOnClickListener(view, R.id.epilogue, v -> updateViewPagerItem(v, views.size()-1));
 
         views.add(view);
         /*编委会*/
@@ -442,6 +442,14 @@ public class TabZuCeFragment extends BaseTitleFragment implements onClickAlbumIt
             }
         });
         seekBar.setMax(views.size() - 1);
+        Log.i(TAG, "initFuxiViewPager: " + views.size());
+
+
+        setText(view, R.id.tv_biography, String.valueOf(views.size() - 4));
+        setText(view, R.id.tv_events, String.valueOf(views.size() - 3));
+        setText(view, R.id.tv_epilogue, String.valueOf(views.size() - 2));
+
+
     }
 
     private void addLineageTable() {

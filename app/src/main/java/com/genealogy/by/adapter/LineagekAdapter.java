@@ -2,7 +2,6 @@ package com.genealogy.by.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -43,7 +42,7 @@ public class LineagekAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 index++;
                 indx = i;
 
-                Log.i(TAG, "convert: " + index + "==" + indx);
+                //Log.i(TAG, "convert: " + index + "==" + indx);
             } else {
                 break;
             }
@@ -67,7 +66,7 @@ public class LineagekAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         str = String.valueOf(pages + 16);
 
-        Log.i(TAG, "convert: " + str);
+        //Log.i(TAG, "convert: " + str);
         SPHelper.setStringSF(mContext, "pages", str);
 
         helper.setText(R.id.number, "第" + item + "世")

@@ -395,41 +395,9 @@ public class FamilyTreeView4 extends ViewGroup {
             childrenLayout(mineLeft, mineTop, mFamilyMember.getChildrens(), mFamilyMember.getChildren());
 
             /*************************************************** start ***************************************************/
-            /*计算我和配偶*/
-            Log.i(TAG, "onLayout: " + getOneHomeAllWidth(mFamilyMember));
             /**************************************************** end ****************************************************/
         }
     }
-
-
-    private int getOneHomeAllWidth(SearchNearInBlood mFamilyMember) {
-        int number1 = 1, number2 = 1, number3;
-
-        /*第一代*/
-        List<View> spouse = mFamilyMember.getSpouse();
-        if (isChildrenView(spouse)) {
-            number1 += spouse.size() + number1;
-        }
-
-        /*第二代*/
-        for (SearchNearInBlood children : mFamilyMember.getChildrens()) {
-            spouse = children.getSpouse();
-            if (isChildrenView(spouse)) {
-                number2 += spouse.size() + number2;
-            } else {
-                number2 += 1;
-            }
-
-
-
-            /*第三代*/
-
-        }
-
-
-        return 0;
-    }
-
 
     // TODO: 2019/7/10 子view 的摆放位置
     private void childrenLayout(int mineLeft, int mineTop,
@@ -468,13 +436,6 @@ public class FamilyTreeView4 extends ViewGroup {
                                         grandChildrenLeft,
                                         grandChildrenTop, searchNearInBlood.getChildrens(),
                                         searchNearInBlood.getChildren());
-                                /*孙媳*/
-//                                grandChildrenLeft = childrenSpouseLayout(grandChildrenTop,
-//                                        grandChildrenLeft - (mItemWidthPX + mSpacePX),
-////                                        grandChildrenLeft,
-//                                        grandChildrenLeft, searchNearInBlood.getSpouses(),
-//                                        searchNearInBlood.getSpouse());
-
                                 grandChildrenLeft += mItemWidthPX + mSpacePX;
                             }
                             childLeft = (endGrandChildLeft - startGrandChildLeft) / 2 + startGrandChildLeft;
@@ -770,12 +731,9 @@ public class FamilyTreeView4 extends ViewGroup {
 
     // TODO: 2019/7/17 计算每一代多少人
     void getGenerations() {
-        String TAG = "GETGENERATIONS";
         ArrayList<SearchNearInBlood> childes = new ArrayList<>();
         childes.add(mFamilyMember);
         getGenerations(1, childes);
-//        Log.i(TAG, "-------------------------------------------------");
-//        Log.i(TAG, "getGenerations: "+generationList);
     }
 
     /*第几代 孩子*/

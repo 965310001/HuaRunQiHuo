@@ -277,7 +277,6 @@ public class FamilyTreeView6 extends ViewGroup {
         return familyView;
     }
 
-
     private View createFamilyView(SearchNearInBlood family) {
         familyView = LayoutInflater.from(getContext()).inflate(R.layout.item_family2, this, false);
         familyView.getLayoutParams().width = mItemWidthPX;
@@ -285,6 +284,7 @@ public class FamilyTreeView6 extends ViewGroup {
         familyView.setTag(family);
 
         ivAvatar = familyView.findViewById(R.id.iv_avatar);
+        ivAvatar.getLayoutParams().height = mItemWidthPX;
 
         tvName = familyView.findViewById(R.id.tv_name);
         tvName.setTextSize(NAME_TEXT_SIZE_SP);

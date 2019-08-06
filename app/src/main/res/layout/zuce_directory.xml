@@ -57,7 +57,6 @@
 
             <LinearLayout
                 android:id="@+id/preface"
-
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
@@ -89,7 +88,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginTop="@dimen/dp_10"
-
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -148,17 +146,6 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <!--<TextView-->
-                <!--android:id="@+id/photo"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="@dimen/dp_24"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginTop="@dimen/dp_10"-->
-                <!--android:gravity="center"-->
-                <!--android:text="家族照&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;5"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:textSize="13dp" />-->
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_24"
@@ -182,16 +169,6 @@
 
             </LinearLayout>
 
-            <!--<TextView-->
-            <!--android:id="@+id/surface"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/dp_24"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="@dimen/dp_10"-->
-            <!--android:text="世系表-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;15"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="13dp" />-->
-
             <LinearLayout
                 android:id="@+id/surface"
                 android:layout_width="match_parent"
@@ -199,17 +176,6 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <!--
-                <TextView
-                    android:id="@+id/surface"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_24"
-                    android:layout_gravity="center_horizontal"
-                    android:text="世系表-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;15"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
--->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -228,7 +194,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15" />
-
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -261,6 +226,7 @@
                     android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
 
                 <TextView
+                    android:id="@+id/tv_biography"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="18" />
@@ -290,6 +256,7 @@
                     android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
 
                 <TextView
+                    android:id="@+id/tv_events"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="19" />
@@ -316,6 +283,7 @@
                     android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" />
 
                 <TextView
+                    android:id="@+id/tv_epilogue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20" />
