@@ -117,7 +117,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         layout.setEnableHeaderTranslationContent(true)
                 .setEnableOverScrollDrag(false);
         BezierCircleHeader header = new BezierCircleHeader(mContext);
-        header.setPrimaryColors(ContextCompat.getColor(mContext, R.color.refreshHeader));
+        header.setPrimaryColors(ContextCompat.getColor(mContext, R.color.C_333333));
         return header;
     }
 

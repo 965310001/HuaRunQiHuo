@@ -160,8 +160,9 @@ public class FamilyTreeView7 extends ViewGroup {
 //        if (mFamilyMember.getUser().getSpouse() != null) {
 //            widthDP[2] = ITEM_WIDTH_DP + SPACE_WIDTH_DP + ITEM_WIDTH_DP * 2;
 //        }
-
-        chideList = mFamilyMember.getUser().getChildrens();
+        if (null != mFamilyMember.getUser()) {
+            chideList = mFamilyMember.getUser().getChildrens();
+        }
         initWidthAndHeight(widthDP, chideList);
 
         mMaxWidthPX = mScreenWidth;
@@ -364,8 +365,7 @@ public class FamilyTreeView7 extends ViewGroup {
             if (null != mGenerationView && mGenerationView.size() > 0) {
                 int generationTop = mineTop;
                 for (View view : mGenerationView) {
-                    // TODO: 2019/7/19 取消注释
-//                    setChildViewFrame(view, mineLeft, generationTop, mItemWidthPX + mSpacePX + mLineWidthPX, mItemHeightPX);
+                    setChildViewFrame(view, mineLeft, generationTop, mItemWidthPX + mSpacePX + mLineWidthPX, mItemHeightPX);
                     generationTop += mItemHeightPX + mSpacePX * 2;
                 }
             }
@@ -514,10 +514,9 @@ public class FamilyTreeView7 extends ViewGroup {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // TODO: 2019/7/19 第几世
-//        drawGenerationLine(canvas);  //第几世
-//        drawSpouseLine(canvas);
-//        drawChildrenLine(canvas);
+        drawGenerationLine(canvas);
+        drawSpouseLine(canvas);
+        drawChildrenLine(canvas);
     }
 
     private void drawGenerationLine(Canvas canvas) {
@@ -548,7 +547,7 @@ public class FamilyTreeView7 extends ViewGroup {
             for (View view : childes) {
                 horizontalLineStartX = (int) mMineView.getX() + mItemWidthPX / 2;
                 horizontalLineStopX = (int) view.getX() + mItemWidthPX / 2;
-                horizontalLineY = (int) view.getY() + mItemWidthPX / 2;
+                horizontalLineY = (int) view.getY() + mItemHeightPX / 2;
                 mPath.reset();
                 mPath.moveTo(horizontalLineStartX, horizontalLineY);
                 mPath.lineTo(horizontalLineStopX, horizontalLineY);
@@ -645,7 +644,6 @@ public class FamilyTreeView7 extends ViewGroup {
                 mPath.lineTo(horizontalLineStopX, horizontalLineY);
                 canvas.drawPath(mPath, mPaint);
             }
-
         }
     }
 
@@ -667,7 +665,6 @@ public class FamilyTreeView7 extends ViewGroup {
             canvas.drawPath(mPath, mPaint);
 
             /*画子女*/
-//            int index = 0;
             count = 0;
             for (View view : searchNearInBlood.getChildren()) {
                 childLineY = (int) view.getY() - mSpacePX;
@@ -680,6 +677,16 @@ public class FamilyTreeView7 extends ViewGroup {
                 canvas.drawPath(mPath, mPaint);
                 drawChildrenLine(canvas, searchNearInBlood.getChildrens().get(count));
                 count++;
+            }
+            /*画连接儿子的线*/
+            List<View> children = searchNearInBlood.getChildren();
+            if (isListView(children)) {
+                if (children.size() > 1) {
+                    mPath.reset();
+                    mPath.moveTo(children.get(0).getX() + mItemWidthPX / 2, children.get(0).getY() - mSpacePX);
+                    mPath.lineTo(children.get(children.size() - 1).getX() + mItemWidthPX / 2, children.get(0).getY() - mSpacePX);
+                    canvas.drawPath(mPath, mPaint);
+                }
             }
         }
     }

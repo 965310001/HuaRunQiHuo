@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#D81B60</color>
-
-
-    <color name="refreshHeader">#333333</color>
 
     <color name="C_E48B81">#E48B81</color>
     <color name="C_DC818A">#DC818A</color>
@@ -13,8 +8,6 @@
     <color name="C_2DA82D">#2DA82D</color>
     <color name="C_D3606B">#D7605A</color>
     <color name="C_F47432">#F47432</color>
-
-
 
     <color name="C_D4D4D4">#D4D4D4</color>
     <color name="C_333333">#333333</color>
@@ -60,7 +53,6 @@
     <color name="common_top_bar_blue">#22292c</color>
     <color name="myred">#eb4f38</color>
     <color name="darkgray">#cccc</color>
-    <color name="color_white">#ffffff</color>
     <color name="btn_press_color">#5677fc</color>
     <color name="btn_pressed_color">#3ca0ec</color>
     <color name="zupu_red">#ffff4444</color>
@@ -77,11 +69,10 @@
     <color name="backgroundPrimary">#EBEBEB</color>
     <color name="textBlack">#2c2c2c</color>
     <color name="textGray">#B0B0B0</color>
-    <color name="textWhite">#ffffff</color>
     <!--公共颜色结束-->
 
     <!--个人页面开始-->
-    <color name="itemBackground">#fff</color>
+    <!--<color name="itemBackground">#fff</color>-->
     <color name="textItemColor">#bfbfbf</color>
     <!--个人页面结束-->
 

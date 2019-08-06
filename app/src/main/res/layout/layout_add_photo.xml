@@ -28,7 +28,7 @@
                     android:layout_height="match_parent"
                     android:layout_above="@id/text1"
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:background="@color/refreshHeader"
+                    android:background="@color/C_333333"
                     android:visibility="gone" />
 
                 <TextView
@@ -189,8 +189,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView        android:visibility="gone"
-
+    <TextView
         android:id="@+id/pageNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -199,6 +198,7 @@
         android:gravity="center"
         android:text="6"
         android:textColor="@color/black"
-        android:textSize="10dp" />
+        android:textSize="10dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

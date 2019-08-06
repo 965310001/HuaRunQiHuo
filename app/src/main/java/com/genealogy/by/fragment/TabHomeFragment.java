@@ -23,6 +23,7 @@ public class TabHomeFragment extends BaseFragment {
 
     private ViewPager contentShupuView;
     private RadioGroup shupuRadioButton;
+    private List<Fragment> mFragments;
 
     public static TabHomeFragment newInstance() {
         return new TabHomeFragment();
@@ -36,12 +37,12 @@ public class TabHomeFragment extends BaseFragment {
         shupuRadioButton = mContentView.findViewById(R.id.shupuRadioButton);
         contentShupuView = mContentView.findViewById(R.id.contentShupuView);
 
-        List<Fragment> mFragments = new ArrayList<>(3);
+        mFragments = new ArrayList<>(3);
         mFragments.add(ShuPuFragment.newInstance("父系"));
         mFragments.add(ShuPuFragment.newInstance("近亲"));
         mFragments.add(ShuPuFragment.newInstance("全部"));
-        MyFragmentPagerAdapter mAdapter = new MyFragmentPagerAdapter(getChildFragmentManager(), mFragments);
-        contentShupuView.setAdapter(mAdapter);
+
+        contentShupuView.setAdapter(new MyFragmentPagerAdapter(getChildFragmentManager(), mFragments));
         contentShupuView.setOffscreenPageLimit(3);
         contentShupuView.addOnPageChangeListener(mPageChangeListener);
         shupuRadioButton.setOnCheckedChangeListener(mOnCheckedChangeListener);
@@ -55,6 +56,7 @@ public class TabHomeFragment extends BaseFragment {
                     contentShupuView.setCurrentItem(i);
                     return;
                 }
+                ((ShuPuFragment) mFragments.get(i)).hidePopupWindow();
             }
         }
     };

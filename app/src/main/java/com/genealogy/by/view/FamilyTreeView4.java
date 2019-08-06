@@ -397,7 +397,9 @@ public class FamilyTreeView4 extends ViewGroup {
                             SearchNearInBlood searchNearInBlood;
                             for (int j = 0; j < chideViews.size(); j++) {//孙子
                                 final View grandChildView = chideViews.get(j);
-                                 endGrandChildLeft = grandChildrenLeft;
+                                setChildViewFrame(grandChildView, grandChildrenLeft,
+                                        grandChildrenTop, mItemWidthPX, mItemHeightPX);
+                                endGrandChildLeft = grandChildrenLeft;
                                 grandChildrenLeft += mItemWidthPX + mSpacePX;
                                 searchNearInBlood = mChildes.get(j);
                                 /*孙子*/

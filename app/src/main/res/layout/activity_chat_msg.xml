@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/itemBackground"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
@@ -51,7 +51,7 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:background="@mipmap/send_msg_add"
-            android:textColor="@color/textWhite" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

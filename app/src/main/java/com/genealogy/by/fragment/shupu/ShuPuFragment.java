@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,15 +43,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import tech.com.commoncore.base.BaseApplication;
+import tech.com.commoncore.base.BaseFragment;
 import tech.com.commoncore.constant.ApiConstant;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.ToastUtil;
 
-public class ShuPuFragment extends Fragment {
+public class ShuPuFragment extends BaseFragment {
 
     private Context mContext;
     private PopupWindow popupWindow2, popupWindowAdd, popupWindowEdit, popupWindow;
-    private View rootView;
     private boolean mIsShowing;
     private static final String TAG = "ShuPuFragment";
     private String param1;
@@ -66,17 +65,58 @@ public class ShuPuFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        mContext = getActivity();
-        param1 = getArguments().getString("param1");
-        Log.i(TAG, "onCreate: " + param1);
+    public void onResume() {
+        super.onResume();
+        if (SPHelper.getBooleanSF(getContext(), "isRefresh")) {
+            doit();
+            doit2();
+            SPHelper.setBooleanSF(getContext(), "isRefresh", false);
+        }
+    }
+
+    //父
+    private void doit2() {
+        showLoading();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("gId", SPHelper.getStringSF(mContext, "GId"));
+        params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
+        JSONObject jsonObject = new JSONObject(params);
+        ViseHttp.POST(ApiConstant.setAsCenter)
+                .setHttpCache(true)
+                .cacheMode(CacheMode.FIRST_REMOTE)
+                .setJson(jsonObject)
+                .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
+                    @Override
+                    public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
+                        hideLoading();
+                        if (data.isSuccess()) {
+                            SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
+//                            initView();
+                            convertData(data.data);
+                            Log.e(TAG, "onSuccess: data = " + data.toString());
+                        } else {
+                            ToastUtil.show(data.msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        hideLoading();
+                        ToastUtil.show(errMsg);
+                        Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
+                    }
+                });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public int getContentLayout() {
+        return R.layout.shupu_fuxi;
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        mContext = getActivity();
+        param1 = getArguments().getString("param1");
         switch (param1) {
             case "父系":
                 doit2();
@@ -90,48 +130,6 @@ public class ShuPuFragment extends Fragment {
                 doit2();
                 break;
         }
-        rootView = inflater.inflate(R.layout.shupu_fuxi, container, false);
-        return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (SPHelper.getBooleanSF(getContext(), "isRefresh")) {
-            doit();
-            SPHelper.setBooleanSF(getContext(), "isRefresh", false);
-        }
-    }
-
-    //父
-    private void doit2() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("gId", SPHelper.getStringSF(mContext, "GId"));
-        params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
-        JSONObject jsonObject = new JSONObject(params);
-        ViseHttp.POST(ApiConstant.setAsCenter)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
-                .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
-                .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
-                    @Override
-                    public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
-                        if (data.isSuccess()) {
-                            SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-//                            initView();
-                            convertData(data.data);
-                            Log.e(TAG, "onSuccess: data = " + data.toString());
-                        } else {
-                            ToastUtil.show(data.msg);
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
-                        ToastUtil.show(errMsg);
-                        Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
-                    }
-                });
     }
 
     /**
@@ -181,10 +179,9 @@ public class ShuPuFragment extends Fragment {
             params.put("heId", user.getUserid());
             JSONObject jsonObject = new JSONObject(params);
             ViseHttp.POST(ApiConstant.getRelationshipChain)
-                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
                     .setJson(jsonObject)
-//                    .setRequestBody(RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString()))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -193,13 +190,6 @@ public class ShuPuFragment extends Fragment {
                                 bundle.putSerializable("data", data.data);
                                 FastUtil.startActivity(mContext, RelationshipChainActivity.class, bundle);
                                 popupWindow.dismiss();
-
-//                                SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
-//                            godata(data.data);
-//                                initView();
-//                                convertData(data.data);
-//                                popupWindow.dismiss();
-//                                Log.e(TAG, "onSuccess: data = " + data.toString());
                             } else {
                                 Log.e(TAG, "onSuccess: data = " + data.msg);
                             }
@@ -225,11 +215,10 @@ public class ShuPuFragment extends Fragment {
             params.put("gId", user.getGid());
             middleId = user.getUserid();
             params.put("userId", middleId);
-            JSONObject jsonObject = new JSONObject(params);
             ViseHttp.POST(ApiConstant.searchNearInBlood)
-                    .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                    .setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
-                    .setJson(jsonObject)
+                    .setJson(new JSONObject(params))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -280,7 +269,6 @@ public class ShuPuFragment extends Fragment {
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.activity_popupadd, null);
-
         contentView.findViewById(R.id.ll1).setOnClickListener(view1 -> popupWindowAdd.dismiss());
         contentView.findViewById(R.id.ll_fuqin).setOnClickListener(v -> goPerfectingActivity(user, "父亲"));
         contentView.findViewById(R.id.ll_muqin).setOnClickListener(v -> goPerfectingActivity(user, "母亲"));
@@ -360,7 +348,7 @@ public class ShuPuFragment extends Fragment {
         normalDialog.setTitle("您确定要删除嘛？");
         normalDialog.setPositiveButton("确定",
                 (dialog, which) -> ViseHttp.GET(ApiConstant.delUser)
-                        .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                        .setHttpCache(true)
                         .cacheMode(CacheMode.FIRST_REMOTE)
                         .addParam("id", user.getUserid())
                         .request(new ACallback<BaseTResp2>() {
@@ -388,7 +376,7 @@ public class ShuPuFragment extends Fragment {
     private void popup(View view, User user) {
         initPopup(user);
         if (!mIsShowing) {
-            popupWindow2.showAtLocation(rootView.findViewById(R.id.line1), Gravity.BOTTOM, 0, 0);
+            popupWindow2.showAtLocation(mContentView.findViewById(R.id.line1), Gravity.BOTTOM, 0, 0);
             mIsShowing = true;
         }
     }
@@ -539,11 +527,10 @@ public class ShuPuFragment extends Fragment {
         params.put("phone", phone.trim());
         params.put("type", "0");
         params.put("relation", relation);
-        JSONObject jsonObject = new JSONObject(params);
         ViseHttp.POST(ApiConstant.inviteUser)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
+                .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<Object>>() {
                     @Override
                     public void onSuccess(BaseTResp2<Object> data) {
@@ -580,16 +567,18 @@ public class ShuPuFragment extends Fragment {
 
     //网络请求
     private void doit() {
+        showLoading();
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
         ViseHttp.POST(ApiConstant.searchNearInBlood)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
+                        hideLoading();
                         if (data.isSuccess()) {
                             SPHelper.saveDeviceData(mContext, "SearchNearInBlood", data.data);
                             convertData(data.data);
@@ -601,77 +590,146 @@ public class ShuPuFragment extends Fragment {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        hideLoading();
                         ToastUtil.show(errMsg);
                         Log.e(TAG, "errMsg: " + errMsg + ",errCode:  " + errCode);
                     }
                 });
     }
 
-
     /*转换数据*/
     private void convertData(SearchNearInBlood data) {
-        FamilyTreeView4 mFtvTree = rootView.findViewById(R.id.ftv_tree);//近亲
-        FamilyTreeView6 mFtvTree1 = rootView.findViewById(R.id.ftv_tree1);//全部
-        FamilyTreeView7 mFtvTree2 = rootView.findViewById(R.id.ftv_tree2);//父系
+        FamilyTreeView4 mFtvTree = mContentView.findViewById(R.id.ftv_tree);//近亲
+        FamilyTreeView6 mFtvTree1 = mContentView.findViewById(R.id.ftv_tree1);//全部
+        FamilyTreeView7 mFtvTree2 = mContentView.findViewById(R.id.ftv_tree2);//父系
+
+        OnFamilySelectListener onFamilySelectListener = new OnFamilySelectListener() {
+            @Override
+            public void onFamilySelect(FamilyMember family) {
+            }
+
+            @Override
+            public void onFamilySelect(SearchNearInBlood family) {
+                User user = new User(family.getId() + "",
+                        SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+                user.setSex(family.getSex());
+                user.setSurname(family.getSurname());
+                user.setName(family.getName());
+                user.setBirthArea(family.getBirthArea());
+                user.setBirthPlace(family.getBirthPlace());
+                user.setEmail(family.getEmail());
+                user.setWord(family.getWord());
+                user.setUsedName(family.getUsedName());
+                user.setIsCelebrity(family.getIsCelebrity());
+                user.setNumber(family.getNumber());
+                user.setNoun(family.getNoun());
+                user.setPhone(family.getPhone());
+                user.setRanking(family.getRanking());
+                user.setRelationship(family.getRelationship());
+                showPopupWindow(family.getMineView(), user);
+            }
+        };
+
         switch (param1) {
             case "父系":
                 mFtvTree.setVisibility(View.GONE);
                 mFtvTree1.setVisibility(View.GONE);
+
                 mFtvTree2.setVisibility(View.VISIBLE);
                 mFtvTree2.setFamilyMember(data);
+                mFtvTree2.setOnFamilySelectListener(onFamilySelectListener);
                 break;
 
             case "近亲":
-                mFtvTree.setVisibility(View.VISIBLE);
                 mFtvTree1.setVisibility(View.GONE);
                 mFtvTree2.setVisibility(View.GONE);
-                mFtvTree.setFamilyMember(data);
-                mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
-                    @Override
-                    public void onFamilySelect(FamilyMember family) {
-                    }
 
-                    @Override
-                    public void onFamilySelect(SearchNearInBlood family) {
-                        User user = new User(family.getId() + "",
-                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-                        user.setSex(family.getSex());
-                        user.setSurname(family.getSurname());
-                        user.setName(family.getName());
-                        user.setBirthArea(family.getBirthArea());
-                        user.setBirthPlace(family.getBirthPlace());
-                        user.setEmail(family.getEmail());
-                        user.setWord(family.getWord());
-                        user.setUsedName(family.getUsedName());
-                        user.setIsCelebrity(family.getIsCelebrity());
-                        user.setNumber(family.getNumber());
-                        user.setNoun(family.getNoun());
-                        user.setPhone(family.getPhone());
-                        user.setRanking(family.getRanking());
-                        user.setRelationship(family.getRelationship());
-                        showPopupWindow(family.getMineView(), user);
-                    }
-                });
+                mFtvTree.setVisibility(View.VISIBLE);
+                mFtvTree.setFamilyMember(data);
+                mFtvTree.setOnFamilySelectListener(onFamilySelectListener);
+
+//                mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
+//                    @Override
+//                    public void onFamilySelect(FamilyMember family) {
+//                    }
+//
+//                    @Override
+//                    public void onFamilySelect(SearchNearInBlood family) {
+//                        User user = new User(family.getId() + "",
+//                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+//                        user.setSex(family.getSex());
+//                        user.setSurname(family.getSurname());
+//                        user.setName(family.getName());
+//                        user.setBirthArea(family.getBirthArea());
+//                        user.setBirthPlace(family.getBirthPlace());
+//                        user.setEmail(family.getEmail());
+//                        user.setWord(family.getWord());
+//                        user.setUsedName(family.getUsedName());
+//                        user.setIsCelebrity(family.getIsCelebrity());
+//                        user.setNumber(family.getNumber());
+//                        user.setNoun(family.getNoun());
+//                        user.setPhone(family.getPhone());
+//                        user.setRanking(family.getRanking());
+//                        user.setRelationship(family.getRelationship());
+//                        showPopupWindow(family.getMineView(), user);
+//                    }
+//                });
                 break;
 
             case "全部":
                 mFtvTree.setVisibility(View.GONE);
-                mFtvTree1.setVisibility(View.VISIBLE);
                 mFtvTree2.setVisibility(View.GONE);
-                mFtvTree1.setFamilyMember(data);
-                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
-                    @Override
-                    public void onFamilySelect(FamilyMember family) {
-                    }
 
-                    @Override
-                    public void onFamilySelect(SearchNearInBlood family) {
-                        User user = new User(family.getId() + "",
-                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-                        showPopupWindow(family.getMineView(), user);
-                    }
-                });
+                mFtvTree1.setVisibility(View.VISIBLE);
+                mFtvTree1.setFamilyMember(data);
+                mFtvTree1.setOnFamilySelectListener(onFamilySelectListener);
+//                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
+//                    @Override
+//                    public void onFamilySelect(FamilyMember family) {
+//                    }
+//
+//                    @Override
+//                    public void onFamilySelect(SearchNearInBlood family) {
+//                        User user = new User(family.getId() + "",
+//                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
+//                        user.setSex(family.getSex());
+//                        user.setSurname(family.getSurname());
+//                        user.setName(family.getName());
+//                        user.setBirthArea(family.getBirthArea());
+//                        user.setBirthPlace(family.getBirthPlace());
+//                        user.setEmail(family.getEmail());
+//                        user.setWord(family.getWord());
+//                        user.setUsedName(family.getUsedName());
+//                        user.setIsCelebrity(family.getIsCelebrity());
+//                        user.setNumber(family.getNumber());
+//                        user.setNoun(family.getNoun());
+//                        user.setPhone(family.getPhone());
+//                        user.setRanking(family.getRanking());
+//                        user.setRelationship(family.getRelationship());
+//                        showPopupWindow(family.getMineView(), user);
+//                    }
+//                });
                 break;
+        }
+    }
+
+
+    public void hidePopupWindow() {
+        if (null != popupWindow2 && popupWindow2.isShowing()) {
+            popupWindow2.dismiss();
+            return;
+        }
+        if (null != popupWindowAdd && popupWindowAdd.isShowing()) {
+            popupWindow2.dismiss();
+            return;
+        }
+        if (null != popupWindowEdit && popupWindowEdit.isShowing()) {
+            popupWindow2.dismiss();
+            return;
+        }
+        if (null != popupWindow && popupWindow.isShowing()) {
+            popupWindow2.dismiss();
+            return;
         }
     }
 }

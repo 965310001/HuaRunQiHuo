@@ -10,7 +10,7 @@
         android:layout_height="60dp"
         android:layout_weight="1"
         android:padding="10dp"
-        android:background="@color/itemBackground"
+        android:background="@color/white"
         />
 
     <TextView
@@ -21,7 +21,7 @@
         android:textColor="@color/textBlack"
         android:id="@+id/expandLvRow_contact_name"
         android:gravity="center_vertical"
-        android:background="@color/itemBackground"
+        android:background="@color/white"
         />
 
 </LinearLayout>

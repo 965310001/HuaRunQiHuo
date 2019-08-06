@@ -14,7 +14,7 @@
                 android:paddingBottom="10dp"
                 android:background="@color/color_69"
                 android:layout_width="fill_parent"
-                android:textColor="@color/textWhite"
+                android:textColor="@color/white"
                 android:layout_height="240dp" />
             <ImageView
                 android:id="@+id/head"
