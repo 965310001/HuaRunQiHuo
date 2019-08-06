@@ -12,4 +12,4 @@
     android:drawablePadding="@dimen/dp_5"
     android:text="搜索历史"
     android:textColor="@color/colorWhite"
-    android:textSize="@dimen/sp_12"></TextView>
+    android:textSize="@dimen/sp_12"/>

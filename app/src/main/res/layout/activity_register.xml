@@ -144,6 +144,4 @@
         android:text="确定"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/sp_15" />
-
-
 </LinearLayout>

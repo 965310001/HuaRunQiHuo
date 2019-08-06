@@ -10,7 +10,6 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -181,7 +180,6 @@ public class FamilyTreeView6 extends ViewGroup {
             for (int i = 0; i < mMyChildren.size(); i++) {
                 final SearchNearInBlood child = mMyChildren.get(i);
                 final List<SearchNearInBlood> grandChildrenList = child.getChildrens();
-                grandchildMaxWidthDP = 0;
                 if (grandChildrenList != null && grandChildrenList.size() > 0) {
                     final int grandchildCount = grandChildrenList.size();
                     if (grandchildCount == 1 && mMyChildren.size() == 1) {
@@ -214,7 +212,6 @@ public class FamilyTreeView6 extends ViewGroup {
         mFamilyMember.getUser().setMineView(mMineView);
         List<SearchNearInBlood.GenerationBean> beans = mFamilyMember.getGeneration();
         if (null != beans && beans.size() > 0) {
-            Log.i(TAG, "initView: GenerationBean");
             int index = 0;
             for (SearchNearInBlood.GenerationBean bean : beans) {
                 mGenerationView.add(createGeneration(String.format("%d", (++index)), bean));
@@ -433,39 +430,6 @@ public class FamilyTreeView6 extends ViewGroup {
     boolean isListView(List<View> views) {
         return null != views && views.size() > 0;
     }
-
-//    void drawSpouseLine(Canvas canvas, SearchNearInBlood searchNearInBlood) {
-//        List<View> spouse = searchNearInBlood.getSpouse();
-//        if (null != searchNearInBlood && isListView(spouse)) {
-//            int size = spouse.size();
-//            if (size >= 1) {/*一个配偶以上*/
-//                mView = searchNearInBlood.getMineView();
-//                int childLineStartX = (int) (mView.getX() + mItemWidthPX);
-//                int childLineEndX = childLineStartX + mSpacePX;
-//                int childLineY = (int) (mView.getY() + mItemHeightPX / 2);
-//                mPath.reset();
-//                mPath.moveTo(childLineStartX, childLineY);
-//                mPath.lineTo(childLineEndX, childLineY);
-//                canvas.drawPath(mPath, mPaint);
-//
-//                if (size >= 2) {/*两个配偶以上*/
-//                    for (int i = 0; i < spouse.size(); i++) {
-//                        mView = spouse.get(i);
-//                        childLineStartX = (int) (mView.getX() + mItemWidthPX);
-//                        childLineEndX = childLineStartX + mSpacePX;
-//                        childLineY = (int) (mView.getY() + mItemHeightPX / 2);
-//                        mPath.reset();
-//                        mPath.moveTo(childLineStartX, childLineY);
-//                        mPath.lineTo(childLineEndX, childLineY);
-//                        canvas.drawPath(mPath, mPaint);
-//                        if (i + 1 == size - 1) {
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     void drawChildrenLine(Canvas canvas, SearchNearInBlood searchNearInBloods) {
         if (null != searchNearInBloods) {

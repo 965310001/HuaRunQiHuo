@@ -4,5 +4,5 @@
     <size
         android:width="10dp"
         android:height="10dp" />
-    <corners android:radius="@dimen/dp_180"></corners>
+    <corners android:radius="@dimen/dp_180"/>
 </shape>

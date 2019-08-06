@@ -8,7 +8,7 @@
 
     <include
         layout="@layout/layout_title_bar"
-        android:visibility="gone"></include>
+        android:visibility="gone"/>
 
     <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
         android:id="@+id/videoplayer"
@@ -30,7 +30,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_5"
-        android:background="@color/C_F5F5F5"></View>
+        android:background="@color/C_F5F5F5"/>
 
     <TextView
         android:id="@+id/tv_comment_num"

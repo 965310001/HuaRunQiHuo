@@ -1,89 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/ll1"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/sp_20"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:id="@+id/invitation"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:text="邀请\n加入"
-            android:gravity="center"
-            android:background="@drawable/bg_circular"/>
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:id="@+id/relationship"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:layout_marginLeft="@dimen/sp_20"
-            android:background="@drawable/bg_circular"
-            android:text="关系\n链条"
-            android:gravity="center"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/sp_20"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:id="@+id/details"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:text="查看\n详情"
-            android:gravity="center"
-            android:background="@drawable/bg_circular"/>
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:id="@+id/core"
-            android:layout_marginLeft="@dimen/sp_20"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:text="设为\n中心"
-            android:gravity="center"
-            android:background="@drawable/bg_circular"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/sp_20"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:text="添加\n关系"
-            android:id="@+id/add"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:gravity="center"
-            android:background="@drawable/bg_circular"/>
-        <TextView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:textColor="#333333"
-            android:textSize="@dimen/sp_14"
-            android:id="@+id/edit"
-            android:layout_marginLeft="@dimen/sp_20"
-            android:text="编辑\n删除"
-            android:gravity="center"
-            android:background="@drawable/bg_circular"/>
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/sp_20">
+
+            <TextView
+                android:id="@+id/invitation"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="邀请\n加入"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/relationship"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/sp_20"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="关系\n链条"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/sp_20">
+
+            <TextView
+                android:id="@+id/details"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="查看\n详情"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/core"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/sp_20"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="设为\n中心"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/sp_20">
+
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="添加\n关系"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/edit"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/sp_20"
+                android:background="@drawable/bg_circular"
+                android:gravity="center"
+                android:text="编辑\n删除"
+                android:textColor="#333333"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -75,7 +75,7 @@ public class JournalActivity extends BaseTitleActivity implements OnRefreshListe
         params.put("pageNumber", String.valueOf(page));
         params.put("rows", "30");
         ViseHttp.POST(ApiConstant.log_search)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
                 .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<List<BaseTResp.DataBean>>>() {

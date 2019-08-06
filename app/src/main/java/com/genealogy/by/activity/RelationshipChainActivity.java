@@ -1,9 +1,6 @@
 package com.genealogy.by.activity;
 
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 import com.aries.ui.view.title.TitleBarView;
 import com.genealogy.by.R;
@@ -75,28 +72,28 @@ public class RelationshipChainActivity extends BaseTitleActivity {
 //        });
     }
 
-    private static final int NONE = 0;     //初始状态
-    private static final int DRAG = 1;     //拖动
-    private static final int ZOOM = 2;     //缩放
-    private int mode = NONE;               //当前事件
-    private float oldDist;
-    private PointF startPoint = new PointF();
-    private PointF middlePoint = new PointF();
-    private Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
+//    private static final int NONE = 0;     //初始状态
+//    private static final int DRAG = 1;     //拖动
+//    private static final int ZOOM = 2;     //缩放
+//    private int mode = NONE;               //当前事件
+//    private float oldDist;
+//    private PointF startPoint = new PointF();
+//    private PointF middlePoint = new PointF();
+//    private Matrix matrix = new Matrix();
+//    private Matrix savedMatrix = new Matrix();
 
-    //两点距离
-    private float spacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
-    }
-
-    //两点中点
-    private void midPoint(PointF point, MotionEvent event) {
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        point.set(x / 2, y / 2);
-    }
+//    //两点距离
+//    private float spacing(MotionEvent event) {
+//        float x = event.getX(0) - event.getX(1);
+//        float y = event.getY(0) - event.getY(1);
+//        return (float) Math.sqrt(x * x + y * y);
+//    }
+//
+//    //两点中点
+//    private void midPoint(PointF point, MotionEvent event) {
+//        float x = event.getX(0) + event.getX(1);
+//        float y = event.getY(0) + event.getY(1);
+//        point.set(x / 2, y / 2);
+//    }
 
 }

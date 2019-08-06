@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_my_title_bar"></include>
+    <include layout="@layout/layout_my_title_bar"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 <View
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_1"
-                    android:layout_weight="1"></View>
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 <com.zhengsr.viewpagerlib.view.BannerViewPager
                     android:id="@+id/loop_viewpager_arc"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_100"></com.zhengsr.viewpagerlib.view.BannerViewPager>
+                    android:layout_height="@dimen/dp_100"/>
 
 
                 <com.zhengsr.viewpagerlib.indicator.ZoomIndicator
@@ -68,7 +68,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="@dimen/dp_9"
                     android:gravity="center"
-                    app:zoom_selector="@drawable/bottom_circle"></com.zhengsr.viewpagerlib.indicator.ZoomIndicator>
+                    app:zoom_selector="@drawable/bottom_circle"/>
             </RelativeLayout>
 
             <com.scwang.smartrefresh.layout.SmartRefreshLayout

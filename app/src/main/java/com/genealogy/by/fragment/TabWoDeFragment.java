@@ -20,6 +20,7 @@ import com.hyphenate.chat.EMClient;
 
 import tech.com.commoncore.base.BaseFragment;
 import tech.com.commoncore.manager.GlideManager;
+import tech.com.commoncore.utils.DialogUtils;
 import tech.com.commoncore.utils.FastUtil;
 import tech.com.commoncore.utils.SPHelper;
 import tech.com.commoncore.utils.ToastUtil;
@@ -85,23 +86,24 @@ public class TabWoDeFragment extends BaseFragment implements View.OnClickListene
                 ToastUtil.show("该功能暂未开发，敬请期待", new ToastUtil.Builder().setGravity(Gravity.CENTER));
                 break;
             case R.id.quit:
-                showLoading();
-                EMClient.getInstance().logout(true, new EMCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        mHandler.sendEmptyMessage(0);
-                    }
+                DialogUtils.showCommonDialog(mContext, "确认退出？", (dialogInterface, i) -> {
+                    showLoading();
+                    EMClient.getInstance().logout(true, new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            mHandler.sendEmptyMessage(0);
+                        }
 
-                    @Override
-                    public void onError(int i, String s) {
-                        Log.i(TAG, "onError: " + i + s);
-                        mHandler.hasMessages(2, s);
-                    }
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.i(TAG, "onError: " + i + s);
+                            mHandler.hasMessages(2, s);
+                        }
 
-                    @Override
-                    public void onProgress(int i, String s) {
-
-                    }
+                        @Override
+                        public void onProgress(int i, String s) {
+                        }
+                    });
                 });
                 break;
         }

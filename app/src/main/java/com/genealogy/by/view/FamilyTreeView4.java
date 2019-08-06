@@ -133,11 +133,7 @@ public class FamilyTreeView4 extends ViewGroup {
 
     final int[] widthDP = {
             830,//第一代最大宽度
-//                720,//第二代最大宽度
             830,
-//                ITEM_WIDTH_DP,//第三代最大宽度
-//                ITEM_WIDTH_DP,//第四代最大宽度
-//                ITEM_WIDTH_DP//第五代最大宽度
             830,
             830,
             830
@@ -243,24 +239,6 @@ public class FamilyTreeView4 extends ViewGroup {
         }
     }
 
-//    void createFamilyView(SearchNearInBlood mFamilyMember, List<SearchNearInBlood> childes, boolean isChild) {
-//        if (null != mFamilyMember) {
-//            if (null != childes && childes.size() > 0) {
-//                View view;
-//                for (SearchNearInBlood children : childes) {
-//                    children.setMineView(view = createFamilyView(children));
-//                    if (isChild) {
-//                        mFamilyMember.addChildren(view);
-//                        createFamilyView(children, children.getSpouses(), false);
-//                    } else {/*是女生*/
-//                        mFamilyMember.addSpouses(view);
-//                    }
-//                    createFamilyView(children, children.getChildrens(), true);
-//                }
-//            }
-//        }
-//    }
-
     private void initView() {
         View view = createFamilyView(mFamilyMember);
         mFamilyMember.setMineView(view);
@@ -288,8 +266,6 @@ public class FamilyTreeView4 extends ViewGroup {
     }
 
     private View createFamilyView(SearchNearInBlood family) {
-//        Log.i(TAG, family.getNickName() + " " + family.getRelationship());
-
         final View familyView = LayoutInflater.from(getContext()).inflate(R.layout.item_family, this, false);
         familyView.getLayoutParams().width = mItemWidthPX;
         familyView.getLayoutParams().height = mItemHeightPX;
@@ -358,7 +334,6 @@ public class FamilyTreeView4 extends ViewGroup {
         setMeasuredDimension(mMaxWidthPX, mMaxHeightPX);
     }
 
-    // TODO: 2019/7/10 子view摆放
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if (mCurrentScrollX == 0 && mCurrentScrollY == 0) {
@@ -406,12 +381,9 @@ public class FamilyTreeView4 extends ViewGroup {
             initWidthAndHeight(childes);
             final int childTop = mineTop + mItemHeightPX + mSpacePX * 2;
             int childLeft = mineLeft + mItemWidthPX / 2 - mGrandChildrenMaxWidth / 2;
-
             final int grandChildrenTop = childTop + mItemHeightPX + mSpacePX * 2;
             int grandChildrenLeft = childLeft;
-
             final int childCount = childrenView.size();
-
             for (int i = 0; i < childCount; i++) {
                 final View myChildView = childrenView.get(i);//每一个儿子
                 if (null != myChildView) {
@@ -421,14 +393,11 @@ public class FamilyTreeView4 extends ViewGroup {
                         if (mChildes != null && mChildes.size() > 0) {
                             final int startGrandChildLeft = grandChildrenLeft;
                             int endGrandChildLeft = grandChildrenLeft;
-
                             List<View> chideViews = myChild.getChildren();
                             SearchNearInBlood searchNearInBlood;
                             for (int j = 0; j < chideViews.size(); j++) {//孙子
                                 final View grandChildView = chideViews.get(j);
-                                setChildViewFrame(grandChildView, grandChildrenLeft,
-                                        grandChildrenTop, mItemWidthPX, mItemHeightPX);
-                                endGrandChildLeft = grandChildrenLeft;
+                                 endGrandChildLeft = grandChildrenLeft;
                                 grandChildrenLeft += mItemWidthPX + mSpacePX;
                                 searchNearInBlood = mChildes.get(j);
                                 /*孙子*/

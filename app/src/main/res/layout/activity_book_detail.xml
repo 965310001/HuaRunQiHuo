@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <include layout="@layout/layout_title_bar"></include>
+    <include layout="@layout/layout_title_bar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -65,7 +64,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_0"
-                        android:layout_weight="2"></View>
+                        android:layout_weight="2"/>
 
                     <TextView
                         android:id="@+id/tv_author"
@@ -78,7 +77,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_0"
-                        android:layout_weight="0.8"></View>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:id="@+id/tv_word_num"
@@ -91,7 +90,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_0"
-                        android:layout_weight="1"></View>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/tv_score"
@@ -138,7 +137,7 @@
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_16"
-                android:background="#E9EAEC"></View>
+                android:background="#E9EAEC"/>
 
 
             <LinearLayout
@@ -179,7 +178,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_8"
-                android:background="#F9F9FB"></View>
+                android:background="#F9F9FB"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -226,7 +225,7 @@
                 <View
                     android:layout_width="@dimen/dp_1"
                     android:layout_height="@dimen/dp_20"
-                    android:background="#DFE0E6"></View>
+                    android:background="#DFE0E6"/>
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_0"
@@ -256,7 +255,7 @@
                 <View
                     android:layout_width="@dimen/dp_1"
                     android:layout_height="@dimen/dp_20"
-                    android:background="#DFE0E6"></View>
+                    android:background="#DFE0E6"/>
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_0"
@@ -288,7 +287,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_8"
-                android:background="#F9F9FB"></View>
+                android:background="#F9F9FB"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -319,7 +318,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="@color/C_DDDDDD"></View>
+        android:background="@color/C_DDDDDD"/>
 
     <LinearLayout
         android:layout_width="match_parent"
