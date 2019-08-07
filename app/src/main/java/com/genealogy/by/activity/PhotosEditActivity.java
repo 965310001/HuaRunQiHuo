@@ -34,8 +34,8 @@ public class PhotosEditActivity extends BaseTitleActivity {
     private Intent mIntent;
     private int mId;
 
-    public void initView() {
-
+    @Override
+    public void initView(Bundle savedInstanceState) {
         mIntent = getIntent();
 
         mTvDescries = findViewById(R.id.photo_description);
@@ -107,8 +107,5 @@ public class PhotosEditActivity extends BaseTitleActivity {
         return R.layout.photos_edit;
     }
 
-    @Override
-    public void initView(Bundle savedInstanceState) {
-        initView();
-    }
+
 }

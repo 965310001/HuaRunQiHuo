@@ -24,9 +24,9 @@ public class EaseMainActivity extends BaseTitleActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
-        conversationListFragment.hideTitleBar();
-        conversationListFragment.setConversationListItemClickListener(conversation -> {
+        EaseConversationListFragment fragment = new EaseConversationListFragment();
+        fragment.hideTitleBar();
+        fragment.setConversationListItemClickListener(conversation -> {
             Intent intent = new Intent(mContext, ChatMsgActivity2.class);
             try {
                 Map<String, Object> map = conversation.getLastMessage().ext();
@@ -38,7 +38,7 @@ public class EaseMainActivity extends BaseTitleActivity {
             }
             startActivity(intent);
         });
-        getSupportFragmentManager().beginTransaction().add(R.id.container, conversationListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
     }
 
     @Override

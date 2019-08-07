@@ -88,9 +88,9 @@ public class RegisterActivity extends BaseTitleActivity {
                     public void onSuccess(BaseTResp2<PhoneLogin> data) {
                         hideLoading();
                         if (data.isSuccess()) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("userId", data.data.getUserId());
-                            bundle.putString("gId", data.data.getGId() + "");
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("userId", data.data.getUserId());
+//                            bundle.putString("gId", data.data.getGId() + "");
                             SPHelper.setStringSF(mContext, "profilePhoto", String.valueOf(data.data.getProfilePhoto()));//头像
                             SPHelper.setStringSF(mContext, "nickName", String.valueOf(data.data.getNickName()));//昵称
                             SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));
@@ -101,7 +101,8 @@ public class RegisterActivity extends BaseTitleActivity {
                             map.put("Authorization", data.data.getAuthorization());
                             ViseHttp.CONFIG().globalHeaders(map);
                             register();
-                            FastUtil.startActivity(mContext, MainActivity.class, bundle);
+//                            FastUtil.startActivity(mContext, MainActivity.class, bundle);
+                            FastUtil.startActivity(mContext, MainActivity.class);
                         } else if (data.status == 202) {
                             showLoading();
 //                            SPHelper.setStringSF(mContext, "GId", String.valueOf(data.data.getGId()));

@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,7 +53,6 @@ import tech.com.commoncore.utils.ToastUtil;
 public class PhotosDetailsActivity extends BaseTitleActivity implements onClickAlbumItem, View.OnClickListener {
 
     private Album album;
-    private Button releasePhoto;
     private LinearLayout messageRelativeLayout;
     private String TAG = "PhotosDetailsActivity";
     private PhotosAdapter photosadapter;
@@ -79,7 +77,6 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         tvUploadPhoto = findViewById(R.id.tv_upload_photo);
         clBottom = findViewById(R.id.cl_bottom);
 
-        releasePhoto = findViewById(R.id.release_photo);
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new GridLayoutManager(PhotosDetailsActivity.this, 3));
         photosadapter = new PhotosAdapter(R.layout.item_photo_album);
@@ -185,7 +182,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         HashMap<String, String> params = new HashMap<>();
         params.put("ids", ids);
         ViseHttp.POST(ApiConstant.album_delImgs)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setHttpCache(true)
                 .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2>() {
                     @Override
@@ -224,7 +221,7 @@ public class PhotosDetailsActivity extends BaseTitleActivity implements onClickA
         showLoading();
         body.addFormDataPart("aId", String.valueOf(familyAlbum));
         ViseHttp.POST(ApiConstant.album_uploadImgs)
-                .baseUrl(ApiConstant.BASE_URL_ZP).setHttpCache(true)
+                .setHttpCache(true)
                 .setRequestBody(body.build())
                 .request(new ACallback<BaseTResp2<List<MyAlbum.AlbumsBean>>>() {
                     @Override

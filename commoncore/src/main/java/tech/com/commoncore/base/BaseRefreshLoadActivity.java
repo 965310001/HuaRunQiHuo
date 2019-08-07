@@ -1,6 +1,5 @@
 package tech.com.commoncore.base;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +12,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
-import tech.com.commoncore.R;
 import tech.com.commoncore.delegate.BaseRefreshLoadDelegate;
 import tech.com.commoncore.interf.IBaseRefreshLoadView;
 import tech.com.commoncore.interf.IHttpRequestControl;

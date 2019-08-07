@@ -65,16 +65,10 @@ public class MainActivity extends BaseActivity {
     private RadioGroup mTabRadioGroup;
     private List<Fragment> mFragments;
     private FragmentPagerAdapter mAdapter;
-    public String userId = "";
-    public String gId = "";
 
     @Override
     public void initView(Bundle savedInstanceState) {
         StatusBarCompat.setStatusBarColor(this, Color.parseColor("#464854"));
-
-        Intent intent = getIntent();
-        userId = intent.getStringExtra("userId");
-        gId = intent.getStringExtra("gId");
 
         mainTab = mContentView.findViewById(R.id.main_tab);
         mTabEntities = new ArrayList<>();
@@ -90,7 +84,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabReselect(int position) {
-                Log.i(TAG, "onTabSelect: " + position);
             }
         });
 
@@ -221,11 +214,6 @@ public class MainActivity extends BaseActivity {
         mainTab.setCurrentTab(mCurrentIndex);
     }
 
-    @Override
-    public boolean isRegisterEvent() {
-        return true;
-    }
-
     @Subscribe
     public void switchTab(IEvent event) {
         if (event instanceof SwitchEvent) {
@@ -299,7 +287,6 @@ public class MainActivity extends BaseActivity {
             SPHelper.setStringSF(mContext, "ImgUrl", data.getData().toString());
         }
     }
-
 
     @Override
     public int getContentLayout() {

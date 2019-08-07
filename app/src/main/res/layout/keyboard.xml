@@ -125,10 +125,11 @@
                 <TextView
                     android:id="@+id/tv1"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:keyboardNavigationCluster="true"
+                    android:padding="@dimen/dp_8"
                     android:text="1"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -136,9 +137,10 @@
                 <TextView
                     android:id="@+id/tv2"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="2"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -146,9 +148,10 @@
                 <TextView
                     android:id="@+id/tv3"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="3"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -162,9 +165,10 @@
                 <TextView
                     android:id="@+id/tv4"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="4"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -172,9 +176,10 @@
                 <TextView
                     android:id="@+id/tv5"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="5"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -182,9 +187,10 @@
                 <TextView
                     android:id="@+id/tv6"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="6"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -198,9 +204,10 @@
                 <TextView
                     android:id="@+id/tv7"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="7"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -208,9 +215,10 @@
                 <TextView
                     android:id="@+id/tv8"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="8"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -218,9 +226,10 @@
                 <TextView
                     android:id="@+id/tv9"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="9"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -234,9 +243,10 @@
                 <TextView
                     android:id="@+id/tv10"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="."
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -244,9 +254,10 @@
                 <TextView
                     android:id="@+id/tv0"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="0"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_25" />
@@ -254,9 +265,10 @@
                 <TextView
                     android:id="@+id/dismiss"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="@dimen/dp_8"
                     android:text="开关"
                     android:textColor="#2A2B2C"
                     android:textSize="@dimen/sp_15" />
@@ -275,6 +287,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="删除"
+                android:textColor="@color/color_4d"
                 android:textSize="@dimen/dp_21" />
 
             <TextView

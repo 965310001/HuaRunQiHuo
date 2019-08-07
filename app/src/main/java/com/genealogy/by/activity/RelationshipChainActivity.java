@@ -9,6 +9,9 @@ import com.genealogy.by.view.FamilyTreeView8;
 
 import tech.com.commoncore.base.BaseTitleActivity;
 
+/**
+ * 查看关系链
+ */
 public class RelationshipChainActivity extends BaseTitleActivity {
 
     private SearchNearInBlood data;

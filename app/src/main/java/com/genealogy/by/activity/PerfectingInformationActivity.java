@@ -209,16 +209,17 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             rb_celebrity1.setChecked(isCelebrity);
             rb_celebrity2.setChecked(!isCelebrity);
 
-            String nationality = user.getNationality().replace(" ", "").trim();/*名族*/
             int index = 0;
-            for (String s : getResources().getStringArray(R.array.plantes_04)) {
-                if (s.equals(nationality)) {
-                    spNation.setSelection(index);
-                    break;
+            if (!TextUtils.isEmpty(user.getNationality())) {
+                String nationality = user.getNationality().replace(" ", "").trim();/*名族*/
+                for (String s : getResources().getStringArray(R.array.plantes_04)) {
+                    if (s.equals(nationality)) {
+                        spNation.setSelection(index);
+                        break;
+                    }
+                    index++;
                 }
-                index++;
             }
-
             spRanking.setSelection(user.getRanking());
             if (!TextUtils.isEmpty(user.getProfilePhoto())) {
                 GlideManager.loadImg(user.getProfilePhoto(), ivJeadPortrait);
@@ -241,10 +242,12 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             tvResidence.setText(user.getCurrentResidence());
             String education = user.getEducation();
             index = 0;
-            for (String s : getResources().getStringArray(R.array.plantes_05)) {
-                if (education.equals(s)) {
-                    spEducation.setSelection(index++);
-                    break;
+            if (!TextUtils.isEmpty(education)) {
+                for (String s : getResources().getStringArray(R.array.plantes_05)) {
+                    if (education.equals(s)) {
+                        spEducation.setSelection(index++);
+                        break;
+                    }
                 }
             }
             tvSchool.setText(user.getSchool());
@@ -257,19 +260,26 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             tvAreaDeath.setText(user.getDieAddress());
             tvAreaBury.setText(user.getBuriedArea());
             tvAreaBuryBetailed.setText(user.getDeathPlace());
-            if (!TextUtils.isEmpty(user.getYearOfLife().toString())) {
-                tvLifeYear.setText(String.valueOf((int) (Double.parseDouble(user.getYearOfLife().toString()))));
+            if (null != user.getYearOfLife()) {
+                if (!TextUtils.isEmpty(user.getYearOfLife().toString())) {
+                    tvLifeYear.setText(String.valueOf((int) (Double.parseDouble(user.getYearOfLife().toString()))));
+                }
             }
-            tvHeight.setText(String.valueOf(user.getHeight().toString()));
+            if (null != user.getHeight()) {
+                tvHeight.setText(user.getHeight().toString());
+            }
 
             index = 0;
             String bloodGroup = user.getBloodGroup();
-            for (String s : getResources().getStringArray(R.array.plantes_06)) {
-                if (bloodGroup.equals(s)) {
-                    spBloodType.setSelection(index);
-                    break;
+            if (!TextUtils.isEmpty(bloodGroup)) {
+                for (String s : getResources().getStringArray(R.array.plantes_06)) {
+                    if (bloodGroup.equals(s)) {
+                        spBloodType.setSelection(index);
+                        break;
+                    }
+                    index++;
                 }
-                index++;
+
             }
             tvHereditaryDiseases.setText(user.getGeneticDisease());
         } else {
@@ -494,7 +504,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 .addFormDataPart("name", name)
                 .addFormDataPart("sex", sex)
                 .addFormDataPart("birthday", Birthday)
-                .addFormDataPart("profilePhoto", user.getProfilePhoto())
+                .addFormDataPart("profilePhoto", TextUtils.isEmpty(user.getProfilePhoto()) ? "" : user.getProfilePhoto())
                 .addFormDataPart("phone", phone)//手机号码
                 .addFormDataPart("health", String.valueOf(health))//健在(0:健在 1:过世)
                 .addFormDataPart("height", tvHeight.getText().toString())//身高
@@ -534,6 +544,8 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                 .addFormDataPart("id", mUserId)
                 .addFormDataPart("gId", Gid)
                 .addFormDataPart("type", String.valueOf(relationship_type));
+
+        showLoading();
         if (relationship_type != 0) {
 //            mCallback = new ACallback<BaseTResp2>() {
 //                @Override
@@ -561,6 +573,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             mCallback = new ACallback<BaseTResp2<PhoneLogin>>() {
                 @Override
                 public void onSuccess(BaseTResp2<PhoneLogin> data) {
+                    hideLoading();
                     if (data.isSuccess()) {
                       /*  if (getIntent().hasExtra("isRegister")) {
                             //同时登录
@@ -568,6 +581,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                         ToastUtil.show("提交成功: " + data.msg);
                         SPHelper.setBooleanSF(mContext, "isRefresh", true);
                         finish();*/
+
                         if (getIntent().hasExtra("isRegister")) {
                             if (data.isSuccess()) {
                                 Bundle bundle = new Bundle();
@@ -585,13 +599,11 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
                                 register();
                                 FastUtil.startActivity(mContext, MainActivity.class, bundle);
                             } else if (data.status == 202) {
-                                showLoading();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("title", "无");
                                 bundle.putBoolean("isRegister", true);
                                 FastUtil.startActivity(mContext, PerfectingInformationActivity.class, bundle);
                             } else {
-                                showLoading();
                                 ToastUtil.show(data.msg);
                             }
                         } else {
@@ -606,6 +618,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
                 @Override
                 public void onFail(int errCode, String errMsg) {
+                    hideLoading();
                     ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
                 }
 //                @Override
@@ -647,6 +660,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
             mCallback2 = new ACallback<BaseTResp2>() {
                 @Override
                 public void onSuccess(BaseTResp2 data) {
+                    hideLoading();
                     if (data.isSuccess()) {
                         ToastUtil.show("提交成功: " + data.msg);
                         finish();
@@ -658,6 +672,7 @@ public class PerfectingInformationActivity extends BaseTitleActivity {
 
                 @Override
                 public void onFail(int errCode, String errMsg) {
+                    hideLoading();
                     ToastUtil.show("注册失败: " + errMsg + "，errCode: " + errCode);
                     Log.e(TAG, "onFail:errMsg = " + errMsg + ",errCode: " + errCode);
                 }

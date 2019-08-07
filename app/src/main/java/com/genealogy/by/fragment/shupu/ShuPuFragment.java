@@ -1,17 +1,15 @@
 package com.genealogy.by.fragment.shupu;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -32,6 +30,7 @@ import com.genealogy.by.utils.my.BaseTResp2;
 import com.genealogy.by.view.FamilyTreeView4;
 import com.genealogy.by.view.FamilyTreeView6;
 import com.genealogy.by.view.FamilyTreeView7;
+import com.genealogy.by.view.dialog.KeyBoardDialog;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.mode.CacheMode;
@@ -50,11 +49,11 @@ import tech.com.commoncore.utils.ToastUtil;
 
 public class ShuPuFragment extends BaseFragment {
 
-    private Context mContext;
-    private PopupWindow popupWindow2, popupWindowAdd, popupWindowEdit, popupWindow;
-    private boolean mIsShowing;
+    private PopupWindow popupWindowAdd, popupWindowEdit, popupWindow;
     private static final String TAG = "ShuPuFragment";
     private String param1;
+
+    private DialogFragment popupWindow2;
 
     public static ShuPuFragment newInstance(String param1) {
         ShuPuFragment fragment = new ShuPuFragment();
@@ -80,11 +79,10 @@ public class ShuPuFragment extends BaseFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("gId", SPHelper.getStringSF(mContext, "GId"));
         params.put("userId", SPHelper.getStringSF(mContext, "UserId"));
-        JSONObject jsonObject = new JSONObject(params);
         ViseHttp.POST(ApiConstant.setAsCenter)
                 .setHttpCache(true)
                 .cacheMode(CacheMode.FIRST_REMOTE)
-                .setJson(jsonObject)
+                .setJson(new JSONObject(params))
                 .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                     @Override
                     public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -115,7 +113,6 @@ public class ShuPuFragment extends BaseFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mContext = getActivity();
         param1 = getArguments().getString("param1");
         switch (param1) {
             case "父系":
@@ -165,7 +162,8 @@ public class ShuPuFragment extends BaseFragment {
         TextView edit = contentView.findViewById(R.id.edit);
         ll.setOnClickListener(view1 -> popupWindow.dismiss());
         invitation.setOnClickListener(v -> {
-            popup(v, user);
+            popup(user);
+//            popup(v, user);
             popupWindow.dismiss();
         });
         relationship.setOnClickListener(v -> {
@@ -177,11 +175,10 @@ public class ShuPuFragment extends BaseFragment {
             params.put("gId", user.getGid());
             params.put("userId", middleId);
             params.put("heId", user.getUserid());
-            JSONObject jsonObject = new JSONObject(params);
             ViseHttp.POST(ApiConstant.getRelationshipChain)
                     .setHttpCache(true)
                     .cacheMode(CacheMode.FIRST_REMOTE)
-                    .setJson(jsonObject)
+                    .setJson(new JSONObject(params))
                     .request(new ACallback<BaseTResp2<SearchNearInBlood>>() {
                         @Override
                         public void onSuccess(BaseTResp2<SearchNearInBlood> data) {
@@ -333,8 +330,8 @@ public class ShuPuFragment extends BaseFragment {
         popupWindowEdit.setOutsideTouchable(true);
         popupWindowEdit.setFocusable(true);
 
-        View parent = ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
-        popupWindowEdit.showAsDropDown(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//        View parent = ((ViewGroup) getActivity().findViewById(android.R.id.content)).getChildAt(0);
+        popupWindowEdit.showAsDropDown(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     private void WhetherDelete(User user) {
@@ -355,7 +352,19 @@ public class ShuPuFragment extends BaseFragment {
                             @Override
                             public void onSuccess(BaseTResp2 data) {
                                 if (data.isSuccess()) {
-                                    doit();
+                                    switch (param1) {
+                                        case "父系":
+                                            doit2();
+                                            break;
+
+                                        case "近亲":
+                                            doit();
+                                            break;
+
+                                        case "全部":
+                                            doit2();
+                                            break;
+                                    }
                                 }
                                 ToastUtil.show(data.msg);
                             }
@@ -373,122 +382,63 @@ public class ShuPuFragment extends BaseFragment {
         normalDialog.show();
     }
 
-    private void popup(View view, User user) {
-        initPopup(user);
-        if (!mIsShowing) {
-            popupWindow2.showAtLocation(mContentView.findViewById(R.id.line1), Gravity.BOTTOM, 0, 0);
-            mIsShowing = true;
-        }
+    private void popup(User user) {
+        popupWindow2 = KeyBoardDialog.create(getChildFragmentManager())
+                .setViewListener(pop -> {
+                    List<String> str = new ArrayList<>();
+                    EditText evinput = pop.findViewById(R.id.evinput);//背景图
+                    TextView tvName = pop.findViewById(R.id.tv_name);
+                    tvName.setText(String.format("请输入\"%s\"的手机号码", user.getName()));
+                    pop.findViewById(R.id.dismiss).setOnClickListener(v -> {
+                        popupWindow2.dismiss();
+                        evinput.setText("");
+                    });
+
+                    pop.findViewById(R.id.tv1).setOnClickListener(v -> setSelection(str, evinput, "1"));
+                    pop.findViewById(R.id.tv2).setOnClickListener(v -> setSelection(str, evinput, "2"));
+                    pop.findViewById(R.id.tv3).setOnClickListener(v -> setSelection(str, evinput, "3"));
+                    pop.findViewById(R.id.tv4).setOnClickListener(v -> setSelection(str, evinput, "4"));
+                    pop.findViewById(R.id.tv5).setOnClickListener(v -> setSelection(str, evinput, "5"));
+                    pop.findViewById(R.id.tv6).setOnClickListener(v -> setSelection(str, evinput, "6"));
+                    pop.findViewById(R.id.tv7).setOnClickListener(v -> setSelection(str, evinput, "7"));
+                    pop.findViewById(R.id.tv8).setOnClickListener(v -> setSelection(str, evinput, "8"));
+                    pop.findViewById(R.id.tv9).setOnClickListener(v -> setSelection(str, evinput, "9"));
+                    pop.findViewById(R.id.tv0).setOnClickListener(v -> setSelection(str, evinput, "0"));
+                    pop.findViewById(R.id.tv10).setOnClickListener(v -> setSelection(str, evinput, "."));
+
+                    pop.findViewById(R.id.shanchu).setOnClickListener(v -> {
+                        if (str.size() > 0) {
+                            str.remove(str.size() - 1);
+                            evinput.setText(ListToString(str));
+                            setSelection(evinput);
+                        }
+                    });
+                    pop.findViewById(R.id.queding).setOnClickListener(v -> {
+                        if (TextUtils.isEmpty(evinput.getText().toString().trim())) {
+                            ToastUtil.show("请输入电话号码！", new ToastUtil.Builder().setGravity(Gravity.CENTER));
+                            return;
+                        }
+                        invitationDoit(ListToString(str), user.getUserid(), user.getRelationship());
+                        evinput.setText("");
+                    });
+                    pop.findViewById(R.id.tv_cancel).setOnClickListener(v -> {
+                        popupWindow2.dismiss();
+                        evinput.setText("");
+                    });
+                    pop.findViewById(R.id.invitation).setOnClickListener(v -> {
+                        if (TextUtils.isEmpty(evinput.getText().toString().trim())) {
+                            ToastUtil.show("请输入电话号码！", new ToastUtil.Builder().setGravity(Gravity.CENTER));
+                            return;
+                        }
+                        invitationDoit(str.toString(), user.getUserid(), user.getRelationship());
+                    });
+                }).show();
     }
 
-    private void initPopup(User user) {
-        View pop = View.inflate(mContext, R.layout.keyboard, null);
-        List<String> str = new ArrayList<>();
-        EditText evinput = pop.findViewById(R.id.evinput);//背景图
-        TextView cancel = pop.findViewById(R.id.tv_cancel);//
-        TextView tv1 = pop.findViewById(R.id.tv1);
-//        LinearLayout numberkey = pop.findViewById(R.id.numberkey);
-        TextView dismiss = pop.findViewById(R.id.dismiss);
-
-        TextView tvName = pop.findViewById(R.id.tv_name);
-        tvName.setText(String.format("请输入\"%s\"的手机号码", user.getName()));
-        dismiss.setOnClickListener(view -> {
-            popupWindow2.dismiss();
-            mIsShowing = false;
-            evinput.setText("");
-        });
-        tv1.setOnClickListener(view -> {
-            str.add("1");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv2 = pop.findViewById(R.id.tv2);
-        tv2.setOnClickListener(view -> {
-            str.add("2");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv3 = pop.findViewById(R.id.tv3);
-        tv3.setOnClickListener(view -> {
-            str.add("3");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv4 = pop.findViewById(R.id.tv4);
-        tv4.setOnClickListener(view -> {
-            str.add("4");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv5 = pop.findViewById(R.id.tv5);
-        tv5.setOnClickListener(view -> {
-            str.add("5");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv6 = pop.findViewById(R.id.tv6);
-        tv6.setOnClickListener(view -> {
-            str.add("6");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv7 = pop.findViewById(R.id.tv7);
-        tv7.setOnClickListener(view -> {
-            str.add("7");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv8 = pop.findViewById(R.id.tv8);
-        tv8.setOnClickListener(view -> {
-            str.add("8");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv9 = pop.findViewById(R.id.tv9);
-        tv9.setOnClickListener(view -> {
-            str.add("9");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv0 = pop.findViewById(R.id.tv0);
-        tv0.setOnClickListener(view -> {
-            str.add("0");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView tv10 = pop.findViewById(R.id.tv10);
-        tv10.setOnClickListener(view -> {
-            str.add(".");
-            evinput.setText(ListToString(str));
-            setSelection(evinput);
-        });
-        TextView shanchu = pop.findViewById(R.id.shanchu);
-        shanchu.setOnClickListener(view -> {
-            if (str.size() > 0) {
-                str.remove(str.size() - 1);
-                evinput.setText(ListToString(str));
-                setSelection(evinput);
-            }
-        });
-        TextView queding = pop.findViewById(R.id.queding);
-        queding.setOnClickListener(view -> {
-            invitationDoit(ListToString(str), user.getUserid(), user.getRelationship());
-//            popupWindow2.dismiss();
-            mIsShowing = false;
-            evinput.setText("");
-        });
-        cancel.setOnClickListener(view -> {
-            popupWindow2.dismiss();
-            mIsShowing = false;
-            evinput.setText("");
-        });
-        TextView invitation = pop.findViewById(R.id.invitation);
-        invitation.setOnClickListener(view -> invitationDoit(str.toString(), user.getUserid(), user.getRelationship()));
-        popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow2.setTouchable(true);
-        popupWindow2.setOutsideTouchable(false);
-        popupWindow2.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-        mIsShowing = false;
+    private void setSelection(List<String> str, EditText evinput, String s) {
+        str.add(s);
+        evinput.setText(ListToString(str));
+        setSelection(evinput);
     }
 
     private void setSelection(EditText evinput) {
@@ -630,92 +580,32 @@ public class ShuPuFragment extends BaseFragment {
             }
         };
 
+        mFtvTree.setVisibility(View.GONE);
+        mFtvTree1.setVisibility(View.GONE);
+        mFtvTree2.setVisibility(View.GONE);
         switch (param1) {
             case "父系":
-                mFtvTree.setVisibility(View.GONE);
-                mFtvTree1.setVisibility(View.GONE);
-
                 mFtvTree2.setVisibility(View.VISIBLE);
                 mFtvTree2.setFamilyMember(data);
                 mFtvTree2.setOnFamilySelectListener(onFamilySelectListener);
                 break;
 
             case "近亲":
-                mFtvTree1.setVisibility(View.GONE);
-                mFtvTree2.setVisibility(View.GONE);
-
                 mFtvTree.setVisibility(View.VISIBLE);
                 mFtvTree.setFamilyMember(data);
                 mFtvTree.setOnFamilySelectListener(onFamilySelectListener);
-
-//                mFtvTree.setOnFamilySelectListener(new OnFamilySelectListener() {
-//                    @Override
-//                    public void onFamilySelect(FamilyMember family) {
-//                    }
-//
-//                    @Override
-//                    public void onFamilySelect(SearchNearInBlood family) {
-//                        User user = new User(family.getId() + "",
-//                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-//                        user.setSex(family.getSex());
-//                        user.setSurname(family.getSurname());
-//                        user.setName(family.getName());
-//                        user.setBirthArea(family.getBirthArea());
-//                        user.setBirthPlace(family.getBirthPlace());
-//                        user.setEmail(family.getEmail());
-//                        user.setWord(family.getWord());
-//                        user.setUsedName(family.getUsedName());
-//                        user.setIsCelebrity(family.getIsCelebrity());
-//                        user.setNumber(family.getNumber());
-//                        user.setNoun(family.getNoun());
-//                        user.setPhone(family.getPhone());
-//                        user.setRanking(family.getRanking());
-//                        user.setRelationship(family.getRelationship());
-//                        showPopupWindow(family.getMineView(), user);
-//                    }
-//                });
                 break;
 
             case "全部":
-                mFtvTree.setVisibility(View.GONE);
-                mFtvTree2.setVisibility(View.GONE);
-
                 mFtvTree1.setVisibility(View.VISIBLE);
                 mFtvTree1.setFamilyMember(data);
                 mFtvTree1.setOnFamilySelectListener(onFamilySelectListener);
-//                mFtvTree1.setOnFamilySelectListener(new OnFamilySelectListener() {
-//                    @Override
-//                    public void onFamilySelect(FamilyMember family) {
-//                    }
-//
-//                    @Override
-//                    public void onFamilySelect(SearchNearInBlood family) {
-//                        User user = new User(family.getId() + "",
-//                                SPHelper.getStringSF(BaseApplication.getInstance(), "GId"));
-//                        user.setSex(family.getSex());
-//                        user.setSurname(family.getSurname());
-//                        user.setName(family.getName());
-//                        user.setBirthArea(family.getBirthArea());
-//                        user.setBirthPlace(family.getBirthPlace());
-//                        user.setEmail(family.getEmail());
-//                        user.setWord(family.getWord());
-//                        user.setUsedName(family.getUsedName());
-//                        user.setIsCelebrity(family.getIsCelebrity());
-//                        user.setNumber(family.getNumber());
-//                        user.setNoun(family.getNoun());
-//                        user.setPhone(family.getPhone());
-//                        user.setRanking(family.getRanking());
-//                        user.setRelationship(family.getRelationship());
-//                        showPopupWindow(family.getMineView(), user);
-//                    }
-//                });
                 break;
         }
     }
 
-
     public void hidePopupWindow() {
-        if (null != popupWindow2 && popupWindow2.isShowing()) {
+        if (null != popupWindow2 && popupWindow2.isVisible()) {
             popupWindow2.dismiss();
             return;
         }
@@ -732,4 +622,115 @@ public class ShuPuFragment extends BaseFragment {
             return;
         }
     }
+
+
+    //    private void initPopup(User user) {
+//        View pop = View.inflate(mContext, R.layout.keyboard, null);
+//        List<String> str = new ArrayList<>();
+//        EditText evinput = pop.findViewById(R.id.evinput);//背景图
+//        TextView cancel = pop.findViewById(R.id.tv_cancel);//
+//        TextView tv1 = pop.findViewById(R.id.tv1);
+////        LinearLayout numberkey = pop.findViewById(R.id.numberkey);
+//        TextView dismiss = pop.findViewById(R.id.dismiss);
+//
+//        TextView tvName = pop.findViewById(R.id.tv_name);
+//        tvName.setText(String.format("请输入\"%s\"的手机号码", user.getName()));
+//        dismiss.setOnClickListener(view -> {
+//            popupWindow2.dismiss();
+//            mIsShowing = false;
+//            evinput.setText("");
+//        });
+//        tv1.setOnClickListener(view -> {
+//            str.add("1");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv2 = pop.findViewById(R.id.tv2);
+//        tv2.setOnClickListener(view -> {
+//            str.add("2");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv3 = pop.findViewById(R.id.tv3);
+//        tv3.setOnClickListener(view -> {
+//            str.add("3");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv4 = pop.findViewById(R.id.tv4);
+//        tv4.setOnClickListener(view -> {
+//            str.add("4");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv5 = pop.findViewById(R.id.tv5);
+//        tv5.setOnClickListener(view -> {
+//            str.add("5");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv6 = pop.findViewById(R.id.tv6);
+//        tv6.setOnClickListener(view -> {
+//            str.add("6");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv7 = pop.findViewById(R.id.tv7);
+//        tv7.setOnClickListener(view -> {
+//            str.add("7");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv8 = pop.findViewById(R.id.tv8);
+//        tv8.setOnClickListener(view -> {
+//            str.add("8");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv9 = pop.findViewById(R.id.tv9);
+//        tv9.setOnClickListener(view -> {
+//            str.add("9");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv0 = pop.findViewById(R.id.tv0);
+//        tv0.setOnClickListener(view -> {
+//            str.add("0");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView tv10 = pop.findViewById(R.id.tv10);
+//        tv10.setOnClickListener(view -> {
+//            str.add(".");
+//            evinput.setText(ListToString(str));
+//            setSelection(evinput);
+//        });
+//        TextView shanchu = pop.findViewById(R.id.shanchu);
+//        shanchu.setOnClickListener(view -> {
+//            if (str.size() > 0) {
+//                str.remove(str.size() - 1);
+//                evinput.setText(ListToString(str));
+//                setSelection(evinput);
+//            }
+//        });
+//        TextView queding = pop.findViewById(R.id.queding);
+//        queding.setOnClickListener(view -> {
+//            invitationDoit(ListToString(str), user.getUserid(), user.getRelationship());
+////            popupWindow2.dismiss();
+//            mIsShowing = false;
+//            evinput.setText("");
+//        });
+//        cancel.setOnClickListener(view -> {
+//            popupWindow2.dismiss();
+//            mIsShowing = false;
+//            evinput.setText("");
+//        });
+//        TextView invitation = pop.findViewById(R.id.invitation);
+//        invitation.setOnClickListener(view -> invitationDoit(str.toString(), user.getUserid(), user.getRelationship()));
+//        popupWindow2 = new PopupWindow(pop, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        popupWindow2.setTouchable(true);
+//        popupWindow2.setOutsideTouchable(false);
+//        popupWindow2.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+//        mIsShowing = false;
+//    }
 }

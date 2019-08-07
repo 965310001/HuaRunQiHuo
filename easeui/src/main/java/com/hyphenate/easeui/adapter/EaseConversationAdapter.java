@@ -133,10 +133,10 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         try {
             Map<String, Object> map = message.ext();
             Log.i(TAG, "onSetMessageAttributes: " + map.get("UserPortrait"));
-            Log.i(TAG, "onSetMessageAttributes: " + map.get("nickName"));
-
-            Log.i(TAG, "onSetMessageAttributes: " + map.get("otherUserPortrait"));
-            Log.i(TAG, "onSetMessageAttributes: " + map.get("otherUserNickName"));
+//            Log.i(TAG, "onSetMessageAttributes: " + map.get("nickName"));
+//
+//            Log.i(TAG, "onSetMessageAttributes: " + map.get("otherUserPortrait"));
+//            Log.i(TAG, "onSetMessageAttributes: " + map.get("otherUserNickName"));
 
             holder.name.setText(map.get("otherUserNickName").toString());
             Glide.with(getContext()).load(map.get("otherUserPortrait")).into(holder.avatar);
